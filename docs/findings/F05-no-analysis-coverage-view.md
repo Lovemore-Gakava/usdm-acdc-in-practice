@@ -9,25 +9,35 @@
 
 ## What is actually true
 
-There are fourteen views, and one of them is `js/views/study-overview.js` (357 lines).
-It renders four tabs:
+There are fourteen view *modules* under `js/views/`, which the UI presents as eight numbered
+workflow steps (seven in a Specification layer, one Execution) plus a Configuration entry.
+Step 2 is `js/views/study-overview.js` (357 lines), and it carries six tabs — verified by
+running the app against the shipped CDISC Pilot study:
 
 | Tab | Content |
 |---|---|
-| Summary | Study information, study rationale |
+| Summary | Study information (phase, therapeutic area, identifiers, population, enrolment, sex), study rationale |
 | Arms | Treatment arms with counts |
-| Objectives | Objective → endpoint hierarchy, each endpoint with a Primary/Secondary badge and its text |
+| Objectives & Endpoints | Objective → endpoint hierarchy, each endpoint with a Primary/Secondary badge and its text |
+| Schedule of Activities | Full SoA matrix — 42 activities, 12 encounters, epoch and visit columns, BC sub-rows |
+| Narrative | Study narrative |
 | Configuration | Concept-to-variable mappings |
 
-So a study-level view does exist, and it does show the objective/endpoint structure.
+So a study-level view does exist, and it is richer than the original claim allowed: it shows
+the objective/endpoint structure *and* a working SoA matrix with biomedical concepts resolved
+beneath each activity.
 
 ## What it does not show, which is the part that matters
 
 `renderObjectives()` emits, per endpoint: a checkbox, a name, a level badge, and the
 endpoint text. Nothing else. The checkbox is a **selection** control — it feeds
-`#btn-proceed-esap`, which carries the chosen endpoints into the eSAP builder.
+`#btn-proceed-esap`, which carries the chosen endpoints into the eSAP builder. Running the
+app confirms it: the tab header reads *"No endpoints selected"* with a *Toggle All* control,
+and each of the eleven endpoints renders as an unticked box with an ID, a badge and its text.
 
-It is a pre-authoring selection screen. It carries no authoring state at all:
+It is a pre-authoring selection screen. It carries no authoring state at all — and the SoA
+tab, rich as it is, is scoped to activities and encounters rather than to analysis, so it does
+not supply the missing axis either:
 
 - no indication whether an endpoint has an authored chain
 - no indication whether that chain is complete or partial
