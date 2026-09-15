@@ -5,3 +5,7 @@ __pycache__/
 # CDISC Library cache — regenerated locally with your own API key, never committed
 cache/
 *.cache.json
+
+# Quarto render output — generated, not source
+README.html
+README_files/

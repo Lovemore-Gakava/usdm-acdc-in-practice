@@ -152,6 +152,18 @@ Next: map the moderate tier on paper, then author the simple tier to calibrate t
 measurement. The complex tier cannot be authored until F06 is resolved upstream or a
 documented workaround is accepted.
 
+## Provenance
+
+Substantially all prose in this repository was drafted by an AI model in a single session on
+2026-09-15 and **has not yet been human-reviewed**. Three findings are drafted as issues to be
+filed publicly against `cdisc-org/analysis-concepts`; two of the five inherited findings were
+wrong as originally written and were caught only by verification. Read
+[`PROVENANCE.md`](PROVENANCE.md) before filing anything, and [`docs/method.md`](docs/method.md)
+for how claims were checked.
+
+Content based on [CDISC Analysis Concepts (GitHub)](https://github.com/cdisc-org/analysis-concepts)
+used under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) license.
+
 ## Licence
 
 MIT. Upstream `cdisc-org/analysis-concepts` is MIT and CC-BY-4.0; TORIVA-LUNG 301 is referenced, not redistributed.
