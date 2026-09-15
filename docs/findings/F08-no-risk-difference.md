@@ -58,6 +58,11 @@ But it is worth noting that binary endpoints with a risk-difference summary are 
 ORR is the second of two endpoints mapped here to hit a gap on its **analysis** side — which the
 specification's ladder expected to be the settled half.
 
+## Disposition
+
+Drafted as Issue 4 in [upstream-issues.md](upstream-issues.md), and recommended as the **first**
+to file: it is the smallest of the five, verifiable in a single file, and the fix is obvious.
+
 ## Related
 
 There is also no transformation entry for `M.CMH` or `M.Proportion`. The only responder

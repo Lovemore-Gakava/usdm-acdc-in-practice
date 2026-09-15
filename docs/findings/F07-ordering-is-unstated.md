@@ -73,6 +73,6 @@ since it generalises — an ordering declared on the concept or the parameter, s
 is a property of the response scale, not of any one analysis, which argues for carrying it
 with the concept.
 
-Worth raising upstream, though it is lower priority than
-[F06](F06-no-general-predicate.md) and less clear-cut than
+Drafted as Issue 5 in [upstream-issues.md](upstream-issues.md), third in the suggested filing
+order — real and demonstrable, but the fix involves a design choice, unlike
 [F08](F08-no-risk-difference.md).

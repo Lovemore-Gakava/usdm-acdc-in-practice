@@ -82,7 +82,9 @@ stratified Mantel–Haenszel **risk difference**. `M.CMH` yields an odds ratio, 
 vocabulary carries no difference statistic at all. Under ICH E9(R1) the population-level summary
 is part of the estimand, so substituting the odds ratio answers a different question.
 
-Issues 1, 2 and 3 are proposed upstream. See `docs/findings/upstream-issues.md`.
+Five issues are drafted for upstream, with a suggested filing order — Issue 4 (no risk
+difference) is the recommended opener, being the smallest and most concrete. See
+`docs/findings/upstream-issues.md`. None has been filed, and none has been human-reviewed.
 
 ## The endpoint ladder
 
