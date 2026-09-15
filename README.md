@@ -30,6 +30,8 @@ including one of the two that was slated to be filed as an upstream issue. See
 | [F04](docs/findings/F04-bc-joint.md) | The BC joint is annotated, not resolved | **Retired** |
 | [F05](docs/findings/F05-no-analysis-coverage-view.md) | No study-level view exists | **Restated** |
 | [F06](docs/findings/F06-no-general-predicate.md) | No general predicate exists over more than one variable | **New** |
+| [F07](docs/findings/F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New** |
+| [F08](docs/findings/F08-no-risk-difference.md) | No difference-of-proportions statistic exists | **New** |
 
 **F01 — No time-to-event derivation transformations exist.** Confirmed. The strings `CNSR`,
 `censor` and `AVAL` appear nowhere in the transformation library. `T.OS_LogRank` binds time and
@@ -65,7 +67,20 @@ tier.* `M.ConditionalValue` is not a general conditional — its predicate is ha
 `IF(IS_NA(value), alternate, base)`. `M.ThresholdCompare` compares one input to a constant.
 `M.Categorization` takes free-text conditions over a single `value` input. So the specification's
 hypothesis that the FDA 2018 censoring hierarchy composes as nested `M.ConditionalValue` over
-`M.RecordSelection` is **false on paper**, before any authoring.
+`M.RecordSelection` is **false on paper**, before any authoring. Confirmed independently on ORR,
+whose confirmation rule is a two-record predicate — so this is a general derivation gap, not a
+time-to-event one.
+
+**F07 — `best` and `worst` presuppose an ordering the metadata does not carry.** *New.*
+`M.RecordSelection.selection_rule` offers `best`, and nothing says what best means — not for a
+decimal (maximum or minimum?) and not at all for an ordinal code like RECIST response
+(CR ≺ PR ≺ SD ≺ PD ≺ NE). Best overall response composes syntactically while the semantics that
+make it correct sit outside the model.
+
+**F08 — No difference-of-proportions statistic exists.** *New.* TORIVA's ORR estimand specifies a
+stratified Mantel–Haenszel **risk difference**. `M.CMH` yields an odds ratio, and the statistics
+vocabulary carries no difference statistic at all. Under ICH E9(R1) the population-level summary
+is part of the estimand, so substituting the odds ratio answers a different question.
 
 Issues 1, 2 and 3 are proposed upstream. See `docs/findings/upstream-issues.md`.
 
@@ -74,8 +89,8 @@ Issues 1, 2 and 3 are proposed upstream. See `docs/findings/upstream-issues.md`.
 | Tier | Endpoint | Estimand | Expectation |
 |---|---|---|---|
 | Simple | Laboratory change from baseline | — | Works with no new authoring. `T.BaselineSelection` and `T.ChangeFromBaseline` exist |
-| Moderate | Objective response rate | E3 / E3a | Analysis side exists. Confirmed BOR derivation is the work |
-| Complex | Progression-free survival | E2 / E2a | Analysis side exists, derivation does not. Finds the limit |
+| Moderate | Objective response rate | E3 / E3a | **Mapped. Half composes** — selection and per-arm summary fit; confirmation rule and risk difference do not |
+| Complex | Progression-free survival | E2 / E2a | **Mapped. Does not compose** — one of nine steps. Found the limit earlier than expected |
 
 The simple tier matters *because* it is shallow — it shows the framework does not impose machinery where none is needed. The complex tier is a stress test, and a negative result there is a finding rather than a failure.
 
@@ -138,19 +153,23 @@ The specification is complete and the findings are verified against pinned commi
 
 | | |
 |---|---|
-| Findings F01–F06 | Written up with evidence. F02 corrected, F04 retired, F05 restated, F06 new |
+| Findings F01–F08 | Written up with evidence. F02 corrected, F04 retired, F05 restated; F06–F08 new, from paper mapping |
 | Upstream issues | Three drafted, none filed |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
-| Moderate tier (ORR) | Not started. Expected to hit F06 at the BOR confirmation step, less severely |
+| Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |
 | Simple tier (lab CFB) | Not started. Both transformations exist; expected to work |
 | Snapshot | Not started |
 
 `tools/acdc_divergence.py` is usable for methods and **not** trustworthy for transformations —
 it reports one transformation cluster at `739344c`, and that cluster is the F03 false positive.
 
-Next: map the moderate tier on paper, then author the simple tier to calibrate the effort
-measurement. The complex tier cannot be authored until F06 is resolved upstream or a
-documented workaround is accepted.
+Seven discrepancies inside TORIVA itself have surfaced from mapping (D1–D7), including one that
+makes estimand E3 unimplementable as specified: `EFFFL` does not exist on ADRS. All are recorded
+in `study/source-refs.md` and left unresolved, so as not to contaminate the step-3 comparison.
+
+Next: author the simple tier to calibrate the effort measurement, then author ORR's composable
+steps (2, 3, 7, 8, 9) for the first real cost figure. PFS cannot be authored until F06 is
+resolved upstream or a documented workaround is accepted.
 
 ## Provenance
 

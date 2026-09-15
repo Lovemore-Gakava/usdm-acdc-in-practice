@@ -47,11 +47,22 @@ required at step 3 of the method (`comparison.md`), not before.
 Recorded during the PFS mapping; to be resolved against built ADaM at comparison time.
 See [endpoints/03-complex-pfs/mapping.md](../endpoints/03-complex-pfs/mapping.md), D1 and D2.
 
-- **D1** — SAP §4.2 gives the PFS time origin as `RANDDT`; `ADTTE-spec.md` uses `TRTSDT`.
-  SAP §13.5 says months, ADTTE stores days.
-- **D2** — SAP §4.2 and §13.5 specify `admiral::derive_param_tte()`; `ADTTE-spec.md` v0.3
-  records that stale `derive_param_tte()` references were removed and the code uses explicit
-  logic. The SAP was not updated.
+| ID | Endpoint | SAP says | Built spec says |
+|---|---|---|---|
+| **D1** | PFS | Time origin `RANDDT`; §13.5 says months | `STARTDT` = `TRTSDT`; `AVALU` = DAYS |
+| **D2** | PFS | `admiral::derive_param_tte()` (§4.2, §13.5) | v0.3: stale `derive_param_tte()` references removed, code uses explicit logic |
+| **D3** | ORR | **BICR** reader (`RSEVAL = "INDEPENDENT ASSESSOR"`), §4.3 and §13.6 | ADRS derives OVR/BOR/CBOR from the **Investigator** reader; ~10% discordance |
+| **D4** | ORR | E3 population = Response Evaluable; ITT is the E3a sensitivity | ORR denominator is all ITT — the sensitivity estimand is what was built |
+| **D5** | ORR | Confirmation = *"a second CR or PR ≥28 days later with no intervening PD"* | *"a confirmatory OVR of equal-or-better ≥28 days later"* — different rule, and no intervening-PD clause |
+| **D6** | ORR | `admiralonco::derive_param_bor()` / `derive_param_confirmed_bor()` | Both hand-coded in `adrs.R`, not `admiralonco` |
+| **D7** | ORR | `EFFFL = "Y"` on ADRS, required in §3, §13.6 twice (~440 subjects) | **`EFFFL` does not exist.** ADRS carries 18 variables; the string is absent from the spec |
+
+D4 and D7 are the same defect from two directions: **estimand E3 is not implementable against
+the built ADaM as specified.** What was built is E3a.
+
+D2 and D6 are the same pattern on two endpoints: the SAP delegates a derivation to a named
+library function, the implementation diverges, and the SAP is not updated. That opacity is
+what a declarative concept model is meant to remove.
 
 ## Upstream
 

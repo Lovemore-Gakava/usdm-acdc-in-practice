@@ -97,8 +97,11 @@ Steps 2 through 4 of the method (`chain.json`, `comparison.md`, `log.md`) are bl
 pending either an upstream change or a documented workaround. Proposed `T.` entries and the
 methods they would need go in `transformations/proposed/`.
 
-**This does not block the simple or moderate tiers.** Lab change-from-baseline uses
-`T.BaselineSelection` and `T.ChangeFromBaseline`, both of which exist. ORR needs confirmed BOR,
-which needs a two-variable predicate at the confirmation step (*a second CR/PR ≥28 days later
-with no intervening PD*) and so is likely to hit B1 as well, but less severely — that is the
-next thing to map.
+**This does not block the simple tier.** Lab change-from-baseline uses `T.BaselineSelection`
+and `T.ChangeFromBaseline`, both of which exist.
+
+> **Corrected after mapping ORR.** This section originally predicted that ORR would hit B1
+> *"less severely."* It does not. ORR hits the same blocker on its primary derivation — the
+> confirmation rule is a two-record predicate — and turns up two further gaps, F07 and F08.
+> See [../02-moderate-orr/mapping.md](../02-moderate-orr/mapping.md). The prediction was
+> speculation and is left visible rather than deleted.
