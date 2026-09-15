@@ -202,9 +202,10 @@ disk. Recover with `git revert` if the render was meant to be published.
 **7.3 The source SAP is AI-drafted.** See §3.2. This does not invalidate the ADaM comparison
 but it bounds what the comparison demonstrates.
 
-**7.4 The `LICENSE` copyright line was asserted, not confirmed.** It reads
-`Copyright (c) 2026 Lovemore Gakava`, chosen by the AI from the git config and the TORIVA spec
-authorship. Confirm the correct holder — an employer may have a claim.
+**7.4 The `LICENSE` copyright line was asserted, then confirmed.** It reads
+`Copyright (c) 2026 Lovemore Gakava`, originally chosen by the AI from the git config and the
+TORIVA spec authorship. LG confirmed on 2026-09-15 that this is a personal repository.
+Resolved.
 
 **7.5 `tools/acdc_divergence.py` has a stale cross-reference.** Its docstring says it
 *"Implements sections 4.1-4.4 of the Concept Spine specification"*; the signature design is at
