@@ -4,7 +4,7 @@
 Part B: a governance and traceability overlay on the CDISC AC/DC framework.**
 
 Status: draft for review
-Version: 0.3 — Part A is new and is the near-term work. Part B is unchanged in substance but deferred. See §17 for what changed and why.
+Version: 0.4 — Part A is the near-term work; Part B unchanged in substance but deferred. §5 has been verified against pinned upstream and four of its six subsections were wrong. See §17 for what changed and why.
 
 ---
 
@@ -93,6 +93,21 @@ This is the tier that finds the limit. See §5.
 ## 5. Where the flow is expected to strain
 
 Established by inspection of the upstream libraries, not assumed.
+
+> **§5 is superseded in part.** Every subsection below was re-verified against pinned upstream
+> `739344c` before any authoring. §5.2, §5.3, §5.4 and §5.6 did not survive; §5.1 survived but
+> understated the gap. The subsections are left as written so the correction is legible, and each
+> is annotated with its disposition. §17 (v0.4) tabulates the changes; `docs/findings/` carries the
+> evidence. **Read the findings, not this section.**
+
+| Subsection | Disposition | Finding |
+|---|---|---|
+| 5.1 No TTE derivation transformations | Confirmed, but the gap is wider than stated | F01 |
+| 5.2 `censoring` role declared and unused | **Premise false** — never declared. Consequence stands | F02 |
+| 5.3 Censoring hierarchy composes as nested `M.ConditionalValue` | **False** | F06 |
+| 5.4 BC joint is annotated, not resolved | **Retired** — it is resolved | F04 |
+| 5.5 Chain position carries meaning | Confirmed, stronger | F03 |
+| 5.6 No study-level view exists | **Overstated** — one exists, without authoring state | F05 |
 
 ### 5.1 No time-to-event derivation transformations exist
 
@@ -303,8 +318,22 @@ Upstream is a vanilla-JS SPA with no backend, executing R in-browser via WebR. C
 
 ## 15. Next actions
 
-1. **Map the PFS censoring hierarchy on paper** against SAP §13.5 and §4.1–4.4, as nested `M.ConditionalValue` over `M.RecordSelection`. If it composes, the complex tier is viable. If not, that is the finding.
-2. **Stand up `ac-dc-app` locally** — `python3 ac-dc-app/serve.py`, and point `studies.json` at `CDISC_Pilot_Study_soa_enriched.json` or the SoA views will look broken.
+1. ~~**Map the PFS censoring hierarchy on paper**~~ — **done; it does not compose.** `M.ConditionalValue` is not a general conditional: its predicate is hardwired to `IF(IS_NA(<value>), <alternate>, <base>)`. No method can express a predicate over two variables, so the hierarchy cannot be built at all. This disproves §5.3. See `endpoints/03-complex-pfs/mapping.md` and finding F06.
+2. **Stand up `ac-dc-app` locally** — `cd upstream/analysis-concepts && python3 ac-dc-app/serve.py`, then open `http://localhost:8080/ac-dc-app/index.html`. Standard library only; the script `chdir`s to the repo root itself, but the URL must keep the `/ac-dc-app/` prefix because `js/data-loader.js` fetches repo-root-relative paths. Port 8080 is hardcoded.
+
+   **Do not** repoint `studies.json`, as earlier drafts of this section instructed. The shipped default (`CDISC_Pilot_Study_usdm.json 07-50-56-737.json`) carries the same SoA content as `CDISC_Pilot_Study_soa_enriched.json` — 12 encounters, 42 activities, 4 timelines, 16 scheduled activity instances with both `activityIds` and `encounterId` — so the SoA views do **not** break on the default.
+
+   The enriched file is misnamed. What it actually changes is BC metadata, and it trades one thing for another:
+
+   | | default | `soa_enriched` |
+   |---|---|---|
+   | BCs | 182 | 182 |
+   | `sdtmDatasetSpecialization` extension | 0 | 182 |
+   | properties with `responseCodes` | 350 | 0 |
+
+   Neither file carries both. §11's `tabulated_as` edge needs `sdtmDatasetSpecialization`, so Part B lineage work wants the enriched file; anything reading BC response values wants the default. That `responseCodes` and the SDTM specialization are mutually exclusive across the two shipped files is a constraint on §11, not a detail of the dev server, and should be resolved before the lineage table is built.
+
+   Note also that `data/usdm/studies.json` is inside the pinned read-only submodule. Editing it contradicts §8 and dirties `upstream/analysis-concepts`. If the enriched file is needed, treat it as a throwaway local edit and `git -C upstream/analysis-concepts checkout data/usdm/studies.json` afterwards.
 3. **Hand-author USDM fragments** for the three TORIVA endpoints — objective, endpoint, estimand, BCs. Not a full study definition.
 4. **Author the simple tier first**, to calibrate the effort measurement before attempting the complex one.
 5. **Check real sponsor protocols' endpoint text** against the three shapes, for breadth.
@@ -320,6 +349,19 @@ Upstream is a vanilla-JS SPA with no backend, executing R in-browser via WebR. C
 ---
 
 ## 17. Revision history
+
+**v0.4** — Corrections from verifying the findings against pinned upstream `739344c` before authoring. See `docs/method.md` and `docs/findings/`.
+
+| v0.3 | Correction |
+|---|---|
+| §5.2 — `statisticalRole` includes `censoring`, unused | No such enum value, and `git log -S` shows there never was one. `StatisticalRole` is `[response, covariate, fixed_effect, repeated_factor, repeated_subject, strata, offset]`. The declared-and-unused role is `offset`. The consequence — `time` and `event` both typed `response`, so signatures treat them as interchangeable — stands (F02) |
+| §5.3 — censoring hierarchy expressible as nested `M.ConditionalValue` over `M.RecordSelection` | **False.** `M.ConditionalValue`'s predicate is hardwired to `IS_NA`; `M.ThresholdCompare` compares against a constant; `M.Categorization` takes free-text conditions over one input. No multi-variable predicate exists (F06) |
+| §5.4 — the BC joint is annotated, not resolved | Retired. All five `Measure` terminals of the worked scenario carry 11 `linkedBCIds`; the four unlinked terminals are dimensions. Endpoint-level `linkedBCIds` is empty, which is where the misreading came from (F04) |
+| §5.6 — no study-level view exists in either source | Overstated. `js/views/study-overview.js` exists and shows objectives and endpoints. It carries no *authoring* state — no chain status, no shared derivations, no coverage. The gap is narrower and sharper (F05) |
+| §5.1 — closing the TTE gap means authoring three or four new `T.` entries | Insufficient. Every derivation method declares one `computed_value`, and all 14 derivation transformations emit at most one output measure. `AVAL`, `CNSR`, `ADT`, `EVNTDESC` are four projections of one resolution, with nothing requiring them to agree. Whether this is a library gap or a model gap is a question for upstream (F01) |
+| §15.2 — repoint `studies.json` at `CDISC_Pilot_Study_soa_enriched.json` | Unnecessary and misleading. SoA content is identical across both files. The enriched file adds `sdtmDatasetSpecialization` and drops all 350 `responseCodes`; it is also inside the read-only submodule |
+
+§5.5 (chain position carries meaning) and §9.2 (signature must include outputs and codings) were confirmed unchanged. §5.5 is stronger than written: the two ADAS transformations differ in exactly one field, a free-text `note`.
 
 **v0.3** — Added Part A, the flow snapshot, as the near-term work; deferred Part B. Selected TORIVA-LUNG 301 over the CDISC Pilot for ground-truth comparison. Added the endpoint ladder and the expected-strain findings (§5). Corrected transformation signature design: chain position carries meaning that individual entries do not (§5.5, §9.3). Recorded that neither source repository has a study-level view (§5.6), and fixed the artefact's form as a static study-level rendering rather than an application (§6.2).
 
