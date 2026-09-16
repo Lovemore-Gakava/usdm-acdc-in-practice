@@ -45,6 +45,31 @@ The same rule was applied to the source study's own discrepancies. D1 and D2 (se
 looking at the built ADaM, because resolving them by inspection before authoring would
 contaminate the step-3 comparison. They are recorded as open and carried forward.
 
+## Checking the documents against the repository
+
+The rule above applies to claims about upstream. It applies equally to the claims this
+repository makes about *itself* — how many findings exist, how many issues are drafted, how
+many discrepancies are recorded, how many endpoints are mapped. Every one of those is
+derivable from the filesystem, so none of them is maintained by hand:
+
+```
+python tools/check_consistency.py
+```
+
+Ground truth is the filesystem; the documents are what get corrected. The checker also
+verifies that every finding file appears in both findings tables, that every relative link
+resolves, that every tracked file is named in `PROVENANCE.md`, and that the submodule is
+checked out at the commit the documents pin.
+
+Lines under a *Change log* heading are exempt automatically, and any line can be exempted
+with a `<!-- consistency:ignore -->` marker — a change log records what was true at each
+version, so its numbers are meant to be stale.
+
+**What it does not check is whether a claim is still true.** Nothing in it would have caught
+F02's premise being wrong, or the prediction that ORR would hit F06 "less severely". Counts
+are mechanical; claims need the verification pass. The checker exists so that the cheap half
+never consumes attention that the expensive half needs.
+
 ## Reproducing
 
 ```

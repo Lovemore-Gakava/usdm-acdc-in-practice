@@ -39,8 +39,9 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | — its §15 actions 1 and 2 | This session, at LG's explicit direction | AI | LG directed, did not review text |
 | `tools/acdc_divergence.py` | Pre-existing, on disk at session start | LG | LG |
 | — its docstring §9 cross-reference | 2026-09-16 | AI | Not yet — see §7.5 |
+| `tools/check_consistency.py` | 2026-09-16 | AI | Not yet |
 | `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
-| `docs/findings/F01`–`F08`, `README.md`, `upstream-issues.md` | This session | AI | Not yet |
+| `docs/findings/F01`–`F08`, `docs/findings/README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/method.md` | This session | AI | Not yet |
 | `study/README.md`, `study/source-refs.md` | This session | AI | Not yet |
 | `endpoints/03-complex-pfs/mapping.md` | This session | AI | Not yet |
@@ -117,7 +118,7 @@ model reproduce regulatory-grade practice." The repository should not claim the 
 `docs/specification.md` (v0.3, formerly `usdm-concept-spine-spec.md`) was on disk at session
 start, alongside the original `README.md` and `tools/acdc_divergence.py`, all timestamped
 2026-09-15 16:46. Authored by LG before this session. It is the source of the endpoint ladder,
-the four-step method, the Part B design, and findings F01–F05 as originally stated.
+the four-step method, the Part B design, and findings F01–F05 as originally stated. <!-- consistency:ignore -->
 
 **It is also the single largest source of corrected claims.** Four of its six §5 subsections
 did not survive verification. See §17 of that document for the table.
@@ -191,6 +192,7 @@ AI's reasoning from verified facts, not themselves verified:
 |---|---|
 | `docs/specification.md` | The plan. Partly superseded — §5 carries a disposition table, §17 v0.4 the corrections |
 | `docs/method.md` | How the findings were verified, and why that step exists |
+| `tools/check_consistency.py` | Enforces the counted claims in this record against the filesystem |
 | `docs/findings/` | The findings themselves, each with its evidence |
 | `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the seven discrepancies found inside TORIVA (D1–D7) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |

@@ -138,7 +138,8 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 ├── transformations/
 │   └── proposed/                    new T. entries — the TTE gap (F01)
 ├── tools/
-│   └── acdc_divergence.py           signature and divergence detection
+│   ├── acdc_divergence.py           signature and divergence detection
+│   └── check_consistency.py         documents vs. filesystem, run in CI
 └── snapshot/
     └── index.html                   static coverage view
 ```

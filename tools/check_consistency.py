@@ -1,0 +1,439 @@
+#!/usr/bin/env python3
+"""
+check_consistency.py — assert the repository's documents agree with the repository.
+
+This repository's method (docs/method.md) requires that a claim about upstream be
+backed by a command. The same rule is applied here to claims the repository makes
+about *itself*: counts of findings, drafted issues, discrepancies and mapped
+endpoints are all derivable from the filesystem, so they are derived and checked
+rather than maintained by hand.
+
+Ground truth is the filesystem. Documents are wrong, never the other way round.
+
+Checks:
+  1. findings      F01-F0N ranges match the files in docs/findings/
+  2. findings-index every finding file appears in both findings tables
+  3. issues        stated counts of drafted issues match '## Issue' headings
+  4. discrepancies stated counts of D-items match the source-refs table, and the
+                   D-ids are contiguous from D1
+  5. endpoints     stated counts of mapped endpoints match endpoints/*/mapping.md
+  6. coverage      every tracked .md and .py is named somewhere in PROVENANCE.md
+  7. links         every relative markdown link resolves to a file that exists
+  8. submodule     upstream is checked out, and at the commit the documents pin
+
+Two kinds of line are exempt, because they are correct records of what was once
+believed rather than claims about the present:
+
+  - anything under a 'Change log' heading, automatically
+  - any line carrying the marker '<!-- consistency:ignore -->'
+
+What this CANNOT check is the harder half: whether a claim is still *true*.
+Nothing here would have caught 'ORR will hit F06 less severely' being disproved,
+or F02's premise being wrong. Those need the verification pass, not a script.
+
+Usage:
+    python tools/check_consistency.py
+    python tools/check_consistency.py --verbose     show every matched claim
+    python tools/check_consistency.py --root .      run against another checkout
+
+Exit code 0 if consistent, 1 if not. Python 3.10+. Standard library only.
+"""
+
+from __future__ import annotations
+
+import argparse
+import re
+import subprocess
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+
+NUMBER_WORDS = {
+    "no": 0, "zero": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10, "eleven": 11,
+    "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15,
+}
+
+# Lines carrying this marker are exempt. Use it for deliberately historical
+# statements whose numbers are a record of what was once believed.
+IGNORE = "<!-- consistency:ignore -->"
+
+
+def historical_lines(lines: list[str]) -> set[int]:
+    """1-based line numbers under a 'Change log' heading.
+
+    A change log records what was true at each version, so its numbers are
+    deliberately stale and must not be checked against the present.
+    """
+    out: set[int] = set()
+    depth = 0
+    for i, line in enumerate(lines, 1):
+        m = re.match(r"^(#+)\s+(.*)", line)
+        if m:
+            level = len(m.group(1))
+            if re.search(r"change\s*log|revision history", m.group(2), re.I):
+                depth = level
+                out.add(i)
+                continue
+            if depth and level <= depth:
+                depth = 0
+        if depth:
+            out.add(i)
+    return out
+
+
+def exempt(path: str, i: int, line: str, hist: dict[str, set[int]]) -> bool:
+    return IGNORE in line or i in hist.get(path, set())
+
+
+def to_int(token: str) -> int | None:
+    token = token.strip().lower()
+    if token.isdigit():
+        return int(token)
+    return NUMBER_WORDS.get(token)
+
+
+@dataclass
+class Problem:
+    path: str
+    line: int
+    message: str
+
+    def __str__(self) -> str:
+        return f"  {self.path}:{self.line}\n      {self.message}"
+
+
+@dataclass
+class Claim:
+    path: str
+    line: int
+    text: str
+    value: int
+
+
+# --------------------------------------------------------------------------
+# sentinel patterns
+# --------------------------------------------------------------------------
+# Explicit and tight, by design. A naive scan for number-words near "issues"
+# flags historical statements such as upstream-issues.md's "Originally two
+# issues were planned", which is a correct record of what was once true.
+# Adding a phrasing here is a deliberate act; that is the point.
+
+ISSUE_PATTERNS = [
+    r"There are now (?P<n>[A-Za-z0-9]+)\b",
+    r"(?P<n>[A-Za-z0-9]+) of which are drafted as\b",
+    r"(?P<n>[A-Za-z0-9]+) (?:issues?|findings?) are drafted\b",
+    r"(?P<n>[A-Za-z0-9]+) are drafted as public issues\b",
+    r"\|\s*Upstream issues\s*\|\s*(?P<n>[A-Za-z0-9]+) drafted\b",
+]
+
+DISCREPANCY_PATTERNS = [
+    r"(?P<n>[A-Za-z0-9]+) discrepancies inside TORIVA\b",
+    r"the (?P<n>[A-Za-z0-9]+) discrepancies found inside TORIVA\b",
+    # "Discrepancies D1 and D2 in study/source-refs.md ..." — prose enumeration
+    # that silently stops being the whole list when a new one is recorded.
+    r"[Dd]iscrepancies D1 and D(?P<n>\d+)\b",
+]
+
+ENDPOINT_PATTERNS = [
+    r"\*\*7\.7 (?P<n>[A-Za-z0-9]+) of the three endpoints have been mapped\b",
+]
+
+
+def scan(files: dict[str, list[str]], patterns: list[str],
+         hist: dict[str, set[int]]) -> list[Claim]:
+    claims: list[Claim] = []
+    for path, lines in files.items():
+        for i, line in enumerate(lines, 1):
+            if exempt(path, i, line, hist):
+                continue
+            for pat in patterns:
+                for m in re.finditer(pat, line):
+                    value = to_int(m.group("n"))
+                    if value is not None:
+                        claims.append(Claim(path, i, m.group(0).strip(), value))
+    return claims
+
+
+# --------------------------------------------------------------------------
+# checks
+# --------------------------------------------------------------------------
+
+
+def check_findings(root: Path, files: dict[str, list[str]],
+                   hist: dict[str, set[int]]) -> tuple[list[Problem], int]:
+    found = sorted(p.name for p in (root / "docs" / "findings").glob("F*.md"))
+    numbers = sorted(int(n) for n in (re.match(r"F(\d+)", f).group(1) for f in found))
+    problems: list[Problem] = []
+
+    if numbers != list(range(1, len(numbers) + 1)):
+        problems.append(Problem("docs/findings/", 0,
+                                f"finding files are not contiguous from F01: {numbers}"))
+    top = max(numbers)
+
+    # F01-F08, F01–F08, "F01 … F08"
+    pattern = re.compile(r"F01\s*(?:[-–—]|\.\.\.|…)\s*F(\d{2})")
+    for path, lines in files.items():
+        for i, line in enumerate(lines, 1):
+            if exempt(path, i, line, hist):
+                continue
+            for m in pattern.finditer(line):
+                stated = int(m.group(1))
+                if stated != top:
+                    problems.append(Problem(
+                        path, i,
+                        f"states range {m.group(0)!r} but docs/findings/ holds "
+                        f"F01-F{top:02d} ({len(numbers)} files)"))
+    return problems, top
+
+
+def check_findings_index(root: Path, files: dict[str, list[str]]) -> list[Problem]:
+    found = sorted(p.name for p in (root / "docs" / "findings").glob("F*.md"))
+    problems: list[Problem] = []
+    for table, label in (("docs/findings/README.md", "the findings index"),
+                         ("README.md", "the top-level findings table")):
+        body = "\n".join(files.get(table, []))
+        for name in found:
+            stem = name[:3]  # F01
+            if name not in body and f"[{stem}]" not in body:
+                problems.append(Problem(table, 0,
+                                        f"{name} is not listed in {label}"))
+    return problems
+
+
+def check_counted(files: dict[str, list[str]], patterns: list[str], truth: int,
+                  noun: str, source: str,
+                  hist: dict[str, set[int]]) -> tuple[list[Problem], list[Claim]]:
+    claims = scan(files, patterns, hist)
+    problems = [
+        Problem(c.path, c.line,
+                f"claims {c.value} {noun} ({c.text!r}) but {source} holds {truth}")
+        for c in claims if c.value != truth
+    ]
+    return problems, claims
+
+
+def check_coverage(root: Path, tracked: list[str], files: dict[str, list[str]]) -> list[Problem]:
+    body = "\n".join(files.get("PROVENANCE.md", []))
+    problems: list[Problem] = []
+
+    # A basename shared by several files (endpoints/*/mapping.md) proves nothing:
+    # naming one satisfies all of them. Those must appear by full path.
+    counts: dict[str, int] = {}
+    for rel in tracked:
+        counts[Path(rel).name] = counts.get(Path(rel).name, 0) + 1
+
+    for rel in tracked:
+        if not rel.endswith((".md", ".py")):
+            continue
+        if rel in ("PROVENANCE.md",):
+            continue
+        name = Path(rel).name
+        if counts[name] > 1:
+            if rel not in body:
+                problems.append(Problem("PROVENANCE.md", 0,
+                                        f"{rel} is tracked but named nowhere in the "
+                                        f"provenance record (its basename is shared "
+                                        f"with {counts[name] - 1} other file(s), so it "
+                                        f"must be named in full)"))
+            continue
+        aliases = [rel, name, Path(rel).stem]
+        m = re.match(r"(F\d{2})-", name)
+        if m:
+            # findings are named collectively, e.g. "docs/findings/`F01`-`F08`"
+            aliases.append(m.group(1))
+        if not any(a in body for a in aliases):
+            problems.append(Problem("PROVENANCE.md", 0,
+                                    f"{rel} is tracked but named nowhere in the "
+                                    f"provenance record"))
+    return problems
+
+
+def check_links(root: Path, files: dict[str, list[str]]) -> list[Problem]:
+    pattern = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+    problems: list[Problem] = []
+    for path, lines in files.items():
+        base = (root / path).parent
+        for i, line in enumerate(lines, 1):
+            for m in pattern.finditer(line):
+                target = m.group(1).split("#")[0].strip()
+                if not target or "://" in target or target.startswith("mailto:"):
+                    continue
+                if not (base / target).exists():
+                    problems.append(Problem(path, i,
+                                            f"link target does not exist: {target}"))
+    return problems
+
+
+def check_submodule(root: Path, files: dict[str, list[str]],
+                    hist: dict[str, set[int]]) -> list[Problem]:
+    sub = root / "upstream" / "analysis-concepts"
+    if not (sub / "lib").is_dir():
+        return [Problem(".gitmodules", 0,
+                        "upstream/analysis-concepts is not checked out - "
+                        "docs/method.md's reproduce block will not run. "
+                        "Fix with: git submodule update --init")]
+
+    def git(*args: str) -> str | None:
+        try:
+            return subprocess.run(args, capture_output=True, text=True,
+                                  check=True).stdout.strip()
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            return None
+
+    head = git("git", "-C", str(sub), "rev-parse", "HEAD")
+    if head is None:
+        return [Problem("upstream/analysis-concepts", 0,
+                        "cannot read the submodule's HEAD")]
+
+    problems: list[Problem] = []
+
+    tree = git("git", "-C", str(root), "ls-tree", "HEAD", "upstream/analysis-concepts")
+    gitlink = tree.split()[2] if tree and len(tree.split()) > 2 else None
+    if gitlink and gitlink != head:
+        problems.append(Problem("upstream/analysis-concepts", 0,
+                                f"checked out at {head[:12]} but the parent repo "
+                                f"records {gitlink[:12]}"))
+
+    # Only hex tokens that are a near-miss of the pinned sha are treated as a
+    # stale upstream pin: same first four characters, diverging after. Tokens
+    # belonging to other repositories share no such prefix and are left alone.
+    token = re.compile(r"([0-9a-f]{7,40})")
+    seen: set[tuple[str, int, str]] = set()
+    for path, lines in files.items():
+        for i, line in enumerate(lines, 1):
+            if exempt(path, i, line, hist):
+                continue
+            for m in token.finditer(line):
+                sha = m.group(1)
+                if head.startswith(sha):
+                    continue
+                if sha[:4] == head[:4]:
+                    key = (path, i, sha)
+                    if key not in seen:
+                        seen.add(key)
+                        problems.append(Problem(
+                            path, i,
+                            f"pins upstream at {sha} but the submodule is at "
+                            f"{head[:12]}"))
+    return problems
+
+
+# --------------------------------------------------------------------------
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--root", default=".", help="repository root (default: .)")
+    ap.add_argument("--verbose", action="store_true",
+                    help="list every claim that was matched and checked")
+    args = ap.parse_args()
+
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
+    root = Path(args.root).resolve()
+    try:
+        tracked = subprocess.run(["git", "-C", str(root), "ls-files"],
+                                 capture_output=True, text=True,
+                                 check=True).stdout.split()
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print(f"error: {root} is not a git checkout", file=sys.stderr)
+        return 2
+
+    files: dict[str, list[str]] = {}
+    for rel in tracked:
+        if rel.endswith(".md"):
+            p = root / rel
+            if p.is_file():
+                files[rel] = p.read_text(encoding="utf-8").splitlines()
+
+    hist = {path: historical_lines(lines) for path, lines in files.items()}
+
+    print("Repository consistency report")
+    print(f"root:    {root}")
+    print(f"scanned: {len(files)} markdown files, {len(tracked)} tracked paths")
+
+    problems: list[Problem] = []
+    all_claims: list[Claim] = []
+
+    finding_problems, n_findings = check_findings(root, files, hist)
+    problems += finding_problems
+    problems += check_findings_index(root, files)
+
+    n_issues = sum(
+        1 for line in files.get("docs/findings/upstream-issues.md", [])
+        if re.match(r"^## Issue \d", line)
+    )
+    p, c = check_counted(files, ISSUE_PATTERNS, n_issues,
+                         "drafted issues", "upstream-issues.md", hist)
+    problems += p
+    all_claims += c
+
+    d_ids = sorted({
+        int(m.group(1))
+        for line in files.get("study/source-refs.md", [])
+        for m in [re.match(r"\|\s*\*\*D(\d+)\*\*", line)] if m
+    })
+    if d_ids and d_ids != list(range(1, len(d_ids) + 1)):
+        problems.append(Problem("study/source-refs.md", 0,
+                                f"D-ids are not contiguous from D1: {d_ids}"))
+    n_disc = len(d_ids)
+    p, c = check_counted(files, DISCREPANCY_PATTERNS, n_disc,
+                         "discrepancies", "the source-refs table", hist)
+    problems += p
+    all_claims += c
+
+    for path, lines in files.items():
+        for i, line in enumerate(lines, 1):
+            if exempt(path, i, line, hist):
+                continue
+            for m in re.finditer(r"\bD1\s*[-–—]\s*D(\d+)\b", line):
+                if int(m.group(1)) != n_disc:
+                    problems.append(Problem(
+                        path, i,
+                        f"states range {m.group(0)!r} but the source-refs table "
+                        f"holds D1-D{n_disc}"))
+
+    tiers = sorted(p.name for p in (root / "endpoints").iterdir() if p.is_dir())
+    mapped = sorted(p.parent.name for p in (root / "endpoints").glob("*/mapping.md"))
+    p, c = check_counted(files, ENDPOINT_PATTERNS, len(mapped),
+                         "mapped endpoints", "endpoints/*/mapping.md", hist)
+    problems += p
+    all_claims += c
+
+    problems += check_coverage(root, tracked, files)
+    problems += check_links(root, files)
+    problems += check_submodule(root, files, hist)
+
+    print(f"truth:   {n_findings} findings, {n_issues} drafted issues, "
+          f"{n_disc} discrepancies, {len(mapped)}/{len(tiers)} endpoints mapped")
+
+    if args.verbose and all_claims:
+        print("\nClaims checked")
+        print("--------------")
+        for c in sorted(all_claims, key=lambda x: (x.path, x.line)):
+            print(f"  {c.path}:{c.line}  {c.value}  {c.text!r}")
+
+    print()
+    if problems:
+        print(f"{len(problems)} inconsistenc{'y' if len(problems) == 1 else 'ies'}:")
+        print()
+        for prob in problems:
+            print(prob)
+        print()
+        print("Ground truth is the filesystem. Update the documents.")
+        return 1
+
+    print("Consistent. Every counted claim matches the filesystem.")
+    print()
+    print("Note: this checks counts and cross-references, not whether a claim is")
+    print("still true. Semantic drift needs the verification pass (docs/method.md).")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
