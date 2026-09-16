@@ -27,7 +27,7 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 | 0 | Protocol mapped to ICH M11 elements | ✓ |
 | 0b | Protocol restructured to M11, USDM regenerated from it | ✓ |
 | 1 | USDM fragments hand-authored | ✓ |
-| 2 | BC linked on the chain's terminals | ✗ |
+| 2 | BC linked on the chain's terminals | ✓ |
 | 3 | DC — derivation authored | ✓ |
 | 4 | AC — analysis bound | ✓ |
 | 5 | eSAP generated | ✗ |
@@ -87,10 +87,15 @@ arms, population and one estimand. Loaded in the app and rendered. What was lear
 v4's shape, and the one honest compromise in it, are in
 [`study/usdm/README.md`](study/usdm/README.md).
 
-**Stage 2 — BC linked.** Route is known. F04 established that BC linkage lives at *terminal*
-level, not endpoint level, and the derivation pipeline has a BC picker on measure terminals.
-First action — open the lab chain at step 6, link BCs on the measure terminals, confirm
-`linkedBCIds` is no longer `[]`.
+**Stage 2 — BC linked. Done 2026-09-16.** All three measure terminals of the lab chain carry
+the seven TORIVA laboratory BCs. The chain was **re-authored against TORIVA** rather than the
+CDISC Pilot, which also retires caveat L1 in `endpoints/01-simple-lab-cfb/log.md`.
+
+Found on the way, by experiment rather than by reading: **the builder ignores USDM's
+`Endpoint.biomedicalConceptIds`.** Injecting a study BC deliberately *not* linked to the
+endpoint, it was still offered in the terminal picker. So the USDM endpoint→BC join authored in
+stages 1 and 0b is not consumed by the chain; terminal-level `linkedBCIds` is an independent,
+second join.
 
 **Stage 5 — eSAP generated.** Step 7 of the builder, never opened. Unknown what it emits.
 First action — open it with the lab chain loaded and see.

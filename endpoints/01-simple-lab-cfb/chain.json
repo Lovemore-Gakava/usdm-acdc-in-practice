@@ -1,9 +1,9 @@
 {
   "$schema": "acdc-study-instance.schema.json",
-  "instanceId": "SI_CDISC-PILOT-LZZT-USDM-aligned_2026-09-16",
+  "instanceId": "SI_TORIVA-LUNG-301_2026-09-16",
   "formatVersion": "1.0",
-  "createdAt": "2026-09-16T21:02:22.292Z",
-  "updatedAt": "2026-09-16T21:02:22.292Z",
+  "createdAt": "2026-09-16T22:47:35.826Z",
+  "updatedAt": "2026-09-16T22:47:35.826Z",
   "$references": {
     "transformationLibrary": {
       "file": "lib/transformations/ACDC_Transformation_Library_v06.json",
@@ -19,16 +19,16 @@
     }
   },
   "studyRef": {
-    "selectedStudyIndex": 0,
-    "studyName": "CDISC PILOT - LZZT - USDM aligned"
+    "selectedStudyIndex": 1,
+    "studyName": "TORIVA-LUNG 301"
   },
   "selectedEndpointIds": [
-    "Endpoint_5"
+    "Endpoint_SAFETY_LAB"
   ],
   "esapLinkedNarratives": {},
   "endpointAnalyses": {},
   "endpointSpecs": {
-    "Endpoint_5": {
+    "Endpoint_SAFETY_LAB": {
       "conceptCategory": "Change",
       "dataType": "Quantity",
       "parameterSource": "bc",
@@ -176,17 +176,44 @@
         {
           "slotKey": "T.CFB_ANCOVA/Change/0/Measure/0",
           "concept": "Measure",
-          "roleLabel": "minuend"
+          "roleLabel": "minuend",
+          "linkedBCIds": [
+            "BiomedicalConcept_ALP",
+            "BiomedicalConcept_ALT",
+            "BiomedicalConcept_AST",
+            "BiomedicalConcept_BILI",
+            "BiomedicalConcept_CREAT",
+            "BiomedicalConcept_HGB",
+            "BiomedicalConcept_NEUT"
+          ]
         },
         {
           "slotKey": "T.CFB_ANCOVA/Change/0/Measure/1",
           "concept": "Measure",
-          "roleLabel": "subtrahend"
+          "roleLabel": "subtrahend",
+          "linkedBCIds": [
+            "BiomedicalConcept_ALP",
+            "BiomedicalConcept_ALT",
+            "BiomedicalConcept_AST",
+            "BiomedicalConcept_BILI",
+            "BiomedicalConcept_CREAT",
+            "BiomedicalConcept_HGB",
+            "BiomedicalConcept_NEUT"
+          ]
         },
         {
           "slotKey": "T.CFB_ANCOVA/Measure/1",
           "concept": "Measure",
-          "roleLabel": "covariate"
+          "roleLabel": "covariate",
+          "linkedBCIds": [
+            "BiomedicalConcept_ALP",
+            "BiomedicalConcept_ALT",
+            "BiomedicalConcept_AST",
+            "BiomedicalConcept_BILI",
+            "BiomedicalConcept_CREAT",
+            "BiomedicalConcept_HGB",
+            "BiomedicalConcept_NEUT"
+          ]
         },
         {
           "slotKey": "T.CFB_ANCOVA/Treatment/2",

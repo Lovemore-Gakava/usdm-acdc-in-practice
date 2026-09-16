@@ -4,8 +4,13 @@ Step 4 of the method: what the authoring actually cost, and every point where a 
 needed.
 
 **Authored 2026-09-16** against `ac-dc-app` at upstream `739344c`, served locally
-(`python ac-dc-app/serve.py`). Endpoint: CDISC Pilot **END5, *"Laboratory evaluations (Change
-from Baseline)"***. Result: [`chain.json`](chain.json).
+(`python ac-dc-app/serve.py`).
+
+**Re-authored the same day against TORIVA.** The first pass used CDISC Pilot END5 because no
+TORIVA USDM existed (L1). Once stages 1 and 0b supplied one, the chain was rebuilt on
+**TORIVA `Endpoint_SAFETY_LAB`** and BCs were linked (stage 2). [`chain.json`](chain.json) is
+the TORIVA chain; the decision counts below are from the first pass and are marked where the
+re-authoring changed them.
 
 ---
 
@@ -69,7 +74,14 @@ those four are not judgement calls a statistician would recognise as theirs to m
 
 ## Where it strained
 
-### L1 — the study is not the study
+### L1 — the study is not the study *(retired 2026-09-16)*
+
+> **No longer true.** The chain was re-authored against **TORIVA** once `study/usdm/` existed
+> (stages 1 and 0b). `chain.json` now carries `"studyName": "TORIVA-LUNG 301"` and endpoint
+> `Endpoint_SAFETY_LAB`. The original text follows, because the decision counts recorded in
+> this log were taken under it.
+
+### L1 — the study is not the study *(as originally recorded)*
 
 The builder carries one selectable study, the CDISC Pilot. TORIVA cannot be loaded, because
 its USDM fragments do not exist (specification §15.3, still open). END5 is the right *shape* —
@@ -118,13 +130,20 @@ groups in the target data, with a median 21% error if the wrong candidate is tak
 chain are indistinguishable here, which is the strongest single observation the lab tier
 produced.
 
-### L5 — no BC linking was required to finish
+### L5 — no BC linking was required to finish *(still true, and now demonstrated)*
 
-`endpointSpecs.Endpoint_5.linkedBCIds` is `[]` in the serialised instance, and the pipeline still
-reported complete. F04 established that BC linkage lives at terminal level and is populated in
-the shipped worked scenario; here it simply was not demanded to reach a finished state. Not
-pursued further — it would need a second pass with the BC picker, and it does not bear on the
-step-3 comparison.
+The pipeline reported complete with **no BCs linked at all**. That was the first pass, and it
+stands as an observation: BC linkage is not demanded to reach a finished-looking chain.
+
+Stage 2 then linked them deliberately — seven TORIVA laboratory BCs on each of the three
+measure terminals — and the chain was no more "complete" afterwards than before. Nothing in the
+builder distinguishes the two states.
+
+**And the USDM join is not consumed.** `Endpoint.biomedicalConceptIds` was authored in stages 1
+and 0b, linking all seven BCs to the laboratory endpoint. The terminal picker ignores it:
+injecting a study BC deliberately *not* linked to the endpoint, it was still offered. So a study
+can state its endpoint→BC relationship in USDM and the chain will neither use nor check it —
+terminal `linkedBCIds` is a second, independent join that the author must supply again by hand.
 
 ---
 
