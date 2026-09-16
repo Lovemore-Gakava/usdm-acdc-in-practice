@@ -35,6 +35,7 @@ including one of the two that was slated to be filed as an upstream issue. See
 | [F09](docs/findings/F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break and cannot express a composite sort key | **New, corrected twice** |
 | [F10](docs/findings/F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** |
 | [F11](docs/findings/F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** |
+| [F12](docs/findings/F12-baseline-flag-and-baseline-value-are-disconnected.md) | The baseline flag and the baseline value are disconnected | **New** |
 
 **F01 — No time-to-event derivation transformations exist.** *Confirmed in part.* The strings
 `CNSR`, `censor` and `AVAL` appear nowhere in the transformation library, and `T.OS_LogRank`
@@ -107,11 +108,16 @@ its method does not declare; and the derivation pipeline does have an add contro
 core capability claim survived. That makes five findings with a disproved premise or fix, three
 of which failed by inferring application behaviour from library JSON.
 
-Running the app has never yet been uninformative. This time it also showed that
-`T.BaselineSelection` **cannot** resolve the baseline value of a change-from-baseline chain —
-its output is a `Flag`, so it is not among the nine templates offered — meaning the baseline
-flag and the baseline value are independent derivations with nothing tying them together. See
-[`endpoints/01-simple-lab-cfb/mapping.md`](endpoints/01-simple-lab-cfb/mapping.md).
+**F12 — the baseline flag and the baseline value are disconnected.** *New, and the first
+finding produced by running the builder rather than corrected by it.* `T.BaselineSelection`
+outputs a `Flag`, and the pipeline matches derivations to dependencies by output concept
+(`findDerivationsForConcept`, exact string equality), so it can never resolve the `Measure` that
+`T.ChangeFromBaseline` needs — the builder offers LOCF imputation, seven ADAS-Cog helpers and a
+unit conversion instead. `BASE` is reached only by constraining `AnalysisVisit` to `Baseline`,
+making it a **visit-based** definition where SAP §12.3's is explicitly **date-based**; one line
+of `adlb.R` is the entire bridge. Incidentally, because matching is by concept string, the
+builder will offer the baseline record flag to resolve **the event indicator of a log-rank
+test** — F02 arriving as an authoring hazard rather than a signature one.
 
 Five issues are drafted for upstream, with a suggested filing order — Issue 4 (no risk
 difference) is the recommended opener, being the smallest and most concrete. F09–F11 are
@@ -160,8 +166,8 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 │   ├── specification.md             full spec and plan
 │   ├── method.md                    how the findings were verified
 │   └── findings/
-│       ├── README.md                index and status of F01–F11
-│       ├── F01 … F11                one file each, with evidence
+│       ├── README.md                index and status of F01–F12
+│       ├── F01 … F12                one file each, with evidence
 │       └── upstream-issues.md       drafts for cdisc-org issues
 ├── study/
 │   ├── README.md                    why TORIVA, what is used
@@ -194,7 +200,7 @@ The specification is complete and the findings are verified against pinned commi
 
 | | |
 |---|---|
-| Findings F01–F11 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected; F06–F11 new, from paper mapping |
+| Findings F01–F12 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected twice; F06–F11 new from paper mapping, F12 new from running the builder |
 | Upstream issues | Five drafted, none filed. **Recommendation is to file Issue 4 alone** — upstream's tracker has four issues in its lifetime and one active maintainer |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |

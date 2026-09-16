@@ -352,7 +352,10 @@ analysis, not to the concept, so declaring an ordering on the concept would not 
 That should be added to F07 and to upstream Issue 5 before it is filed.
 
 **B11 — the baseline flag and the baseline value are disconnected.** *New, from the builder.*
-See the addendum. Candidate for a finding; overlaps F01's output-coordination concern and F11's.
+Written up as [F12](../../docs/findings/F12-baseline-flag-and-baseline-value-are-disconnected.md),
+which adds the matching mechanism (`findDerivationsForConcept`, exact equality on output
+concept), the visit-based/date-based mismatch against SAP §12.3, and two incidentals — every
+`Flag` being interchangeable, and three demanded concepts having no producer.
 
 B7, B8 and B10 are new and belong in `docs/findings/`:
 

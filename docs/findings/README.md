@@ -16,6 +16,7 @@ Verification commands and their output are recorded in each file so any claim ca
 | [F09](F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break and cannot express a composite sort key | **New, corrected twice same day** — capability gap holds; two successive framings of its second half were withdrawn, the latter only after running the app |
 | [F10](F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** — found mapping the lab tier |
 | [F11](F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** — found mapping the lab tier |
+| [F12](F12-baseline-flag-and-baseline-value-are-disconnected.md) | The baseline flag and the baseline value are disconnected | **New** — found by running the builder |
 
 Two of the five original findings did not survive verification, and one was retired outright.
 F02 and F04 were both slated for upstream issues; filing them as originally written would
@@ -36,6 +37,11 @@ Five findings have now had a premise or fix disproved: F01, F02, F04, F07, F09. 
 F04, F05, F09 — failed the same way, by inferring something about the **application** from
 **library JSON**. Treat any claim here about what an author can do in the builder as unverified
 until the builder has been run.
+
+**F12 is the first finding produced by running the builder rather than corrected by it.** It was
+not visible from the library at all: the disconnect between `ABLFL` and `BASE` only appears when
+the pipeline asks which derivation can resolve the baseline value and `T.BaselineSelection` is
+not on the list.
 
 Pinned commits: upstream `739344ca31203bb502efeee2b855286e17977be6` (2026-06-17),
 TORIVA-LUNG 301 `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29).
