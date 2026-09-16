@@ -38,6 +38,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | — its §5 disposition table and §17 v0.4 entry | This session | AI | Not yet |
 | — its §15 actions 1 and 2 | This session, at LG's explicit direction | AI | LG directed, did not review text |
 | `tools/acdc_divergence.py` | Pre-existing, on disk at session start | LG | LG |
+| — its docstring §9 cross-reference | 2026-09-16 | AI | Not yet — see §7.5 |
 | `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
 | `docs/findings/F01`–`F08`, `README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/method.md` | This session | AI | Not yet |
@@ -223,10 +224,11 @@ but it bounds what the comparison demonstrates.
 TORIVA spec authorship. LG confirmed on 2026-09-15 that this is a personal repository.
 Resolved.
 
-**7.5 `tools/acdc_divergence.py` has a stale cross-reference.** Its docstring says it
+**7.5 `tools/acdc_divergence.py` had a stale cross-reference. Resolved.** Its docstring said it
 *"Implements sections 4.1-4.4 of the Concept Spine specification"*; the signature design is at
-§9.1–§9.4 of the current specification. Pre-existing, not introduced here. Its behaviour was
-verified against the pinned commit; only the citation is wrong.
+§9.1–§9.4. Pre-existing, not introduced by the 2026-09-15 session. Corrected on 2026-09-16 to
+cite §9.1–§9.4 and name the file. Only the citation was ever wrong; the behaviour was verified
+against the pinned commit — see §7.8.
 
 **7.6 The ADaM comparison has not been run.** `pyarrow` is not installed and no parquet has
 been read. Every claim about TORIVA derives from its markdown specifications, not its data.
@@ -240,6 +242,22 @@ the data.
 paper only. The simple tier — lab change from baseline — is untouched, and it is the one tier
 expected to compose, so the ladder is currently evidenced only at the end where it fails.
 
+**7.8 The submodule was uninitialised until 2026-09-16, and the tool output now reproduces.**
+The 2026-09-15 session left `upstream/analysis-concepts` registered but not checked out, so
+`docs/method.md`'s reproduce block would not have run for a reader following it. Initialised at
+the pinned commit `739344c` on 2026-09-16 and `tools/acdc_divergence.py --compare-naive` run
+against it. Every figure `docs/method.md` predicts holds: 60 methods, 25 transformations,
+29/60 carrying no STATO coding; 2 method clusters on the full signature
+(`M.ImputedValue_Mean`/`_Median`, `M.CumulativeCount`/`M.CumulativeFrequency`) and 3 on the
+naive signature, the largest covering 18 entries; 1 transformation cluster. That cluster is
+`T.ADAS_MissingScaleCapacity` + `T.ADAS_SumAvailableScores` at hash `152b97e6efa9` — the F03
+false positive, matching the hash quoted in that finding — and the loose signature additionally
+pulls in `T.ADAS_NonMissingCount`, also as F03 states.
+
+This is the first claim in the repository confirmed by re-running rather than by re-reading.
+It bears only on F03 and on the tool's behaviour; **it is not human review**, and every other
+finding remains unreviewed per §7.1.
+
 ---
 
 ## 8. Change log
@@ -248,3 +266,4 @@ expected to compose, so the ladder is currently evidenced only at the end where 
 |---|---|---|---|
 | 0.1 | 2026-09-15 | AI (`claude-opus-5[1m]`), unreviewed | Initial record. Covers repository creation, the F01–F06 verification pass, the §15.2 correction, and the provenance defect at §7.2 |
 | 0.2 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Reconciled against work that landed **after** v0.1 was written. v0.1 was committed at 18:33 on 2026-09-15; the ORR mapping, F07, F08 and discrepancies D3–D7 landed between 18:37 and 18:52 in the same session and were never recorded here. Updated: issue count three → five (§1, §7.1); F01–F06 → F01–F08 and the ORR mapping added to the division of labour (§2); ORR source sections and `ADRS-spec.md` added to quoted material (§3.2); `statistics_vocabulary.json` added (§3.1); §4 scoped to the inherited five with F07/F08's provenance stated separately; the ORR "less severely" row in §5 marked **disproved** and three new inference rows added; §6 given the ORR mapping row; §7.6 D1–D2 → D1–D7; §7.7 corrected from one endpoint to two |
+| 0.3 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Initialised the `upstream/analysis-concepts` submodule at the pinned commit, which the 2026-09-15 session had registered but never checked out, and reproduced `docs/method.md`'s expected tool output against it (§7.8, new). Corrected the stale §9 cross-reference in `tools/acdc_divergence.py`'s docstring and marked §7.5 resolved |

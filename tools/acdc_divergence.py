@@ -3,7 +3,7 @@
 acdc_divergence.py — signature computation and divergence detection for the
 CDISC AC/DC framework (cdisc-org/analysis-concepts).
 
-Implements sections 4.1-4.4 of the Concept Spine specification.
+Implements sections 9.1-9.4 of the Concept Spine specification (docs/specification.md).
 
 Reads methods and transformations from a checkout of the upstream repository,
 computes signature hashes, and reports clusters of entries that are functionally
