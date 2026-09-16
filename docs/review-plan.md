@@ -62,10 +62,8 @@ catches nothing of class A or D, which is precisely why the classes matter.
 
 Target: about two hours. Everything here must pass before anything is filed publicly.
 
-- [ ] **`docs/findings/upstream-issues.md` — Issue 4 text.** Read as a maintainer would.
-      Specifically: is the tone that of a collaborator reporting a gap, or an auditor reporting
-      a defect?
-- [ ] **Issue 4's restructure — done 2026-09-16, needs your judgement.** It now leads with the
+- [ ] **Issue 4's text — restructured 2026-09-16, needs your judgement.** Read it as a
+      maintainer would, in one pass, before checking any fact. It now leads with the
       requirement (ICH E9(R1) makes the population-level summary an estimand attribute; the SAP
       specifies a stratified MH risk difference; we could not express it), states the gap, and
       ends with a *Solution space — deliberately not chosen* section offering three shapes
@@ -91,8 +89,11 @@ Target: about two hours. Everything here must pass before anything is filed publ
 - [ ] **Decide: file one, or none yet.** The standing recommendation is Issue 4 alone, then
       wait. Four issues in the upstream tracker's lifetime, one active maintainer.
 
-**Exit condition:** Issue 4 restructured, its two factual halves confirmed, and a named person
-willing to post it.
+**Exit condition:** Issue 4's framing accepted or rewritten, its two factual halves confirmed
+(the upstream gap and the ICH E9(R1) reading), and a named person willing to post it.
+
+If the framing is wrong, say so and stop — the factual checks below are wasted effort on an
+issue that should not be filed in that shape.
 
 ---
 
