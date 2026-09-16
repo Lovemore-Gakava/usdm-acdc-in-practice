@@ -152,6 +152,52 @@ The CDISC Pilot's ADAS-Cog endpoint is retained as a control, since it is alread
 
 **Out of scope:** adverse events (a different shape — event observations, counts, OCCDS rather than BDS) and the remaining five ADTTE parameters.
 
+## Three tiers, three failure modes
+
+The ladder was built to vary *difficulty*. What it actually produced was one tier failing at
+each of three successive gates — and **no tier passed all three.**
+
+```mermaid
+flowchart TD
+    SAP["What the SAP specifies"]
+    SAP --> G1{"Can the model<br/>express it?"}
+
+    G1 -->|no| PFS["PFS — complex<br/>0 of 9 steps compose<br/>F06: no predicate over two variables"]
+    G1 -->|yes| G2{"Is there a transformation<br/>to author it from?"}
+
+    G2 -->|no| ORR["ORR — moderate<br/>6 of 11 compose, 0 authorable<br/>F13: 65% of methods have no entry<br/>authored chain: derivationChain []"]
+    G2 -->|yes| G3{"Does the authored chain<br/>mean what the SAP means?"}
+
+    G3 -->|no| LAB["Lab change from baseline — simple<br/>authors cleanly in 11 decisions<br/>F11 + F12: baseline ambiguous for 71%<br/>median 21% error in BASE"]
+    G3 -->|yes| OK["A chain you can trust<br/>— reached by no tier —"]
+```
+
+Read left to right, the three gates are *expressible*, *authorable*, *correct*. They are not
+the same question, and the repository spent most of its life measuring only the first.
+
+| Gate | Question | Reads | Tier that fails here |
+|---|---|---|---|
+| 1 | Can the model express it? | the **method** library | **PFS** — the FDA 2018 censoring hierarchy branches on relations between two variables, and no method carries such a predicate |
+| 2 | Can a chain be authored? | the **transformation** library and the builder | **ORR** — its five composable steps have no template, templates cannot be created, and shipped ones cannot be reconfigured |
+| 3 | Does the chain mean what the SAP means? | the **built data** | **Lab CFB** — `AnalysisVisit = Baseline` selects two records for 71% of subject × parameter groups, differing in value 96.8% of the time |
+
+Three points follow, and they are the most reusable output of this repository.
+
+**Gate 2 was invisible until a chain was authored.** ORR and PFS were both mapped as *"composes,
+partly"* against the method library. Against the authoring surface, ORR drops to zero and PFS
+drops from one step to none — because its one composing step needed `M.DateDifference`, which
+has no transformation entry. Both mappings had to be corrected after the fact. `docs/method.md`
+now separates the two surfaces explicitly.
+
+**Gate 3 is the one nothing warns you about.** Gates 1 and 2 fail loudly: a method is missing, a
+template is absent, the builder will not proceed. Gate 3 fails silently — the lab chain
+validated, serialised, reported no unresolved slots, and is wrong by a median 21% on the value
+it subtracts. Catching it took reading the built ADaM, which is a per-endpoint, per-study check
+the framework does not provide.
+
+**The failure gets quieter as the endpoint gets simpler.** That is the opposite of what the
+ladder was designed to show.
+
 ## Method
 
 Each endpoint follows the same four steps, and the directory structure enforces the order:
@@ -234,8 +280,8 @@ five composable steps have no transformation template, configurations on shipped
 not editable, and the builder cannot create a template — so the chain that can be authored
 contains no derivation at all.
 
-**Three tiers, three distinct failure modes.** PFS: the methods cannot express it. ORR: the
-methods can, and nothing wraps them. Lab: it authors cleanly and is silently under-determined.
+Three tiers, three distinct failure modes — expressible, authorable, correct — and no tier
+passed all three. See [Three tiers, three failure modes](#three-tiers-three-failure-modes).
 
 Next: **human review**, per [`docs/review-plan.md`](docs/review-plan.md) — five findings have
 had a premise or fix disproved and none has been read by a human. The plan is tiered: filing
