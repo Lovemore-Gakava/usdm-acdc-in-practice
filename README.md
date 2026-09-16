@@ -90,7 +90,7 @@ difference) is the recommended opener, being the smallest and most concrete. See
 
 | Tier | Endpoint | Estimand | Expectation |
 |---|---|---|---|
-| Simple | Laboratory change from baseline | — | Works with no new authoring. `T.BaselineSelection` and `T.ChangeFromBaseline` exist |
+| Simple | Laboratory change from baseline | — | **Mapped. Composes, and is not analysed** — the derivation fits with no new authoring; the SAP specifies no lab analysis, and the two lab tables that were built do not compose |
 | Moderate | Objective response rate | E3 / E3a | **Mapped. Half composes** — selection and per-arm summary fit; confirmation rule and risk difference do not |
 | Complex | Progression-free survival | E2 / E2a | **Mapped. Does not compose** — one of nine steps. Found the limit earlier than expected |
 
@@ -162,19 +162,22 @@ The specification is complete and the findings are verified against pinned commi
 | Upstream issues | Five drafted with a suggested filing order, none filed |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |
-| Simple tier (lab CFB) | Not started. Both transformations exist; expected to work |
+| Simple tier (lab CFB) | `mapping.md` written. **Composes — and nothing consumes it.** 4 of 8 steps outright, 3 partly; the eighth, the analysis, does not exist in the SAP |
 | Snapshot | Not started |
 
 `tools/acdc_divergence.py` is usable for methods and **not** trustworthy for transformations —
 it reports one transformation cluster at `739344c`, and that cluster is the F03 false positive.
 
-Seven discrepancies inside TORIVA itself have surfaced from mapping (D1–D7), including one that
-makes estimand E3 unimplementable as specified: `EFFFL` does not exist on ADRS. All are recorded
-in `study/source-refs.md` and left unresolved, so as not to contaminate the step-3 comparison.
+Twelve discrepancies inside TORIVA itself have surfaced from mapping (D1–D12), including one
+that makes estimand E3 unimplementable as specified (`EFFFL` does not exist on ADRS) and one
+where the SAP specifies no laboratory analysis at all, so the only statement of what the two
+built lab tables compute is the R program that computes them. All are recorded in
+`study/source-refs.md` and left unresolved, so as not to contaminate the step-3 comparison.
 
-Next: author the simple tier to calibrate the effort measurement, then author ORR's composable
-steps (2, 3, 7, 8, 9) for the first real cost figure. PFS cannot be authored until F06 is
-resolved upstream or a documented workaround is accepted.
+All three tiers are now mapped on paper. Next: author the lab tier's composable steps (4, 5, 6)
+to calibrate the effort measurement against a chain that is known to fit, then ORR's (2, 3, 7,
+8, 9) for the first real cost figure. PFS cannot be authored until F06 is resolved upstream or
+a documented workaround is accepted.
 
 ## Provenance
 

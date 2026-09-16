@@ -46,6 +46,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `study/README.md`, `study/source-refs.md` | This session | AI | Not yet |
 | `endpoints/03-complex-pfs/mapping.md` | This session | AI | Not yet |
 | `endpoints/02-moderate-orr/mapping.md` | This session, after this record was first written | AI | Not yet |
+| `endpoints/01-simple-lab-cfb/mapping.md` | 2026-09-16 | AI | Not yet |
 | `LICENSE`, `.gitignore`, `.gitmodules` | This session | AI | Not yet — see §7.4 |
 
 ---
@@ -100,8 +101,14 @@ Material quoted in this repository: SAP §4.2 (PFS definition, derivation and ce
 §13.5 and §13.6 (estimands E2 and E3 / E3a attribute tables); `programming-specs/ADTTE-spec.md`
 (parameter table, key derivation notes, `STARTDT`/`AVAL`/`CNSR` definitions); and
 `programming-specs/ADRS-spec.md` v0.3 (reader selection, denominator, confirmation rule,
-estimator notes, variable list). Quoted as short excerpts for analysis; the study is not
-redistributed.
+estimator notes, variable list); and `programming-specs/ADLB-spec.md` (variable table, baseline
+and windowing notes, shell cross-reference).
+
+The lab tier additionally quotes **source code**, which earlier tiers did not: the baseline and
+`ANL01FL` derivation block and the final `select()` of `programs/adam/adlb.R`, and the
+`nrind_order` vector and `classify()` function of `programs/tfl/t_lb_01_shift.R`. These are
+short excerpts identified by file and line, quoted for analysis under the study's CC BY 4.0
+licence; the study is not redistributed.
 
 **Material caveat on "ground truth."** `study/README.md` and the specification both justify
 choosing TORIVA on the basis that built ADaM provides ground truth. TORIVA's own
@@ -177,6 +184,8 @@ AI's reasoning from verified facts, not themselves verified:
 | The TTE gap is a **model** gap rather than a library gap (F01, B3) | Inference from output-cardinality counts. `upstream-issues.md` Issue 3 deliberately puts this to maintainers as a question rather than asserting it |
 | PFS "does not compose" | Inference from four verified primitives. No authoring was attempted, by design — the method requires paper mapping first. A sufficiently inventive encoding may exist; none is obvious |
 | ORR will hit F06 "less severely" at the BOR confirmation step | **Disproved.** Recorded here as speculation before ORR was mapped; the mapping shows ORR hits the same blocker on its *primary* derivation. The prediction is left visible in `endpoints/03-complex-pfs/mapping.md` rather than deleted |
+| The SAP specifies no laboratory analysis | Established by exhaustive search, not inference: `ADLB` occurs six times in the 626-line SAP, all in §12.2/§12.3, plus one §7 row. That the *absence* is a defect rather than a scoping decision is the inference (D11) |
+| The lab tier "composes, and is not analysed" | Inference of the same kind as the PFS and ORR rows. What is verified: the transformations and their configurations, and that no lab TFL reads `CHG`/`PCHG`/`BASE` |
 | ORR "half composes" — 6 of 11 steps | Inference of the same kind as the PFS row. The primitives and their configurations are verified; that the remaining five steps have no encoding is argued, not proven |
 | Reporting an odds ratio where the estimand specifies a risk difference "answers a different question" (F08) | Inference. The absence of a difference-of-proportions statistic is verified by search; that the substitution is not an approximation is a reading of ICH E9(R1) |
 | `best` being undeclared "produces opposite results" for two identical chains (F07) | Inference. The enum value, the absent direction configuration and the `decimal` dataType are verified; the consequence is argued |
@@ -194,9 +203,10 @@ AI's reasoning from verified facts, not themselves verified:
 | `docs/method.md` | How the findings were verified, and why that step exists |
 | `tools/check_consistency.py` | Enforces the counted claims in this record against the filesystem |
 | `docs/findings/` | The findings themselves, each with its evidence |
-| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the seven discrepancies found inside TORIVA (D1–D7) |
+| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the twelve discrepancies found inside TORIVA (D1–D12) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |
 | `endpoints/02-moderate-orr/mapping.md` | Step 1 of the method for the moderate tier; source of F07, F08 and D3–D7 |
+| `endpoints/01-simple-lab-cfb/mapping.md` | Step 1 of the method for the simple tier; source of D8–D12 |
 | TORIVA `sap/SAP-PROVENANCE.md` | Provenance of the source SAP. Relevant to §3.2 |
 
 ---
@@ -234,15 +244,21 @@ against the pinned commit — see §7.8.
 
 **7.6 The ADaM comparison has not been run.** `pyarrow` is not installed and no parquet has
 been read. Every claim about TORIVA derives from its markdown specifications, not its data.
-Discrepancies D1–D7 in `study/source-refs.md` are recorded as **open** precisely because
-resolving them by inspection before authoring would contaminate step 3 of the method. D7 is the
-sharpest of them — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable against
-the built ADaM as specified — and it too is asserted from the markdown specification, not from
-the data.
+Discrepancies D1–D12 in `study/source-refs.md` are recorded as **open** precisely because
+resolving them by inspection before authoring would contaminate step 3 of the method. D7 and
+D11 are the sharpest — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable
+against the built ADaM as specified; and the SAP specifies no laboratory analysis at all, so
+the only statement of what the two built lab tables compute is the R program that computes
+them. D8–D12 are the first discrepancies here established partly from **source code**
+(`programs/adam/adlb.R`, `programs/tfl/t_lb_01_shift.R`) rather than from specification prose,
+which is a stronger class of evidence than the earlier seven rest on — but still not the built
+data.
 
-**7.7 Two of the three endpoints have been mapped.** PFS (complex) and ORR (moderate), both on
-paper only. The simple tier — lab change from baseline — is untouched, and it is the one tier
-expected to compose, so the ladder is currently evidenced only at the end where it fails.
+**7.7 All three endpoints are mapped, and none is authored.** PFS (complex), ORR (moderate) and
+lab change from baseline (simple), all on paper only. Step 1 of the method is complete for the
+ladder; steps 2–4 have not begun for any tier, so **there is still no authoring-cost figure**,
+which was the measurement Part A exists to produce. See §7.9 on why the figure is harder to
+obtain than the specification assumed.
 
 **7.8 The submodule was uninitialised until 2026-09-16, and the tool output now reproduces.**
 The 2026-09-15 session left `upstream/analysis-concepts` registered but not checked out, so
@@ -260,6 +276,34 @@ This is the first claim in the repository confirmed by re-running rather than by
 It bears only on F03 and on the tool's behaviour; **it is not human review**, and every other
 finding remains unreviewed per §7.1.
 
+**7.9 The authoring-cost measurement, as specified, cannot be produced by this process.**
+Specification §6.1 makes the cost per tier Part A's most valuable output, and the method's step
+2 defines it operationally: *"Author each tier in the eSAP builder, recording elapsed time and
+every point where a decision was needed."*
+
+The elapsed time of an AI model hand-writing a scenario file is not a measurement of anything a
+sponsor would plan against. It is not a statistician's time, it is not wizard time, and it does
+not scale the way either does. Recording it as though it were the §6.1 figure would produce a
+number that looks like evidence and is not — the failure mode this repository exists to avoid.
+
+Two things can honestly be produced, and neither is a substitute for a timed human session:
+
+- **Decision points**, which step 2 already asks for. Every place the SAP underdetermines the
+  chain and an author must choose — the unbound `VisitDimension` on `T.BaselineSelection`, the
+  undeclared `tieBreak` code, whether an enumerated window array is truncated — is countable,
+  reproducible, and independent of who is authoring.
+- **Structural cost**: transformations instantiated, bindings resolved, configurations set,
+  and how many of those are forced by the SAP versus chosen by the author.
+
+Both are properties of the chain rather than of the person, which makes them comparable across
+tiers — the comparison §6.1 actually wants. Neither answers "how many hours". That question
+needs a statistician in the builder with a stopwatch, and this repository should say so rather
+than emit a proxy.
+
+The three paper mappings already yield the decision-point count without any authoring, which is
+worth noting: for PFS it is moot (nothing composes), for ORR and the lab tier it is small and
+recorded in each `mapping.md`.
+
 ---
 
 ## 8. Change log
@@ -269,3 +313,4 @@ finding remains unreviewed per §7.1.
 | 0.1 | 2026-09-15 | AI (`claude-opus-5[1m]`), unreviewed | Initial record. Covers repository creation, the F01–F06 verification pass, the §15.2 correction, and the provenance defect at §7.2 |
 | 0.2 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Reconciled against work that landed **after** v0.1 was written. v0.1 was committed at 18:33 on 2026-09-15; the ORR mapping, F07, F08 and discrepancies D3–D7 landed between 18:37 and 18:52 in the same session and were never recorded here. Updated: issue count three → five (§1, §7.1); F01–F06 → F01–F08 and the ORR mapping added to the division of labour (§2); ORR source sections and `ADRS-spec.md` added to quoted material (§3.2); `statistics_vocabulary.json` added (§3.1); §4 scoped to the inherited five with F07/F08's provenance stated separately; the ORR "less severely" row in §5 marked **disproved** and three new inference rows added; §6 given the ORR mapping row; §7.6 D1–D2 → D1–D7; §7.7 corrected from one endpoint to two |
 | 0.3 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Initialised the `upstream/analysis-concepts` submodule at the pinned commit, which the 2026-09-15 session had registered but never checked out, and reproduced `docs/method.md`'s expected tool output against it (§7.8, new). Corrected the stale §9 cross-reference in `tools/acdc_divergence.py`'s docstring and marked §7.5 resolved |
+| 0.4 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Simple tier mapped on paper (`endpoints/01-simple-lab-cfb/mapping.md`), completing step 1 for the ladder. Five discrepancies added (D8–D12), the first established partly from TORIVA's **source code** rather than its specification prose. §7.7 rewritten: all three endpoints mapped, none authored, still no cost figure. §7.9 added — the cost measurement as specified in §6.1 cannot honestly be produced by this process, and what can be produced instead |
