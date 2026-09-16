@@ -10,14 +10,30 @@ FOR REGULATORY USE* banner.
 
 | Section | State |
 |---|---|
+| [Title Page](section-00-title-page.md) | **done** |
 | [§3 Objectives, Endpoints and Estimands](section-03-objectives-endpoints.md) | **done** |
-| Title page — the 6 missing Required elements | not started |
-| §12.1 Clinical Laboratory Tests | not started |
-| `study/usdm/` regenerated from these | not started |
+| [§12.1 Clinical Laboratory Tests](section-12-01-clinical-laboratory-tests.md) | **done** |
+| `study/usdm/` regenerated from these | **done** |
 
-Stage 0b is not green until all four are done. A restructured section that nothing downstream
-consumes would leave the USDM fragment still transcribed from prose, which is the thing 0b
-exists to fix.
+**Stage 0b complete.**
+
+## What regeneration actually bought
+
+`study/usdm/toriva-lung-301.usdm.json` went from **one `Estimand` to six**. In stage 1 only OS
+could be authored, and its description had to say *"sourced from the SAP, not the protocol"*.
+Now every objective has an estimand whose `populationSummary`, `analysisPopulationId` and
+`intercurrentEvents` derive from M11 protocol §3.1.1/§3.2.x, and two further
+`AnalysisPopulation` objects — Response Evaluable and Confirmed Responders — became derivable
+because §3 names the populations per estimand.
+
+That is the whole argument for doing 0b before 1 rather than after: USDM's `Estimand` class has
+a natural source only once the protocol carries the estimand. Verified by loading the
+regenerated fragment in `ac-dc-app` — study listed, all six endpoints rendered under their
+objectives — and the submodule reverted afterwards.
+
+**Still absent, and correctly so:** no laboratory estimand (D11). `Estimand_E6` carries the AE
+summaries and states in its own `populationSummary` that no laboratory summary is specified in
+either source document.
 
 ## The rule this follows
 

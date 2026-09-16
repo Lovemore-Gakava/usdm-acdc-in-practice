@@ -47,7 +47,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `NORTH.md` | 2026-09-16 | Destination sentence: **LG**. Finish line, test and prose: AI | Destination confirmed by LG |
 | `study/usdm/toriva-lung-301.usdm.json`, `study/usdm/README.md` | 2026-09-16 | AI, from TORIVA's protocol synopsis and SAP §2 | Not yet |
 | `study/m11/protocol-to-m11.md` | 2026-09-16 | AI, from the merged electronic ICH M11 v0.17.0 and TORIVA's protocol synopsis | Not yet |
-| `study/m11/protocol/section-03-objectives-endpoints.md`, `study/m11/protocol/README.md` | 2026-09-16 | AI. **A derived work** — TORIVA's protocol §2/§6 and SAP §13 restructured to M11 §3. No estimand content invented; every attribute transcribed and cited | Not yet |
+| `study/m11/protocol/section-00-title-page.md`, `study/m11/protocol/section-03-objectives-endpoints.md`, `study/m11/protocol/section-12-01-clinical-laboratory-tests.md`, `study/m11/protocol/README.md` | 2026-09-16 | AI. **A derived work** — TORIVA's protocol §2/§6 and SAP §13 restructured to M11 §3. No estimand content invented; every attribute transcribed and cited | Not yet |
 | `CLAUDE.md` | 2026-09-16 | AI | Not yet |
 | — Issues 1–5 restructured requirement-first | 2026-09-16 | AI | Not yet — Issue 4 is a Tier 1 item, the rest Tier 2 |
 | `docs/method.md` | This session | AI | Not yet |

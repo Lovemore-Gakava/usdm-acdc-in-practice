@@ -25,7 +25,7 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 | # | Stage | Status |
 |---|---|---|
 | 0 | Protocol mapped to ICH M11 elements | ✓ |
-| 0b | Protocol restructured to M11, USDM regenerated from it | ✗ |
+| 0b | Protocol restructured to M11, USDM regenerated from it | ✓ |
 | 1 | USDM fragments hand-authored | ✓ |
 | 2 | BC linked on the chain's terminals | ✗ |
 | 3 | DC — derivation authored | ✓ |
@@ -51,10 +51,11 @@ LG's direction. Stage 0 mapped the protocol and found the estimands in the wrong
 protocol *and* `study/usdm/` regenerated from it, because a restructured section nothing
 consumes leaves stage 1's fragment still transcribed from prose.
 
-Progress: **§3 done** (`study/m11/protocol/section-03-objectives-endpoints.md`) — all thirty
-previously-missing required estimand elements now present, transcribed from SAP §13, not
-invented. Remaining: the six title-page elements, the §12.1 analyte list, and the USDM
-regeneration.
+**Done 2026-09-16.** §3 carries all thirty previously-missing required estimand elements;
+the title page and §12.1 are restructured with their gaps recorded rather than filled; and
+`study/usdm/` is **regenerated from** the M11 protocol. The payoff is concrete: the USDM
+fragment went from **one estimand to six**, because M11 §3 supplies what SAP §13 held and the
+protocol had omitted.
 
 **Stage 0 — protocol mapped to ICH M11 elements. Done 2026-09-16.**
 [`study/m11/protocol-to-m11.md`](study/m11/protocol-to-m11.md). The headline: **M11 §3.1.1

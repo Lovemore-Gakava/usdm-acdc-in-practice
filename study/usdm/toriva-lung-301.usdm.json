@@ -13,7 +13,7 @@
       {
         "id": "StudyVersion_1",
         "versionIdentifier": "1.1",
-        "rationale": "Hand-authored USDM v4 fragment covering the objective/endpoint hierarchy and the laboratory biomedical concepts, for taking one endpoint through the AC/DC chain. Not a full study definition: no schedule of activities, no eligibility criteria, no interventions beyond the arms.",
+        "rationale": "Hand-authored USDM v4 fragment. REGENERATED 2026-09-16 from the ICH M11-restructured protocol in study/m11/protocol/ rather than transcribed from prose: objectives and endpoints from section-03-objectives-endpoints.md, study identity from section-00-title-page.md, laboratory BCs from section-12-01-clinical-laboratory-tests.md. Estimands now derive from M11 protocol 3.1.1 and 3.2.1, where M11 requires them, rather than from SAP 13. Not a full study definition: no schedule of activities, no eligibility criteria, no interventions beyond the arms.",
         "instanceType": "StudyVersion",
         "studyIdentifiers": [
           {
@@ -347,7 +347,7 @@
                     "name": "END-OS",
                     "label": "Overall Survival",
                     "text": "Time from randomisation to death from any cause. Subjects not known to have died at data cut-off are censored at the date last known alive.",
-                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.1.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.1. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Primary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -383,7 +383,7 @@
                     "name": "END-PFS",
                     "label": "Progression-Free Survival",
                     "text": "Time from randomisation to the first documented disease progression per RECIST 1.1 (BICR) or death from any cause, whichever occurs first. Subjects without progression or death are censored at the last adequate tumour assessment.",
-                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.2.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.2. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -419,7 +419,7 @@
                     "name": "END-ORR",
                     "label": "Objective Response Rate",
                     "text": "Proportion of subjects with best overall response of CR or PR.",
-                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.3.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.3. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -455,7 +455,7 @@
                     "name": "END-DOR",
                     "label": "Duration of Response",
                     "text": "Time from first documented CR or PR to first documented disease progression or death from any cause, in responding subjects.",
-                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.4.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.4. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -491,7 +491,7 @@
                     "name": "END-DCR",
                     "label": "Disease Control Rate",
                     "text": "Proportion of subjects with best overall response of CR, PR, or SD maintained for at least 8 weeks.",
-                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.5.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.5. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -527,7 +527,7 @@
                     "name": "END-S5-LAB",
                     "label": "Safety - laboratory evaluations",
                     "text": "Laboratory evaluations: haematology and chemistry parameters, analysed as change from baseline and as shifts in reference-range indicator. Baseline is the last non-missing value on or before first dose (SAP section 12.3).",
-                    "description": "The protocol names Safety as a key secondary endpoint and section 7.2 schedules laboratory assessments. The SAP does NOT define a laboratory analysis: ADLB appears only in the data-handling conventions (sections 12.2, 12.3 and 7), and the three safety estimands in section 13.7 are all adverse-event based. This endpoint is therefore authored from the protocol, not from the SAP, and that gap is recorded as discrepancy D11.",
+                    "description": "The protocol names Safety as a key secondary endpoint and section 7.2 schedules laboratory assessments. The SAP does NOT define a laboratory analysis: ADLB appears only in the data-handling conventions (sections 12.2, 12.3 and 7), and the three safety estimands in section 13.7 are all adverse-event based. This endpoint is therefore authored from the protocol, not from the SAP, and that gap is recorded as discrepancy D11. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary safety",
                     "instanceType": "Endpoint",
                     "level": {
@@ -555,10 +555,10 @@
               {
                 "id": "Estimand_E1",
                 "name": "E1",
-                "label": "E1 - Overall Survival, primary",
-                "description": "SAP section 13.4. SOURCED FROM THE SAP, NOT THE PROTOCOL: TORIVA's protocol defers estimand definition to the SAP (synopsis line 834 lists 'Define estimands per ICH E9(R1)' as an SAP deliverable), so this is the only object in this fragment the protocol could not supply. ICH E9(R1) intends estimands to be pre-specified in the protocol, and USDM models Estimand as study-definition content, so this is a document-structure choice of the source study.",
+                "label": "E1 - OS",
                 "instanceType": "Estimand",
-                "populationSummary": "Hazard ratio (torivumab / placebo) from a stratified Cox model, with 95% CI; median OS per arm by Kaplan-Meier.",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md section 3.1.1, where ICH M11 requires the estimand attributes. The source protocol omitted them; SAP section 13 held them. See study/m11/protocol/README.md.",
+                "populationSummary": "Stratified hazard ratio (torivumab / placebo) with 95% CI; strata = histology (squamous/non-squamous) x region (NA/EU/APAC). Supplementary KM medians and 12/18/24-month survival probabilities per arm.",
                 "analysisPopulationId": "AnalysisPopulation_ITT",
                 "variableOfInterestId": "Endpoint_OS",
                 "interventionIds": [
@@ -566,11 +566,126 @@
                 ],
                 "intercurrentEvents": [
                   {
-                    "id": "IntercurrentEvent_E1_1",
-                    "name": "SUBSEQUENT-THERAPY",
-                    "label": "Subsequent anti-cancer therapy",
-                    "description": "Subsequent anti-cancer therapy after discontinuation of study treatment.",
-                    "text": "Treatment policy: events are included regardless of subsequent therapy.",
+                    "id": "IntercurrentEvent_E1",
+                    "name": "E1-IE",
+                    "label": "Treatment policy",
+                    "description": "Treatment discontinuation (any reason); initiation of subsequent anti-cancer therapy; palliative care. Death is the event, not an intercurrent event. Withdrawal of survival consent censors at withdrawal date.",
+                    "text": "Treatment policy",
+                    "instanceType": "IntercurrentEvent"
+                  }
+                ]
+              },
+              {
+                "id": "Estimand_E2",
+                "name": "E2",
+                "label": "E2 - PFS",
+                "instanceType": "Estimand",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md section 3.2.1, where ICH M11 requires the estimand attributes. The source protocol omitted them; SAP section 13 held them. See study/m11/protocol/README.md.",
+                "populationSummary": "Stratified hazard ratio with 95% CI; strata = histology x region.",
+                "analysisPopulationId": "AnalysisPopulation_ITT",
+                "variableOfInterestId": "Endpoint_PFS",
+                "interventionIds": [
+                  "StudyArm_1"
+                ],
+                "intercurrentEvents": [
+                  {
+                    "id": "IntercurrentEvent_E2",
+                    "name": "E2-IE",
+                    "label": "Treatment policy for treatment discontinuation; Hypothetical for subsequent therapy, missed assessments and no post-baseline assessment",
+                    "description": "Subsequent anti-cancer therapy censors at last adequate assessment before therapy. Two or more consecutive missed scheduled assessments censor at last adequate assessment before the gap. No post-baseline assessment censors at randomisation.",
+                    "text": "Treatment policy for treatment discontinuation; Hypothetical for subsequent therapy, missed assessments and no post-baseline assessment",
+                    "instanceType": "IntercurrentEvent"
+                  }
+                ]
+              },
+              {
+                "id": "Estimand_E3",
+                "name": "E3",
+                "label": "E3 - ORR",
+                "instanceType": "Estimand",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md section 3.2.2, where ICH M11 requires the estimand attributes. The source protocol omitted them; SAP section 13 held them. See study/m11/protocol/README.md.",
+                "populationSummary": "Stratified Mantel-Haenszel risk difference (torivumab - placebo) with 95% CI; strata = histology x region. Supplementary per-arm Clopper-Pearson exact 95% CI.",
+                "analysisPopulationId": "AnalysisPopulation_RESPEVAL",
+                "variableOfInterestId": "Endpoint_ORR",
+                "interventionIds": [
+                  "StudyArm_1"
+                ],
+                "intercurrentEvents": [
+                  {
+                    "id": "IntercurrentEvent_E3",
+                    "name": "E3-IE",
+                    "label": "Composite",
+                    "description": "No post-baseline assessment, treatment discontinuation before adequate assessment, subsequent anti-cancer therapy before adequate assessment, and death before first response assessment all count the subject as a non-responder.",
+                    "text": "Composite",
+                    "instanceType": "IntercurrentEvent"
+                  }
+                ]
+              },
+              {
+                "id": "Estimand_E4",
+                "name": "E4",
+                "label": "E4 - DOR",
+                "instanceType": "Estimand",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md section 3.2.3, where ICH M11 requires the estimand attributes. The source protocol omitted them; SAP section 13 held them. See study/m11/protocol/README.md.",
+                "populationSummary": "Kaplan-Meier median per arm with 95% CI. No formal between-arm test; descriptive.",
+                "analysisPopulationId": "AnalysisPopulation_RESPONDER",
+                "variableOfInterestId": "Endpoint_DOR",
+                "interventionIds": [
+                  "StudyArm_1"
+                ],
+                "intercurrentEvents": [
+                  {
+                    "id": "IntercurrentEvent_E4",
+                    "name": "E4-IE",
+                    "label": "Hypothetical",
+                    "description": "Subsequent anti-cancer therapy and two or more consecutive missed assessments censor as for PFS.",
+                    "text": "Hypothetical",
+                    "instanceType": "IntercurrentEvent"
+                  }
+                ]
+              },
+              {
+                "id": "Estimand_E5",
+                "name": "E5",
+                "label": "E5 - DCR",
+                "instanceType": "Estimand",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md section 3.2.4, where ICH M11 requires the estimand attributes. The source protocol omitted them; SAP section 13 held them. See study/m11/protocol/README.md.",
+                "populationSummary": "Stratified Mantel-Haenszel risk difference with 95% CI, as ORR.",
+                "analysisPopulationId": "AnalysisPopulation_RESPEVAL",
+                "variableOfInterestId": "Endpoint_DCR",
+                "interventionIds": [
+                  "StudyArm_1"
+                ],
+                "intercurrentEvents": [
+                  {
+                    "id": "IntercurrentEvent_E5",
+                    "name": "E5-IE",
+                    "label": "Composite",
+                    "description": "As ORR.",
+                    "text": "Composite",
+                    "instanceType": "IntercurrentEvent"
+                  }
+                ]
+              },
+              {
+                "id": "Estimand_E6",
+                "name": "E6",
+                "label": "E6 - SAFETY",
+                "instanceType": "Estimand",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md section 3.2.5, where ICH M11 requires the estimand attributes. The source protocol omitted them; SAP section 13 held them. See study/m11/protocol/README.md.",
+                "populationSummary": "Descriptive. n (%) per arm for incidence; events per 100 patient-years for exposure-adjusted rates; KM for irAE time-to-onset and time-to-resolution. NO LABORATORY SUMMARY IS SPECIFIED IN EITHER SOURCE DOCUMENT - see discrepancy D11.",
+                "analysisPopulationId": "AnalysisPopulation_SAF",
+                "variableOfInterestId": "Endpoint_SAFETY_LAB",
+                "interventionIds": [
+                  "StudyArm_1"
+                ],
+                "intercurrentEvents": [
+                  {
+                    "id": "IntercurrentEvent_E6",
+                    "name": "E6-IE",
+                    "label": "Treatment policy for TEAE incidence; While-on-treatment for exposure-adjusted rates",
+                    "description": "Treatment discontinuation; initiation of new anti-cancer therapy, after which AE collection ceases.",
+                    "text": "Treatment policy for TEAE incidence; While-on-treatment for exposure-adjusted rates",
                     "instanceType": "IntercurrentEvent"
                   }
                 ]
@@ -591,6 +706,22 @@
                 "label": "Safety",
                 "text": "All subjects who received at least one dose of study treatment, analysed by actual arm received.",
                 "description": "SAP section 3. This is the population for the laboratory endpoint.",
+                "instanceType": "AnalysisPopulation"
+              },
+              {
+                "id": "AnalysisPopulation_RESPEVAL",
+                "name": "RESPEVAL",
+                "label": "Response Evaluable",
+                "text": "ITT with at least one post-baseline tumour assessment, or clinical progression before first assessment (EFFFL = Y on ADRS). SAP section 13.6.",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md.",
+                "instanceType": "AnalysisPopulation"
+              },
+              {
+                "id": "AnalysisPopulation_RESPONDER",
+                "name": "RESPONDER",
+                "label": "Confirmed responders",
+                "text": "Confirmed responders only, a subset of Response Evaluable. SAP section 13.7.",
+                "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md.",
                 "instanceType": "AnalysisPopulation"
               }
             ],

@@ -1,6 +1,12 @@
 # Hand-authored USDM v4 fragments
 
-`NORTH.md` **stage 1**. Authored 2026-09-16, and loaded successfully in `ac-dc-app`.
+`NORTH.md` **stage 1**, then **regenerated under stage 0b**. Authored 2026-09-16 from prose,
+regenerated the same day from the ICH M11-restructured protocol in `study/m11/protocol/`.
+Loaded successfully in `ac-dc-app` both times.
+
+**The regeneration took the fragment from one `Estimand` to six**, and added two
+`AnalysisPopulation` objects, because M11 §3 puts the estimand attributes in the protocol where
+USDM can source them. See [`../m11/protocol/README.md`](../m11/protocol/README.md).
 
 `toriva-lung-301.usdm.json` — TORIVA-LUNG 301's objective and endpoint hierarchy, arms,
 population, one estimand, and the seven laboratory biomedical concepts.
