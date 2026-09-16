@@ -158,19 +158,21 @@ The ladder was built to vary *difficulty*. What it actually produced was one tie
 each of three successive gates — and **no tier passed all three.**
 
 ```mermaid
-flowchart LR
-    SAP["What the SAP<br/>specifies"] --> G1{"Can the model<br/>express it?"}
-    G1 -->|yes| G2{"Is there a transformation<br/>to author it from?"}
-    G2 -->|yes| G3{"Does the chain mean<br/>what the SAP means?"}
-    G3 -->|yes| OK["A chain you can trust<br/>reached by no tier"]
+flowchart TD
+    SAP["What the SAP specifies"] --> G1{"Can the model<br/>express it?"}
 
     G1 -->|no| PFS["PFS &mdash; complex<br/>0 of 9 steps compose<br/>F06: no two-variable predicate"]
-    G2 -->|no| ORR["ORR &mdash; moderate<br/>6 of 11 compose<br/>0 authorable<br/>F13: 65% of methods unwrapped"]
-    G3 -->|no| LAB["Lab CFB &mdash; simple<br/>authors in 11 decisions<br/>baseline ambiguous for 71%<br/>F11 + F12: median 21% error"]
+    G1 -->|yes| G2{"Is there a transformation<br/>to author it from?"}
+
+    G2 -->|no| ORR["ORR &mdash; moderate<br/>6 of 11 compose, 0 authorable<br/>F13: 65% of methods unwrapped"]
+    G2 -->|yes| G3{"Does the chain mean<br/>what the SAP means?"}
+
+    G3 -->|no| LAB["Lab CFB &mdash; simple<br/>authors in 11 decisions<br/>F11 + F12: median 21% error"]
+    G3 -->|yes| OK["A chain you can trust<br/>reached by no tier"]
 ```
 
-Read left to right, the three gates are *expressible*, *authorable*, *correct*. They are not
-the same question, and the repository spent most of its life measuring only the first.
+Top to bottom, the three gates are *expressible*, *authorable*, *correct*. They are not the same
+question, and the repository spent most of its life measuring only the first.
 
 | Gate | Question | Reads | Tier that fails here |
 |---|---|---|---|
