@@ -8,6 +8,13 @@ on paper rather than from inspecting the libraries. **The first does not survive
 [F02](F02-time-event-role-collision.md); there is no `censoring` role. It is replaced below
 by the role-collision issue, which is the defensible part of the same concern.
 
+**Issue 4 was restructured on 2026-09-16 to lead with the requirement**, after reading issue #9
+on the upstream tracker (see the repository-state section below): its body records the
+maintainer rejecting an issue that *"specified solution choices before the requirements were
+stated"*, and noting that the first round of work followed those choices in the wrong direction.
+Issues 1, 2, 3 and 5 still lead with a **Suggestion** and need the same treatment before they
+are filed.
+
 **Issues 3 and 5 were both rewritten on 2026-09-16**, after the lab tier disproved a premise in
 each. Issue 3 previously asserted that every derivation method declares exactly one output
 class, which is false — `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and
@@ -151,10 +158,27 @@ the `T.` entries once the shape is settled.
 
 ---
 
-## Issue 4 — No difference-of-proportions statistic exists
+## Issue 4 — An estimand's population-level summary cannot always be expressed
 
-**Type:** statistics vocabulary / method gap
-**Motivating case:** ORR with a Mantel–Haenszel risk difference summary
+**Scope:** estimand summary measures, for binary endpoints
+**Motivating case:** objective response rate on a Phase 3 oncology trial
+
+### The requirement
+
+ICH E9(R1) makes the **population-level summary** one of the five attributes of an estimand,
+alongside population, variable, treatment and intercurrent-event handling. An eSAP that binds
+to USDM `Estimand` as a first-class class should therefore be able to state that attribute for
+the estimands a study actually specifies.
+
+For a binary endpoint, the summary a protocol specifies is commonly a **difference of
+proportions** — a risk difference, usually Mantel–Haenszel and stratified, with a confidence
+interval. On the study we mapped, that is what the SAP specifies for ORR in both §5.3 and
+§13.6: *"Stratified Mantel–Haenszel risk difference (torivumab − placebo) with 95% CI; strata =
+histology × region."*
+
+We could not express it.
+
+### What the libraries provide today
 
 `M.CMH` declares three output classes:
 
@@ -164,52 +188,59 @@ the `T.` entries once the shape is settled.
 | `association_measures` | `odds_ratio`, `CI_lower`, `CI_upper` |
 | `homogeneity_test` | `chi_squared`, `p_value`, `df` |
 
-It yields an odds ratio. There is no risk difference, and no other method supplies one. The
-proportion-related entries in `model/method/statistics_vocabulary.json` are `proportion`, `pct`,
-`cumulative_pct`, `odds_ratio` and `n_risk` — no difference of proportions, no risk difference,
-no rate difference.
+The association measure is an odds ratio. The proportion-related entries in
+`model/method/statistics_vocabulary.json` are `proportion`, `pct`, `cumulative_pct`,
+`odds_ratio` and `n_risk`. Searching `lib/` and `model/` for `risk_difference`,
+`rate_difference` and equivalents returns nothing.
 
-A stratified Mantel–Haenszel **risk difference** with 95% CI is a routine population-level
-summary for a binary endpoint, and it is what the study we mapped specifies for objective
-response rate. Reporting the odds ratio instead is not an approximation: under ICH E9(R1) the
-population-level summary is an attribute of the estimand, so the two answer different questions.
-Since the framework binds to USDM `Estimand` as a first-class class, this is arguably something
-the model should be able to detect and report rather than something an author silently works
-around.
+`M.Proportion` covers the per-arm side well — `proportion`, `pct`, `CI_lower`, `CI_upper`, with
+a `ci_method` configuration offering `exact_clopper_pearson`, `wilson`, `wald`, `agresti_coull`
+and `jeffreys`. It does not contrast groups.
 
-`M.Proportion` covers the per-arm side well — `proportion`, `pct`, `CI_lower`, `CI_upper`, with a
-`ci_method` configuration offering `exact_clopper_pearson`, `wilson`, `wald`, `agresti_coull` and
-`jeffreys`. It simply does not contrast groups.
+### Why the odds ratio is not a substitute
 
-### The term already ships in this repository
+Reporting an odds ratio where the estimand specifies a risk difference is not an approximation
+of the same quantity — for a common binary outcome the two diverge substantially, and under
+ICH E9(R1) the summary measure is part of what the estimand *is*. An author who substitutes has
+answered a different question, and nothing in the metadata records that they did.
 
-`neo4j/data/metadata/stato/stato.owl` carries:
+That is the part we think is interesting for this framework specifically. Since the model binds
+to `Estimand` directly, an estimand whose declared summary has no expressible statistic looks
+like something the model could **detect and report**, rather than something an author works
+around silently at authoring time.
 
-```
-http://purl.obolibrary.org/obo/STATO_0000424   rdfs:label "risk difference"
-http://purl.obolibrary.org/obo/STATO_0000626   rdfs:label "relative risk difference"
-```
+### Two things that may make this cheaper than it looks
 
-and methods are already coded against that system — `M.CMH` carries
-`{ "system": "http://purl.obolibrary.org/obo/stato", "code": "STATO_0000074" }`. So the
-vocabulary entry has an obvious coding and needs no new ontology work.
+Offered as information, not as a proposal.
 
-### It also bears on work in progress
+**The term already ships here.** `neo4j/data/metadata/stato/stato.owl` carries
+`STATO_0000424 "risk difference"` (and `STATO_0000626 "relative risk difference"`), and methods
+are already coded against that system — `M.CMH` carries
+`{ "system": "http://purl.obolibrary.org/obo/stato", "code": "STATO_0000074" }`.
 
-The `estimands_01` branch adds `SP_SUMMARY_MEASURE` — `role: "summary_measure"`,
-`phrase_template: "summarised as {summary}"` — giving the estimand's population-level summary a
-phrase slot. For the study we mapped, the value that slot needs to name is a statistic the
-vocabulary cannot express.
+**It touches work in progress.** The `estimands_01` branch adds `SP_SUMMARY_MEASURE`
+(`role: "summary_measure"`, `phrase_template: "summarised as {summary}"`), giving the
+population-level summary a phrase slot. For the study we mapped, the value that slot needs to
+name is a statistic the vocabulary cannot currently express.
 
-**Suggestion.** Add a difference-of-proportions statistic to the vocabulary, coded
-`STATO_0000424`, and either extend `M.CMH`'s `association_measures` output class or add a
-companion method for the stratified difference. This looks like the smallest and most
-self-contained of the gaps reported here.
+### Solution space — deliberately not chosen
 
-**Related, minor:** neither `M.CMH` nor `M.Proportion` has a transformation entry. The only
-responder analysis transformation is `T.Responder_ChiSq`, which uses `M.ChiSquaredTest` and binds
-`response` to concept `Flag` as an input — the same already-derived shape as `T.OS_LogRank` in
-Issue 3. That is ordinary library work rather than a model gap, since the methods exist.
+There is more than one reasonable shape and we would rather not presume which:
+
+- a statistic added to the vocabulary, with `M.CMH`'s `association_measures` extended;
+- a companion method for the stratified difference of proportions;
+- something else entirely, if summary measures are meant to be modelled differently from test
+  results.
+
+We are happy to contribute the entry once the shape is settled, and happy to be told this is
+already planned.
+
+### Related, minor
+
+Neither `M.CMH` nor `M.Proportion` has a transformation entry. The only responder analysis
+transformation is `T.Responder_ChiSq`, which uses `M.ChiSquaredTest` and binds `response` to
+concept `Flag` as an input — the same already-derived shape as `T.OS_LogRank` in Issue 3.
+Mentioned only because it came up while mapping the same endpoint.
 
 ---
 

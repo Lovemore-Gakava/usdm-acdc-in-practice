@@ -65,10 +65,15 @@ Target: about two hours. Everything here must pass before anything is filed publ
 - [ ] **`docs/findings/upstream-issues.md` — Issue 4 text.** Read as a maintainer would.
       Specifically: is the tone that of a collaborator reporting a gap, or an auditor reporting
       a defect?
-- [ ] **Restructure Issue 4 to lead with the requirement, not the suggestion.** Issue #9 on the
-      upstream tracker records the maintainer rejecting an issue that *"specified solution
-      choices before the requirements were stated"*. Every draft here leads with a
-      **Suggestion**. This is the single highest-value edit in the plan.
+- [ ] **Issue 4's restructure — done 2026-09-16, needs your judgement.** It now leads with the
+      requirement (ICH E9(R1) makes the population-level summary an estimand attribute; the SAP
+      specifies a stratified MH risk difference; we could not express it), states the gap, and
+      ends with a *Solution space — deliberately not chosen* section offering three shapes
+      without picking one. Written that way after issue #9 on the upstream tracker, whose body
+      records the maintainer rejecting an issue that *"specified solution choices before the
+      requirements were stated"*. **Check it reads as a collaborator asking, not an auditor
+      reporting.** Issues 1, 2, 3 and 5 still lead with a **Suggestion** and need the same
+      treatment before they are filed.
 - [ ] **`F08` — the upstream half.** Re-run the search: no difference-of-proportions statistic
       in `statistics_vocabulary.json`, `M.CMH` yields an odds ratio. Mechanical, ten minutes.
 - [ ] **`F08` — the ICH E9(R1) reading.** *Needs a statistician.* The claim is that substituting
