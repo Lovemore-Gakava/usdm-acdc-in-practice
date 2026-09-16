@@ -8,12 +8,16 @@ on paper rather than from inspecting the libraries. **The first does not survive
 [F02](F02-time-event-role-collision.md); there is no `censoring` role. It is replaced below
 by the role-collision issue, which is the defensible part of the same concern.
 
-**Issue 4 was restructured on 2026-09-16 to lead with the requirement**, after reading issue #9
-on the upstream tracker (see the repository-state section below): its body records the
+**All five issues were restructured on 2026-09-16 to lead with the requirement**, after reading
+issue #9 on the upstream tracker (see the repository-state section below): its body records the
 maintainer rejecting an issue that *"specified solution choices before the requirements were
 stated"*, and noting that the first round of work followed those choices in the wrong direction.
-Issues 1, 2, 3 and 5 still lead with a **Suggestion** and need the same treatment before they
-are filed.
+
+Each now runs: **the requirement** - what a study needs to be able to say - then **what the
+libraries provide today**, then a **solution space that is deliberately not chosen**. Where we
+noticed a gap only because of our own tooling (Issue 1) or are unsure the gap is one the project
+accepts as in scope (Issue 2), that is said in the issue rather than left for the maintainer to
+infer.
 
 **Issues 3 and 5 were both rewritten on 2026-09-16**, after the lab tier disproved a premise in
 each. Issue 3 previously asserted that every derivation method declares exactly one output
@@ -65,96 +69,173 @@ document.
 
 ---
 
-## Issue 1 — `time` and `event` are indistinguishable in method metadata
+## Issue 1 — A method's inputs cannot be interpreted without reading its formula string
 
-**Type:** metadata / schema
+**Scope:** method metadata
+**Motivating case:** the three survival methods
+
+### The requirement
+
+A method's `input_roles` should carry enough information for a consumer to know what each input
+*is*. Anything reading the library programmatically — a catalogue, a validator, a duplicate
+check, a diff between two versions of an entry — works from the structured fields, because the
+formula is a string written for a human and for the execution layer.
+
+Where two inputs of the same method mean different things, the metadata should say so.
+
+### What the libraries provide today
 
 `M.KaplanMeier`, `M.CoxPH` and `M.LogRankTest` each declare `time` and `event` with
-`statisticalRole: "response"`. The distinction is carried only by position in
-`formula.generic_expression` — `Surv(<time>, <event>) ~ <fixed_effect>`.
+`statisticalRole: "response"`, identical `dataType` and identical `cardinality`. The distinction
+is carried only by position in `formula.generic_expression`:
 
-This works for execution. It does not work for any tooling that reasons over roles: two
-inputs with identical `statisticalRole`, `dataType` and `cardinality` are interchangeable as
-far as the metadata is concerned, so swapping them yields an identical signature and a
-nonsense analysis.
+```
+Surv(<time>, <event>) ~ <fixed_effect>
+```
 
-Concretely, this blocks content-addressable identity for survival methods — the basis for
-duplicate detection and for versioning against a breaking-change rule.
+For execution this is unambiguous and works. For anything reasoning over the structured fields
+the two inputs are interchangeable: swapping them produces metadata that is byte-identical and
+an analysis that is nonsense.
 
-**Suggestion.** Either add a value to the `StatisticalRole` enum distinguishing the event
-indicator from the time response, or mark the distinction on the input role itself. The enum
-already carries `offset`, which no method uses, so there is precedent for roles that describe
-a slot's meaning rather than its model position.
+### Why we ran into it
 
----
+We are building a content-addressable signature over methods, to detect near-duplicate entries
+across catalogues and to decide whether a change between two versions of an entry is breaking.
+The three survival methods are the case where that signature cannot separate two entries that
+differ in meaning.
 
-## Issue 2 — Derivation methods cannot express a predicate over two variables
+**That is our use case, not necessarily yours** — and it is the honest reason we noticed. If the
+position-in-formula convention is considered sufficient, this is a non-issue, and we would
+rather be told so than have it changed on our account.
 
-**Type:** method library gap
-**Motivating case:** FDA 2018 censoring hierarchy for PFS
+### Solution space — deliberately not chosen
 
-Three methods carry a conditional:
+If it is worth addressing at all:
 
-| Method | Predicate |
-|---|---|
-| `M.ConditionalValue` | hardwired: `IF(IS_NA(<value>), <alternate>, <base>)`, no condition configuration |
-| `M.ThresholdCompare` | one input against a **constant** `threshold` (`decimal`) |
-| `M.Categorization` | `conditions`, a free-text `string` over the single `value` input |
+- a `StatisticalRole` value distinguishing the event indicator from the time response;
+- a flag or qualifier on the input role itself;
+- something outside `statisticalRole` entirely, if that enum is meant to describe a slot's
+  position in a model rather than its meaning.
 
-Each declares exactly one `value` input role. A predicate relating two variables — *PD date
-≤ data cut-off*, *therapy start < PD date* — cannot be expressed by any of them.
-
-This blocks any censoring hierarchy, and with it all six ADTTE parameters (OS, OSWOT, PFS,
-PFSINV, DOR, TTR) on a standard oncology trial.
-
-Related: `M.Categorization.conditions` is typed `string` with an example rather than a
-grammar, so conditions are not parseable or checkable even where they fit.
-
-**Suggestion.** A derivation method taking two (or n) value inputs plus a comparison
-operator — effectively `M.ThresholdCompare` with the threshold as an input role rather than
-a configuration — would unblock most of the hierarchy.
+Small precedent for the first: the enum already carries `offset`, which no method in the library
+uses.
 
 ---
 
-## Issue 3 — No time-to-event derivation transformations, and no settled shape for one
+## Issue 2 — Derivations that branch on a relation between two variables cannot be expressed
 
-**Type:** transformation library gap
+**Scope:** derivation methods
+**Motivating cases:** three endpoints on one oncology trial
+
+### The requirement
+
+Much of what a SAP specifies as a derivation is a decision comparing **two variables**. Three
+examples, from three different endpoints of the study we mapped:
+
+| Endpoint | The rule | The comparison |
+|---|---|---|
+| PFS | FDA 2018 censoring hierarchy | *therapy start < PD date*; *PD date ≤ data cut-off* |
+| ORR | RECIST confirmation | *second assessment ≥ 28 days after the first*, and *no worse* |
+| Laboratory | shift table | *baseline indicator* against *worst post-baseline indicator* |
+
+These are not exotic. They are the ordinary content of oncology SAPs, and a chain that cannot
+state them has to hand the decision to code outside the model — which is the opacity a
+declarative concept model exists to remove.
+
+### What the libraries provide today
+
+Three methods carry a conditional, and each confines it to a single input:
+
+| Method | Predicate | Reach |
+|---|---|---|
+| `M.ConditionalValue` | `IF(IS_NA(<value>), <alternate>, <base>)` | missingness only; no condition configuration exists |
+| `M.ThresholdCompare` | `IF(<value> <operator> <threshold>, ...)` | one input against a **constant** |
+| `M.Categorization` | `CASE WHEN <conditions> ...` | free-text `string` over the single `value` input |
+
+Each declares exactly one `value` input role. None can reference a second variable.
+
+On the study we mapped this blocks every censoring hierarchy, and with it all six ADTTE
+parameters (OS, OSWOT, PFS, PFSINV, DOR, TTR); it blocks ORR's confirmation rule; and it blocks
+the laboratory shift table.
+
+**Related, and possibly the same issue.** `M.Categorization.conditions` is typed `string` with
+an example rather than a grammar, so even where a single-variable condition fits it is not
+parseable or checkable by anything.
+
+### Worth saying plainly
+
+This is the largest of the gaps we are reporting and the one where we are least sure what the
+right answer looks like. There may be a deliberate reason predicates are constrained — keeping
+methods executable in WebR, or keeping the model declarative rather than drifting toward a
+general expression language. If so, we would like to know where the intended boundary is, since
+that determines whether a study like this one is in scope for the framework at all.
+
+### Solution space — deliberately not chosen
+
+- a derivation method taking two (or n) value inputs plus a comparison operator — effectively
+  `M.ThresholdCompare` with the threshold promoted from a configuration to an input role;
+- a grammar for `M.Categorization.conditions`, making the existing free-text field checkable and
+  letting it name more than one input;
+- an explicit statement that multi-variable predicates are out of scope, which is a useful
+  answer too.
+
+---
+
+## Issue 3 — A survival endpoint's chain has to begin already derived
+
+**Scope:** transformation library, and a modelling question behind it
 **Depends on:** Issue 2
+**Motivating case:** PFS on a Phase 3 oncology trial
 
-The transformation library holds 14 derivation transformations. None produces `AVAL` or
-`CNSR` — the strings `CNSR`, `censor` and `AVAL` do not appear in
-`ACDC_Transformation_Library_v06.json` at all. `T.OS_LogRank` binds `time` (concept
-`TimeToEvent`) and `event` (concept `Flag`) as **inputs**, so the survival chain begins
-already derived, with nothing upstream deriving it.
+### The requirement
 
-The methods to close this look present at first — `M.DateDifference`, `M.RecordSelection`,
-`M.Aggregation` — but two questions sit behind them:
+A study with a time-to-event endpoint needs the chain to start where the data starts. The
+analysis consumes a time and an event indicator; something has to derive them from the collected
+assessment and death dates, and that derivation — the censoring rule — is usually the most
+contested paragraph in the SAP and the one most worth making declarative.
 
-1. **Predicates.** Issue 2. The hierarchy cannot be expressed.
-2. **Output shape.** `AVAL`, `CNSR`, `ADT` and `EVNTDESC` are four projections of a *single*
-   censoring resolution. Deriving them as four independent transformations would leave nothing
-   in the metadata requiring them to agree — an `AVAL` from the PD date paired with `CNSR = 1`
-   is individually well-formed and jointly wrong.
+### What the libraries provide today
 
-   The library already has two ways of emitting coordinated outputs from one derivation, so
-   this may be a question about which to use rather than a gap. `M.WindowedVisitAssignment`
-   declares three output classes (`analysisVisit`, `analysisVisitNumber`, `analysisDay`) and
-   `T.DeriveAnalysisVisit` binds all three from a single windowing decision. `T.UnitConversion`
-   emits two **facets of one `Measure`** — `result.value` as a `measure` and `result.unit` as
-   an `attribute`, the latter noted as *"propagated so downstream derivations/analyses can read
-   the Measure's unit without re-reading config."*
+The chain begins after that step. `T.OS_LogRank` binds `time` (concept `TimeToEvent`) and
+`event` (concept `Flag`) as **inputs**, and nothing upstream produces either. Of the 14
+derivation transformations none produces `AVAL` or `CNSR`; the strings `CNSR`, `censor` and
+`AVAL` do not appear in `ACDC_Transformation_Library_v06.json` at all. Counting measure-role
+inputs against what the derivations can output, `TimeToEvent` is demanded by `T.OS_LogRank` and
+produced by nothing.
 
-   What has no precedent is a derivation emitting several coordinated outputs that are each a
-   `measure` in their own right: thirteen derivation transformations emit exactly one measure
-   binding and `T.DeriveAnalysisVisit` emits none.
+### The question we would rather ask than answer
 
-**Question for maintainers, before proposing entries.** Is the `T.UnitConversion` facet pattern
-the intended shape here — one `Measure` for the time-to-event, with `CNSR`, `ADT` and
-`EVNTDESC` as facets or attributes of it — or should a TTE derivation emit four coordinated
-measures, which would be new? We would rather follow the existing convention than invent one.
+The methods look present — `M.DateDifference`, `M.RecordSelection`, `M.Aggregation` — and two
+things sit behind them. The first is Issue 2: the hierarchy itself cannot be expressed.
 
-We have the PFS chain mapped against a public simulated study and are happy to contribute
-the `T.` entries once the shape is settled.
+The second is a modelling question, and it is why this is a question rather than a proposal.
+`AVAL`, `CNSR`, `ADT` and `EVNTDESC` are four projections of a **single** censoring resolution.
+Derived as four independent transformations, nothing in the metadata would require them to
+agree — an `AVAL` taken from the PD date paired with `CNSR = 1` is individually well-formed and
+jointly wrong.
+
+The library already has two ways of emitting coordinated outputs from one derivation:
+
+- `M.WindowedVisitAssignment` declares three output classes — `analysisVisit`,
+  `analysisVisitNumber`, `analysisDay` — and `T.DeriveAnalysisVisit` binds all three from a
+  single windowing decision;
+- `T.UnitConversion` emits two **facets of one `Measure`**: `result.value` as a `measure` and
+  `result.unit` as an `attribute`, the latter noted as *"propagated so downstream
+  derivations/analyses can read the Measure's unit without re-reading config."*
+
+What has no precedent is a derivation emitting several coordinated outputs that are each a
+`measure` in their own right — thirteen derivation transformations emit exactly one measure
+binding, and `T.DeriveAnalysisVisit` emits none.
+
+**So: is the `T.UnitConversion` facet pattern the intended shape** — one `Measure` for the
+time-to-event, with `CNSR`, `ADT` and `EVNTDESC` as facets or attributes of it — **or should a
+TTE derivation emit four coordinated measures, which would be new?** We would rather follow an
+existing convention than invent one.
+
+### Offer
+
+We have the PFS chain mapped on paper against a public simulated study, and are happy to
+contribute the `T.` entries once the shape is settled and Issue 2 is resolved.
 
 ---
 
@@ -244,10 +325,18 @@ Mentioned only because it came up while mapping the same endpoint.
 
 ---
 
-## Issue 5 — `best` and `worst` presuppose an ordering that is never declared
+## Issue 5 — `best` and `worst` selection cannot be resolved from the metadata
 
-**Type:** method semantics
-**Motivating case:** RECIST 1.1 best overall response
+**Scope:** method semantics
+**Motivating cases:** RECIST best overall response, and a laboratory shift table
+
+### The requirement
+
+A selection rule has to be resolvable from what is written down. Given a transformation
+configured to select the `best` record in a partition, a reader — human or machine — should be
+able to determine which record that is without knowing what the analysis was for.
+
+### What the libraries provide today
 
 `M.RecordSelection.selection_rule` offers:
 
@@ -256,41 +345,51 @@ Mentioned only because it came up while mapping the same endpoint.
                "closest_to_target", "all_matching"]
 ```
 
-Four of these are fully determined by the data and configuration. `best` and `worst` are not,
-and nothing in the method, the transformation library or the statistics vocabulary supplies the
-missing ordering:
+Four of these are fully determined by the data and the configuration. `best` and `worst` are
+not, and nothing in the method, the transformation library or the statistics vocabulary supplies
+the missing ordering.
 
 1. **For a decimal**, `best` may be the maximum or the minimum — the minimum for tumour
    shrinkage, the maximum for a response rate. There is no direction configuration, and the
    formula `<flag> := IF(<selection_rule>(<value>, <time_order>) OVER (<partition>+), 'Y', '')`
    does not supply one.
-2. **For an ordinal code** it is undefined entirely. RECIST 1.1 ranks CR ≺ PR ≺ SD ≺ PD ≺ NE.
-   That ordering is standard and clinical and appears nowhere in the model. The `value` input
-   role is `dataType: "decimal"`, so a response code is not a valid input at all — yet `best`
-   over response codes is the most common use of best-record selection in oncology.
+2. **For an ordinal code** it is undefined entirely. RECIST 1.1 ranks CR ≺ PR ≺ SD ≺ PD ≺ NE. That
+   ordering is standard and clinical and appears nowhere in the model. The `value` input role is
+   `dataType: "decimal"`, so a response code is not a valid input at all — yet `best` over
+   response codes is the most common use of best-record selection in oncology.
 
-No derivation transformation upstream uses `selection_rule: best`, so there is also no worked
-example that would pin the semantics by demonstration.
+There is also no worked example of any kind: `T.BaselineSelection` is the only transformation in
+the library that uses `M.RecordSelection`, and it configures `last_non_missing`. Five of the six
+selection rules are exercised by nothing.
 
-The practical effect: best overall response composes as a single configured `M.RecordSelection`,
-which is a genuinely good outcome — but two chains built that way, one ranking CR best and one
-ranking CR worst, are identical in metadata and produce opposite results.
+The practical effect: best overall response composes as a single configured
+`M.RecordSelection`, which is a genuinely good outcome — but two chains built that way, one
+ranking CR best and one ranking CR worst, are identical in metadata and produce opposite
+results.
 
-There is also no worked example of any kind: `T.BaselineSelection` is the only transformation
-in the library that uses `M.RecordSelection`, and it configures `last_non_missing`. Five of the
-six selection rules are exercised by nothing.
+### One case that constrains the answer
 
-**Suggestion.** An ordering declared on the concept or parameter, **with a per-transformation
-override.** Both halves are needed, and we found the second the hard way.
+We initially assumed the ordering belongs on the concept, since RECIST ranking is a property of
+the response scale rather than of any one analysis. A second endpoint in the same study
+contradicted that.
 
-RECIST response ordering (`CR ≺ PR ≺ SD ≺ PD ≺ NE`) is a property of the response scale, which
-argues for carrying it with the concept. But a laboratory shift table in the same study ranks
-its reference-range indicator `LOW = HIGH > NORMAL` — collapsing the two abnormal directions,
-because for that table "worst" means *abnormal either way*. A directional parameter in the same
-dataset would need low to outrank high. That ordering belongs to the analysis, not to the
-scale, so concept-level declaration alone would be authoritative and wrong.
+The laboratory shift table selects the worst post-baseline reference-range indicator and ranks
+it `LOW = HIGH > NORMAL` — collapsing the two abnormal directions, because for that table
+"worst" means *abnormal in either direction*. A directional parameter in the same dataset would
+need low to outrank high. That ordering belongs to the analysis, not to the scale.
 
-A `direction` configuration would cover the simple numeric case but neither of these.
+So concept-level declaration alone would be authoritative and wrong for the second case, and
+per-use declaration alone loses the shared ranking that makes the first case worth stating once.
+
+### Solution space — deliberately not chosen
+
+- an ordering declared on the concept or parameter, with a per-transformation override;
+- a `direction` configuration on `M.RecordSelection`, which covers the numeric case and neither
+  of the two above;
+- widening `value` beyond `decimal`, without which the ordinal case cannot be represented at all
+  regardless of where the ordering lives.
+
+The first two are not exclusive. We do not have a view on which layer should own it.
 
 ---
 

@@ -70,8 +70,9 @@ Target: about two hours. Everything here must pass before anything is filed publ
       without picking one. Written that way after issue #9 on the upstream tracker, whose body
       records the maintainer rejecting an issue that *"specified solution choices before the
       requirements were stated"*. **Check it reads as a collaborator asking, not an auditor
-      reporting.** Issues 1, 2, 3 and 5 still lead with a **Suggestion** and need the same
-      treatment before they are filed.
+      reporting.** Issues 1, 2, 3 and 5 were restructured the same way on the same day; they
+      are Tier 2, and reviewing Issue 4's framing effectively reviews the template all five
+      now share.
 - [ ] **`F08` — the upstream half.** Re-run the search: no difference-of-proportions statistic
       in `statistics_vocabulary.json`, `M.CMH` yields an odds ratio. Mechanical, ten minutes.
 - [ ] **`F08` — the ICH E9(R1) reading.** *Needs a statistician.* The claim is that substituting
@@ -111,7 +112,12 @@ Only needed if Tier 1 goes well and more issues are wanted. Roughly half a day.
 - [ ] **F07 as amended** — *needs a clinician or oncology statistician.* Is `LOW = HIGH >
       NORMAL` genuinely analysis-specific rather than a property of `NRIND`? The amendment, and
       Issue 5's fix, both turn on this.
-- [ ] **Issues 1, 2, 3, 5** — same restructure as Issue 4: requirement first.
+- [ ] **Issues 1, 2, 3, 5** — restructured requirement-first on 2026-09-16; read for framing,
+      not structure. Two carry a deliberate admission that is worth your judgement: Issue 1 says
+      the gap was noticed because of *our* signature tooling and invites being told the existing
+      convention is sufficient; Issue 2 says we are unsure whether multi-variable predicates are
+      out of scope by design and asks where the boundary is. Both are honest and both give a
+      maintainer an easy way to close the issue — decide whether that is the trade you want.
 - [ ] **Check `estimands_01` again at filing time.** It was moving fast; `main` has not moved
       since 2026-06-17.
 
