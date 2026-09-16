@@ -39,7 +39,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | — its §15 actions 1 and 2 | This session, at LG's explicit direction | AI | LG directed, did not review text |
 | `tools/acdc_divergence.py` | Pre-existing, on disk at session start | LG | LG |
 | — its docstring §9 cross-reference | 2026-09-16 | AI | Not yet — see §7.5 |
-| `tools/check_consistency.py` | 2026-09-16 | AI | Not yet |
+| `tools/check_consistency.py`, `.githooks/pre-commit` | 2026-09-16 | AI | Not yet |
 | `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
 | `docs/findings/F01`–`F08`, `docs/findings/README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/method.md` | This session | AI | Not yet |

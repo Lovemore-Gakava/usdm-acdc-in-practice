@@ -266,13 +266,21 @@ def check_links(root: Path, files: dict[str, list[str]]) -> list[Problem]:
 
 
 def check_submodule(root: Path, files: dict[str, list[str]],
-                    hist: dict[str, set[int]]) -> list[Problem]:
+                    hist: dict[str, set[int]]) -> tuple[list[Problem], list[Problem]]:
+    """Returns (problems, warnings).
+
+    A submodule that is not checked out is a state of this working copy, not a
+    defect in the documents, so it warns rather than fails — otherwise a
+    collaborator who has not run 'git submodule update --init' could not commit
+    a typo fix. A documented sha that disagrees with the checkout is a content
+    defect and does fail.
+    """
     sub = root / "upstream" / "analysis-concepts"
     if not (sub / "lib").is_dir():
-        return [Problem(".gitmodules", 0,
-                        "upstream/analysis-concepts is not checked out - "
-                        "docs/method.md's reproduce block will not run. "
-                        "Fix with: git submodule update --init")]
+        return [], [Problem(".gitmodules", 0,
+                            "upstream/analysis-concepts is not checked out - "
+                            "docs/method.md's reproduce block will not run here. "
+                            "Fix with: git submodule update --init")]
 
     def git(*args: str) -> str | None:
         try:
@@ -283,8 +291,8 @@ def check_submodule(root: Path, files: dict[str, list[str]],
 
     head = git("git", "-C", str(sub), "rev-parse", "HEAD")
     if head is None:
-        return [Problem("upstream/analysis-concepts", 0,
-                        "cannot read the submodule's HEAD")]
+        return [], [Problem("upstream/analysis-concepts", 0,
+                            "cannot read the submodule's HEAD")]
 
     problems: list[Problem] = []
 
@@ -316,7 +324,7 @@ def check_submodule(root: Path, files: dict[str, list[str]],
                             path, i,
                             f"pins upstream at {sha} but the submodule is at "
                             f"{head[:12]}"))
-    return problems
+    return problems, []
 
 
 # --------------------------------------------------------------------------
@@ -407,7 +415,8 @@ def main() -> int:
 
     problems += check_coverage(root, tracked, files)
     problems += check_links(root, files)
-    problems += check_submodule(root, files, hist)
+    sub_problems, warnings = check_submodule(root, files, hist)
+    problems += sub_problems
 
     print(f"truth:   {n_findings} findings, {n_issues} drafted issues, "
           f"{n_disc} discrepancies, {len(mapped)}/{len(tiers)} endpoints mapped")
@@ -419,6 +428,11 @@ def main() -> int:
             print(f"  {c.path}:{c.line}  {c.value}  {c.text!r}")
 
     print()
+    if warnings:
+        for warn in warnings:
+            print(f"warning: {warn.message}")
+        print()
+
     if problems:
         print(f"{len(problems)} inconsistenc{'y' if len(problems) == 1 else 'ies'}:")
         print()

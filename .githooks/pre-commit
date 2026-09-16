@@ -1,0 +1,34 @@
+#!/bin/sh
+# Refuse a commit that leaves the documents inconsistent with the repository.
+#
+# Install (once per clone — hooks are not carried by git itself):
+#     git config core.hooksPath .githooks
+#
+# Bypass a single commit with:  git commit --no-verify
+#
+# The check runs against the working tree, not the staged index. For a
+# documentation repository that is the useful reading: a partially staged
+# commit still leaves the tree it describes on disk.
+
+PY=""
+for candidate in python3 python py; do
+    if command -v "$candidate" >/dev/null 2>&1; then
+        PY="$candidate"
+        break
+    fi
+done
+
+if [ -z "$PY" ]; then
+    echo "pre-commit: no python interpreter found; skipping consistency check" >&2
+    exit 0
+fi
+
+if ! "$PY" tools/check_consistency.py; then
+    echo
+    echo "pre-commit: the documents disagree with the repository (above)."
+    echo "Ground truth is the filesystem — correct the documents."
+    echo "To commit anyway:  git commit --no-verify"
+    exit 1
+fi
+
+exit 0

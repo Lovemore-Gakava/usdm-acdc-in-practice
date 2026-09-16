@@ -61,6 +61,17 @@ verifies that every finding file appears in both findings tables, that every rel
 resolves, that every tracked file is named in `PROVENANCE.md`, and that the submodule is
 checked out at the commit the documents pin.
 
+A pre-commit hook runs it, refusing any commit that leaves the documents inconsistent.
+Git does not carry hooks across a clone, so each checkout enables it once:
+
+```
+git config core.hooksPath .githooks
+```
+
+Bypass a single commit with `git commit --no-verify`. An uninitialised submodule warns rather
+than fails — that is a state of your working copy, not a defect in the documents, and it should
+not stop a collaborator committing a typo fix.
+
 Lines under a *Change log* heading are exempt automatically, and any line can be exempted
 with a `<!-- consistency:ignore -->` marker — a change log records what was true at each
 version, so its numbers are meant to be stale.

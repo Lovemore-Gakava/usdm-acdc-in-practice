@@ -137,9 +137,11 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 │   └── 03-complex-pfs/              mapping.md written — chain blocked, see F06
 ├── transformations/
 │   └── proposed/                    new T. entries — the TTE gap (F01)
+├── .githooks/
+│   └── pre-commit                   runs the consistency check
 ├── tools/
 │   ├── acdc_divergence.py           signature and divergence detection
-│   └── check_consistency.py         documents vs. filesystem, run in CI
+│   └── check_consistency.py         documents vs. filesystem
 └── snapshot/
     └── index.html                   static coverage view
 ```
