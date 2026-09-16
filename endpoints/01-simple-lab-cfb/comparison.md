@@ -10,16 +10,20 @@ Ground truth: TORIVA-LUNG 301 at `8534339d`, `datasets/adam/adlb.parquet` — 13
 
 ## What is and is not being compared
 
-**Scope limit, stated first.** The chain in [`chain.json`](chain.json) was authored against the
-**CDISC Pilot** study, because that is the only study the shipped builder carries; TORIVA USDM
-fragments do not exist (specification §15.3, still open). So this is **not** a numeric diff of
-the authored chain's output against TORIVA's columns.
+**Scope limit, stated first.** This is **not** a numeric diff of the authored chain's output
+against TORIVA's columns, because the chain has never been executed — that is `NORTH.md` stage 6
+and it is not done.
 
 What it is: a test of whether **the definition the concept model is able to express** reproduces
 the definition TORIVA built. That is the question step 3 exists to answer — *"either the model
-cannot express something real, or it has exposed an ambiguity the SAP was carrying silently"* —
-and it can be answered without the two studies matching, because the derivation is the same
-derivation.
+cannot express something real, or it has exposed an ambiguity the SAP was carrying silently."*
+
+> **Updated 2026-09-16.** This section originally carried a second, larger caveat: the chain was
+> authored against the **CDISC Pilot**, because no TORIVA USDM existed. That is no longer true.
+> Stages 1 and 0b produced `study/usdm/`, and the chain was re-authored against TORIVA —
+> `chain.json` now carries `"studyName": "TORIVA-LUNG 301"` and `Endpoint_SAFETY_LAB`, with the
+> seven laboratory BCs linked on each measure terminal. The comparison below was unaffected,
+> because it tests definitions rather than identifiers, but the caveat is gone.
 
 ---
 

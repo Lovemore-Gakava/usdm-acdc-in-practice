@@ -178,77 +178,66 @@ flowchart TD
     G3 -->|yes| OK["A chain you can trust<br/>reached by no tier"]
 ```
 
-Top to bottom, the three gates are *expressible*, *authorable*, *correct*. They are not the same
-question, and the repository spent most of its life measuring only the first.
-
-| Gate | Question | Reads | Tier that fails here |
-|---|---|---|---|
-| 1 | Can the model express it? | the **method** library | **PFS** — the FDA 2018 censoring hierarchy branches on relations between two variables, and no method carries such a predicate |
-| 2 | Can a chain be authored? | the **transformation** library and the builder | **ORR** — its five composable steps have no template, templates cannot be created, and shipped ones cannot be reconfigured |
-| 3 | Does the chain mean what the SAP means? | the **built data** | **Lab CFB** — `AnalysisVisit = Baseline` selects two records for 71% of subject × parameter groups, differing in value 96.8% of the time |
-
-Three points follow, and they are the most reusable output of this repository.
-
-**Gate 2 was invisible until a chain was authored.** ORR and PFS were both mapped as *"composes,
-partly"* against the method library. Against the authoring surface, ORR drops to zero and PFS
-drops from one step to none — because its one composing step needed `M.DateDifference`, which
-has no transformation entry. Both mappings had to be corrected after the fact. `docs/method.md`
-now separates the two surfaces explicitly.
-
-**Gate 3 is the one nothing warns you about.** Gates 1 and 2 fail loudly: a method is missing, a
-template is absent, the builder will not proceed. Gate 3 fails silently — the lab chain
-validated, serialised, reported no unresolved slots, and is wrong by a median 21% on the value
-it subtracts. Catching it took reading the built ADaM, which is a per-endpoint, per-study check
-the framework does not provide.
-
-**The failure gets quieter as the endpoint gets simpler.** That is the opposite of what the
-ladder was designed to show.
-
 ## Method
 
 Each endpoint follows the same four steps, and the directory structure enforces the order:
 
-1. **`mapping.md`** — map the chain on paper against the SAP text, before opening the builder. If it does not compose on paper, that is the finding. Doing this after authoring makes a negative result uninterpretable.
+1. **`mapping.md`** — map the chain on paper against the SAP text, before opening the builder.
+   If it does not compose on paper, that is the finding. Doing this after authoring makes a
+   negative result uninterpretable.
 2. **`chain.json`** — the authored eSAP scenario.
-3. **`comparison.md`** — output against the built ADaM, with each divergence classified as model limitation, specification ambiguity, or authoring error.
-4. **`log.md`** — elapsed time and every point where a decision was needed.
+3. **`comparison.md`** — output against the built ADaM, with each divergence classified as model
+   limitation, specification ambiguity, or authoring error.
+4. **`log.md`** — every point where a decision was needed.
 
-Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, manually assembled. A real study has ten to fifty analysis-relevant endpoints. Whether that scales is an empirical question, and the authoring cost per tier is the answer.
+Two corrections the work forced on this, both in [`docs/method.md`](docs/method.md):
+
+**Steps 1 and 2 read different things.** Step 1 reads the *method* library and answers *can the
+model express this*. Step 2 reads the *transformation* library and the builder, and answers
+*can a chain be built*. Those differ on two of three tiers — 65% of methods have no
+transformation (F13) — and both the ORR and PFS mappings had to be corrected after the fact.
+
+**Step 4 records decisions, not hours.** It originally asked for elapsed time. An AI driving a
+browser produces a wall-clock that is not a statistician's and does not scale like one;
+reporting it as the cost figure would look like evidence and be none. PROVENANCE §7.9 has the
+reasoning.
 
 ## Repository structure
 
 ```
 .
+├── NORTH.md                         the destination, finish line and test — read first
+├── CLAUDE.md                        working rules for an AI collaborator
 ├── README.md
 ├── LICENSE                          MIT
 ├── .gitmodules
+├── .githooks/
+│   └── pre-commit                   runs the consistency check on every commit
 ├── upstream/
-│   └── analysis-concepts/           submodule, pinned at 739344c
+│   └── analysis-concepts/           submodule, pinned at 739344c, read-only
 ├── docs/
-│   ├── specification.md             full spec and plan
-│   ├── method.md                    how the findings were verified
+│   ├── specification.md             the original plan — §2 superseded by NORTH.md
+│   ├── method.md                    how claims are verified, and the two surfaces
+│   ├── review-plan.md               ⏸ parked — planned a review of the parked issues
 │   └── findings/
 │       ├── README.md                index and status of F01–F13
 │       ├── F01 … F13                one file each, with evidence
-│       └── upstream-issues.md       drafts for cdisc-org issues
+│       └── upstream-issues.md       ⏸ parked — five drafts, none filed, none needed
 ├── study/
 │   ├── README.md                    why TORIVA, what is used
-│   ├── source-refs.md               pinned commit + SAP/spec section refs
-│   └── usdm/                        hand-authored USDM fragments
+│   ├── source-refs.md               pinned commits: upstream, TORIVA, ICH M11
+│   ├── m11/
+│   │   ├── protocol-to-m11.md       stage 0 — TORIVA mapped to M11 elements
+│   │   └── protocol/                stage 0b — TORIVA restructured to M11
+│   └── usdm/                        stage 1 / 0b — USDM v4, generated from the above
 ├── endpoints/
-│   ├── 01-simple-lab-cfb/           mapping.md, chain.json,
-│   ├── 02-moderate-orr/             comparison.md, log.md
-│   └── 03-complex-pfs/              mapping.md written — chain blocked, see F06
-├── transformations/
-│   └── proposed/                    new T. entries — the TTE gap (F01)
-├── .githooks/
-│   └── pre-commit                   runs the consistency check
-├── tools/
-│   ├── acdc_divergence.py           signature and divergence detection
-│   ├── check_consistency.py         documents vs. filesystem
-│   └── check_baseline_ambiguity.py  F12 against built ADaM (needs pyarrow)
-└── snapshot/
-    └── index.html                   static coverage view
+│   ├── 01-simple-lab-cfb/           mapping, chain.json, comparison, log — all four steps
+│   ├── 02-moderate-orr/             mapping, chain.json, log — unauthorable, see F13
+│   └── 03-complex-pfs/              mapping only — does not compose, see F06
+└── tools/
+    ├── acdc_divergence.py           signature and divergence detection
+    ├── check_consistency.py         documents vs. filesystem, and NORTH's scoreboard
+    └── check_baseline_ambiguity.py  F12 against built ADaM (needs pyarrow)
 ```
 
 Two deliberate choices:

@@ -363,9 +363,14 @@ which is a stronger class of evidence than the earlier seven rest on — but sti
 data.
 
 **7.7 All three endpoints are mapped; one is authored end to end and one was attempted.** The
-lab tier completed steps 2, 3 and 4 on 2026-09-16. **ORR completed steps 2 and 4** the same
-day and stopped there — the chain the builder will produce contains no derivation, so there is
-nothing to compare against built ADaM and no `comparison.md` was written. PFS remains at step 1.
+lab tier completed steps 2, 3 and 4 on 2026-09-16, and was then **re-authored against TORIVA**
+the same day once `study/usdm/` existed, with BCs linked (`NORTH.md` stage 2). **ORR completed
+steps 2 and 4** and stopped there — the chain the builder will produce contains no derivation,
+so there is nothing to compare against built ADaM. PFS remains at step 1.
+
+Since the destination was rewritten, the endpoint ladder is **no longer the unit of progress**.
+`NORTH.md`'s nine stages are, and the ladder's three tiers now serve it: the lab tier is the
+endpoint being carried through, and ORR and PFS are the evidence for why it is that one.
 
 ORR's result corrected its own mapping. The mapping recommended authoring five steps; none is
 authorable, because no transformation wraps `M.Categorization`, `M.Proportion` or `M.CMH`, a
