@@ -216,7 +216,7 @@ The specification is complete and the findings are verified against pinned commi
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md`, `chain.json`, `log.md`. **Composes at method level and cannot be authored** — no transformation wraps `M.Categorization`, `M.Proportion` or `M.CMH`, and the builder cannot create one. The authorable chain has `derivationChain: []` |
 | Simple tier (lab CFB) | **All four steps complete — the only tier that is.** Authored in the builder (`chain.json`), compared against built ADaM (`comparison.md`), logged (`log.md`). Zero new authoring, 11 decisions, and a chain that validates while under-determined |
-| Snapshot | Not started |
+| Snapshot | **Not started, and not blocked on effort.** Two of the four axes §6.2 specifies have no content: there are no shared derivations to show (one tier has a chain, one has `derivationChain: []`, one has none), and the authoring-cost axis exists for one tier only — §7.9 explains why this process cannot honestly produce the rest. See below |
 
 `tools/acdc_divergence.py` is usable for methods and **not** trustworthy for transformations —
 it reports one transformation cluster at `739344c`, and that cluster is the F03 false positive.
@@ -240,7 +240,21 @@ methods can, and nothing wraps them. Lab: it authors cleanly and is silently und
 Next: **human review**, per [`docs/review-plan.md`](docs/review-plan.md) — five findings have
 had a premise or fix disproved and none has been read by a human. The plan is tiered: filing
 Issue 4 needs about two hours, not a full pass. PFS cannot be authored until F06 is resolved
-upstream. The snapshot (§6.2) now has real content for all three tiers.
+upstream.
+
+**The snapshot (§6.2) should not be built yet**, and the reason is not effort. Its form was
+fixed as *"the study-level view that §5.6 shows is missing"* — and §5.6 did not survive
+verification (F05: `js/views/study-overview.js` exists, with six tabs). Of the four axes §6.2
+specifies, **shared derivations** is empty, because across three tiers there is no derivation
+used more than once; **authoring cost per tier** exists for one tier and cannot honestly be
+completed by this process. What remains — three endpoints with a coverage status — is a
+three-row table, and the status table above substantially is that table.
+
+Two things would change it: more endpoints, so coverage and reuse become real questions; and a
+reviewed finding set, so that what is rendered is worth rendering. Neither holds. Rendering
+thirteen unreviewed findings into something that looks finished is the *"sales document"*
+failure §6.2 itself warns against, approached from the other side. §16.4 — who the snapshot is
+for — is also still open.
 
 ## Provenance
 

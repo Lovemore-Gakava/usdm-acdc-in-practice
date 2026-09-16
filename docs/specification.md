@@ -166,6 +166,8 @@ If each needs that treatment, the flow does not scale without a reusable chain l
 
 The snapshot takes the shape of the study-level view that §5.6 shows is missing: endpoints listed with coverage status, shared derivations made visible, chain completeness marked, authoring cost recorded per tier.
 
+> **Superseded in its premise, 2026-09-16.** §5.6 did not survive verification — a study-level view exists (F05). And after all three tiers were worked, two of the four axes above have no content: **shared derivations** is empty, because no derivation is used by more than one tier; **authoring cost per tier** exists for one tier and, per PROVENANCE §7.9, cannot honestly be completed by this process. What remains is three endpoints with a coverage status, which the README status table already carries. The snapshot is therefore **not** the near-term artefact. What would change that: more endpoints, so coverage and reuse become real questions, and a reviewed finding set. §16.4, who it is for, is also unanswered.
+
 **Static rendering first, not an application.** A generated HTML page from the authored chains. The moment it becomes interactive, Part B has started before Part A has produced its measurement, and the measurement is the point.
 
 **Gaps shown as prominently as completions.** Unresolved `linkedBCIds`, the absent time-to-event transformations, any endpoint that failed to compose. An artefact that only shows what worked is a sales document, not a record, and will not survive its first informed reader.
