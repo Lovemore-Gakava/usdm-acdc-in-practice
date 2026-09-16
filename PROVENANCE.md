@@ -14,7 +14,7 @@ with a fictional sponsor and drug.
 
 Substantially all prose in this repository was **drafted by an AI model** in a single session
 on 2026-09-15 and has **not yet been reviewed line by line by a human**. The findings make
-specific factual claims about a third party's public repository, three of which are drafted as
+specific factual claims about a third party's public repository, five of which are drafted as
 issues to be filed publicly. **Read §7 before filing anything.**
 
 ---
@@ -25,7 +25,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 |---|---|
 | **Model** | `claude-opus-5[1m]` (Opus 5, 1M context) |
 | **Interface** | Claude Code CLI |
-| **Role** | Repository scaffolding; verification of inherited findings against pinned commits; drafting all finding write-ups, the PFS paper mapping, and the upstream issue drafts |
+| **Role** | Repository scaffolding; verification of inherited findings against pinned commits; drafting all finding write-ups, the PFS and ORR paper mappings, and the upstream issue drafts |
 | **Human oversight** | Lovemore Gakava — authorised the work with "lets go with your recommendations"; directed the §15.2 correction and challenged the unverified launch claim |
 | **Session date** | 2026-09-15 |
 | **Review status** | **Not yet reviewed.** No finding has been independently confirmed by a human |
@@ -39,10 +39,11 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | — its §15 actions 1 and 2 | This session, at LG's explicit direction | AI | LG directed, did not review text |
 | `tools/acdc_divergence.py` | Pre-existing, on disk at session start | LG | LG |
 | `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
-| `docs/findings/F01`–`F06`, `README.md`, `upstream-issues.md` | This session | AI | Not yet |
+| `docs/findings/F01`–`F08`, `README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/method.md` | This session | AI | Not yet |
 | `study/README.md`, `study/source-refs.md` | This session | AI | Not yet |
 | `endpoints/03-complex-pfs/mapping.md` | This session | AI | Not yet |
+| `endpoints/02-moderate-orr/mapping.md` | This session, after this record was first written | AI | Not yet |
 | `LICENSE`, `.gitignore`, `.gitmodules` | This session | AI | Not yet — see §7.4 |
 
 ---
@@ -68,7 +69,8 @@ Upstream's README §Re-use prescribes an attribution string, reproduced here as 
 
 Material quoted from it in this repository: `StatisticalRole` enum and `InputRole` definitions
 from `model/method/acdc_methods.schema.json`; `formula.generic_expression`, `configurations`,
-`input_roles` and `output_specification` fragments from `lib/methods/**`; `bindings` and
+`input_roles` and `output_specification` fragments from `lib/methods/**`; the proportion-related
+entries of `model/method/statistics_vocabulary.json`; `bindings` and
 `methodConfigurations` fragments from `lib/transformations/ACDC_Transformation_Library_v06.json`;
 `confirmedTerminals` structure from the Scenario 2 study instance; and short line-referenced
 excerpts from `ac-dc-app/js/**`. All are quoted for analysis and identified by file path.
@@ -92,9 +94,12 @@ Its README carries an explicit disclaimer, which governs how its content may be 
 > fictional.
 
 Material quoted in this repository: SAP §4.2 (PFS definition, derivation and censoring rules),
-§13.5 and §13.6 (estimands E2 and E3 attribute tables), and `programming-specs/ADTTE-spec.md`
-(parameter table, key derivation notes, `STARTDT`/`AVAL`/`CNSR` definitions). Quoted as short
-excerpts for analysis; the study is not redistributed.
+§4.3 (ORR and the confirmation rule), §5.3 (ORR statistical methods), §3 (populations),
+§13.5 and §13.6 (estimands E2 and E3 / E3a attribute tables); `programming-specs/ADTTE-spec.md`
+(parameter table, key derivation notes, `STARTDT`/`AVAL`/`CNSR` definitions); and
+`programming-specs/ADRS-spec.md` v0.3 (reader selection, denominator, confirmation rule,
+estimator notes, variable list). Quoted as short excerpts for analysis; the study is not
+redistributed.
 
 **Material caveat on "ground truth."** `study/README.md` and the specification both justify
 choosing TORIVA on the basis that built ADaM provides ground truth. TORIVA's own
@@ -140,7 +145,8 @@ commands are recorded in each finding file. Classes of evidence used:
 | **Application** behaviour | File and line citation, plus direct observation in-browser | `linkedBCIds` writes (F04), tab count (F05) |
 | **Tool** output | `tools/acdc_divergence.py` run against the submodule | cluster counts (F03) |
 
-Outcome of that pass, and the reason §7.1 matters:
+Outcome of that pass over the five findings inherited from the specification, and the reason
+§7.1 matters:
 
 | | |
 |---|---|
@@ -149,6 +155,12 @@ Outcome of that pass, and the reason §7.1 matters:
 | Retired | F04 |
 | Overstated, restated | F05 |
 | Found during verification | F06 |
+
+F07 and F08 came later and by a different route: neither was inherited, and neither came from
+inspecting the libraries. Both fell out of mapping ORR on paper (step 1 of the method) and were
+then verified against the pinned commit by the same classes of evidence above — `M.RecordSelection`'s
+`selection_rule` enum and `value` dataType for F07, `M.CMH`'s output classes and the contents of
+`statistics_vocabulary.json` for F08.
 
 ---
 
@@ -162,7 +174,10 @@ AI's reasoning from verified facts, not themselves verified:
 | Time/event role collision *matters* because it breaks content-addressable identity | Inference. The role duplication is verified; the consequence for signatures is argued |
 | The TTE gap is a **model** gap rather than a library gap (F01, B3) | Inference from output-cardinality counts. `upstream-issues.md` Issue 3 deliberately puts this to maintainers as a question rather than asserting it |
 | PFS "does not compose" | Inference from four verified primitives. No authoring was attempted, by design — the method requires paper mapping first. A sufficiently inventive encoding may exist; none is obvious |
-| ORR will hit F06 "less severely" at the BOR confirmation step | **Speculation.** Not mapped. Flagged as the next thing to do |
+| ORR will hit F06 "less severely" at the BOR confirmation step | **Disproved.** Recorded here as speculation before ORR was mapped; the mapping shows ORR hits the same blocker on its *primary* derivation. The prediction is left visible in `endpoints/03-complex-pfs/mapping.md` rather than deleted |
+| ORR "half composes" — 6 of 11 steps | Inference of the same kind as the PFS row. The primitives and their configurations are verified; that the remaining five steps have no encoding is argued, not proven |
+| Reporting an odds ratio where the estimand specifies a risk difference "answers a different question" (F08) | Inference. The absence of a difference-of-proportions statistic is verified by search; that the substitution is not an approximation is a reading of ICH E9(R1) |
+| `best` being undeclared "produces opposite results" for two identical chains (F07) | Inference. The enum value, the absent direction configuration and the `decimal` dataType are verified; the consequence is argued |
 | `M.RecordSelection`'s formula/output mismatch is a defect | Inference. Both fragments are quoted; that they conflict is an argument |
 | The `responseCodes` / `sdtmDatasetSpecialization` split is a constraint on §11 | Inference from counts across the two shipped files |
 | Authoring-cost figures | **None exist.** No tier has been authored. The specification's "nine nested derivation steps" for ADAS-Cog is LG's pre-existing figure, not measured here |
@@ -176,8 +191,9 @@ AI's reasoning from verified facts, not themselves verified:
 | `docs/specification.md` | The plan. Partly superseded — §5 carries a disposition table, §17 v0.4 the corrections |
 | `docs/method.md` | How the findings were verified, and why that step exists |
 | `docs/findings/` | The findings themselves, each with its evidence |
-| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the two discrepancies found inside TORIVA |
+| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the seven discrepancies found inside TORIVA (D1–D7) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |
+| `endpoints/02-moderate-orr/mapping.md` | Step 1 of the method for the moderate tier; source of F07, F08 and D3–D7 |
 | TORIVA `sap/SAP-PROVENANCE.md` | Provenance of the source SAP. Relevant to §3.2 |
 
 ---
@@ -185,7 +201,7 @@ AI's reasoning from verified facts, not themselves verified:
 ## 7. Limitations and open provenance items
 
 **7.1 Nothing here has been human-reviewed.** The findings assert errors in a third party's
-public repository and three are drafted as public issues. F02 and F04 as *originally* written
+public repository and five are drafted as public issues. F02 and F04 as *originally* written
 would both have been wrong; they were caught by verification, which is evidence the method
 works and equally evidence that confident-sounding claims in this repository can be wrong.
 Review before filing.
@@ -214,10 +230,15 @@ verified against the pinned commit; only the citation is wrong.
 
 **7.6 The ADaM comparison has not been run.** `pyarrow` is not installed and no parquet has
 been read. Every claim about TORIVA derives from its markdown specifications, not its data.
-Discrepancies D1 and D2 in `study/source-refs.md` are recorded as **open** precisely because
-resolving them by inspection before authoring would contaminate step 3 of the method.
+Discrepancies D1–D7 in `study/source-refs.md` are recorded as **open** precisely because
+resolving them by inspection before authoring would contaminate step 3 of the method. D7 is the
+sharpest of them — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable against
+the built ADaM as specified — and it too is asserted from the markdown specification, not from
+the data.
 
-**7.7 Only one endpoint has been mapped.** The simple and moderate tiers are untouched.
+**7.7 Two of the three endpoints have been mapped.** PFS (complex) and ORR (moderate), both on
+paper only. The simple tier — lab change from baseline — is untouched, and it is the one tier
+expected to compose, so the ladder is currently evidenced only at the end where it fails.
 
 ---
 
@@ -226,3 +247,4 @@ resolving them by inspection before authoring would contaminate step 3 of the me
 | Version | Date | Author | Change |
 |---|---|---|---|
 | 0.1 | 2026-09-15 | AI (`claude-opus-5[1m]`), unreviewed | Initial record. Covers repository creation, the F01–F06 verification pass, the §15.2 correction, and the provenance defect at §7.2 |
+| 0.2 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Reconciled against work that landed **after** v0.1 was written. v0.1 was committed at 18:33 on 2026-09-15; the ORR mapping, F07, F08 and discrepancies D3–D7 landed between 18:37 and 18:52 in the same session and were never recorded here. Updated: issue count three → five (§1, §7.1); F01–F06 → F01–F08 and the ORR mapping added to the division of labour (§2); ORR source sections and `ADRS-spec.md` added to quoted material (§3.2); `statistics_vocabulary.json` added (§3.1); §4 scoped to the inherited five with F07/F08's provenance stated separately; the ORR "less severely" row in §5 marked **disproved** and three new inference rows added; §6 given the ORR mapping row; §7.6 D1–D2 → D1–D7; §7.7 corrected from one endpoint to two |

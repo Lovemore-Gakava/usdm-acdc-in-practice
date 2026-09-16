@@ -27,7 +27,7 @@ git checkout main
 | Tier | SAP | Programming spec | ADaM target |
 |---|---|---|---|
 | Simple — lab CFB | §12.3 (baseline definition), §12.2 (analysis visits) | `ADLB-spec.md` | ADLB |
-| Moderate — ORR | §4.3, §13.6 (estimand E3 / E3a) | `ADRS-spec.md` | ADRS `PARAMCD = "CBOR"`; ADSL `ORRFL` |
+| Moderate — ORR | §4.3 (derivation), §5.3 (statistical methods), §3 (populations), §13.6 (estimand E3 / E3a) | `ADRS-spec.md` v0.3 | ADRS `PARAMCD = "CBOR"`, `AVALC`, `RSPFL`; ADSL `ORRFL` |
 | Complex — PFS | §4.2, §13.5 (estimand E2 / E2a) | `ADTTE-spec.md` | ADTTE `PARAMCD = "PFS"` |
 
 SAP is 626 lines with nine estimands (E1, E1a, E1b, E2, E2a, E3, E3a, E4, E5) in an explicit
@@ -44,8 +44,10 @@ required at step 3 of the method (`comparison.md`), not before.
 
 ## Known discrepancies inside the source
 
-Recorded during the PFS mapping; to be resolved against built ADaM at comparison time.
-See [endpoints/03-complex-pfs/mapping.md](../endpoints/03-complex-pfs/mapping.md), D1 and D2.
+Recorded during the paper mappings; to be resolved against built ADaM at comparison time, not
+here. D1 and D2 came from PFS — see
+[endpoints/03-complex-pfs/mapping.md](../endpoints/03-complex-pfs/mapping.md). D3–D7 came from
+ORR — see [endpoints/02-moderate-orr/mapping.md](../endpoints/02-moderate-orr/mapping.md).
 
 | ID | Endpoint | SAP says | Built spec says |
 |---|---|---|---|

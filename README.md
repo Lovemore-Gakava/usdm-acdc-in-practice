@@ -124,8 +124,8 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 │   ├── specification.md             full spec and plan
 │   ├── method.md                    how the findings were verified
 │   └── findings/
-│       ├── README.md                index and status of F01–F06
-│       ├── F01 … F06                one file each, with evidence
+│       ├── README.md                index and status of F01–F08
+│       ├── F01 … F08                one file each, with evidence
 │       └── upstream-issues.md       drafts for cdisc-org issues
 ├── study/
 │   ├── README.md                    why TORIVA, what is used
@@ -156,7 +156,7 @@ The specification is complete and the findings are verified against pinned commi
 | | |
 |---|---|
 | Findings F01–F08 | Written up with evidence. F02 corrected, F04 retired, F05 restated; F06–F08 new, from paper mapping |
-| Upstream issues | Three drafted, none filed |
+| Upstream issues | Five drafted with a suggested filing order, none filed |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |
 | Simple tier (lab CFB) | Not started. Both transformations exist; expected to work |
@@ -176,7 +176,7 @@ resolved upstream or a documented workaround is accepted.
 ## Provenance
 
 Substantially all prose in this repository was drafted by an AI model in a single session on
-2026-09-15 and **has not yet been human-reviewed**. Three findings are drafted as issues to be
+2026-09-15 and **has not yet been human-reviewed**. Five findings are drafted as issues to be
 filed publicly against `cdisc-org/analysis-concepts`; two of the five inherited findings were
 wrong as originally written and were caught only by verification. Read
 [`PROVENANCE.md`](PROVENANCE.md) before filing anything, and [`docs/method.md`](docs/method.md)
