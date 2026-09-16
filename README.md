@@ -32,7 +32,7 @@ including one of the two that was slated to be filed as an upstream issue. See
 | [F06](docs/findings/F06-no-general-predicate.md) | No general predicate exists over more than one variable | **New** |
 | [F07](docs/findings/F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New, amended** |
 | [F08](docs/findings/F08-no-risk-difference.md) | No difference-of-proportions statistic exists | **New** |
-| [F09](docs/findings/F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New, corrected** |
+| [F09](docs/findings/F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break and cannot express a composite sort key | **New, corrected twice** |
 | [F10](docs/findings/F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** |
 | [F11](docs/findings/F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** |
 
@@ -100,10 +100,18 @@ the library binds** — the string appears in two method files and nowhere else 
 no escape from day-windowing (F10). And `M.RecordSelection`'s output description names
 `ANL01FL` while nothing produces one; five of its six selection rules are used by nothing (F11).
 
-F09 was **corrected the same day it was written**: it first called the unbound roles a
-conformance defect, which misreads the library-as-template design. That makes five findings
-with a disproved premise or fix, and three of those five failed by inferring application
-behaviour from library JSON.
+F09 was **corrected twice on the day it was written** — first for calling the unbound roles a
+conformance defect, then again when the app was actually served and two of its three UI claims
+turned out to be wrong (`T.LOCF_Imputation` does bind an ordering, under the role name `order`
+its method does not declare; and the derivation pipeline does have an add control). Only the
+core capability claim survived. That makes five findings with a disproved premise or fix, three
+of which failed by inferring application behaviour from library JSON.
+
+Running the app has never yet been uninformative. This time it also showed that
+`T.BaselineSelection` **cannot** resolve the baseline value of a change-from-baseline chain —
+its output is a `Flag`, so it is not among the nine templates offered — meaning the baseline
+flag and the baseline value are independent derivations with nothing tying them together. See
+[`endpoints/01-simple-lab-cfb/mapping.md`](endpoints/01-simple-lab-cfb/mapping.md).
 
 Five issues are drafted for upstream, with a suggested filing order — Issue 4 (no risk
 difference) is the recommended opener, being the smallest and most concrete. F09–F11 are

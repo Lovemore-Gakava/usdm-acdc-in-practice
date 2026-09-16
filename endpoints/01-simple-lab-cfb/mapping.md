@@ -289,12 +289,70 @@ Do **not** author Chain B. Steps 3 and 4 are F07 and F06, and a shift table with
 classification hand-waved would be exactly the "complete-looking" artefact specification §6.2
 rules out.
 
+## Addendum — what the builder showed (2026-09-16)
+
+The paper mapping above was written first, per the method. `ac-dc-app` was then served and
+driven far enough to check one specific question, and it contradicted part of the mapping.
+
+**Route taken.** CDISC Pilot study → endpoint **END5, *"Laboratory evaluations (Change from
+Baseline)"*** — which is a shipped endpoint of the Pilot study, so this is the lab tier's own
+shape — → concept category `Change (Comparison)` → analysis template *Change From Baseline
+ANCOVA* → derivation pipeline.
+
+**`T.BaselineSelection` is not offered to resolve the baseline value, and cannot be.**
+
+The pipeline asks the author to resolve `AVAL/AVALC/BASE (Measure)` for the `subtrahend` of
+`T.ChangeFromBaseline`, and offers **nine** templates:
+
+```
+LOCF Imputation · ADAS-Cog Item Max Score · ADAS-Cog Per-Item Missing-Capacity Contribution ·
+ADAS-Cog Missing Scale Capacity · ADAS-Cog Scoreable Fraction · ADAS-Cog Sum of Available Item
+Scores · ADAS-Cog Non-Missing Item Count · ADAS-Cog (11) Total Score · Unit Conversion
+```
+
+`T.BaselineSelection` is absent, and the reason is structural: its output binding is
+`concept: "Flag"`, so it produces `ABLFL`, not a `Measure`. It can never satisfy a dependency
+that needs the baseline *value*.
+
+**So the baseline flag and the baseline value are independent derivations.** The value is
+reached entirely through `T.ChangeFromBaseline`'s slice, which the panel renders as
+
+```
+inherited slice: parameter_baseline — scopes this subtree's inputs
+  Parameter      {parameter}
+  AnalysisVisit  Baseline
+```
+
+— by *visit label*, never by the flag. Nothing in the metadata requires the record `ABLFL`
+marks to be the record `BASE` is taken from.
+
+**This corrects the mapping above**, which listed step 4 (`ABLFL` via `T.BaselineSelection`)
+and step 5 (`BASE` via the slice) as consecutive steps of one chain and called the slice's
+reliance on `AnalysisVisit` an elegant joint. They are not consecutive: they are two chains
+that never meet. The observation that TORIVA's `apply_baseline_visit()` independently forces
+`AVISIT = "Baseline"` onto the `ABLFL` record still stands, and is now more pointed — that
+line of R is the *only* thing making the flag and the value agree, and its equivalent is
+exactly what the concept model does not carry.
+
+This is the same shape as F01's `AVAL`/`CNSR` concern and
+[F11](../../docs/findings/F11-analysis-record-flag-has-no-transformation.md)'s `ANL01FL`
+concern: several projections of one decision, with nothing tying them together. On the tier
+that was supposed to be trivial.
+
+**It also revises the tier's verdict slightly.** Chain A step 4 does not feed step 5, so the
+"4 of 8 compose outright" count stands only if step 4 is read as producing `ABLFL` for its own
+sake — which is what ADLB does, and what T-LB-01 consumes. Change from baseline needs only
+steps 5 and 6.
+
 ## New findings
 
 B1 and B5 are F06 and F07, confirmed on a third endpoint. B5 is **strengthened in a way that
 bears on F07's proposed fix**: the `LOW`/`HIGH` collapse is an ordering belonging to one
 analysis, not to the concept, so declaring an ordering on the concept would not capture it.
 That should be added to F07 and to upstream Issue 5 before it is filed.
+
+**B11 — the baseline flag and the baseline value are disconnected.** *New, from the builder.*
+See the addendum. Candidate for a finding; overlaps F01's output-coordination concern and F11's.
 
 B7, B8 and B10 are new and belong in `docs/findings/`:
 

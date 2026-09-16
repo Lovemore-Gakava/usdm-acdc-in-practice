@@ -13,7 +13,7 @@ Verification commands and their output are recorded in each file so any claim ca
 | [F06](F06-no-general-predicate.md) | No general predicate exists over multiple variables | **New** — blocks the PFS tier, and ORR's confirmation rule |
 | [F07](F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New, amended** — the lab tier contradicts its own proposed fix |
 | [F08](F08-no-risk-difference.md) | No difference-of-proportions statistic exists | **New** — blocks estimand E3's summary measure |
-| [F09](F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New, corrected same day** — capability gap holds; its conformance-defect framing was withdrawn |
+| [F09](F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break and cannot express a composite sort key | **New, corrected twice same day** — capability gap holds; two successive framings of its second half were withdrawn, the latter only after running the app |
 | [F10](F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** — found mapping the lab tier |
 | [F11](F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** — found mapping the lab tier |
 

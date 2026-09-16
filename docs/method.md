@@ -26,9 +26,19 @@ Running total: five findings whose premise or fix did not survive — F01, F02, 
 four of them drafted as upstream issues. F09 was written and corrected the same day.
 
 Three of the five (F04, F05, F09) failed the same way: a claim about the **application**
-inferred from reading **library JSON**. That is now a named hazard. A claim about what an
-author can do in the builder is not established until the builder has been run — the standard
-F05 was eventually held to, and the standard F09's central consequence has not yet met.
+inferred from reading **library JSON**. That is now a named hazard. A claim about what an author
+can do in the builder is not established until the builder has been run.
+
+F09 then proved the point twice over. Its first correction was itself a source read, and when
+the app was actually served on 2026-09-16 that correction was **also** wrong in two of its three
+parts: the derivation pipeline does carry an add control, and `T.LOCF_Imputation` does supply an
+ordering — under the role name `order`, which its method does not declare. Only the core
+capability claim survived. **Two corrections, both on the day of writing, and only the run
+settled it.**
+
+The rule this yields: *serve the app before asserting anything about authoring.* It is cheap —
+`python ac-dc-app/serve.py`, one endpoint, four clicks — and it has now overturned or sharpened
+a claim every time it has been done.
 
 The pass rate of confident-sounding claims in this repository is not high, and that is the
 argument for the step.

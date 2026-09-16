@@ -142,8 +142,20 @@ did not survive verification. See §17 of that document for the table.
 
 ### 3.4 Direct observation of the running application
 
-F05 rests partly on running `ac-dc-app` against the shipped CDISC Pilot study in Chrome on
-2026-09-15 and reading the rendered UI. Observations: eight numbered workflow steps plus a
+Two sessions of direct observation, both against the shipped CDISC Pilot study in Chrome.
+
+**2026-09-16**, for F09 and the lab tier's addendum: endpoint END5 *"Laboratory evaluations
+(Change from Baseline)"*, concept category `Change (Comparison)`, analysis template *Change From
+Baseline ANCOVA*, then the derivation pipeline. Observed: the subtrahend dependency offers nine
+templates and `T.BaselineSelection` is not among them; the `parameter_baseline` slice panel
+reads `Parameter {parameter}` / `AnalysisVisit Baseline`; `T.LOCF_Imputation`'s binding panel
+lists `value`, `partition` ×2, `order` and a `+ Add binding...` control whose options are
+concepts rather than roles; the string `time_order` appears nowhere in the rendered page.
+`transformation-config.js`'s `renderInteractiveBindings` was additionally called directly
+against the real library via the page context, returning a bare header for `time_order` with no
+binding rows and no add control.
+
+**2026-09-15**, for F05: running `ac-dc-app` and reading the rendered UI. Observations: eight numbered workflow steps plus a
 Configuration entry; six tabs on Study Overview; the SoA matrix rendering 42 activities and 12
 encounters on the default `studies.json`; each endpoint row rendering as a checkbox with ID,
 badge and text under a "No endpoints selected" counter; no console errors or warnings on a
@@ -198,9 +210,13 @@ of them drafted for public filing. §7.1 should be read with that number in mind
 
 **A pattern across three of the five.** F04, F05 and F09 all went wrong the same way: a claim
 about the *application* inferred from reading *library JSON*. F05 was corrected by serving the
-app; F04 by reading the scenario file properly; F09 by reading the view source. Anything this
-repository says about what an author can or cannot do in the builder should be treated as
-unverified until the app has been run — which, for F09's central consequence, it has not.
+app; F04 by reading the scenario file properly; F09 by reading the view source — **and that
+reading was itself wrong**, corrected only when the app was served on 2026-09-16.
+
+Anything this repository says about what an author can or cannot do in the builder is
+unverified until the app has been run. Running it is cheap and has never yet been uninformative:
+this session it overturned two of F09's three UI claims and produced a new observation about the
+lab chain (B11) that no amount of reading had surfaced.
 
 ---
 
@@ -255,11 +271,12 @@ public repository and five are drafted as public issues.
 F09.** Two were caught in the original verification pass; three survived it and were caught
 later by unrelated work, which means the pass is necessary and not sufficient.
 
-F09 is the sharpest warning of the five: it was written, verified, committed and corrected
-**on the same day**, and its wrong half was the half that inferred something about the
-application from reading the library — the identical mistake F05 made. Each of the five was
-wrong in a way a maintainer would have seen immediately, because each concerned their own
-library.
+F09 is the sharpest warning of the five: it was written, verified, committed and **corrected
+twice on the same day**. Its first wrong half inferred application behaviour from library JSON —
+the identical mistake F05 made. Its first *correction* did the same thing again, and two of its
+three parts were overturned when the application was finally served and driven. Only the core
+capability claim survived both passes. Each of the five was wrong in a way a maintainer would
+have seen immediately, because each concerned their own library.
 
 That this keeps happening is evidence the verification step works and equally evidence that
 confident-sounding claims in this repository can be wrong. **Review before filing.**
@@ -361,3 +378,4 @@ recorded in each `mapping.md`.
 | 0.4 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Simple tier mapped on paper (`endpoints/01-simple-lab-cfb/mapping.md`), completing step 1 for the ladder. Five discrepancies added (D8–D12), the first established partly from TORIVA's **source code** rather than its specification prose. §7.7 rewritten: all three endpoints mapped, none authored, still no cost figure. §7.9 added — the cost measurement as specified in §6.1 cannot honestly be produced by this process, and what can be produced instead |
 | 0.5 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | F09, F10 and F11 written up from the lab tier's B7, B8 and B10, each verified against `739344c` with a reproduce command. **F01 corrected** — its output-cardinality argument was false; `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and three output classes. **F07 amended** — the lab shift table contradicts its concept-level-ordering fix. Upstream Issues 3 and 5 rewritten accordingly; F09–F11 recorded as candidates, not drafts, so the issue count stays at five. §4, §5, §7.1 and `docs/method.md` updated with the running tally of four disproved premises or fixes |
 | 0.6 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Three checks run before any filing. **Issue 4's premise verified** against SAP §5.3 and §13.6 verbatim, and strengthened: `risk difference` already ships in upstream's own STATO copy as `STATO_0000424`, and `estimands_01` is adding `SP_SUMMARY_MEASURE` for exactly the summary that has no statistic. **Upstream state checked** — `main` static since 2026-06-17, issue #11 closed, four issues in the tracker's lifetime, one active maintainer; nothing here is duplicated, and the filing recommendation is now Issue 4 alone. **F09 corrected the same day it was written** — its conformance-defect framing withdrawn; the capability gap stands and its UI consequence is recorded as an unverified source read. D13 added. Tallies in §4, §7.1 and `docs/method.md` raised to five, with the application-from-JSON hazard named |
+| 0.7 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | `ac-dc-app` served and driven to settle F09's UI claims. **Two of the three were wrong**: the derivation pipeline does carry a `+ Add binding...` control, and `T.LOCF_Imputation` does supply an ordering — bound as `order`, a role name `M.ImputedValue_LOCF` does not declare, which is a smaller and more precise defect than "no transformation binds it". F09 corrected a second time; only its core capability claim (single-cardinality `time_order`, no tie-break) survived both passes. New observation recorded as B11 in the lab mapping: `T.BaselineSelection` outputs a `Flag` and is therefore **not** among the nine templates offered to resolve `T.ChangeFromBaseline`'s subtrahend, so the baseline flag and the baseline value are independent derivations. §3.4 now records both observation sessions |
