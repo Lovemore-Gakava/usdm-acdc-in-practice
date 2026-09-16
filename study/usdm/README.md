@@ -43,10 +43,46 @@ Codes (`C15602` Phase III, `C85826`/`C85827` objective levels, `C94496`/`C139173
 levels, `C174266`/`C174268` arm types) were taken from the shipped Pilot study rather than from
 memory.
 
+## Does USDM need the SAP? Almost never — and that is the point
+
+Asked after the fragment was first authored, and it found a mistake in it: objectives were
+cited to **SAP §2** when the protocol carries all six in full at **§2 STUDY OBJECTIVES**.
+Corrected — every objective's `text` is now the protocol's wording.
+
+The layering, once you look:
+
+```
+protocol  +  CDISC Library   →   USDM   (objectives, endpoints, BCs, arms, population)
+SAP                          →   DC (derivations)  and  AC (analyses)
+```
+
+**USDM is a study-definition model, so the protocol is its source.** Objectives §2, endpoint
+definitions §6, arms, population, phase, therapeutic area, and the schedule of activities that
+BCs attach to — all protocol.
+
+**BC needs nothing from the SAP at all.** Biomedical Concepts are CDISC Library entries — the
+shipped Pilot's carry `reference: /mdr/bc/packages/2025-04-01/biomedicalconcepts/C28421` — and
+they attach to *activities* in the protocol's SoA. The SAP has no role.
+
+**One exception: `Estimand`.** TORIVA's protocol defers it. Synopsis line 834 lists
+*"Define estimands per ICH E9(R1) … for OS, PFS, ORR separately"* as an **SAP deliverable**, and
+the estimands themselves exist only in SAP §13. So `Estimand_E1` here is the single object the
+protocol could not supply, and it says so on the object.
+
+That is worth noticing rather than shrugging at. ICH E9(R1) intends estimands to be
+pre-specified in the protocol, and USDM models `Estimand` as study-definition content. A study
+that puts its estimands in the SAP puts a USDM class out of reach of its natural source — and
+if the protocol were digitised as USDM first, as USDM is meant to be used, those estimands would
+have nowhere to come from.
+
+It also explains the lab tier cleanly. USDM is fine for it: the protocol names Safety and
+schedules laboratory assessments. It is the **DC/AC end** that is empty, because the SAP is
+silent on laboratory analysis. The gap is downstream of USDM, not in it.
+
 ## What is authored, and what is deliberately not
 
-Authored from the **protocol synopsis** (endpoint definitions) and **SAP §2** (objectives),
-quoted in each `description`:
+Authored from the **protocol synopsis** — objectives §2, endpoint definitions §6 — with SAP
+cross-references in each `description` where the SAP adds a hypothesis or a threshold:
 
 | Objective | Endpoint | Source |
 |---|---|---|
@@ -55,7 +91,7 @@ quoted in each `description`:
 | OBJ-S2 | `END-ORR` | SAP §2.2 S2 |
 | OBJ-S3 | `END-DOR` | SAP §2.2 S3 |
 | OBJ-S4 | `END-DCR` | SAP §2.2 S4 |
-| OBJ-S5 | `END-S5-LAB` Safety — laboratory evaluations | protocol §7.2 — **not the SAP**, see below |
+| OBJ-S5 | `END-S5-LAB` Safety — laboratory evaluations | protocol §2.2 and §7.2 — **not the SAP**, see below |
 
 **Not authored:** schedule of activities, encounters, eligibility criteria, study interventions,
 the other eight estimands. Not needed for the traverse and not worth inventing.

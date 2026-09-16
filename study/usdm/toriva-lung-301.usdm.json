@@ -38,7 +38,9 @@
             "id": "BiomedicalConcept_ALT",
             "name": "Alanine Aminotransferase",
             "label": "ALT",
-            "synonyms": ["SGPT"],
+            "synonyms": [
+              "SGPT"
+            ],
             "reference": "",
             "instanceType": "BiomedicalConcept",
             "code": {
@@ -66,7 +68,9 @@
             "id": "BiomedicalConcept_AST",
             "name": "Aspartate Aminotransferase",
             "label": "AST",
-            "synonyms": ["SGOT"],
+            "synonyms": [
+              "SGOT"
+            ],
             "reference": "",
             "instanceType": "BiomedicalConcept",
             "code": {
@@ -122,7 +126,9 @@
             "id": "BiomedicalConcept_BILI",
             "name": "Bilirubin",
             "label": "BILI",
-            "synonyms": ["Total Bilirubin"],
+            "synonyms": [
+              "Total Bilirubin"
+            ],
             "reference": "",
             "instanceType": "BiomedicalConcept",
             "code": {
@@ -178,7 +184,9 @@
             "id": "BiomedicalConcept_HGB",
             "name": "Haemoglobin",
             "label": "HGB",
-            "synonyms": ["Hemoglobin"],
+            "synonyms": [
+              "Hemoglobin"
+            ],
             "reference": "",
             "instanceType": "BiomedicalConcept",
             "code": {
@@ -206,7 +214,9 @@
             "id": "BiomedicalConcept_NEUT",
             "name": "Neutrophils",
             "label": "NEUT",
-            "synonyms": ["Absolute Neutrophil Count"],
+            "synonyms": [
+              "Absolute Neutrophil Count"
+            ],
             "reference": "",
             "instanceType": "BiomedicalConcept",
             "code": {
@@ -320,8 +330,8 @@
                 "id": "Objective_1",
                 "name": "OBJ1",
                 "label": "Primary objective - OS",
-                "text": "Compare Overall Survival (OS) between torivumab and placebo arms in the ITT population.",
-                "description": "SAP section 2.1. Null hypothesis: OS hazard ratio (torivumab / placebo) = 1.",
+                "text": "To evaluate the effect of torivumab 200 mg Q3W versus placebo on Overall Survival (OS) in patients with previously untreated advanced or metastatic NSCLC with PD-L1 TPS >= 50% and no EGFR or ALK genomic tumour aberrations.",
+                "description": "Protocol synopsis section 2.1. The SAP restates this at section 2.1 with the null hypothesis: OS hazard ratio (torivumab / placebo) = 1.",
                 "instanceType": "Objective",
                 "level": {
                   "id": "Code_OL1",
@@ -337,7 +347,7 @@
                     "name": "END-OS",
                     "label": "Overall Survival",
                     "text": "Time from randomisation to death from any cause. Subjects not known to have died at data cut-off are censored at the date last known alive.",
-                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.1.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.1.",
                     "purpose": "Primary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -356,8 +366,8 @@
                 "id": "Objective_S1",
                 "name": "OBJ-S1",
                 "label": "Secondary objective S1 - PFS",
-                "text": "Compare PFS (BICR-assessed, RECIST 1.1) between arms.",
-                "description": "SAP section 2.2, S1. Null hypothesis: PFS HR = 1.",
+                "text": "To compare Progression-Free Survival (PFS) between the torivumab and placebo arms as assessed by blinded independent central review (BICR) per RECIST 1.1.",
+                "description": "Protocol synopsis section 2.2, secondary objective 1. SAP section 2.2 S1 adds the null hypothesis PFS HR = 1.",
                 "instanceType": "Objective",
                 "level": {
                   "id": "Code_OL2",
@@ -373,7 +383,7 @@
                     "name": "END-PFS",
                     "label": "Progression-Free Survival",
                     "text": "Time from randomisation to the first documented disease progression per RECIST 1.1 (BICR) or death from any cause, whichever occurs first. Subjects without progression or death are censored at the last adequate tumour assessment.",
-                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.2.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.2.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -392,8 +402,8 @@
                 "id": "Objective_S2",
                 "name": "OBJ-S2",
                 "label": "Secondary objective S2 - ORR",
-                "text": "Compare Objective Response Rate (ORR = CR + PR, BICR) between arms.",
-                "description": "SAP section 2.2, S2. Null hypothesis: ORR difference = 0.",
+                "text": "To compare the Objective Response Rate (ORR) (complete response [CR] + partial response [PR]) between treatment arms per RECIST 1.1 by BICR.",
+                "description": "Protocol synopsis section 2.2, secondary objective 2. SAP section 2.2 S2 adds the null hypothesis ORR difference = 0.",
                 "instanceType": "Objective",
                 "level": {
                   "id": "Code_OL3",
@@ -409,7 +419,7 @@
                     "name": "END-ORR",
                     "label": "Objective Response Rate",
                     "text": "Proportion of subjects with best overall response of CR or PR.",
-                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.3.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.3.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -428,8 +438,8 @@
                 "id": "Objective_S3",
                 "name": "OBJ-S3",
                 "label": "Secondary objective S3 - DoR",
-                "text": "Describe Duration of Response (DoR) in responders.",
-                "description": "SAP section 2.2, S3. No formal hypothesis test.",
+                "text": "To evaluate the Duration of Response (DoR) in responders in each treatment arm.",
+                "description": "Protocol synopsis section 2.2, secondary objective 3. SAP section 2.2 S3: no formal hypothesis test.",
                 "instanceType": "Objective",
                 "level": {
                   "id": "Code_OL4",
@@ -445,7 +455,7 @@
                     "name": "END-DOR",
                     "label": "Duration of Response",
                     "text": "Time from first documented CR or PR to first documented disease progression or death from any cause, in responding subjects.",
-                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.4.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.4.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -464,8 +474,8 @@
                 "id": "Objective_S4",
                 "name": "OBJ-S4",
                 "label": "Secondary objective S4 - DCR",
-                "text": "Compare Disease Control Rate (DCR = CR + PR + SD) between arms.",
-                "description": "SAP section 2.2, S4. Null hypothesis: DCR difference = 0. SD requires duration >= 8 weeks.",
+                "text": "To compare the Disease Control Rate (DCR) (CR + PR + stable disease [SD]) between treatment arms.",
+                "description": "Protocol synopsis section 2.2, secondary objective 4. SAP section 2.2 S4 adds the null hypothesis DCR difference = 0 and the SD >= 8 weeks requirement.",
                 "instanceType": "Objective",
                 "level": {
                   "id": "Code_OL5",
@@ -481,7 +491,7 @@
                     "name": "END-DCR",
                     "label": "Disease Control Rate",
                     "text": "Proportion of subjects with best overall response of CR, PR, or SD maintained for at least 8 weeks.",
-                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.5.",
+                    "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.5.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
                     "level": {
@@ -500,8 +510,8 @@
                 "id": "Objective_S5",
                 "name": "OBJ-S5",
                 "label": "Secondary objective S5 - Safety",
-                "text": "Characterise safety and tolerability.",
-                "description": "SAP section 2.2, S5. Descriptive; no formal hypothesis test. Safety assessments include adverse events, laboratory evaluations, vital signs, ECG and ECOG performance status (protocol section 7).",
+                "text": "To characterise the safety and tolerability of torivumab relative to placebo, including the incidence, severity, and management of adverse events (AEs), serious adverse events (SAEs), immune-related adverse events (irAEs), and adverse events of special interest (AESIs).",
+                "description": "Protocol synopsis section 2.2, secondary objective 5. Descriptive; no formal hypothesis test. Safety assessments include laboratory evaluations, vital signs, ECG and ECOG performance status (protocol section 7).",
                 "instanceType": "Objective",
                 "level": {
                   "id": "Code_OL6",
@@ -546,12 +556,14 @@
                 "id": "Estimand_E1",
                 "name": "E1",
                 "label": "E1 - Overall Survival, primary",
-                "description": "SAP section 13.4. Primary estimand for OS.",
+                "description": "SAP section 13.4. SOURCED FROM THE SAP, NOT THE PROTOCOL: TORIVA's protocol defers estimand definition to the SAP (synopsis line 834 lists 'Define estimands per ICH E9(R1)' as an SAP deliverable), so this is the only object in this fragment the protocol could not supply. ICH E9(R1) intends estimands to be pre-specified in the protocol, and USDM models Estimand as study-definition content, so this is a document-structure choice of the source study.",
                 "instanceType": "Estimand",
                 "populationSummary": "Hazard ratio (torivumab / placebo) from a stratified Cox model, with 95% CI; median OS per arm by Kaplan-Meier.",
                 "analysisPopulationId": "AnalysisPopulation_ITT",
                 "variableOfInterestId": "Endpoint_OS",
-                "interventionIds": ["StudyArm_1"],
+                "interventionIds": [
+                  "StudyArm_1"
+                ],
                 "intercurrentEvents": [
                   {
                     "id": "IntercurrentEvent_E1_1",
