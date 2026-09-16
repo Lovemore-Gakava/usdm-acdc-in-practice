@@ -76,6 +76,7 @@ D8–D12 came from the lab tier — see
 | **D10** | Lab | SAP §14: TFL crosswalk *"to be completed in `tfl/TFL-SHELLS.md`"* | That file does not exist at `8534339d`. Three lab TFL programs exist and ran |
 | **D11** | Lab | SAP §4 and §5 specify **no laboratory analysis**; ADLB appears only in §12.2/§12.3/§7 conventions | T-LB-01 and T-LB-02 were built. Their only specification is a shell cross-reference in `ADLB-spec.md`; the authoritative rule lives in the R program |
 | **D12** | Lab | `ADLB-spec.md` header: *"Spec version 0.1 DRAFT"* | Its own change log records v0.3 (2026-07-24). Minor |
+| **D14** | Design | Protocol title, §2.1 and IMP describe torivumab **monotherapy** versus placebo in PD-L1 TPS ≥50% — no chemotherapy anywhere (0 mentions of carboplatin, pemetrexed or "chemotherapy backbone") | SAP §13.2's Treatment attribute specifies torivumab **+ carboplatin AUC5 + pemetrexed** versus placebo + identical backbone. Two different trials. Found by the M11 restructure, which forces Treatment into the protocol where it sits next to the title |
 | **D13** | ORR | SAP §5.3 and §13.6: population-level summary is a **stratified MH risk difference** | §13.6's estimator is `stats::mantelhaen.test()`, which returns a common **odds ratio**, not a risk difference. The SAP specifies one statistic and names a tool that produces another |
 
 D4 and D7 are the same defect from two directions: **estimand E3 is not implementable against

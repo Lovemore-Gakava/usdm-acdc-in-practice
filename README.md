@@ -273,7 +273,7 @@ The specification is complete and the findings are verified against pinned commi
 `tools/acdc_divergence.py` is usable for methods and **not** trustworthy for transformations —
 it reports one transformation cluster at `739344c`, and that cluster is the F03 false positive.
 
-Thirteen discrepancies inside TORIVA itself have surfaced from mapping (D1–D13), including one
+Fourteen discrepancies inside TORIVA itself have surfaced from mapping (D1–D14), including one
 that makes estimand E3 unimplementable as specified (`EFFFL` does not exist on ADRS) and one
 where the SAP specifies no laboratory analysis at all, so the only statement of what the two
 built lab tables compute is the R program that computes them. All are recorded in

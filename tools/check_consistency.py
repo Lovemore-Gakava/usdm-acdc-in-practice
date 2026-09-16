@@ -23,7 +23,7 @@ Checks:
   6. coverage      every tracked .md and .py is named somewhere in PROVENANCE.md
   7. links         every relative markdown link resolves to a file that exists
   8. submodule     upstream is checked out, and at the commit the documents pin
-  9. north         NORTH.md's eight-stage status table matches the filesystem, so
+  9. north         NORTH.md's nine-stage status table matches the filesystem, so
                    the compass cannot claim a stage that has not happened
 
 Two kinds of line are exempt, because they are correct records of what was once
@@ -334,7 +334,7 @@ def check_submodule(root: Path, files: dict[str, list[str]],
 
 
 # --------------------------------------------------------------------------
-# NORTH.md — the eight-stage finish line
+# NORTH.md — the finish line
 # --------------------------------------------------------------------------
 # The compass is only useful if it cannot lie. Each stage is computed from the
 # filesystem and compared against the status table in NORTH.md, so the table
@@ -355,13 +355,26 @@ def _specs(chains: list[dict]) -> list[dict]:
     return [sp for c in chains for sp in (c.get("endpointSpecs") or {}).values()]
 
 
-def north_stages(root: Path) -> list[tuple[int, str, bool]]:
-    """The eight stages of NORTH.md's finish line, computed from the repository."""
+def north_stages(root: Path) -> list[tuple[str, str, bool]]:
+    """The stages of NORTH.md's finish line, each computed from the repository."""
     chains = _chains(root)
     specs = _specs(chains)
 
     m11 = root / "study" / "m11"
     stage0 = m11.is_dir() and any(m11.iterdir())
+
+    # 0b: the protocol restructured to M11, AND the USDM regenerated from it.
+    # Both halves are required: a restructured section that nothing downstream
+    # consumes leaves stage 1's fragment still transcribed from prose, which is
+    # the thing 0b exists to fix.
+    prot = m11 / "protocol"
+    restructured = prot.is_dir() and any(prot.iterdir())
+    usdm_dir = root / "study" / "usdm"
+    regenerated = usdm_dir.is_dir() and any(
+        "study/m11/protocol" in f.read_text(encoding="utf-8", errors="replace")
+        for f in usdm_dir.iterdir() if f.is_file()
+    )
+    stage0b = restructured and regenerated
 
     usdm = root / "study" / "usdm"
     stage1 = usdm.is_dir() and any(usdm.iterdir())
@@ -379,14 +392,15 @@ def north_stages(root: Path) -> list[tuple[int, str, bool]]:
     stage7 = any((root / "endpoints").glob("*/comparison.md"))
 
     return [
-        (0, "Protocol mapped to ICH M11 elements", stage0),
-        (1, "USDM fragments hand-authored", stage1),
-        (2, "BC linked on the chain's terminals", stage2),
-        (3, "DC — derivation authored", stage3),
-        (4, "AC — analysis bound", stage4),
-        (5, "eSAP generated", stage5),
-        (6, "Executed, a real result produced", stage6),
-        (7, "Compared against built ADaM", stage7),
+        ("0",  "Protocol mapped to ICH M11 elements", stage0),
+        ("0b", "Protocol restructured to M11, USDM regenerated from it", stage0b),
+        ("1",  "USDM fragments hand-authored", stage1),
+        ("2",  "BC linked on the chain's terminals", stage2),
+        ("3",  "DC — derivation authored", stage3),
+        ("4",  "AC — analysis bound", stage4),
+        ("5",  "eSAP generated", stage5),
+        ("6",  "Executed, a real result produced", stage6),
+        ("7",  "Compared against built ADaM", stage7),
     ]
 
 
@@ -402,13 +416,13 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
                         "NORTH.md is missing — it is the project's destination and the "
                         "only statement of what 'done' means")]
 
-    stated: dict[int, tuple[int, bool]] = {}
-    row = re.compile(r"^\|\s*(\d)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
+    stated: dict[str, tuple[int, bool]] = {}
+    row = re.compile(r"^\|\s*([0-9][a-z]?)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
     for i, line in enumerate(lines, 1):
         m = row.match(line)
         if not m:
             continue
-        num, mark = int(m.group(1)), m.group(3).strip().lower()
+        num, mark = m.group(1), m.group(3).strip().lower()
         if mark in TRUE_MARKS:
             stated[num] = (i, True)
         elif mark in FALSE_MARKS:

@@ -47,6 +47,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `NORTH.md` | 2026-09-16 | Destination sentence: **LG**. Finish line, test and prose: AI | Destination confirmed by LG |
 | `study/usdm/toriva-lung-301.usdm.json`, `study/usdm/README.md` | 2026-09-16 | AI, from TORIVA's protocol synopsis and SAP §2 | Not yet |
 | `study/m11/protocol-to-m11.md` | 2026-09-16 | AI, from the merged electronic ICH M11 v0.17.0 and TORIVA's protocol synopsis | Not yet |
+| `study/m11/protocol/section-03-objectives-endpoints.md`, `study/m11/protocol/README.md` | 2026-09-16 | AI. **A derived work** — TORIVA's protocol §2/§6 and SAP §13 restructured to M11 §3. No estimand content invented; every attribute transcribed and cited | Not yet |
 | `CLAUDE.md` | 2026-09-16 | AI | Not yet |
 | — Issues 1–5 restructured requirement-first | 2026-09-16 | AI | Not yet — Issue 4 is a Tier 1 item, the rest Tier 2 |
 | `docs/method.md` | This session | AI | Not yet |
@@ -136,6 +137,14 @@ scratch clone. Only aggregate counts and distributions are reported in this repo
 subject-level values are reproduced, and the parquet is not vendored. The study is synthetic
 with a fictional sponsor, so this raises no confidentiality question, but the same discipline
 would apply if it were not.
+
+**A derived work now lives here.** Until 2026-09-16 TORIVA was referenced and never
+reproduced. `study/m11/protocol/` breaks that: it restructures TORIVA's protocol and SAP
+content into ICH M11 form, which is a **derivative** of a CC BY 4.0 work. Permitted with
+attribution, which the file carries, along with the source's "FICTIONAL — NOT FOR REGULATORY
+USE" banner. It is a restructuring, not a rewrite: every estimand attribute is transcribed from
+SAP §13 and cited to its section, and where the source has nothing — the laboratory estimand —
+the derived document says so rather than filling the gap.
 
 **Material caveat on "ground truth."** `study/README.md` and the specification both justify
 choosing TORIVA on the basis that built ADaM provides ground truth. TORIVA's own
@@ -281,7 +290,7 @@ AI's reasoning from verified facts, not themselves verified:
 | `tools/check_baseline_ambiguity.py` | Tests F12 against built ADaM; reproduces every figure in the lab tier's `comparison.md` |
 | `endpoints/01-simple-lab-cfb/` | The only tier with all four method steps complete |
 | `docs/findings/` | The findings themselves, each with its evidence |
-| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the thirteen discrepancies found inside TORIVA (D1–D13) |
+| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the fourteen discrepancies found inside TORIVA (D1–D14) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |
 | `endpoints/02-moderate-orr/mapping.md` | Step 1 of the method for the moderate tier; source of F07, F08 and D3–D7 |
 | `endpoints/01-simple-lab-cfb/mapping.md` | Step 1 of the method for the simple tier; source of D8–D12, and of B11 → F12 |
@@ -343,7 +352,7 @@ in value 96.8% of the time. See `endpoints/01-simple-lab-cfb/comparison.md`.
 
 **It remains unrun for ORR and PFS**, and every claim about those two still derives from
 TORIVA's markdown, not its data.
-Discrepancies D1–D13 in `study/source-refs.md` are recorded as **open** precisely because
+Discrepancies D1–D14 in `study/source-refs.md` are recorded as **open** precisely because
 resolving them by inspection before authoring would contaminate step 3 of the method. D7 and
 D11 are the sharpest — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable
 against the built ADaM as specified; and the SAP specifies no laboratory analysis at all, so
