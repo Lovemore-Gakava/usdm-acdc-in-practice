@@ -24,7 +24,7 @@ Done means all eight green, on at least one endpoint. Nothing else counts as fin
 
 | # | Stage | Status |
 |---|---|---|
-| 0 | Protocol mapped to ICH M11 elements | ✗ |
+| 0 | Protocol mapped to ICH M11 elements | ✓ |
 | 1 | USDM fragments hand-authored | ✓ |
 | 2 | BC linked on the chain's terminals | ✗ |
 | 3 | DC — derivation authored | ✓ |
@@ -44,7 +44,15 @@ scoreboard prints on every commit.
 All four remaining stages run on **one endpoint — laboratory change from baseline**, which is
 the only tier that composes. Not on three endpoints. One, all the way.
 
-**Stage 0 — protocol mapped to ICH M11 elements.** Added 2026-09-16 with the destination. The
+**Stage 0 — protocol mapped to ICH M11 elements. Done 2026-09-16.**
+[`study/m11/protocol-to-m11.md`](study/m11/protocol-to-m11.md). The headline: **M11 §3.1.1
+requires the estimand in the protocol** — five of its seven required elements are ICH E9(R1)
+estimand attributes — and TORIVA defers all five to the SAP, failing thirty required elements
+across six objectives. That independently confirms, and makes countable, what stage 1 found
+from the USDM side. Everything M11 wants exists somewhere in TORIVA's document set; none of it
+is missing, all of it is misplaced.
+
+The original scoping note follows. The
 merged electronic M11 is 303 data elements, 216 of them Required, across 14 sections, each
 carrying a CDISC code (`study/source-refs.md`). TORIVA's protocol is **not** M11-structured, so
 this is a genuine mapping rather than a re-format, and it is the "M11" half of USDM11.
