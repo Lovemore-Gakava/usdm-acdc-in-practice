@@ -4,8 +4,8 @@ USDM v4.0 and the CDISC AC/DC framework — BC to DC to AC — applied end to en
 
 ---
 
-**Start with [`NORTH.md`](NORTH.md)** — the destination, the seven-stage finish line, and the
-test any piece of work has to pass. Three of seven stages are done.
+**Start with [`NORTH.md`](NORTH.md)** — the destination, the eight-stage finish line, and the
+test any piece of work has to pass. Four of eight stages are done.
 
 ## What this is
 

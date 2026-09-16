@@ -23,7 +23,7 @@ Checks:
   6. coverage      every tracked .md and .py is named somewhere in PROVENANCE.md
   7. links         every relative markdown link resolves to a file that exists
   8. submodule     upstream is checked out, and at the commit the documents pin
-  9. north         NORTH.md's seven-stage status table matches the filesystem, so
+  9. north         NORTH.md's eight-stage status table matches the filesystem, so
                    the compass cannot claim a stage that has not happened
 
 Two kinds of line are exempt, because they are correct records of what was once
@@ -334,7 +334,7 @@ def check_submodule(root: Path, files: dict[str, list[str]],
 
 
 # --------------------------------------------------------------------------
-# NORTH.md — the seven-stage finish line
+# NORTH.md — the eight-stage finish line
 # --------------------------------------------------------------------------
 # The compass is only useful if it cannot lie. Each stage is computed from the
 # filesystem and compared against the status table in NORTH.md, so the table
@@ -356,9 +356,12 @@ def _specs(chains: list[dict]) -> list[dict]:
 
 
 def north_stages(root: Path) -> list[tuple[int, str, bool]]:
-    """The seven stages of NORTH.md's finish line, computed from the repository."""
+    """The eight stages of NORTH.md's finish line, computed from the repository."""
     chains = _chains(root)
     specs = _specs(chains)
+
+    m11 = root / "study" / "m11"
+    stage0 = m11.is_dir() and any(m11.iterdir())
 
     usdm = root / "study" / "usdm"
     stage1 = usdm.is_dir() and any(usdm.iterdir())
@@ -376,6 +379,7 @@ def north_stages(root: Path) -> list[tuple[int, str, bool]]:
     stage7 = any((root / "endpoints").glob("*/comparison.md"))
 
     return [
+        (0, "Protocol mapped to ICH M11 elements", stage0),
         (1, "USDM fragments hand-authored", stage1),
         (2, "BC linked on the chain's terminals", stage2),
         (3, "DC — derivation authored", stage3),

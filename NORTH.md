@@ -7,17 +7,24 @@ means; everything else describes how.
 
 ## Destination
 
-> **Understand USDM v4 and the AC/DC/BC framework well enough to explain and demonstrate it, by
-> taking one endpoint the whole way through.**
+> **Understand USDM and ICH M11, and the AC/DC/BC framework, well enough to explain and
+> demonstrate them — by structuring one protocol and taking one endpoint the whole way
+> through.**
+
+*Revised 2026-09-16.* The first version said "USDM v4 and the AC/DC/BC framework" and omitted
+ICH M11 — the **M11** in what the field calls USDM11. The omission had already cost something:
+work that would have advanced the M11 half was turned away by the test in §The test, because
+the destination it was tested against was missing that half.
 
 ## Finish line
 
-Done means all seven green, on at least one endpoint. Nothing else counts as finishing.
+Done means all eight green, on at least one endpoint. Nothing else counts as finishing.
 
 <!-- north:status -->
 
 | # | Stage | Status |
 |---|---|---|
+| 0 | Protocol mapped to ICH M11 elements | ✗ |
 | 1 | USDM fragments hand-authored | ✓ |
 | 2 | BC linked on the chain's terminals | ✗ |
 | 3 | DC — derivation authored | ✓ |
@@ -36,6 +43,22 @@ scoreboard prints on every commit.
 
 All four remaining stages run on **one endpoint — laboratory change from baseline**, which is
 the only tier that composes. Not on three endpoints. One, all the way.
+
+**Stage 0 — protocol mapped to ICH M11 elements.** Added 2026-09-16 with the destination. The
+merged electronic M11 is 303 data elements, 216 of them Required, across 14 sections, each
+carrying a CDISC code (`study/source-refs.md`). TORIVA's protocol is **not** M11-structured, so
+this is a genuine mapping rather than a re-format, and it is the "M11" half of USDM11.
+
+Scoped to the sections that feed the endpoint being carried — Title Page, §3 objectives and
+endpoints, §8.4.4 clinical laboratory assessments — **not** all 216 required elements. A full
+protocol digitisation remains a non-goal (`docs/specification.md` §13). First action: map
+TORIVA's synopsis sections onto M11 element names, and record which required elements the
+protocol does not supply, because that is the interesting half.
+
+It sits before stage 1 logically: the USDM fragment should be a *product* of the M11 mapping
+rather than transcribed from prose. Stage 1 was done first, in the other order, and that is
+recorded rather than hidden — redoing it is not required, but stage 0 should say where the two
+disagree.
 
 **Stage 1 — USDM fragments hand-authored. Done 2026-09-16.**
 `study/usdm/toriva-lung-301.usdm.json` — six objectives, six endpoints, seven laboratory BCs,

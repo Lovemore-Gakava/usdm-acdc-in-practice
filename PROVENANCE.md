@@ -272,7 +272,7 @@ AI's reasoning from verified facts, not themselves verified:
 | Document | Relationship |
 |---|---|
 | `docs/specification.md` | The plan. Partly superseded — §5 carries a disposition table, §17 v0.4 the corrections |
-| [`NORTH.md`](NORTH.md) | **The destination.** What "done" means, the seven-stage finish line, and the test every piece of work must pass. Read before anything else; everything below describes *how*, this says *what for* |
+| [`NORTH.md`](NORTH.md) | **The destination.** What "done" means, the eight-stage finish line, and the test every piece of work must pass. Read before anything else; everything below describes *how*, this says *what for* |
 | `CLAUDE.md` | Working rules for an AI collaborator, pointing at `NORTH.md`. Loaded automatically at session start |
 | `docs/method.md` | How the findings were verified, and why that step exists |
 | `docs/review-plan.md` | What a human must review, in what order, and what to skip. **Nothing here is reviewed until its sign-off table is filled in** |

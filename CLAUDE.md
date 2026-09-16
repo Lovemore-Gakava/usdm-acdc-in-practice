@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 **Read [`NORTH.md`](NORTH.md) before doing anything else.** It states the destination, the
-seven-stage finish line, and the test every piece of work must pass. This file says how to work;
+eight-stage finish line, and the test every piece of work must pass. This file says how to work;
 `NORTH.md` says what for.
 
 ## The test
