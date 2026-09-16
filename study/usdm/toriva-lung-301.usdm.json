@@ -1,0 +1,599 @@
+{
+  "usdmVersion": "4.0",
+  "systemName": "hand-authored (usdm-acdc-in-practice)",
+  "systemVersion": "0.1",
+  "study": {
+    "id": "Study_TORIVA",
+    "name": "TORIVA-LUNG 301",
+    "label": "TORIVA-LUNG 301",
+    "description": "Simulated Phase 3 study of torivumab versus placebo in previously untreated advanced NSCLC with PD-L1 TPS >= 50%. Fictional sponsor and drug; synthetic data, educational use only.",
+    "instanceType": "Study",
+    "documentedBy": [],
+    "versions": [
+      {
+        "id": "StudyVersion_1",
+        "versionIdentifier": "1.1",
+        "rationale": "Hand-authored USDM v4 fragment covering the objective/endpoint hierarchy and the laboratory biomedical concepts, for taking one endpoint through the AC/DC chain. Not a full study definition: no schedule of activities, no eligibility criteria, no interventions beyond the arms.",
+        "instanceType": "StudyVersion",
+        "studyIdentifiers": [
+          {
+            "id": "StudyIdentifier_1",
+            "text": "SIMULATED-TORIVUMAB-2026",
+            "scopeId": "Organization_1",
+            "instanceType": "StudyIdentifier"
+          }
+        ],
+        "businessTherapeuticAreas": [
+          {
+            "id": "Code_TA1",
+            "code": "C3262",
+            "codeSystem": "http://www.cdisc.org",
+            "codeSystemVersion": "2024-09-27",
+            "decode": "Neoplasm",
+            "instanceType": "Code"
+          }
+        ],
+        "biomedicalConcepts": [
+          {
+            "id": "BiomedicalConcept_ALT",
+            "name": "Alanine Aminotransferase",
+            "label": "ALT",
+            "synonyms": ["SGPT"],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_ALT",
+              "code": "C64433",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Alanine Aminotransferase",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_ALT_RES",
+                "name": "ALT Result",
+                "label": "ALT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_AST",
+            "name": "Aspartate Aminotransferase",
+            "label": "AST",
+            "synonyms": ["SGOT"],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_AST",
+              "code": "C64467",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Aspartate Aminotransferase",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_AST_RES",
+                "name": "AST Result",
+                "label": "AST",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_ALP",
+            "name": "Alkaline Phosphatase",
+            "label": "ALP",
+            "synonyms": [],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_ALP",
+              "code": "C64432",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Alkaline Phosphatase",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_ALP_RES",
+                "name": "ALP Result",
+                "label": "ALP",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_BILI",
+            "name": "Bilirubin",
+            "label": "BILI",
+            "synonyms": ["Total Bilirubin"],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_BILI",
+              "code": "C64500",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Bilirubin",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_BILI_RES",
+                "name": "Bilirubin Result",
+                "label": "BILI",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_CREAT",
+            "name": "Creatinine",
+            "label": "CREAT",
+            "synonyms": [],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_CREAT",
+              "code": "C64547",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Creatinine",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_CREAT_RES",
+                "name": "Creatinine Result",
+                "label": "CREAT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_HGB",
+            "name": "Haemoglobin",
+            "label": "HGB",
+            "synonyms": ["Hemoglobin"],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_HGB",
+              "code": "C64848",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Hemoglobin",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_HGB_RES",
+                "name": "Haemoglobin Result",
+                "label": "HGB",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_NEUT",
+            "name": "Neutrophils",
+            "label": "NEUT",
+            "synonyms": ["Absolute Neutrophil Count"],
+            "reference": "",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_NEUT",
+              "code": "C64606",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Neutrophils",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_NEUT_RES",
+                "name": "Neutrophils Result",
+                "label": "NEUT",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ]
+          }
+        ],
+        "studyDesigns": [
+          {
+            "id": "StudyDesign_1",
+            "name": "TORIVA-LUNG 301 Design",
+            "label": "Randomised double-blind parallel design",
+            "description": "Randomised, double-blind, placebo-controlled parallel-group design. Protocol specifies 2:1 randomisation (300 torivumab : 150 placebo); the simulated data is 1:1 (225 : 225). The protocol synopsis records this discrepancy itself.",
+            "instanceType": "StudyDesign",
+            "studyType": {
+              "id": "Code_ST1",
+              "code": "C98388",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Interventional Study",
+              "instanceType": "Code"
+            },
+            "studyPhase": {
+              "id": "AliasCode_1",
+              "instanceType": "AliasCode",
+              "standardCode": {
+                "id": "Code_PH1",
+                "code": "C15602",
+                "codeSystem": "http://www.cdisc.org",
+                "codeSystemVersion": "2024-09-27",
+                "decode": "Phase III Trial",
+                "instanceType": "Code"
+              }
+            },
+            "therapeuticAreas": [
+              {
+                "id": "Code_TA2",
+                "code": "C2926",
+                "codeSystem": "http://www.cdisc.org",
+                "codeSystemVersion": "2024-09-27",
+                "decode": "Lung Non-Small Cell Carcinoma",
+                "instanceType": "Code"
+              }
+            ],
+            "arms": [
+              {
+                "id": "StudyArm_1",
+                "name": "Torivumab",
+                "label": "Torivumab",
+                "description": "Torivumab intravenously every 3 weeks",
+                "instanceType": "StudyArm",
+                "type": {
+                  "id": "Code_AT1",
+                  "code": "C174266",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Investigational Arm",
+                  "instanceType": "Code"
+                }
+              },
+              {
+                "id": "StudyArm_2",
+                "name": "Placebo",
+                "label": "Placebo",
+                "description": "Matching placebo intravenously every 3 weeks",
+                "instanceType": "StudyArm",
+                "type": {
+                  "id": "Code_AT2",
+                  "code": "C174268",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Placebo Control Arm",
+                  "instanceType": "Code"
+                }
+              }
+            ],
+            "population": {
+              "id": "StudyDesignPopulation_1",
+              "name": "ITT",
+              "label": "Intent-to-Treat",
+              "description": "All randomised subjects, analysed by randomised arm.",
+              "includesHealthySubjects": false,
+              "plannedEnrollmentNumber": {
+                "id": "Range_1",
+                "minValue": 450,
+                "maxValue": 450,
+                "instanceType": "Range"
+              },
+              "instanceType": "StudyDesignPopulation",
+              "cohorts": []
+            },
+            "objectives": [
+              {
+                "id": "Objective_1",
+                "name": "OBJ1",
+                "label": "Primary objective - OS",
+                "text": "Compare Overall Survival (OS) between torivumab and placebo arms in the ITT population.",
+                "description": "SAP section 2.1. Null hypothesis: OS hazard ratio (torivumab / placebo) = 1.",
+                "instanceType": "Objective",
+                "level": {
+                  "id": "Code_OL1",
+                  "code": "C85826",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Primary Objective",
+                  "instanceType": "Code"
+                },
+                "endpoints": [
+                  {
+                    "id": "Endpoint_OS",
+                    "name": "END-OS",
+                    "label": "Overall Survival",
+                    "text": "Time from randomisation to death from any cause. Subjects not known to have died at data cut-off are censored at the date last known alive.",
+                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.1.",
+                    "purpose": "Primary efficacy",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL1",
+                      "code": "C94496",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Primary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": []
+                  }
+                ]
+              },
+              {
+                "id": "Objective_S1",
+                "name": "OBJ-S1",
+                "label": "Secondary objective S1 - PFS",
+                "text": "Compare PFS (BICR-assessed, RECIST 1.1) between arms.",
+                "description": "SAP section 2.2, S1. Null hypothesis: PFS HR = 1.",
+                "instanceType": "Objective",
+                "level": {
+                  "id": "Code_OL2",
+                  "code": "C85827",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Secondary Objective",
+                  "instanceType": "Code"
+                },
+                "endpoints": [
+                  {
+                    "id": "Endpoint_PFS",
+                    "name": "END-PFS",
+                    "label": "Progression-Free Survival",
+                    "text": "Time from randomisation to the first documented disease progression per RECIST 1.1 (BICR) or death from any cause, whichever occurs first. Subjects without progression or death are censored at the last adequate tumour assessment.",
+                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.2.",
+                    "purpose": "Secondary efficacy",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL2",
+                      "code": "C139173",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Secondary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": []
+                  }
+                ]
+              },
+              {
+                "id": "Objective_S2",
+                "name": "OBJ-S2",
+                "label": "Secondary objective S2 - ORR",
+                "text": "Compare Objective Response Rate (ORR = CR + PR, BICR) between arms.",
+                "description": "SAP section 2.2, S2. Null hypothesis: ORR difference = 0.",
+                "instanceType": "Objective",
+                "level": {
+                  "id": "Code_OL3",
+                  "code": "C85827",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Secondary Objective",
+                  "instanceType": "Code"
+                },
+                "endpoints": [
+                  {
+                    "id": "Endpoint_ORR",
+                    "name": "END-ORR",
+                    "label": "Objective Response Rate",
+                    "text": "Proportion of subjects with best overall response of CR or PR.",
+                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.3.",
+                    "purpose": "Secondary efficacy",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL3",
+                      "code": "C139173",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Secondary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": []
+                  }
+                ]
+              },
+              {
+                "id": "Objective_S3",
+                "name": "OBJ-S3",
+                "label": "Secondary objective S3 - DoR",
+                "text": "Describe Duration of Response (DoR) in responders.",
+                "description": "SAP section 2.2, S3. No formal hypothesis test.",
+                "instanceType": "Objective",
+                "level": {
+                  "id": "Code_OL4",
+                  "code": "C85827",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Secondary Objective",
+                  "instanceType": "Code"
+                },
+                "endpoints": [
+                  {
+                    "id": "Endpoint_DOR",
+                    "name": "END-DOR",
+                    "label": "Duration of Response",
+                    "text": "Time from first documented CR or PR to first documented disease progression or death from any cause, in responding subjects.",
+                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.4.",
+                    "purpose": "Secondary efficacy",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL4",
+                      "code": "C139173",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Secondary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": []
+                  }
+                ]
+              },
+              {
+                "id": "Objective_S4",
+                "name": "OBJ-S4",
+                "label": "Secondary objective S4 - DCR",
+                "text": "Compare Disease Control Rate (DCR = CR + PR + SD) between arms.",
+                "description": "SAP section 2.2, S4. Null hypothesis: DCR difference = 0. SD requires duration >= 8 weeks.",
+                "instanceType": "Objective",
+                "level": {
+                  "id": "Code_OL5",
+                  "code": "C85827",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Secondary Objective",
+                  "instanceType": "Code"
+                },
+                "endpoints": [
+                  {
+                    "id": "Endpoint_DCR",
+                    "name": "END-DCR",
+                    "label": "Disease Control Rate",
+                    "text": "Proportion of subjects with best overall response of CR, PR, or SD maintained for at least 8 weeks.",
+                    "description": "Protocol synopsis, endpoint definitions. SAP section 4.5.",
+                    "purpose": "Secondary efficacy",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL5",
+                      "code": "C139173",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Secondary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": []
+                  }
+                ]
+              },
+              {
+                "id": "Objective_S5",
+                "name": "OBJ-S5",
+                "label": "Secondary objective S5 - Safety",
+                "text": "Characterise safety and tolerability.",
+                "description": "SAP section 2.2, S5. Descriptive; no formal hypothesis test. Safety assessments include adverse events, laboratory evaluations, vital signs, ECG and ECOG performance status (protocol section 7).",
+                "instanceType": "Objective",
+                "level": {
+                  "id": "Code_OL6",
+                  "code": "C85827",
+                  "codeSystem": "http://www.cdisc.org",
+                  "codeSystemVersion": "2024-09-27",
+                  "decode": "Secondary Objective",
+                  "instanceType": "Code"
+                },
+                "endpoints": [
+                  {
+                    "id": "Endpoint_SAFETY_LAB",
+                    "name": "END-S5-LAB",
+                    "label": "Safety - laboratory evaluations",
+                    "text": "Laboratory evaluations: haematology and chemistry parameters, analysed as change from baseline and as shifts in reference-range indicator. Baseline is the last non-missing value on or before first dose (SAP section 12.3).",
+                    "description": "The protocol names Safety as a key secondary endpoint and section 7.2 schedules laboratory assessments. The SAP does NOT define a laboratory analysis: ADLB appears only in the data-handling conventions (sections 12.2, 12.3 and 7), and the three safety estimands in section 13.7 are all adverse-event based. This endpoint is therefore authored from the protocol, not from the SAP, and that gap is recorded as discrepancy D11.",
+                    "purpose": "Secondary safety",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL6",
+                      "code": "C139173",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Secondary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": [
+                      "BiomedicalConcept_ALT",
+                      "BiomedicalConcept_AST",
+                      "BiomedicalConcept_ALP",
+                      "BiomedicalConcept_BILI",
+                      "BiomedicalConcept_CREAT",
+                      "BiomedicalConcept_HGB",
+                      "BiomedicalConcept_NEUT"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "estimands": [
+              {
+                "id": "Estimand_E1",
+                "name": "E1",
+                "label": "E1 - Overall Survival, primary",
+                "description": "SAP section 13.4. Primary estimand for OS.",
+                "instanceType": "Estimand",
+                "populationSummary": "Hazard ratio (torivumab / placebo) from a stratified Cox model, with 95% CI; median OS per arm by Kaplan-Meier.",
+                "analysisPopulationId": "AnalysisPopulation_ITT",
+                "variableOfInterestId": "Endpoint_OS",
+                "interventionIds": ["StudyArm_1"],
+                "intercurrentEvents": [
+                  {
+                    "id": "IntercurrentEvent_E1_1",
+                    "name": "SUBSEQUENT-THERAPY",
+                    "label": "Subsequent anti-cancer therapy",
+                    "description": "Subsequent anti-cancer therapy after discontinuation of study treatment.",
+                    "text": "Treatment policy: events are included regardless of subsequent therapy.",
+                    "instanceType": "IntercurrentEvent"
+                  }
+                ]
+              }
+            ],
+            "analysisPopulations": [
+              {
+                "id": "AnalysisPopulation_ITT",
+                "name": "ITT",
+                "label": "Intent-to-Treat",
+                "text": "All randomised subjects, analysed by randomised arm.",
+                "description": "SAP section 3.",
+                "instanceType": "AnalysisPopulation"
+              },
+              {
+                "id": "AnalysisPopulation_SAF",
+                "name": "SAF",
+                "label": "Safety",
+                "text": "All subjects who received at least one dose of study treatment, analysed by actual arm received.",
+                "description": "SAP section 3. This is the population for the laboratory endpoint.",
+                "instanceType": "AnalysisPopulation"
+              }
+            ],
+            "encounters": [],
+            "activities": [],
+            "scheduleTimelines": [],
+            "epochs": [],
+            "elements": [],
+            "studyCells": [],
+            "indications": [],
+            "eligibilityCriteria": [],
+            "notes": []
+          }
+        ]
+      }
+    ]
+  }
+}

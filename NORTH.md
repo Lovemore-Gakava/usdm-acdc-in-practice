@@ -18,7 +18,7 @@ Done means all seven green, on at least one endpoint. Nothing else counts as fin
 
 | # | Stage | Status |
 |---|---|---|
-| 1 | USDM fragments hand-authored | ✗ |
+| 1 | USDM fragments hand-authored | ✓ |
 | 2 | BC linked on the chain's terminals | ✗ |
 | 3 | DC — derivation authored | ✓ |
 | 4 | AC — analysis bound | ✓ |
@@ -37,12 +37,11 @@ scoreboard prints on every commit.
 All four remaining stages run on **one endpoint — laboratory change from baseline**, which is
 the only tier that composes. Not on three endpoints. One, all the way.
 
-**Stage 1 — USDM fragments hand-authored.** The least known of the four: this project has never
-authored USDM, only borrowed the CDISC Pilot study the app ships with. Unknown: the minimum set
-of objects the app will load. First action — read the shipped Pilot USDM to learn the shape,
-then author the equivalent for TORIVA's lab endpoint into `study/usdm/`. Done when the app
-loads it and shows the endpoint. `docs/specification.md` §15.3 named this as an action and it
-was passed over for twenty commits.
+**Stage 1 — USDM fragments hand-authored. Done 2026-09-16.**
+`study/usdm/toriva-lung-301.usdm.json` — six objectives, six endpoints, seven laboratory BCs,
+arms, population and one estimand. Loaded in the app and rendered. What was learned about USDM
+v4's shape, and the one honest compromise in it, are in
+[`study/usdm/README.md`](study/usdm/README.md).
 
 **Stage 2 — BC linked.** Route is known. F04 established that BC linkage lives at *terminal*
 level, not endpoint level, and the derivation pipeline has a BC picker on measure terminals.

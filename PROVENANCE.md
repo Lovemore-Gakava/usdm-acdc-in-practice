@@ -45,6 +45,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `docs/findings/F09`–`F13`; F01, F07 and F09 amendments; Issues 3 and 5 rewritten | 2026-09-16 | AI | Not yet |
 | `docs/review-plan.md` | 2026-09-16 | AI | Not yet — and it is the document that ends that |
 | `NORTH.md` | 2026-09-16 | Destination sentence: **LG**. Finish line, test and prose: AI | Destination confirmed by LG |
+| `study/usdm/toriva-lung-301.usdm.json`, `study/usdm/README.md` | 2026-09-16 | AI, from TORIVA's protocol synopsis and SAP §2 | Not yet |
 | `CLAUDE.md` | 2026-09-16 | AI | Not yet |
 | — Issues 1–5 restructured requirement-first | 2026-09-16 | AI | Not yet — Issue 4 is a Tier 1 item, the rest Tier 2 |
 | `docs/method.md` | This session | AI | Not yet |
