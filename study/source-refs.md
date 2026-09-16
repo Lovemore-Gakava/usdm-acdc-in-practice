@@ -101,6 +101,45 @@ that computes it. For a project about making analysis derivation declarative, th
 lesson is that the derivation the concept model captures cleanly is in the SAP, and the
 analysis it cannot capture is not in the SAP at all.
 
+## ICH M11
+
+Referenced, **not vendored**. The resource repository carries **no licence file**, and the
+specification itself is ICH's under its own terms, so nothing from it is copied into this
+repository.
+
+| | |
+|---|---|
+| Resource index | `data4knowledge/usdm_m11_resources` (public, no licence declared) |
+| Artefact used | `documents/downloads/m11_specification_v0-17-0.zip` — the merged *electronic* M11 |
+| Retrieved | 2026-09-16 |
+| Form | HTML, one page per data element, plus `element_index.html` |
+
+**What it contains**, established by parsing it into a scratch working copy:
+
+| | |
+|---|---|
+| Data elements | **303** |
+| Required / Optional | **216 / 87** |
+| Carrying a CDISC C-code | 294 of 303 |
+| Top-level sections | 14 (Title Page, 1 Synopsis … 12 Appendices) |
+| Data types | Text 230, Valid Value 44, Number 7, Date 3, the rest mixed |
+
+Each element page carries Name, Original Name, Section, Status, Data Type, Cardinality,
+Conformance, Guidance, and a Definition with a CDISC code — `arm_name` is `C93729`, for example.
+
+**The element pages do not reference USDM.** The bridge between the two is the CDISC code plus
+class correspondence, which is what makes an M11 → USDM mapping an exercise rather than a
+lookup.
+
+To reproduce the working copy:
+
+```
+curl -sL -o m11.zip https://raw.githubusercontent.com/data4knowledge/usdm_m11_resources/main/documents/downloads/m11_specification_v0-17-0.zip
+```
+
+Also in that repository and not yet used: `usdm_m11_classes.pdf` (a USDM ↔ M11 class
+infographic), the USDM handbook, and `Protocol2USDM` under Tools.
+
 ## Upstream
 
 | | |
