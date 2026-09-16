@@ -48,6 +48,9 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `endpoints/03-complex-pfs/mapping.md` | This session | AI | Not yet |
 | `endpoints/02-moderate-orr/mapping.md` | This session, after this record was first written | AI | Not yet |
 | `endpoints/01-simple-lab-cfb/mapping.md` | 2026-09-16 | AI | Not yet |
+| `endpoints/01-simple-lab-cfb/chain.json` | 2026-09-16 | Authored in `ac-dc-app` by AI; serialised by the application | Not yet |
+| `endpoints/01-simple-lab-cfb/comparison.md`, `log.md` | 2026-09-16 | AI | Not yet |
+| `tools/check_baseline_ambiguity.py` | 2026-09-16 | AI | Not yet |
 | `LICENSE`, `.gitignore`, `.gitmodules` | This session | AI | Not yet — see §7.4 |
 
 ---
@@ -119,6 +122,12 @@ The lab tier additionally quotes **source code**, which earlier tiers did not: t
 `nrind_order` vector and `classify()` function of `programs/tfl/t_lb_01_shift.R`. These are
 short excerpts identified by file and line, quoted for analysis under the study's CC BY 4.0
 licence; the study is not redistributed.
+
+**Its data was read for the first time on 2026-09-16** — `datasets/adam/adlb.parquet`, in a
+scratch clone. Only aggregate counts and distributions are reported in this repository; no
+subject-level values are reproduced, and the parquet is not vendored. The study is synthetic
+with a fictional sponsor, so this raises no confidentiality question, but the same discipline
+would apply if it were not.
 
 **Material caveat on "ground truth."** `study/README.md` and the specification both justify
 choosing TORIVA on the basis that built ADaM provides ground truth. TORIVA's own
@@ -234,10 +243,11 @@ AI's reasoning from verified facts, not themselves verified:
 | The SAP specifies no laboratory analysis | Established by exhaustive search, not inference: `ADLB` occurs six times in the 626-line SAP, all in §12.2/§12.3, plus one §7 row. That the *absence* is a defect rather than a scoping decision is the inference (D11) |
 | The lab tier "composes, and is not analysed" | Inference of the same kind as the PFS and ORR rows. What is verified: the transformations and their configurations, and that no lab TFL reads `CHG`/`PCHG`/`BASE` |
 | F12's core — `T.BaselineSelection` cannot resolve a `Measure` dependency | **Observed and verified.** Seen in the running builder, and independently derivable from `findDerivationsForConcept` plus the output-concept counts. Not inference |
-| F12's consequence — that `ABLFL` and `BASE` may therefore disagree | Inference. Nothing in the metadata ties them; whether any authored chain has actually diverged has not been tested against data |
 | ORR "half composes" — 6 of 11 steps | Inference of the same kind as the PFS row. The primitives and their configurations are verified; that the remaining five steps have no encoding is argued, not proven |
 | Reporting an odds ratio where the estimand specifies a risk difference "answers a different question" (F08) | Inference. The absence of a difference-of-proportions statistic is verified by search; that the substitution is not an approximation is a reading of ICH E9(R1) |
 | `best` being undeclared "produces opposite results" for two identical chains (F07) | Inference. The enum value, the absent direction configuration and the `decimal` dataType are verified; the consequence is argued |
+| F12's consequence — that `ABLFL` and `BASE` may therefore disagree | **No longer inference. Demonstrated.** `AnalysisVisit = Baseline` selects two records for 3,832 of 5,400 subject × parameter groups in `adlb.parquet`, differing in value in 96.8% of them, with a median 21.3% relative error in `BASE` if the non-flagged candidate is taken. Supersedes the row below, which was written before the data was read |
+| ~~F12's consequence — inference, untested against data~~ | Superseded 2026-09-16 by the row above |
 | `M.RecordSelection`'s formula/output mismatch is a defect | Inference. Both fragments are quoted; that they conflict is an argument |
 | ~~Three transformations leaving a `required: true` role unbound means nothing validates transformations against their methods (F09)~~ | **Withdrawn 2026-09-16.** False: `define-xml-generator.js:705` detects unresolved placeholders, and the binding editor iterates `method.input_roles`, so library entries are templates by design |
 | `time_order` cannot be bound through the builder's UI (F09, as corrected) | **Inference from source, not observation.** The `canAdd` gate and the derivation-pipeline renderer are quoted by line; that an author therefore has no way to supply an ordering has **not** been confirmed by running the app, and F05 is the precedent for that distinction mattering |
@@ -255,6 +265,8 @@ AI's reasoning from verified facts, not themselves verified:
 | `docs/specification.md` | The plan. Partly superseded — §5 carries a disposition table, §17 v0.4 the corrections |
 | `docs/method.md` | How the findings were verified, and why that step exists |
 | `tools/check_consistency.py` | Enforces the counted claims in this record against the filesystem |
+| `tools/check_baseline_ambiguity.py` | Tests F12 against built ADaM; reproduces every figure in the lab tier's `comparison.md` |
+| `endpoints/01-simple-lab-cfb/` | The only tier with all four method steps complete |
 | `docs/findings/` | The findings themselves, each with its evidence |
 | `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the thirteen discrepancies found inside TORIVA (D1–D13) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |
@@ -306,8 +318,15 @@ Resolved.
 cite §9.1–§9.4 and name the file. Only the citation was ever wrong; the behaviour was verified
 against the pinned commit — see §7.8.
 
-**7.6 The ADaM comparison has not been run.** `pyarrow` is not installed and no parquet has
-been read. Every claim about TORIVA derives from its markdown specifications, not its data.
+**7.6 The ADaM comparison has now been run, for one tier. Resolved in part.** `pyarrow` 25.0.1
+was installed on 2026-09-16 and `datasets/adam/adlb.parquet` read — 136,242 rows, matching
+`ADLB-spec.md`'s header exactly. This closed **D8 and D9 against the data** (`ANRIND`, `BNRIND`
+and `BTOXGR` are absent) and produced the repository's first empirical result: the concept
+model's baseline slice selects two records for 71% of subject × parameter groups, which differ
+in value 96.8% of the time. See `endpoints/01-simple-lab-cfb/comparison.md`.
+
+**It remains unrun for ORR and PFS**, and every claim about those two still derives from
+TORIVA's markdown, not its data.
 Discrepancies D1–D13 in `study/source-refs.md` are recorded as **open** precisely because
 resolving them by inspection before authoring would contaminate step 3 of the method. D7 and
 D11 are the sharpest — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable
@@ -318,11 +337,18 @@ them. D8–D12 are the first discrepancies here established partly from **source
 which is a stronger class of evidence than the earlier seven rest on — but still not the built
 data.
 
-**7.7 All three endpoints are mapped, and none is authored.** PFS (complex), ORR (moderate) and
-lab change from baseline (simple), all on paper only. Step 1 of the method is complete for the
-ladder; steps 2–4 have not begun for any tier, so **there is still no authoring-cost figure**,
-which was the measurement Part A exists to produce. See §7.9 on why the figure is harder to
-obtain than the specification assumed.
+**7.7 All three endpoints are mapped; one is authored end to end.** The lab tier completed
+steps 2, 3 and 4 on 2026-09-16. ORR and PFS remain at step 1.
+
+There is now a **structural** cost figure for one tier — zero new authoring, eleven decision
+points, four of them not determined by the source SAP — but still no wall-clock figure, and
+per §7.9 this process cannot honestly produce one. See
+`endpoints/01-simple-lab-cfb/log.md`.
+
+Two caveats travel with that figure. The chain was authored against the **CDISC Pilot's** END5,
+not TORIVA, because TORIVA USDM fragments do not exist (specification §15.3); the endpoint shape
+is right and the identifiers are not. And step 3 is consequently a comparison of *definitions*
+against built ADaM, not a numeric diff of the authored chain's output.
 
 **7.8 The submodule was uninitialised until 2026-09-16, and the tool output now reproduces.**
 The 2026-09-15 session left `upstream/analysis-concepts` registered but not checked out, so
@@ -382,3 +408,4 @@ recorded in each `mapping.md`.
 | 0.6 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Three checks run before any filing. **Issue 4's premise verified** against SAP §5.3 and §13.6 verbatim, and strengthened: `risk difference` already ships in upstream's own STATO copy as `STATO_0000424`, and `estimands_01` is adding `SP_SUMMARY_MEASURE` for exactly the summary that has no statistic. **Upstream state checked** — `main` static since 2026-06-17, issue #11 closed, four issues in the tracker's lifetime, one active maintainer; nothing here is duplicated, and the filing recommendation is now Issue 4 alone. **F09 corrected the same day it was written** — its conformance-defect framing withdrawn; the capability gap stands and its UI consequence is recorded as an unverified source read. D13 added. Tallies in §4, §7.1 and `docs/method.md` raised to five, with the application-from-JSON hazard named |
 | 0.7 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | `ac-dc-app` served and driven to settle F09's UI claims. **Two of the three were wrong**: the derivation pipeline does carry a `+ Add binding...` control, and `T.LOCF_Imputation` does supply an ordering — bound as `order`, a role name `M.ImputedValue_LOCF` does not declare, which is a smaller and more precise defect than "no transformation binds it". F09 corrected a second time; only its core capability claim (single-cardinality `time_order`, no tie-break) survived both passes. New observation recorded as B11 in the lab mapping: `T.BaselineSelection` outputs a `Flag` and is therefore **not** among the nine templates offered to resolve `T.ChangeFromBaseline`'s subtrahend, so the baseline flag and the baseline value are independent derivations. §3.4 now records both observation sessions |
 | 0.8 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | B11 written up as **F12** — the baseline flag and the baseline value are disconnected. The first finding here **produced** by running the builder rather than corrected by it: `T.BaselineSelection` outputs a `Flag`, and `findDerivationsForConcept` matches on exact output-concept equality, so it can never resolve the `Measure` `T.ChangeFromBaseline` needs. Carries the visit-based/date-based mismatch against SAP §12.3, and two incidentals — every `Flag` being interchangeable (so the builder offers the baseline flag for a log-rank event indicator, F02 arriving operationally), and `Observation`/`Timing`/`TimeToEvent` being demanded by transformations that nothing can satisfy, which restates F01 structurally |
+| 0.9 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | **Lab tier authored end to end** — the first tier to complete steps 2, 3 and 4, and the first time any claim here has been checked against data. `chain.json` authored in `ac-dc-app` and serialised by the application; `comparison.md` against `adlb.parquet`; `log.md` recording eleven decision points and zero new authoring. D8 and D9 **closed against the data**. F12's consequence moved from inference to demonstrated: the model's baseline slice selects two records for 71% of subject × parameter groups, differing in value 96.8% of the time, median 21.3% error in `BASE`. `tools/check_baseline_ambiguity.py` added and reproduces every figure. §7.6 and §7.7 rewritten |

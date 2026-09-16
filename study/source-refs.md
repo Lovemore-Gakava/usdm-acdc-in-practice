@@ -47,6 +47,12 @@ PFSINV, TTR (450 each) plus DOR restricted to confirmed responders.
 Reading these needs `pyarrow`, which is not a dependency of anything else here. It is only
 required at step 3 of the method (`comparison.md`), not before.
 
+**First read 2026-09-16.** `datasets/adam/adlb.parquet` — 136,242 rows, 37 columns, matching
+`ADLB-spec.md`'s header count exactly. See `endpoints/01-simple-lab-cfb/comparison.md` and
+`tools/check_baseline_ambiguity.py`. Note that `pyarrow.dataset` is blocked by Application
+Control on this machine, so `pq.read_table` fails; `pq.ParquetFile(...).read()` works and is
+what the tool uses.
+
 ## Known discrepancies inside the source
 
 Recorded during the paper mappings; to be resolved against built ADaM at comparison time, not

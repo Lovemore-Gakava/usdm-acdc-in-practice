@@ -132,7 +132,7 @@ library — the third and fourth time verification has caught that, after F02 an
 
 | Tier | Endpoint | Estimand | Expectation |
 |---|---|---|---|
-| Simple | Laboratory change from baseline | — | **Mapped. Composes, and is not analysed** — the derivation fits with no new authoring; the SAP specifies no lab analysis, and the two lab tables that were built do not compose |
+| Simple | Laboratory change from baseline | — | **Authored end to end.** Structure composes with no new authoring; semantics do not — the baseline it subtracts is ambiguous for 71% of the study. The SAP specifies no lab analysis, and the two lab tables that were built do not compose |
 | Moderate | Objective response rate | E3 / E3a | **Mapped. Half composes** — selection and per-arm summary fit; confirmation rule and risk difference do not |
 | Complex | Progression-free survival | E2 / E2a | **Mapped. Does not compose** — one of nine steps. Found the limit earlier than expected |
 
@@ -183,7 +183,8 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 │   └── pre-commit                   runs the consistency check
 ├── tools/
 │   ├── acdc_divergence.py           signature and divergence detection
-│   └── check_consistency.py         documents vs. filesystem
+│   ├── check_consistency.py         documents vs. filesystem
+│   └── check_baseline_ambiguity.py  F12 against built ADaM (needs pyarrow)
 └── snapshot/
     └── index.html                   static coverage view
 ```
@@ -204,7 +205,7 @@ The specification is complete and the findings are verified against pinned commi
 | Upstream issues | Five drafted, none filed. **Recommendation is to file Issue 4 alone** — upstream's tracker has four issues in its lifetime and one active maintainer |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |
-| Simple tier (lab CFB) | `mapping.md` written. **Composes — and nothing consumes it.** 4 of 8 steps outright, 3 partly; the eighth, the analysis, does not exist in the SAP |
+| Simple tier (lab CFB) | **All four steps complete — the only tier that is.** Authored in the builder (`chain.json`), compared against built ADaM (`comparison.md`), logged (`log.md`). Zero new authoring, 11 decisions, and a chain that validates while under-determined |
 | Snapshot | Not started |
 
 `tools/acdc_divergence.py` is usable for methods and **not** trustworthy for transformations —
@@ -216,10 +217,14 @@ where the SAP specifies no laboratory analysis at all, so the only statement of 
 built lab tables compute is the R program that computes them. All are recorded in
 `study/source-refs.md` and left unresolved, so as not to contaminate the step-3 comparison.
 
-All three tiers are now mapped on paper. Next: author the lab tier's composable steps (4, 5, 6)
-to calibrate the effort measurement against a chain that is known to fit, then ORR's (2, 3, 7,
-8, 9) for the first real cost figure. PFS cannot be authored until F06 is resolved upstream or
-a documented workaround is accepted.
+All three tiers are mapped, and the lab tier is authored end to end — the first time any tier
+has completed steps 2, 3 and 4, and the first time any claim here has been checked against
+**data** rather than a specification.
+
+Next: ORR's composable steps (2, 3, 7, 8, 9), which would give a second cost figure on a tier
+that half-composes. PFS cannot be authored until F06 is resolved upstream or a documented
+workaround is accepted. Before either, the findings need human review — five have had a premise
+or fix disproved, and none has been read by a human.
 
 ## Provenance
 
