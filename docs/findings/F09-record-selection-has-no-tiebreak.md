@@ -1,6 +1,11 @@
 # F09 — Record selection carries no tie-break, and no transformation binds its ordering
 
-**Status: new.** Found while mapping the lab tier. Verified at upstream `739344c`.
+**Status: new, and already corrected once.** Found while mapping the lab tier, verified at
+upstream `739344c`. **The original framing of the second half was wrong** — it called the
+unbound roles a conformance defect, which misreads how the library and the builder divide the
+work. Corrected 2026-09-16, the same day it was written. The capability claim is unchanged and
+the practical consequence is worse than first stated; see *What the unbound roles actually
+mean*.
 
 ## Claim
 
@@ -44,7 +49,17 @@ else it arises:
 So the library knows how to declare a tie rule and does so twice. The two places where
 *record and visit selection* need one are the two places it is missing or undeclared.
 
-### No transformation binds `time_order`
+### No transformation binds `time_order`, and nothing in the repository mentions it
+
+The string `time_order` occurs in exactly two files at `739344c`:
+
+```
+lib/methods/derivations/M.ImputedValue_LOCF.json   5
+lib/methods/derivations/M.RecordSelection.json     3
+```
+
+Nowhere else. Not in the transformation library, not in `ac-dc-app/js/**`, not in any study
+instance or scenario.
 
 Counting required input roles against the bindings that supply them, across all 25
 transformations:
@@ -64,18 +79,67 @@ The consequence for the lab tier is concrete. `T.BaselineSelection` is configure
 which matches SAP §12.3 field for field — and **last by what** is supplied by neither the
 configuration nor a binding. `last_non_missing` over an unbound ordering is not a definition.
 
-## Scope: this is two findings wearing one coat
+## What the unbound roles actually mean
 
-They are worth separating before anything is filed.
+The first version of this finding called the three unbound roles a **conformance defect**, and
+inferred that nothing validates transformations against the methods they use. Both were wrong,
+and the error is worth recording because it is the same error F05 made — reading the JSON and
+not the application.
 
-1. **A missing capability.** No composite sort key and no tie-break, so a deterministic
-   selection rule cannot be stated. This needs a schema change — `cardinality: "multiple"` on
-   `time_order`, or a tie-break configuration, or both.
-2. **A conformance defect.** Three transformations omit a role their method marks
-   `required: true`. That needs no schema change, only correction — and it suggests nothing
-   validates transformations against the methods they use, which is itself worth reporting.
+**Library entries are templates, not complete instances.** `js/views/transformation-config.js`
+builds its binding editor by iterating `method.input_roles` (line 482) and grouping the
+transformation's bindings under them, so a role the library entry does not bind is *expected* to
+be completed by the author. `T.BaselineSelection` omitting `time_order` is an unfilled slot by
+design, not a malformed entry.
 
-The second is the cheaper and more certain of the two.
+**And there is a validator, just a late and advisory one.** `js/utils/define-xml-generator.js`
+(line 705) tests the resolved call template for leftover placeholders and emits a note:
+
+```js
+if (/<[a-z_]+>/i.test(text)) {
+  note('arm', `${arOID} ProgrammingCode`, 'some role/config placeholders unresolved (missing binding or config default)');
+}
+```
+
+So the original second claim is withdrawn.
+
+### The consequence is worse than the withdrawn claim
+
+Having looked at how the author would actually fill the slot, it appears they cannot.
+
+- **In the analysis-transformation editor**, the "+ Add Binding" control is gated on
+  `canAdd = role.cardinality === 'multiple' || role.cardinality === 'single_or_multiple'`
+  (`transformation-config.js:540`). `time_order` is `cardinality: "single"`, so `canAdd` is
+  false. With no template binding to render and no add control, the role emits a header —
+  `time_order (single, required)` — and nothing beneath it.
+- **In the derivation-pipeline editor**, which is the view `T.BaselineSelection` belongs to,
+  `renderBindingsSections` (`derivation-pipeline.js:796`) iterates the transformation's
+  `bindings` array rather than the method's roles. A role with no binding does not render at
+  all. The author is never shown that an ordering is required.
+
+If that reading is right, `last_non_missing` is authored against an ordering that is neither
+declared in the library, supplied by configuration, nor reachable through the UI — and the only
+signal is a note in generated Define-XML, after the fact.
+
+### This is a code read, not a run
+
+**It has not been confirmed in the running application.** F05 is the precedent: that finding was
+overstated for exactly this reason and only corrected by serving `ac-dc-app` and looking. The
+same must be done here before any of this is filed — serve the app, open a derivation chain on
+`T.BaselineSelection`, and see what the binding panel offers.
+
+Until then, treat the UI paragraphs above as an argued reading of the source, and the
+`time_order`/tie-break capability gap below as the verified part.
+
+## Scope
+
+The verified capability gap is one thing and needs a schema change: no composite sort key
+(`cardinality: "single"`) and no tie-break configuration, so a deterministic selection rule
+cannot be stated. `cardinality: "multiple"` on `time_order`, or a tie-break configuration, or
+both.
+
+Whether the authoring path can supply an ordering at all is a second question, open pending the
+check above.
 
 ## Relation to other findings
 
@@ -110,4 +174,10 @@ for t in lib["derivationTransformations"] + lib["analysisTransformations"]:
 EOF
 ```
 
-Expected at `739344c`: the three lines quoted above.
+Expected at `739344c`: the three lines quoted above. And for the absence:
+
+```
+grep -rc "time_order" --include=*.json --include=*.js upstream/analysis-concepts/ | grep -v ":0"
+```
+
+Expected: only `M.ImputedValue_LOCF.json` and `M.RecordSelection.json`.

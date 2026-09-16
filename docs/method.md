@@ -22,9 +22,16 @@ same scrutiny for an unrelated reason — and the counter-example was a transfor
 already cited by name. F07's proposed fix fell the same way, to a table in the study it was
 drawn from.
 
-Running total: four findings whose premise or fix did not survive (F01, F02, F04, F07), of
-which **all four had been drafted as upstream issues**. The pass rate of confident-sounding
-claims in this repository is not high, and that is the argument for the step.
+Running total: five findings whose premise or fix did not survive — F01, F02, F04, F07, F09 —
+four of them drafted as upstream issues. F09 was written and corrected the same day.
+
+Three of the five (F04, F05, F09) failed the same way: a claim about the **application**
+inferred from reading **library JSON**. That is now a named hazard. A claim about what an
+author can do in the builder is not established until the builder has been run — the standard
+F05 was eventually held to, and the standard F09's central consequence has not yet met.
+
+The pass rate of confident-sounding claims in this repository is not high, and that is the
+argument for the step.
 
 F02 and F04 were both slated to be filed as issues on `cdisc-org/analysis-concepts`
 (specification §12). F02 asserted a declared-but-unused `censoring` statistical role that has

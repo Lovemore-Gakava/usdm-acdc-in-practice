@@ -13,7 +13,7 @@ Verification commands and their output are recorded in each file so any claim ca
 | [F06](F06-no-general-predicate.md) | No general predicate exists over multiple variables | **New** — blocks the PFS tier, and ORR's confirmation rule |
 | [F07](F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New, amended** — the lab tier contradicts its own proposed fix |
 | [F08](F08-no-risk-difference.md) | No difference-of-proportions statistic exists | **New** — blocks estimand E3's summary measure |
-| [F09](F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New** — found mapping the lab tier |
+| [F09](F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New, corrected same day** — capability gap holds; its conformance-defect framing was withdrawn |
 | [F10](F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** — found mapping the lab tier |
 | [F11](F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** — found mapping the lab tier |
 
@@ -26,12 +26,16 @@ libraries — which is the case for step 1 of the method. F06 in particular was 
 then confirmed independently on ORR and on the lab tier, so the predicate gap is a general
 derivation problem rather than a time-to-event one.
 
-**The lab tier corrected two findings as well as adding three.** F01's output-cardinality
-argument was false — two derivation methods declare multiple coordinated output classes, and
-one of them belongs to a transformation F01 itself cites. F07's proposed fix was contradicted
-by a table in the same study. Both had been drafted as upstream issues; both issue texts were
-rewritten. That is now three wrong premises caught before filing (F02, F04, F01) and two
-proposed fixes withdrawn (F04, F07).
+**The lab tier corrected three findings as well as adding three.** F01's output-cardinality
+argument was false — two derivation methods declare multiple coordinated output classes, and one
+of them belongs to a transformation F01 itself cites. F07's proposed fix was contradicted by a
+table in the same study. F09's conformance-defect framing was withdrawn within hours of being
+written, once the application source was read rather than the library JSON.
+
+Five findings have now had a premise or fix disproved: F01, F02, F04, F07, F09. Three of them —
+F04, F05, F09 — failed the same way, by inferring something about the **application** from
+**library JSON**. Treat any claim here about what an author can do in the builder as unverified
+until the builder has been run.
 
 Pinned commits: upstream `739344ca31203bb502efeee2b855286e17977be6` (2026-06-17),
 TORIVA-LUNG 301 `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29).

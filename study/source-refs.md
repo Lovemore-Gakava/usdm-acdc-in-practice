@@ -70,6 +70,7 @@ D8–D12 came from the lab tier — see
 | **D10** | Lab | SAP §14: TFL crosswalk *"to be completed in `tfl/TFL-SHELLS.md`"* | That file does not exist at `8534339d`. Three lab TFL programs exist and ran |
 | **D11** | Lab | SAP §4 and §5 specify **no laboratory analysis**; ADLB appears only in §12.2/§12.3/§7 conventions | T-LB-01 and T-LB-02 were built. Their only specification is a shell cross-reference in `ADLB-spec.md`; the authoritative rule lives in the R program |
 | **D12** | Lab | `ADLB-spec.md` header: *"Spec version 0.1 DRAFT"* | Its own change log records v0.3 (2026-07-24). Minor |
+| **D13** | ORR | SAP §5.3 and §13.6: population-level summary is a **stratified MH risk difference** | §13.6's estimator is `stats::mantelhaen.test()`, which returns a common **odds ratio**, not a risk difference. The SAP specifies one statistic and names a tool that produces another |
 
 D4 and D7 are the same defect from two directions: **estimand E3 is not implementable against
 the built ADaM as specified.** What was built is E3a.
@@ -78,7 +79,16 @@ D2 and D6 are the same pattern on two endpoints: the SAP delegates a derivation 
 library function, the implementation diverges, and the SAP is not updated. That opacity is
 what a declarative concept model is meant to remove.
 
-**D11 is that pattern taken one step further, and the sharpest of the twelve.** The SAP does
+**D13 is the same substitution that [F08](../docs/findings/F08-no-risk-difference.md) reports
+upstream.** TORIVA's SAP asks for a Mantel–Haenszel risk difference and reaches for a function
+that yields an odds ratio; the AC/DC framework offers `M.CMH`, which yields an odds ratio, and
+no risk difference at all. That the same slip appears independently on both sides is the
+argument for F08 rather than against it: if a statistician writing the SAP and a framework
+designing a method library both reach for the odds ratio when the estimand says risk
+difference, that is precisely the substitution a declarative model should be able to catch.
+Found 2026-09-16 while re-verifying F08's premise before filing.
+
+**D11 is that pattern taken one step further, and the sharpest of the thirteen.** The SAP does
 not delegate the lab analyses — it never specifies them. T-LB-01 and T-LB-02 were built, ran
 and produced output, and the authoritative statement of what they compute is the R program
 that computes it. For a project about making analysis derivation declarative, the lab tier's

@@ -32,7 +32,7 @@ including one of the two that was slated to be filed as an upstream issue. See
 | [F06](docs/findings/F06-no-general-predicate.md) | No general predicate exists over more than one variable | **New** |
 | [F07](docs/findings/F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New, amended** |
 | [F08](docs/findings/F08-no-risk-difference.md) | No difference-of-proportions statistic exists | **New** |
-| [F09](docs/findings/F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New** |
+| [F09](docs/findings/F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New, corrected** |
 | [F10](docs/findings/F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** |
 | [F11](docs/findings/F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** |
 
@@ -93,11 +93,17 @@ is part of the estimand, so substituting the odds ratio answers a different ques
 
 **F09, F10, F11 — three gaps around selection and visit windowing.** *New, from the lab tier.*
 `M.RecordSelection` orders by a single required `time_order` role that **no transformation in
-the library binds**, and offers no tie-break, while `M.CoxPH` and `M.Rounding` both declare tie
-enums (F09). `M.WindowedVisitAssignment` takes an enumerated window array — it cannot express a
-window *rule*, cannot express TORIVA's open-ended maintenance schedule, and gives event-driven
-visits no escape from day-windowing (F10). And `M.RecordSelection`'s output description names
+the library binds** — the string appears in two method files and nowhere else in the repository
+— and offers no tie-break, while `M.CoxPH` and `M.Rounding` both declare tie enums (F09).
+`M.WindowedVisitAssignment` takes an enumerated window array — it cannot express a window
+*rule*, cannot express TORIVA's open-ended maintenance schedule, and gives event-driven visits
+no escape from day-windowing (F10). And `M.RecordSelection`'s output description names
 `ANL01FL` while nothing produces one; five of its six selection rules are used by nothing (F11).
+
+F09 was **corrected the same day it was written**: it first called the unbound roles a
+conformance defect, which misreads the library-as-template design. That makes five findings
+with a disproved premise or fix, and three of those five failed by inferring application
+behaviour from library JSON.
 
 Five issues are drafted for upstream, with a suggested filing order — Issue 4 (no risk
 difference) is the recommended opener, being the smallest and most concrete. F09–F11 are
@@ -180,8 +186,8 @@ The specification is complete and the findings are verified against pinned commi
 
 | | |
 |---|---|
-| Findings F01–F11 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended; F06–F11 new, from paper mapping |
-| Upstream issues | Five drafted with a suggested filing order, none filed |
+| Findings F01–F11 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected; F06–F11 new, from paper mapping |
+| Upstream issues | Five drafted, none filed. **Recommendation is to file Issue 4 alone** — upstream's tracker has four issues in its lifetime and one active maintainer |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |
 | Simple tier (lab CFB) | `mapping.md` written. **Composes — and nothing consumes it.** 4 of 8 steps outright, 3 partly; the eighth, the analysis, does not exist in the SAP |
@@ -190,7 +196,7 @@ The specification is complete and the findings are verified against pinned commi
 `tools/acdc_divergence.py` is usable for methods and **not** trustworthy for transformations —
 it reports one transformation cluster at `739344c`, and that cluster is the F03 false positive.
 
-Twelve discrepancies inside TORIVA itself have surfaced from mapping (D1–D12), including one
+Thirteen discrepancies inside TORIVA itself have surfaced from mapping (D1–D13), including one
 that makes estimand E3 unimplementable as specified (`EFFFL` does not exist on ADRS) and one
 where the SAP specifies no laboratory analysis at all, so the only statement of what the two
 built lab tables compute is the R program that computes them. All are recorded in

@@ -79,8 +79,17 @@ entries of `model/method/statistics_vocabulary.json`; `bindings` and
 `confirmedTerminals` structure from the Scenario 2 study instance; and short line-referenced
 excerpts from `ac-dc-app/js/**`. All are quoted for analysis and identified by file path.
 
-Also referenced, and **not** at the pinned commit: branch `estimands_01`, commits `505ef1a`
-and `8d03732` (Stuart Malcolm, 2026-08-14, unmerged). Cited in F02 and `upstream-issues.md`.
+F09 additionally quotes **application source** — the binding-editor gate in
+`ac-dc-app/js/views/transformation-config.js`, the binding renderer in
+`js/views/derivation-pipeline.js`, and the unresolved-placeholder note in
+`js/utils/define-xml-generator.js` — each by file and line.
+
+Also referenced, and **not** at the pinned commit: branch `estimands_01`. F02 cites commits
+`505ef1a` and `8d03732` (Stuart Malcolm, 2026-08-14); **the branch has since moved well past
+them**, merging PR #14. Re-checked 2026-09-16, when `upstream-issues.md` also gained the
+repository-state table: `main` static since 2026-06-17, issues #11–#13 closed, #9 open, four
+issues in the repository's lifetime. Those are observations of a live third-party tracker via
+`gh issue list` and are true as at that date, not at a pinned commit.
 
 ### 3.2 TORIVA-LUNG 301 — the source study
 
@@ -182,8 +191,16 @@ check and both of which had been carried into upstream issue drafts:
 | F01 | Asserted every derivation method declares exactly one `computed_value` output class. Two declare more — `M.UnitConversion` (2) and `M.WindowedVisitAssignment` (3) — and the latter belongs to `T.DeriveAnalysisVisit`, which F01 itself cites. Issue 3 rewritten |
 | F07 | Proposed declaring the `best`/`worst` ordering on the concept. TORIVA's own shift table ranks `LOW = HIGH > NORMAL`, an ordering belonging to one analysis rather than to the scale. Issue 5 rewritten |
 
-That is four findings now whose premise or fix did not survive — F01, F02, F04, F07 — and all
-four had been drafted for public filing. §7.1 should be read with that number in mind.
+| F09 | Called three unbound `required` roles a conformance defect and inferred that nothing validates transformations against their methods. Both wrong: the binding editor iterates `method.input_roles`, so library entries are templates the author completes, and `define-xml-generator.js:705` does detect unresolved placeholders. The capability gap it reports is unaffected |
+
+That is five findings now whose premise or fix did not survive — F01, F02, F04, F07, F09 — four
+of them drafted for public filing. §7.1 should be read with that number in mind.
+
+**A pattern across three of the five.** F04, F05 and F09 all went wrong the same way: a claim
+about the *application* inferred from reading *library JSON*. F05 was corrected by serving the
+app; F04 by reading the scenario file properly; F09 by reading the view source. Anything this
+repository says about what an author can or cannot do in the builder should be treated as
+unverified until the app has been run — which, for F09's central consequence, it has not.
 
 ---
 
@@ -204,7 +221,8 @@ AI's reasoning from verified facts, not themselves verified:
 | Reporting an odds ratio where the estimand specifies a risk difference "answers a different question" (F08) | Inference. The absence of a difference-of-proportions statistic is verified by search; that the substitution is not an approximation is a reading of ICH E9(R1) |
 | `best` being undeclared "produces opposite results" for two identical chains (F07) | Inference. The enum value, the absent direction configuration and the `decimal` dataType are verified; the consequence is argued |
 | `M.RecordSelection`'s formula/output mismatch is a defect | Inference. Both fragments are quoted; that they conflict is an argument |
-| Three transformations leaving a `required: true` role unbound means nothing validates transformations against their methods (F09) | Inference. The unbound roles are counted by command; the absence of a validator is not established, only suggested |
+| ~~Three transformations leaving a `required: true` role unbound means nothing validates transformations against their methods (F09)~~ | **Withdrawn 2026-09-16.** False: `define-xml-generator.js:705` detects unresolved placeholders, and the binding editor iterates `method.input_roles`, so library entries are templates by design |
+| `time_order` cannot be bound through the builder's UI (F09, as corrected) | **Inference from source, not observation.** The `canAdd` gate and the derivation-pipeline renderer are quoted by line; that an author therefore has no way to supply an ordering has **not** been confirmed by running the app, and F05 is the precedent for that distinction mattering |
 | `T.UnitConversion`'s facet pattern is "close to what a TTE derivation needs" (F01, as corrected) | Inference. The two facet bindings are quoted verbatim; that they are the right model for `AVAL`/`CNSR` is exactly what Issue 3 now asks maintainers rather than asserting |
 | An enumerated window array makes metadata "a function of the data it describes" (F10) | Inference from the open-ended maintenance schedule in SAP §12.2. No run was attempted against a longer data cut |
 | The `responseCodes` / `sdtmDatasetSpecialization` split is a constraint on §11 | Inference from counts across the two shipped files |
@@ -220,7 +238,7 @@ AI's reasoning from verified facts, not themselves verified:
 | `docs/method.md` | How the findings were verified, and why that step exists |
 | `tools/check_consistency.py` | Enforces the counted claims in this record against the filesystem |
 | `docs/findings/` | The findings themselves, each with its evidence |
-| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the twelve discrepancies found inside TORIVA (D1–D12) |
+| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the thirteen discrepancies found inside TORIVA (D1–D13) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |
 | `endpoints/02-moderate-orr/mapping.md` | Step 1 of the method for the moderate tier; source of F07, F08 and D3–D7 |
 | `endpoints/01-simple-lab-cfb/mapping.md` | Step 1 of the method for the simple tier; source of D8–D12 |
@@ -233,13 +251,18 @@ AI's reasoning from verified facts, not themselves verified:
 **7.1 Nothing here has been human-reviewed.** The findings assert errors in a third party's
 public repository and five are drafted as public issues.
 
-**Four findings have now had a premise or a proposed fix disproved — F01, F02, F04 and F07 —
-and all four had been drafted for filing.** Two were caught in the original verification pass;
-two survived it and were caught later, by unrelated work, which means the pass is necessary and
-not sufficient. Each was wrong in a way that would have been visible to a maintainer
-immediately, because each concerned their own library. That this keeps happening is evidence
-the verification step works and equally evidence that confident-sounding claims in this
-repository can be wrong. **Review before filing.**
+**Five findings have now had a premise or a proposed fix disproved — F01, F02, F04, F07 and
+F09.** Two were caught in the original verification pass; three survived it and were caught
+later by unrelated work, which means the pass is necessary and not sufficient.
+
+F09 is the sharpest warning of the five: it was written, verified, committed and corrected
+**on the same day**, and its wrong half was the half that inferred something about the
+application from reading the library — the identical mistake F05 made. Each of the five was
+wrong in a way a maintainer would have seen immediately, because each concerned their own
+library.
+
+That this keeps happening is evidence the verification step works and equally evidence that
+confident-sounding claims in this repository can be wrong. **Review before filing.**
 
 **7.2 Generated output was committed in error.** `README.html` and `README_files/` (888 KB)
 are Quarto 1.10.18 output produced outside this session at 18:04 on 2026-09-15. They were
@@ -266,7 +289,7 @@ against the pinned commit — see §7.8.
 
 **7.6 The ADaM comparison has not been run.** `pyarrow` is not installed and no parquet has
 been read. Every claim about TORIVA derives from its markdown specifications, not its data.
-Discrepancies D1–D12 in `study/source-refs.md` are recorded as **open** precisely because
+Discrepancies D1–D13 in `study/source-refs.md` are recorded as **open** precisely because
 resolving them by inspection before authoring would contaminate step 3 of the method. D7 and
 D11 are the sharpest — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable
 against the built ADaM as specified; and the SAP specifies no laboratory analysis at all, so
@@ -337,3 +360,4 @@ recorded in each `mapping.md`.
 | 0.3 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Initialised the `upstream/analysis-concepts` submodule at the pinned commit, which the 2026-09-15 session had registered but never checked out, and reproduced `docs/method.md`'s expected tool output against it (§7.8, new). Corrected the stale §9 cross-reference in `tools/acdc_divergence.py`'s docstring and marked §7.5 resolved |
 | 0.4 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Simple tier mapped on paper (`endpoints/01-simple-lab-cfb/mapping.md`), completing step 1 for the ladder. Five discrepancies added (D8–D12), the first established partly from TORIVA's **source code** rather than its specification prose. §7.7 rewritten: all three endpoints mapped, none authored, still no cost figure. §7.9 added — the cost measurement as specified in §6.1 cannot honestly be produced by this process, and what can be produced instead |
 | 0.5 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | F09, F10 and F11 written up from the lab tier's B7, B8 and B10, each verified against `739344c` with a reproduce command. **F01 corrected** — its output-cardinality argument was false; `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and three output classes. **F07 amended** — the lab shift table contradicts its concept-level-ordering fix. Upstream Issues 3 and 5 rewritten accordingly; F09–F11 recorded as candidates, not drafts, so the issue count stays at five. §4, §5, §7.1 and `docs/method.md` updated with the running tally of four disproved premises or fixes |
+| 0.6 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Three checks run before any filing. **Issue 4's premise verified** against SAP §5.3 and §13.6 verbatim, and strengthened: `risk difference` already ships in upstream's own STATO copy as `STATO_0000424`, and `estimands_01` is adding `SP_SUMMARY_MEASURE` for exactly the summary that has no statistic. **Upstream state checked** — `main` static since 2026-06-17, issue #11 closed, four issues in the tracker's lifetime, one active maintainer; nothing here is duplicated, and the filing recommendation is now Issue 4 alone. **F09 corrected the same day it was written** — its conformance-defect framing withdrawn; the capability gap stands and its UI consequence is recorded as an unverified source read. D13 added. Tallies in §4, §7.1 and `docs/method.md` raised to five, with the application-from-JSON hazard named |

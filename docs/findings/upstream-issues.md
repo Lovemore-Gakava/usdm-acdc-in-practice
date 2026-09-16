@@ -16,9 +16,45 @@ concept-level ordering as the fix, which one of the study's own tables contradic
 ([F07](F07-ordering-is-unstated.md)). Both would have been filed telling the maintainers
 something untrue about their own library.
 
-Before filing, check the `estimands_01` branch (Stuart Malcolm, 2026-08-14, unmerged at the
-pinned commit) and issue #11 — that work covers ICH E9(R1) strategies and touches the same
-survival bindings, so some of this may already be in flight.
+## The state of the upstream repository, checked 2026-09-16
+
+This replaces an earlier note that said to check the `estimands_01` branch and issue #11 before
+filing. Both were checked; here is what is there.
+
+| | |
+|---|---|
+| `main` | **Has not moved since 2026-06-17** — the pinned commit `739344c` is the tip. Every finding here is against current `main` |
+| `estimands_01` | Active, and well past the commits F02 cites. Now carries a large `smartphrase/` subtree, merged through PR #14 |
+| Issue #11 | **Closed** (2026-08-19), with #12 and #13 |
+| Open issues | **One**: #9, *"Smartphrase: demonstrate SAP ↔ AC/DC model linkage (PoC for the working group)"* |
+| Issues ever opened | **Four**, all by the same maintainer (`metadatadriven`) |
+
+**Nothing here is duplicated by that work.** The branch adds *smartphrases* — estimand and
+intercurrent-event language — not methods. There is no `risk_difference`, no multi-variable
+predicate, no declared ordering anywhere on it.
+
+Three things follow that should shape how these are filed.
+
+**1. The tracker is very small.** Four issues in the repository's lifetime, one open, one active
+maintainer. Filing five at once would more than double its lifetime volume and would read as an
+audit rather than a contribution. **File one, wait, and see how it is received.**
+
+**2. State requirements, not solutions.** Issue #9's body carries a rework note from the
+maintainer:
+
+> The original body specified solution choices … before the requirements were stated, and the
+> first round of work on branch `smartphrase_01` followed those choices in the wrong direction.
+> This body now states **requirements only**; solution de…
+
+Every draft below leads with a **Suggestion**. That is the shape the maintainer has explicitly
+said sent work in the wrong direction on their own issue. The suggestions should move to the
+end, be marked as optional, or come out.
+
+**3. They are about to hit Issue 2 themselves.** `estimands_01` imports a RECIST best-overall-
+response table from the PrE0102 SAP (`smartphrase/SAP/15-appendix5-best-overall-response.md`) —
+Target × Non-Target × New Lesions → Overall Response, a multi-variable classification — as
+source text to ground smartphrases against. Issue 2 is well timed, and can cite their own
+document.
 
 ---
 
@@ -145,9 +181,30 @@ around.
 `ci_method` configuration offering `exact_clopper_pearson`, `wilson`, `wald`, `agresti_coull` and
 `jeffreys`. It simply does not contrast groups.
 
-**Suggestion.** Add a difference-of-proportions statistic to the vocabulary and either extend
-`M.CMH`'s `association_measures` output class or add a companion method for the stratified
-difference. This looks like the smallest and most self-contained of the gaps reported here.
+### The term already ships in this repository
+
+`neo4j/data/metadata/stato/stato.owl` carries:
+
+```
+http://purl.obolibrary.org/obo/STATO_0000424   rdfs:label "risk difference"
+http://purl.obolibrary.org/obo/STATO_0000626   rdfs:label "relative risk difference"
+```
+
+and methods are already coded against that system — `M.CMH` carries
+`{ "system": "http://purl.obolibrary.org/obo/stato", "code": "STATO_0000074" }`. So the
+vocabulary entry has an obvious coding and needs no new ontology work.
+
+### It also bears on work in progress
+
+The `estimands_01` branch adds `SP_SUMMARY_MEASURE` — `role: "summary_measure"`,
+`phrase_template: "summarised as {summary}"` — giving the estimand's population-level summary a
+phrase slot. For the study we mapped, the value that slot needs to name is a statistic the
+vocabulary cannot express.
+
+**Suggestion.** Add a difference-of-proportions statistic to the vocabulary, coded
+`STATO_0000424`, and either extend `M.CMH`'s `association_measures` output class or add a
+companion method for the stratified difference. This looks like the smallest and most
+self-contained of the gaps reported here.
 
 **Related, minor:** neither `M.CMH` nor `M.Proportion` has a transformation entry. The only
 responder analysis transformation is `T.Responder_ChiSq`, which uses `M.ChiSquaredTest` and binds
@@ -219,7 +276,9 @@ the count above stays at five. Each needs a decision before drafting:
 
 ## Suggested filing order
 
-Five issues at once is a lot to arrive with. If they are filed in stages:
+Five issues at once is a lot to arrive with — and against a four-issue tracker with one active
+maintainer, it is far too many. **File Issue 4 alone, then stop and wait.** The order below
+applies only if and when that one is well received.
 
 | Order | Issue | Why |
 |---|---|---|
