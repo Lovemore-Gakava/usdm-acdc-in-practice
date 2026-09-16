@@ -32,6 +32,35 @@ This table is **verified against the filesystem** by `tools/check_consistency.py
 pre-commit hook runs. It cannot quietly say ✓ for something that has not happened, and the
 scoreboard prints on every commit.
 
+## The route
+
+All four remaining stages run on **one endpoint — laboratory change from baseline**, which is
+the only tier that composes. Not on three endpoints. One, all the way.
+
+**Stage 1 — USDM fragments hand-authored.** The least known of the four: this project has never
+authored USDM, only borrowed the CDISC Pilot study the app ships with. Unknown: the minimum set
+of objects the app will load. First action — read the shipped Pilot USDM to learn the shape,
+then author the equivalent for TORIVA's lab endpoint into `study/usdm/`. Done when the app
+loads it and shows the endpoint. `docs/specification.md` §15.3 named this as an action and it
+was passed over for twenty commits.
+
+**Stage 2 — BC linked.** Route is known. F04 established that BC linkage lives at *terminal*
+level, not endpoint level, and the derivation pipeline has a BC picker on measure terminals.
+First action — open the lab chain at step 6, link BCs on the measure terminals, confirm
+`linkedBCIds` is no longer `[]`.
+
+**Stage 5 — eSAP generated.** Step 7 of the builder, never opened. Unknown what it emits.
+First action — open it with the lab chain loaded and see.
+
+**Stage 6 — executed.** Step 8, via WebR. Unknown whether it needs real ADaM loaded into the
+browser. First action — open it and find out. This is the stage that produces an actual number,
+and nothing in this repository has ever produced one.
+
+**Stage 7** is already green for this endpoint (`endpoints/01-simple-lab-cfb/comparison.md`).
+
+Findings encountered on the way are recorded in two paragraphs and left alone. They are not
+progress.
+
 ## The test
 
 Applied to any proposed piece of work, **before starting it**:

@@ -26,6 +26,20 @@ Part A comes first, and it is what motivates Part B. The strongest argument for 
 
 ## 2. Objective
 
+> **Superseded by [`NORTH.md`](../NORTH.md), 2026-09-16. This section caused the drift.**
+>
+> The objective below is an *adoption-decision* frame — what would it cost, where does it
+> strain — and the repository executed it faithfully for twenty commits: thirteen findings,
+> five issue drafts, a review plan, 1,985 lines of critique against 1,185 lines of framework
+> work, with four of the seven stages of the actual destination never started.
+>
+> The destination is **to understand USDM v4 and the AC/DC/BC framework well enough to explain
+> and demonstrate it, by taking one endpoint the whole way through.** Read `NORTH.md` first;
+> where this document disagrees with it, `NORTH.md` wins.
+>
+> The rest of this specification is still useful as *background* — the endpoint ladder, the
+> source-study rationale, the method. It is no longer the statement of what the project is for.
+
 Produce an artefact that answers: *if we adopted this, what would actually happen, and what would it cost?*
 
 Three graded endpoints taken end to end, each showing:
@@ -336,9 +350,11 @@ Upstream is a vanilla-JS SPA with no backend, executing R in-browser via WebR. C
    Neither file carries both. §11's `tabulated_as` edge needs `sdtmDatasetSpecialization`, so Part B lineage work wants the enriched file; anything reading BC response values wants the default. That `responseCodes` and the SDTM specialization are mutually exclusive across the two shipped files is a constraint on §11, not a detail of the dev server, and should be resolved before the lineage table is built.
 
    Note also that `data/usdm/studies.json` is inside the pinned read-only submodule. Editing it contradicts §8 and dirties `upstream/analysis-concepts`. If the enriched file is needed, treat it as a throwaway local edit and `git -C upstream/analysis-concepts checkout data/usdm/studies.json` afterwards.
-3. **Hand-author USDM fragments** for the three TORIVA endpoints — objective, endpoint, estimand, BCs. Not a full study definition.
-4. **Author the simple tier first**, to calibrate the effort measurement before attempting the complex one.
-5. **Check real sponsor protocols' endpoint text** against the three shapes, for breadth.
+3. **Hand-author USDM fragments** — **this is `NORTH.md` stage 1, and it is the live next action.** Scope narrowed: *one* endpoint, laboratory change from baseline, not three. Objective, endpoint, estimand, BCs. Not a full study definition.
+4. ~~**Author the simple tier first**~~ — **done.** All four method steps complete for the lab tier; see `endpoints/01-simple-lab-cfb/`. ORR was attempted and is unauthorable (F13); PFS does not compose (F06).
+5. ~~**Check real sponsor protocols' endpoint text**~~ — **dropped.** Breadth across protocols serves the superseded §2 objective, not the destination. It advances no stage.
+
+> **Actions beyond this list are governed by `NORTH.md`'s route**, not by this section.
 
 ## 16. Open questions
 
