@@ -158,18 +158,15 @@ The ladder was built to vary *difficulty*. What it actually produced was one tie
 each of three successive gates — and **no tier passed all three.**
 
 ```mermaid
-flowchart TD
-    SAP["What the SAP specifies"]
-    SAP --> G1{"Can the model<br/>express it?"}
-
-    G1 -->|no| PFS["PFS — complex<br/>0 of 9 steps compose<br/>F06: no predicate over two variables"]
+flowchart LR
+    SAP["What the SAP<br/>specifies"] --> G1{"Can the model<br/>express it?"}
     G1 -->|yes| G2{"Is there a transformation<br/>to author it from?"}
+    G2 -->|yes| G3{"Does the chain mean<br/>what the SAP means?"}
+    G3 -->|yes| OK["A chain you can trust<br/>reached by no tier"]
 
-    G2 -->|no| ORR["ORR — moderate<br/>6 of 11 compose, 0 authorable<br/>F13: 65% of methods have no entry<br/>authored chain: derivationChain []"]
-    G2 -->|yes| G3{"Does the authored chain<br/>mean what the SAP means?"}
-
-    G3 -->|no| LAB["Lab change from baseline — simple<br/>authors cleanly in 11 decisions<br/>F11 + F12: baseline ambiguous for 71%<br/>median 21% error in BASE"]
-    G3 -->|yes| OK["A chain you can trust<br/>— reached by no tier —"]
+    G1 -->|no| PFS["PFS &mdash; complex<br/>0 of 9 steps compose<br/>F06: no two-variable predicate"]
+    G2 -->|no| ORR["ORR &mdash; moderate<br/>6 of 11 compose<br/>0 authorable<br/>F13: 65% of methods unwrapped"]
+    G3 -->|no| LAB["Lab CFB &mdash; simple<br/>authors in 11 decisions<br/>baseline ambiguous for 71%<br/>F11 + F12: median 21% error"]
 ```
 
 Read left to right, the three gates are *expressible*, *authorable*, *correct*. They are not
