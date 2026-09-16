@@ -10,6 +10,9 @@ rather than maintained by hand.
 
 Ground truth is the filesystem. Documents are wrong, never the other way round.
 
+It also prints NORTH.md's finish line on every run, so the project's actual
+progress is visible at every commit rather than only when someone looks.
+
 Checks:
   1. findings      F01-F0N ranges match the files in docs/findings/
   2. findings-index every finding file appears in both findings tables
@@ -20,6 +23,8 @@ Checks:
   6. coverage      every tracked .md and .py is named somewhere in PROVENANCE.md
   7. links         every relative markdown link resolves to a file that exists
   8. submodule     upstream is checked out, and at the commit the documents pin
+  9. north         NORTH.md's seven-stage status table matches the filesystem, so
+                   the compass cannot claim a stage that has not happened
 
 Two kinds of line are exempt, because they are correct records of what was once
 believed rather than claims about the present:
@@ -42,6 +47,7 @@ Exit code 0 if consistent, 1 if not. Python 3.10+. Standard library only.
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -328,6 +334,99 @@ def check_submodule(root: Path, files: dict[str, list[str]],
 
 
 # --------------------------------------------------------------------------
+# NORTH.md — the seven-stage finish line
+# --------------------------------------------------------------------------
+# The compass is only useful if it cannot lie. Each stage is computed from the
+# filesystem and compared against the status table in NORTH.md, so the table
+# cannot quietly claim a stage that has not happened.
+
+
+def _chains(root: Path) -> list[dict]:
+    out = []
+    for f in sorted((root / "endpoints").glob("*/chain.json")):
+        try:
+            out.append(json.loads(f.read_text(encoding="utf-8")))
+        except (OSError, json.JSONDecodeError):
+            pass
+    return out
+
+
+def _specs(chains: list[dict]) -> list[dict]:
+    return [sp for c in chains for sp in (c.get("endpointSpecs") or {}).values()]
+
+
+def north_stages(root: Path) -> list[tuple[int, str, bool]]:
+    """The seven stages of NORTH.md's finish line, computed from the repository."""
+    chains = _chains(root)
+    specs = _specs(chains)
+
+    usdm = root / "study" / "usdm"
+    stage1 = usdm.is_dir() and any(usdm.iterdir())
+
+    def linked(sp: dict) -> bool:
+        if sp.get("linkedBCIds"):
+            return True
+        return any(t.get("linkedBCIds") for t in (sp.get("confirmedTerminals") or []))
+
+    stage2 = any(linked(sp) for sp in specs)
+    stage3 = any(sp.get("derivationChain") or sp.get("selectedDerivations") for sp in specs)
+    stage4 = any(sp.get("selectedTransformationOid") for sp in specs)
+    stage5 = any((root / "endpoints").glob("*/esap*"))
+    stage6 = any((root / "endpoints").glob("*/results*"))
+    stage7 = any((root / "endpoints").glob("*/comparison.md"))
+
+    return [
+        (1, "USDM fragments hand-authored", stage1),
+        (2, "BC linked on the chain's terminals", stage2),
+        (3, "DC — derivation authored", stage3),
+        (4, "AC — analysis bound", stage4),
+        (5, "eSAP generated", stage5),
+        (6, "Executed, a real result produced", stage6),
+        (7, "Compared against built ADaM", stage7),
+    ]
+
+
+TRUE_MARKS = {"✓", "✔", "yes", "y", "done"}
+FALSE_MARKS = {"✗", "✘", "no", "n", "x", ""}
+
+
+def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
+    """NORTH.md's status table must match what the filesystem says."""
+    lines = files.get("NORTH.md")
+    if lines is None:
+        return [Problem("NORTH.md", 0,
+                        "NORTH.md is missing — it is the project's destination and the "
+                        "only statement of what 'done' means")]
+
+    stated: dict[int, tuple[int, bool]] = {}
+    row = re.compile(r"^\|\s*(\d)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
+    for i, line in enumerate(lines, 1):
+        m = row.match(line)
+        if not m:
+            continue
+        num, mark = int(m.group(1)), m.group(3).strip().lower()
+        if mark in TRUE_MARKS:
+            stated[num] = (i, True)
+        elif mark in FALSE_MARKS:
+            stated[num] = (i, False)
+
+    problems: list[Problem] = []
+    for num, label, actual in north_stages(root):
+        if num not in stated:
+            problems.append(Problem("NORTH.md", 0,
+                                    f"stage {num} ({label}) has no row in the status table"))
+            continue
+        line_no, claimed = stated[num]
+        if claimed != actual:
+            problems.append(Problem(
+                "NORTH.md", line_no,
+                f"stage {num} ({label}) is marked "
+                f"{'done' if claimed else 'not done'} but the filesystem says "
+                f"{'done' if actual else 'not done'}"))
+    return problems
+
+
+# --------------------------------------------------------------------------
 
 
 def main() -> int:
@@ -417,6 +516,17 @@ def main() -> int:
     problems += check_links(root, files)
     sub_problems, warnings = check_submodule(root, files, hist)
     problems += sub_problems
+    problems += check_north(root, files)
+
+    stages = north_stages(root)
+    done = sum(1 for _, _, ok in stages if ok)
+    print()
+    print(f"NORTH — finish line: {done} of {len(stages)} stages")
+    for num, label, ok in stages:
+        print(f"  [{'x' if ok else ' '}] {num}. {label}")
+    if done < len(stages):
+        print("  → the test: which numbered stage does the next piece of work advance?")
+    print()
 
     print(f"truth:   {n_findings} findings, {n_issues} drafted issues, "
           f"{n_disc} discrepancies, {len(mapped)}/{len(tiers)} endpoints mapped")

@@ -44,6 +44,8 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `docs/findings/F01`–`F08`, `docs/findings/README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/findings/F09`–`F13`; F01, F07 and F09 amendments; Issues 3 and 5 rewritten | 2026-09-16 | AI | Not yet |
 | `docs/review-plan.md` | 2026-09-16 | AI | Not yet — and it is the document that ends that |
+| `NORTH.md` | 2026-09-16 | Destination sentence: **LG**. Finish line, test and prose: AI | Destination confirmed by LG |
+| `CLAUDE.md` | 2026-09-16 | AI | Not yet |
 | — Issues 1–5 restructured requirement-first | 2026-09-16 | AI | Not yet — Issue 4 is a Tier 1 item, the rest Tier 2 |
 | `docs/method.md` | This session | AI | Not yet |
 | `study/README.md`, `study/source-refs.md` | This session | AI | Not yet |
@@ -269,6 +271,8 @@ AI's reasoning from verified facts, not themselves verified:
 | Document | Relationship |
 |---|---|
 | `docs/specification.md` | The plan. Partly superseded — §5 carries a disposition table, §17 v0.4 the corrections |
+| [`NORTH.md`](NORTH.md) | **The destination.** What "done" means, the seven-stage finish line, and the test every piece of work must pass. Read before anything else; everything below describes *how*, this says *what for* |
+| `CLAUDE.md` | Working rules for an AI collaborator, pointing at `NORTH.md`. Loaded automatically at session start |
 | `docs/method.md` | How the findings were verified, and why that step exists |
 | `docs/review-plan.md` | What a human must review, in what order, and what to skip. **Nothing here is reviewed until its sign-off table is filled in** |
 | `tools/check_consistency.py` | Enforces the counted claims in this record against the filesystem |

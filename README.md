@@ -4,6 +4,9 @@ USDM v4.0 and the CDISC AC/DC framework — BC to DC to AC — applied end to en
 
 ---
 
+**Start with [`NORTH.md`](NORTH.md)** — the destination, the seven-stage finish line, and the
+test any piece of work has to pass. Three of seven stages are done.
+
 ## What this is
 
 CDISC's [`cdisc-org/analysis-concepts`](https://github.com/cdisc-org/analysis-concepts) implements the AC/DC framework: an Observation / Derivation / Analysis Concept model, 60 methods, a transformation library, an eSAP model and a working browser-based builder with in-browser R execution.
