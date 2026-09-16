@@ -1,5 +1,21 @@
 # Drafts for `cdisc-org/analysis-concepts` issues
 
+> # ⏸ PARKED — 2026-09-16
+>
+> **Out of scope for the destination.** Applying `NORTH.md`'s test — *which numbered stage does
+> this advance?* — filing upstream issues advances none of stages 0–7. Nothing here is being
+> filed, so nothing here needs reviewing before filing.
+>
+> Kept, not deleted, for two reasons. The drafts are correct as far as they go and could be
+> revived in an afternoon if the project ever wants them. And the record below of **five
+> premises disproved before anything was filed** — F01, F02, F04, F07, F09 — is the most useful
+> thing in this folder, because it is evidence about how confidently wrong careful-looking work
+> can be.
+>
+> If you ever do file, **Issue 4 alone** and read `docs/review-plan.md` first. That would be a
+> deliberate choice outside the destination, not project progress.
+
+
 Against `739344c` (2026-06-17). Not yet filed.
 
 Originally two issues were planned (specification §12): the unused `censoring` role, and the

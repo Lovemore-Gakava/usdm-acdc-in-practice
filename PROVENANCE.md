@@ -291,7 +291,9 @@ AI's reasoning from verified facts, not themselves verified:
 ## 7. Limitations and open provenance items
 
 **7.1 Nothing here has been human-reviewed.** The findings assert errors in a third party's
-public repository and five are drafted as public issues.
+public repository and five were drafted as public issues — **now parked, and not being filed**
+(`docs/findings/upstream-issues.md`). The warning below stands as a statement about this
+repository's reliability, not as a gate on a pending action.
 
 **Five findings have now had a premise or a proposed fix disproved — F01, F02, F04, F07 and
 F09.** Two were caught in the original verification pass; three survived it and were caught

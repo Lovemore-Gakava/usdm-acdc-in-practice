@@ -132,14 +132,18 @@ of `adlb.R` is the entire bridge. Incidentally, because matching is by concept s
 builder will offer the baseline record flag to resolve **the event indicator of a log-rank
 test** — F02 arriving as an authoring hazard rather than a signature one.
 
-Five issues are drafted for upstream, with a suggested filing order — Issue 4 (no risk
-difference) is the recommended opener, being the smallest and most concrete. F09–F11 are
-recorded as candidates rather than drafts, each needing a decision first. See
-`docs/findings/upstream-issues.md`. None has been filed, and none has been human-reviewed.
+**The upstream issues are parked** (`docs/findings/upstream-issues.md`). Five were drafted and
+none filed; filing advances no stage of [`NORTH.md`](NORTH.md), so they are kept as a record
+rather than carried as an obligation.
 
-**Issues 3 and 5 were rewritten after the lab tier**, because F01 and F07 each carried a false
-premise into its draft. Both would have told the maintainers something untrue about their own
-library — the third and fourth time verification has caught that, after F02 and F04.
+The findings themselves stay, because knowing where a framework's limits are is part of
+understanding it. They are **by-products** — recorded when they blocked a stage, not pursued
+for their own sake.
+
+Worth keeping in view: **five findings had a premise or proposed fix disproved** — F01, F02,
+F04, F07, F09 — and four of those had been drafted for public filing. Two were caught by the
+verification pass; three survived it and were caught later by unrelated work. That is the most
+transferable thing in `docs/findings/`.
 
 ## The endpoint ladder
 
@@ -260,7 +264,7 @@ The specification is complete and the findings are verified against pinned commi
 | | |
 |---|---|
 | Findings F01–F13 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected twice; F06–F11 new from paper mapping, F12 and F13 new from the builder |
-| Upstream issues | Five drafted, none filed. **Recommendation is to file Issue 4 alone** — upstream's tracker has four issues in its lifetime and one active maintainer |
+| Upstream issues | **Parked.** Five drafted, none filed, none needed — filing advances no stage of `NORTH.md`. Kept for the record, not on the path |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md`, `chain.json`, `log.md`. **Composes at method level and cannot be authored** — no transformation wraps `M.Categorization`, `M.Proportion` or `M.CMH`, and the builder cannot create one. The authorable chain has `derivationChain: []` |
 | Simple tier (lab CFB) | **All four steps complete — the only tier that is.** Authored in the builder (`chain.json`), compared against built ADaM (`comparison.md`), logged (`log.md`). Zero new authoring, 11 decisions, and a chain that validates while under-determined |

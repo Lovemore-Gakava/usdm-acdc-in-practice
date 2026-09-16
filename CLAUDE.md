@@ -24,6 +24,10 @@ Findings about what the framework *cannot* do are cheap to produce, feel like pr
 advance no stage. There are already thirteen. **Do not add another unless it blocks a stage you
 are actively trying to complete**, and when one does, record it in two paragraphs and move on.
 
+**The upstream issues and the review plan are parked** — `docs/findings/upstream-issues.md`,
+`docs/review-plan.md`. Do not polish them, do not propose filing them, and do not treat the
+review backlog as a blocker. Nothing is being filed.
+
 Specific failures to avoid, each of which actually happened here:
 
 - Noticing drift and continuing. Writing *"I should stop generating findings"* and then

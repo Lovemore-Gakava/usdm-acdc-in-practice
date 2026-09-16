@@ -1,5 +1,16 @@
 # Human review plan
 
+> # ⏸ PARKED — 2026-09-16
+>
+> **This plan exists to review work that is no longer in scope.** `docs/findings/upstream-issues.md`
+> is parked; nothing is being filed, so the Tier 1 gate below blocks nothing.
+>
+> Kept because if the issues are ever revived, this is the plan for doing it safely — and
+> because §3, *the five ways this repository has actually been wrong*, is worth reading on its
+> own. Those five failure modes apply to any claim made here, including the ones made while
+> learning USDM and M11.
+
+
 Nothing in this repository has been reviewed by a human. This plan says what to review, in what
 order, what specifically to check, and what to skip.
 
