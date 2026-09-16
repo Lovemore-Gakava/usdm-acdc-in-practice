@@ -84,14 +84,17 @@ silent on laboratory analysis. The gap is downstream of USDM, not in it.
 Authored from the **protocol synopsis** — objectives §2, endpoint definitions §6 — with SAP
 cross-references in each `description` where the SAP adds a hypothesis or a threshold:
 
-| Objective | Endpoint | Source |
-|---|---|---|
-| OBJ1 primary | `END-OS` Overall Survival | SAP §2.1 |
-| OBJ-S1 | `END-PFS` | SAP §2.2 S1 |
-| OBJ-S2 | `END-ORR` | SAP §2.2 S2 |
-| OBJ-S3 | `END-DOR` | SAP §2.2 S3 |
-| OBJ-S4 | `END-DCR` | SAP §2.2 S4 |
-| OBJ-S5 | `END-S5-LAB` Safety — laboratory evaluations | protocol §2.2 and §7.2 — **not the SAP**, see below |
+| Objective | Endpoint | Objective text from | SAP adds |
+|---|---|---|---|
+| OBJ1 primary | `END-OS` Overall Survival | protocol §2.1 | §2.1 — null hypothesis OS HR = 1 |
+| OBJ-S1 | `END-PFS` | protocol §2.2 (1) | §2.2 S1 — PFS HR = 1 |
+| OBJ-S2 | `END-ORR` | protocol §2.2 (2) | §2.2 S2 — ORR difference = 0 |
+| OBJ-S3 | `END-DOR` | protocol §2.2 (3) | §2.2 S3 — no formal test |
+| OBJ-S4 | `END-DCR` | protocol §2.2 (4) | §2.2 S4 — DCR difference = 0, SD ≥ 8 weeks |
+| OBJ-S5 | `END-S5-LAB` Safety — laboratory evaluations | protocol §2.2 (5), §7.2 | **nothing** — see below |
+
+Endpoint text is from protocol §6 throughout. The SAP contributes hypotheses and thresholds,
+which are analysis content — it supplies no objective or endpoint *definition*.
 
 **Not authored:** schedule of activities, encounters, eligibility criteria, study interventions,
 the other eight estimands. Not needed for the traverse and not worth inventing.
