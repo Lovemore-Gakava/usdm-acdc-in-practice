@@ -50,6 +50,8 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `endpoints/01-simple-lab-cfb/mapping.md` | 2026-09-16 | AI | Not yet |
 | `endpoints/01-simple-lab-cfb/chain.json` | 2026-09-16 | Authored in `ac-dc-app` by AI; serialised by the application | Not yet |
 | `endpoints/01-simple-lab-cfb/comparison.md`, `log.md` | 2026-09-16 | AI | Not yet |
+| `endpoints/02-moderate-orr/chain.json` | 2026-09-16 | Authored in `ac-dc-app` by AI; serialised by the application | Not yet |
+| `endpoints/02-moderate-orr/log.md` | 2026-09-16 | AI | Not yet |
 | `tools/check_baseline_ambiguity.py` | 2026-09-16 | AI | Not yet |
 | `LICENSE`, `.gitignore`, `.gitmodules` | This session | AI | Not yet — see §7.4 |
 
@@ -246,6 +248,7 @@ AI's reasoning from verified facts, not themselves verified:
 | ORR "half composes" — 6 of 11 steps | Inference of the same kind as the PFS row. The primitives and their configurations are verified; that the remaining five steps have no encoding is argued, not proven |
 | Reporting an odds ratio where the estimand specifies a risk difference "answers a different question" (F08) | Inference. The absence of a difference-of-proportions statistic is verified by search; that the substitution is not an approximation is a reading of ICH E9(R1) |
 | `best` being undeclared "produces opposite results" for two identical chains (F07) | Inference. The enum value, the absent direction configuration and the `decimal` dataType are verified; the consequence is argued |
+| ORR's five composable steps are unauthorable | **Observed**, by driving the builder, and corroborated by counting transformation entries per method and by the absence of any add-transformation affordance in `ac-dc-app/js/`. The inference is only that no other route exists — the app was exercised on one endpoint shape, not exhaustively |
 | F12's consequence — that `ABLFL` and `BASE` may therefore disagree | **No longer inference. Demonstrated.** `AnalysisVisit = Baseline` selects two records for 3,832 of 5,400 subject × parameter groups in `adlb.parquet`, differing in value in 96.8% of them, with a median 21.3% relative error in `BASE` if the non-flagged candidate is taken. Supersedes the row below, which was written before the data was read |
 | ~~F12's consequence — inference, untested against data~~ | Superseded 2026-09-16 by the row above |
 | `M.RecordSelection`'s formula/output mismatch is a defect | Inference. Both fragments are quoted; that they conflict is an argument |
@@ -337,8 +340,16 @@ them. D8–D12 are the first discrepancies here established partly from **source
 which is a stronger class of evidence than the earlier seven rest on — but still not the built
 data.
 
-**7.7 All three endpoints are mapped; one is authored end to end.** The lab tier completed
-steps 2, 3 and 4 on 2026-09-16. ORR and PFS remain at step 1.
+**7.7 All three endpoints are mapped; one is authored end to end and one was attempted.** The
+lab tier completed steps 2, 3 and 4 on 2026-09-16. **ORR completed steps 2 and 4** the same
+day and stopped there — the chain the builder will produce contains no derivation, so there is
+nothing to compare against built ADaM and no `comparison.md` was written. PFS remains at step 1.
+
+ORR's result corrected its own mapping. The mapping recommended authoring five steps; none is
+authorable, because no transformation wraps `M.Categorization`, `M.Proportion` or `M.CMH`, a
+shipped template's method configuration is not editable in the builder, and no template can be
+created. That was invisible from the libraries and is the clearest case so far for the method
+keeping steps 1 and 2 distinct.
 
 There is now a **structural** cost figure for one tier — zero new authoring, eleven decision
 points, four of them not determined by the source SAP — but still no wall-clock figure, and
@@ -409,3 +420,4 @@ recorded in each `mapping.md`.
 | 0.7 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | `ac-dc-app` served and driven to settle F09's UI claims. **Two of the three were wrong**: the derivation pipeline does carry a `+ Add binding...` control, and `T.LOCF_Imputation` does supply an ordering — bound as `order`, a role name `M.ImputedValue_LOCF` does not declare, which is a smaller and more precise defect than "no transformation binds it". F09 corrected a second time; only its core capability claim (single-cardinality `time_order`, no tie-break) survived both passes. New observation recorded as B11 in the lab mapping: `T.BaselineSelection` outputs a `Flag` and is therefore **not** among the nine templates offered to resolve `T.ChangeFromBaseline`'s subtrahend, so the baseline flag and the baseline value are independent derivations. §3.4 now records both observation sessions |
 | 0.8 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | B11 written up as **F12** — the baseline flag and the baseline value are disconnected. The first finding here **produced** by running the builder rather than corrected by it: `T.BaselineSelection` outputs a `Flag`, and `findDerivationsForConcept` matches on exact output-concept equality, so it can never resolve the `Measure` `T.ChangeFromBaseline` needs. Carries the visit-based/date-based mismatch against SAP §12.3, and two incidentals — every `Flag` being interchangeable (so the builder offers the baseline flag for a log-rank event indicator, F02 arriving operationally), and `Observation`/`Timing`/`TimeToEvent` being demanded by transformations that nothing can satisfy, which restates F01 structurally |
 | 0.9 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | **Lab tier authored end to end** — the first tier to complete steps 2, 3 and 4, and the first time any claim here has been checked against data. `chain.json` authored in `ac-dc-app` and serialised by the application; `comparison.md` against `adlb.parquet`; `log.md` recording eleven decision points and zero new authoring. D8 and D9 **closed against the data**. F12's consequence moved from inference to demonstrated: the model's baseline slice selects two records for 71% of subject × parameter groups, differing in value 96.8% of the time, median 21.3% error in `BASE`. `tools/check_baseline_ambiguity.py` added and reproduces every figure. §7.6 and §7.7 rewritten |
+| 1.0 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | **ORR authored — or rather, found unauthorable.** Its five composable steps have no transformation template (`M.Categorization`, `M.Proportion` and `M.CMH` have none at all; `M.RecordSelection` and `M.ThresholdCompare` have one each, fixed at other purposes), a shipped template's method configuration is not editable anywhere in the builder, and no template can be created — the library is fetched read-only and no add-transformation affordance exists. `chain.json` records what the builder does produce: `T.Responder_ChiSq` with `derivationChain: []`, the responder flag declared as source data, and an unstratified chi-squared test the SAP does not ask for. The mapping's closing recommendation is struck through and superseded. Also observed live: the builder offers **Overall Survival Log-Rank Test** for a `Flag` endpoint, and accepted **Baseline Selection** as the responder flag — F12's Flag-interchangeability incidental, on two independent paths |

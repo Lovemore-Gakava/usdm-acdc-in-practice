@@ -165,9 +165,44 @@ honest form of the tier is a **partial chain**: author what composes, mark the c
 as blocked, and record the cost of what was authored. That is more useful than either a complete
 chain that quietly substitutes an odds ratio or an abandoned tier.
 
-**Recommended next step.** Author steps 2, 3, 7, 8 and 9 against the ITT denominator — which is
-what exists (D4, D7) — and record the time. Do **not** silently adopt the Investigator reader to
-match the built ADaM; carry D3 into `comparison.md` as a divergence.
+**Recommended next step.** ~~Author steps 2, 3, 7, 8 and 9 against the ITT denominator — which is
+what exists (D4, D7) — and record the time.~~ **Superseded — see the addendum below.** None of
+the five is authorable. Do **not** silently adopt the Investigator reader to match the built
+ADaM; D3 remains open and would have gone into `comparison.md`, which is not written because
+there is no derivation to compare.
+
+## Addendum — what authoring showed (2026-09-16)
+
+**The recommendation below was wrong, and is superseded by [`log.md`](log.md).**
+
+It reads: *"Author steps 2, 3, 7, 8 and 9 … and record the time."* None of those five can be
+authored. The mapping established that the **methods** compose, and inferred that the chain
+could therefore be built. It cannot: the builder authors from **transformation templates**, and
+
+| Method | Transformation entries |
+|---|---|
+| `M.Categorization` (step 7) | **none** |
+| `M.Proportion` (steps 8, 9) | **none** |
+| `M.CMH` (step 10) | **none** |
+| `M.RecordSelection` (step 2) | `T.BaselineSelection` only, fixed at `last_non_missing` / `pre_treatment` |
+| `M.ThresholdCompare` (step 3) | `T.ADAS_ScoreableCheck` only, fixed at *"≥ 8 of 11 items"* |
+
+A shipped transformation's method configuration is not editable in the builder — the derivation
+pipeline shows bindings only, and step 4's configuration panel covers the analysis
+transformation alone. And no transformation can be created: the library is fetched read-only
+and there is no add-transformation affordance in `ac-dc-app/js/`.
+
+So ORR fails **differently from PFS**. PFS does not compose because the methods cannot express
+the censoring hierarchy (F06). ORR's steps compose at method level exactly as mapped, and are
+still unauthorable because nothing wraps those methods and nothing can be authored to.
+
+What the builder does produce for an ORR-shaped endpoint is in [`chain.json`](chain.json):
+`T.Responder_ChiSq` with `derivationChain: []` — the responder flag declared as source data,
+and an unstratified chi-squared test the SAP does not ask for.
+
+**This is the clearest argument yet for the method keeping steps 1 and 2 separate.** Step 1
+works from the method and transformation libraries; step 2 works from what the application
+exposes. The gap between them was invisible on paper and is the whole result of this tier.
 
 ## New findings
 

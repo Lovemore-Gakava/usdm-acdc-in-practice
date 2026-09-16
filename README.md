@@ -133,7 +133,7 @@ library — the third and fourth time verification has caught that, after F02 an
 | Tier | Endpoint | Estimand | Expectation |
 |---|---|---|---|
 | Simple | Laboratory change from baseline | — | **Authored end to end.** Structure composes with no new authoring; semantics do not — the baseline it subtracts is ambiguous for 71% of the study. The SAP specifies no lab analysis, and the two lab tables that were built do not compose |
-| Moderate | Objective response rate | E3 / E3a | **Mapped. Half composes** — selection and per-arm summary fit; confirmation rule and risk difference do not |
+| Moderate | Objective response rate | E3 / E3a | **Mapped and attempted. Half composes on paper, none of it authorable** — the five composable steps have no transformation template, and templates cannot be created |
 | Complex | Progression-free survival | E2 / E2a | **Mapped. Does not compose** — one of nine steps. Found the limit earlier than expected |
 
 The simple tier matters *because* it is shallow — it shows the framework does not impose machinery where none is needed. The complex tier is a stress test, and a negative result there is a finding rather than a failure.
@@ -204,7 +204,7 @@ The specification is complete and the findings are verified against pinned commi
 | Findings F01–F12 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected twice; F06–F11 new from paper mapping, F12 new from running the builder |
 | Upstream issues | Five drafted, none filed. **Recommendation is to file Issue 4 alone** — upstream's tracker has four issues in its lifetime and one active maintainer |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
-| Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |
+| Moderate tier (ORR) | `mapping.md`, `chain.json`, `log.md`. **Composes at method level and cannot be authored** — no transformation wraps `M.Categorization`, `M.Proportion` or `M.CMH`, and the builder cannot create one. The authorable chain has `derivationChain: []` |
 | Simple tier (lab CFB) | **All four steps complete — the only tier that is.** Authored in the builder (`chain.json`), compared against built ADaM (`comparison.md`), logged (`log.md`). Zero new authoring, 11 decisions, and a chain that validates while under-determined |
 | Snapshot | Not started |
 
@@ -217,14 +217,19 @@ where the SAP specifies no laboratory analysis at all, so the only statement of 
 built lab tables compute is the R program that computes them. All are recorded in
 `study/source-refs.md` and left unresolved, so as not to contaminate the step-3 comparison.
 
-All three tiers are mapped, and the lab tier is authored end to end — the first time any tier
-has completed steps 2, 3 and 4, and the first time any claim here has been checked against
-**data** rather than a specification.
+All three tiers are mapped. The lab tier is authored end to end — the first time any tier
+completed steps 2, 3 and 4, and the first time any claim here was checked against **data**
+rather than a specification. ORR was attempted and produced a different kind of result: its
+five composable steps have no transformation template, configurations on shipped templates are
+not editable, and the builder cannot create a template — so the chain that can be authored
+contains no derivation at all.
 
-Next: ORR's composable steps (2, 3, 7, 8, 9), which would give a second cost figure on a tier
-that half-composes. PFS cannot be authored until F06 is resolved upstream or a documented
-workaround is accepted. Before either, the findings need human review — five have had a premise
-or fix disproved, and none has been read by a human.
+**Three tiers, three distinct failure modes.** PFS: the methods cannot express it. ORR: the
+methods can, and nothing wraps them. Lab: it authors cleanly and is silently under-determined.
+
+Next: the findings need human review before anything else — five have had a premise or fix
+disproved and none has been read by a human. PFS cannot be authored until F06 is resolved
+upstream. The snapshot (§6.2) now has real content for all three tiers.
 
 ## Provenance
 

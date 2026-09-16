@@ -1,0 +1,178 @@
+{
+  "$schema": "acdc-study-instance.schema.json",
+  "instanceId": "SI_CDISC-PILOT-LZZT-USDM-aligned_2026-09-16",
+  "formatVersion": "1.0",
+  "createdAt": "2026-09-16T21:12:29.874Z",
+  "updatedAt": "2026-09-16T21:12:29.874Z",
+  "$references": {
+    "transformationLibrary": {
+      "file": "lib/transformations/ACDC_Transformation_Library_v06.json",
+      "version": "0.6"
+    },
+    "acConceptModel": {
+      "file": "model/concept/AC_Concept_Model_v016.json",
+      "version": "0.16"
+    },
+    "dcConceptModel": {
+      "file": "model/concept/Option_D_Clinical_with_Dimensions.json",
+      "version": "0.20b"
+    }
+  },
+  "studyRef": {
+    "selectedStudyIndex": 0,
+    "studyName": "CDISC PILOT - LZZT - USDM aligned"
+  },
+  "selectedEndpointIds": [
+    "Endpoint_6"
+  ],
+  "esapLinkedNarratives": {},
+  "endpointAnalyses": {},
+  "endpointSpecs": {
+    "Endpoint_6": {
+      "conceptCategory": "Flag",
+      "dataType": "Quantity",
+      "parameterSource": "bc",
+      "parameterName": "",
+      "linkedBCIds": [],
+      "dimensionValues": {},
+      "derivationNote": "",
+      "selectedTransformationOid": "T.Responder_ChiSq",
+      "selectedDerivationOid": null,
+      "useInEsap": true,
+      "writeBackToUsdm": false,
+      "estimandSummaryPattern": null,
+      "selectedOcFacet": null,
+      "derivationConfigValues": {},
+      "derivationDimensionValues": {},
+      "selectedAnalyses": [
+        {
+          "transformationOid": "T.Responder_ChiSq",
+          "resolvedBindings": [
+            {
+              "methodRole": "response",
+              "concept": "Flag",
+              "qualifierType": null,
+              "qualifierValue": null,
+              "requiredValueType": "CodeableConcept",
+              "direction": "input",
+              "dataStructureRole": "measure"
+            },
+            {
+              "methodRole": "fixed_effect",
+              "concept": "Treatment",
+              "qualifierType": "IntentType",
+              "qualifierValue": "Planned",
+              "requiredValueType": "CodeableConcept",
+              "direction": "input",
+              "dataStructureRole": "dimension"
+            },
+            {
+              "concept": "Subject",
+              "methodRole": "partition",
+              "direction": "input",
+              "dataStructureRole": "dimension"
+            },
+            {
+              "conceptCategory": "ParameterDimension",
+              "methodRole": "constraint",
+              "direction": "input",
+              "dataStructureRole": "dimension"
+            },
+            {
+              "conceptCategory": "VisitDimension",
+              "methodRole": "constraint",
+              "direction": "input",
+              "dataStructureRole": "dimension"
+            }
+          ],
+          "activeInteractions": [],
+          "estimandSummaryPattern": "TestResult"
+        }
+      ],
+      "cubeDimensions": [
+        {
+          "dimension": "Parameter",
+          "sliceValue": ""
+        }
+      ],
+      "cubeSlices": [],
+      "selectedEndpointPhrase": "SP_RESPONDER_ENDPOINT",
+      "selectedDimPhrases": [],
+      "resolvedSlices": [],
+      "sliceKeyDimensions": [],
+      "resolvedBindings": [
+        {
+          "methodRole": "response",
+          "concept": "Flag",
+          "qualifierType": null,
+          "qualifierValue": null,
+          "requiredValueType": "CodeableConcept",
+          "direction": "input",
+          "dataStructureRole": "measure"
+        },
+        {
+          "methodRole": "fixed_effect",
+          "concept": "Treatment",
+          "qualifierType": "IntentType",
+          "qualifierValue": "Planned",
+          "requiredValueType": "CodeableConcept",
+          "direction": "input",
+          "dataStructureRole": "dimension"
+        },
+        {
+          "concept": "Subject",
+          "methodRole": "partition",
+          "direction": "input",
+          "dataStructureRole": "dimension"
+        },
+        {
+          "conceptCategory": "ParameterDimension",
+          "methodRole": "constraint",
+          "direction": "input",
+          "dataStructureRole": "dimension"
+        },
+        {
+          "conceptCategory": "VisitDimension",
+          "methodRole": "constraint",
+          "direction": "input",
+          "dataStructureRole": "dimension"
+        }
+      ],
+      "activeInteractions": [],
+      "derivationChain": [],
+      "selectedDerivations": {},
+      "confirmedTerminals": [
+        {
+          "slotKey": "T.Responder_ChiSq/Subject/2",
+          "concept": "Subject",
+          "roleLabel": "partition"
+        },
+        {
+          "slotKey": "T.Responder_ChiSq/Flag/0",
+          "concept": "Flag",
+          "roleLabel": "response"
+        },
+        {
+          "slotKey": "T.Responder_ChiSq/Treatment/1",
+          "concept": "Treatment",
+          "roleLabel": "fixed_effect"
+        },
+        {
+          "slotKey": "T.Responder_ChiSq/Observation.Identification.Topic/3",
+          "concept": "Observation.Identification.Topic",
+          "roleLabel": "constraint"
+        },
+        {
+          "slotKey": "T.Responder_ChiSq/Visit/4",
+          "concept": "Visit",
+          "roleLabel": "constraint"
+        }
+      ],
+      "pipelineReferences": []
+    }
+  },
+  "preferences": {
+    "modelViewMode": "concepts_adam",
+    "currentStep": 6
+  }
+}
