@@ -40,6 +40,13 @@ Target: ADTTE `PARAMCD = "PFS"`, producing `AVAL` (days), `CNSR` (0/1), `ADT`, `
 
 One step of nine composes.
 
+> **Corrected 2026-09-16 — none of nine is *authorable*.** Step 8's `M.DateDifference` has no
+> transformation entry, so it cannot be selected in the builder. This mapping, like ORR's, was
+> scored against the **method** library; the builder authors from the **transformation** library,
+> where 65% of methods have no entry. See
+> [F13](../../docs/findings/F13-authoring-surface-is-narrower-than-the-model.md). The verdict
+> "does not compose" is unchanged and now understated.
+
 ## The blockers
 
 **B1 — no multi-variable predicate.** Step 6 is the FDA hierarchy: a five-way resolution

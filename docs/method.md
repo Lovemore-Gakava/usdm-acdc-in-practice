@@ -63,6 +63,22 @@ That is the case for the verification step, and for keeping the evidence in the 
   *removed* from *never present*. F02 turned on this.
 - A claim about the **application** cites file and line.
 
+## Two libraries, two questions
+
+Steps 1 and 2 do not read the same thing, and conflating them produced wrong conclusions on two
+of three tiers.
+
+**Step 1 reads the method library** and answers *can the model express this*.
+**Step 2 reads the transformation library and the builder** and answers *can a chain be built*.
+
+At `739344c` those differ sharply: 39 of 60 methods have no transformation, and the builder can
+neither create a transformation nor reconfigure a shipped one
+([F13](findings/F13-authoring-surface-is-narrower-than-the-model.md)). So a step-1 verdict of
+"composes" carries no implication that anything can be authored, and both ORR's mapping and
+PFS's had to be corrected on that point after the fact.
+
+Where a mapping says a step composes, it should now say **on which surface**.
+
 ## Sequencing rule
 
 The method's four steps are ordered, and the order is load-bearing: `mapping.md` is written

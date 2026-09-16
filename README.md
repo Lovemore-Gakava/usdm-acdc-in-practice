@@ -36,6 +36,7 @@ including one of the two that was slated to be filed as an upstream issue. See
 | [F10](docs/findings/F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** |
 | [F11](docs/findings/F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** |
 | [F12](docs/findings/F12-baseline-flag-and-baseline-value-are-disconnected.md) | The baseline flag and the baseline value are disconnected | **New** |
+| [F13](docs/findings/F13-authoring-surface-is-narrower-than-the-model.md) | The authoring surface is far narrower than the model | **New** |
 
 **F01 — No time-to-event derivation transformations exist.** *Confirmed in part.* The strings
 `CNSR`, `censor` and `AVAL` appear nowhere in the transformation library, and `T.OS_LogRank`
@@ -108,6 +109,15 @@ its method does not declare; and the derivation pipeline does have an add contro
 core capability claim survived. That makes five findings with a disproved premise or fix, three
 of which failed by inferring application behaviour from library JSON.
 
+**F13 — the authoring surface is far narrower than the model.** *New, from attempting to author
+ORR, and it re-scores the ladder.* A chain is authored from **transformation templates**, not
+methods. **39 of 60 methods (65%) have no template**; 8 of the 25 templates are ADAS-Cog
+scaffolding, leaving **six generic derivation entries**; a shipped template's method
+configuration cannot be edited anywhere in the builder; and no template can be created. The
+ladder was scored against the method library — against the authoring surface, **PFS drops from
+one composable step to zero**, because its one step needed `M.DateDifference`, which has no
+entry.
+
 **F12 — the baseline flag and the baseline value are disconnected.** *New, and the first
 finding produced by running the builder rather than corrected by it.* `T.BaselineSelection`
 outputs a `Flag`, and the pipeline matches derivations to dependencies by output concept
@@ -166,8 +176,8 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 │   ├── specification.md             full spec and plan
 │   ├── method.md                    how the findings were verified
 │   └── findings/
-│       ├── README.md                index and status of F01–F12
-│       ├── F01 … F12                one file each, with evidence
+│       ├── README.md                index and status of F01–F13
+│       ├── F01 … F13                one file each, with evidence
 │       └── upstream-issues.md       drafts for cdisc-org issues
 ├── study/
 │   ├── README.md                    why TORIVA, what is used
@@ -201,7 +211,7 @@ The specification is complete and the findings are verified against pinned commi
 
 | | |
 |---|---|
-| Findings F01–F12 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected twice; F06–F11 new from paper mapping, F12 new from running the builder |
+| Findings F01–F13 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended, F09 corrected twice; F06–F11 new from paper mapping, F12 and F13 new from the builder |
 | Upstream issues | Five drafted, none filed. **Recommendation is to file Issue 4 alone** — upstream's tracker has four issues in its lifetime and one active maintainer |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md`, `chain.json`, `log.md`. **Composes at method level and cannot be authored** — no transformation wraps `M.Categorization`, `M.Proportion` or `M.CMH`, and the builder cannot create one. The authorable chain has `derivationChain: []` |
