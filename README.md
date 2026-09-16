@@ -237,8 +237,9 @@ contains no derivation at all.
 **Three tiers, three distinct failure modes.** PFS: the methods cannot express it. ORR: the
 methods can, and nothing wraps them. Lab: it authors cleanly and is silently under-determined.
 
-Next: the findings need human review before anything else — five have had a premise or fix
-disproved and none has been read by a human. PFS cannot be authored until F06 is resolved
+Next: **human review**, per [`docs/review-plan.md`](docs/review-plan.md) — five findings have
+had a premise or fix disproved and none has been read by a human. The plan is tiered: filing
+Issue 4 needs about two hours, not a full pass. PFS cannot be authored until F06 is resolved
 upstream. The snapshot (§6.2) now has real content for all three tiers.
 
 ## Provenance

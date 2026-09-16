@@ -43,6 +43,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
 | `docs/findings/F01`–`F08`, `docs/findings/README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/findings/F09`–`F13`; F01, F07 and F09 amendments; Issues 3 and 5 rewritten | 2026-09-16 | AI | Not yet |
+| `docs/review-plan.md` | 2026-09-16 | AI | Not yet — and it is the document that ends that |
 | `docs/method.md` | This session | AI | Not yet |
 | `study/README.md`, `study/source-refs.md` | This session | AI | Not yet |
 | `endpoints/03-complex-pfs/mapping.md` | This session | AI | Not yet |
@@ -268,6 +269,7 @@ AI's reasoning from verified facts, not themselves verified:
 |---|---|
 | `docs/specification.md` | The plan. Partly superseded — §5 carries a disposition table, §17 v0.4 the corrections |
 | `docs/method.md` | How the findings were verified, and why that step exists |
+| `docs/review-plan.md` | What a human must review, in what order, and what to skip. **Nothing here is reviewed until its sign-off table is filled in** |
 | `tools/check_consistency.py` | Enforces the counted claims in this record against the filesystem |
 | `tools/check_baseline_ambiguity.py` | Tests F12 against built ADaM; reproduces every figure in the lab tier's `comparison.md` |
 | `endpoints/01-simple-lab-cfb/` | The only tier with all four method steps complete |
@@ -297,7 +299,8 @@ capability claim survived both passes. Each of the five was wrong in a way a mai
 have seen immediately, because each concerned their own library.
 
 That this keeps happening is evidence the verification step works and equally evidence that
-confident-sounding claims in this repository can be wrong. **Review before filing.**
+confident-sounding claims in this repository can be wrong. **Review before filing** — `docs/review-plan.md` says what that means
+in practice, tiered so that filing Issue 4 needs about two hours rather than a full pass.
 
 **7.2 Generated output was committed in error.** `README.html` and `README_files/` (888 KB)
 are Quarto 1.10.18 output produced outside this session at 18:04 on 2026-09-15. They were
@@ -423,3 +426,4 @@ recorded in each `mapping.md`.
 | 0.9 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | **Lab tier authored end to end** — the first tier to complete steps 2, 3 and 4, and the first time any claim here has been checked against data. `chain.json` authored in `ac-dc-app` and serialised by the application; `comparison.md` against `adlb.parquet`; `log.md` recording eleven decision points and zero new authoring. D8 and D9 **closed against the data**. F12's consequence moved from inference to demonstrated: the model's baseline slice selects two records for 71% of subject × parameter groups, differing in value 96.8% of the time, median 21.3% error in `BASE`. `tools/check_baseline_ambiguity.py` added and reproduces every figure. §7.6 and §7.7 rewritten |
 | 1.0 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | **ORR authored — or rather, found unauthorable.** Its five composable steps have no transformation template (`M.Categorization`, `M.Proportion` and `M.CMH` have none at all; `M.RecordSelection` and `M.ThresholdCompare` have one each, fixed at other purposes), a shipped template's method configuration is not editable anywhere in the builder, and no template can be created — the library is fetched read-only and no add-transformation affordance exists. `chain.json` records what the builder does produce: `T.Responder_ChiSq` with `derivationChain: []`, the responder flag declared as source data, and an unstratified chi-squared test the SAP does not ask for. The mapping's closing recommendation is struck through and superseded. Also observed live: the builder offers **Overall Survival Log-Rank Test** for a `Flag` endpoint, and accepted **Baseline Selection** as the responder flag — F12's Flag-interchangeability incidental, on two independent paths |
 | 1.1 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | **F13 written up** — the authoring surface is far narrower than the model. 39 of 60 methods (65%) have no transformation; 8 of 25 transformations are ADAS-Cog scaffolding, leaving six generic derivation entries; a shipped template's method configuration is not editable anywhere in the builder (verified in code at `endpoint-how.js:124`, which only ever receives analysis transformations, and live in step 6); and no template can be created. **This re-scores the ladder**: PFS drops from one composable step to zero authorable, because its one step needed `M.DateDifference`, which has no entry — recorded as a correction on the PFS mapping. `docs/method.md` gains a *Two libraries, two questions* section, since conflating the method and transformation surfaces produced wrong conclusions on two of three tiers. F13 is recorded in `upstream-issues.md` as probably **not** filable as written |
+| 1.2 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | `docs/review-plan.md` added. Tiers the review by exposure rather than by artefact: Tier 1 is Issue 4 and its evidence chain only (~2 hours) and is the sole gate on public filing; Tiers 2–4 follow only if more is to be filed. Organised around the **five ways this repository has actually been wrong** — application behaviour inferred from JSON, one structural level read for another, method surface confused with authoring surface, a fix broken by a counter-example in the same study, and history asserted without `git log -S` — rather than around generic re-reading. Names which claims need a statistician, which need oncology knowledge, and which need someone who has used the app; and says explicitly what **not** to review. Carries a sign-off table; §7.1 is not to be softened until Tier 1 is signed |
