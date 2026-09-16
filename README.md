@@ -24,20 +24,26 @@ including one of the two that was slated to be filed as an upstream issue. See
 
 | ID | Claim | Status at `739344c` |
 |---|---|---|
-| [F01](docs/findings/F01-no-tte-derivation-transformations.md) | No time-to-event derivation transformations exist | **Confirmed** |
+| [F01](docs/findings/F01-no-tte-derivation-transformations.md) | No time-to-event derivation transformations exist | **Confirmed in part** |
 | [F02](docs/findings/F02-time-event-role-collision.md) | The `censoring` statistical role is declared and unused | **Corrected** |
 | [F03](docs/findings/F03-chain-position-carries-meaning.md) | Chain position carries meaning that individual entries do not | **Confirmed, stronger** |
 | [F04](docs/findings/F04-bc-joint.md) | The BC joint is annotated, not resolved | **Retired** |
 | [F05](docs/findings/F05-no-analysis-coverage-view.md) | No study-level view exists | **Restated** |
 | [F06](docs/findings/F06-no-general-predicate.md) | No general predicate exists over more than one variable | **New** |
-| [F07](docs/findings/F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New** |
+| [F07](docs/findings/F07-ordering-is-unstated.md) | `best`/`worst` presuppose an ordering the metadata does not carry | **New, amended** |
 | [F08](docs/findings/F08-no-risk-difference.md) | No difference-of-proportions statistic exists | **New** |
+| [F09](docs/findings/F09-record-selection-has-no-tiebreak.md) | Record selection carries no tie-break, and no transformation binds its ordering | **New** |
+| [F10](docs/findings/F10-visit-windows-are-enumerated-not-generated.md) | Visit windows must be enumerated, and nothing may escape windowing | **New** |
+| [F11](docs/findings/F11-analysis-record-flag-has-no-transformation.md) | The model names `ANL01FL` and nothing produces it | **New** |
 
-**F01 — No time-to-event derivation transformations exist.** Confirmed. The strings `CNSR`,
-`censor` and `AVAL` appear nowhere in the transformation library. `T.OS_LogRank` binds time and
-event as inputs, so the survival chain begins already derived. The gap is wider than "author
-three or four new `T.` entries", because of F06 and because each derivation transformation emits
-a single output measure while a TTE derivation must emit four coordinated ones.
+**F01 — No time-to-event derivation transformations exist.** *Confirmed in part.* The strings
+`CNSR`, `censor` and `AVAL` appear nowhere in the transformation library, and `T.OS_LogRank`
+binds time and event as inputs, so the survival chain begins already derived. But this
+finding's second argument — that the model admits only one output per derivation — **was
+false.** `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and three coordinated
+output classes, and `T.UnitConversion` emits `result.value` as a measure and `result.unit` as a
+facet attribute of the same `Measure`. That is close to the shape a TTE derivation needs. The
+gap is library content plus F06, and narrower than claimed.
 
 **F02 — Time and event are indistinguishable in method metadata.** *The premise was wrong.*
 There is no `censoring` value in `StatisticalRole` and there never has been — `git log -S`
@@ -71,20 +77,36 @@ hypothesis that the FDA 2018 censoring hierarchy composes as nested `M.Condition
 whose confirmation rule is a two-record predicate — so this is a general derivation gap, not a
 time-to-event one.
 
-**F07 — `best` and `worst` presuppose an ordering the metadata does not carry.** *New.*
+**F07 — `best` and `worst` presuppose an ordering the metadata does not carry.** *New, amended.*
 `M.RecordSelection.selection_rule` offers `best`, and nothing says what best means — not for a
 decimal (maximum or minimum?) and not at all for an ordinal code like RECIST response
 (CR ≺ PR ≺ SD ≺ PD ≺ NE). Best overall response composes syntactically while the semantics that
-make it correct sit outside the model.
+make it correct sit outside the model. **The lab tier then contradicted this finding's own
+proposed fix**: TORIVA's shift table ranks `LOW = HIGH > NORMAL`, an ordering belonging to one
+table rather than to the scale, so declaring the ordering on the concept would be authoritative
+and wrong. Both concept-level declaration and per-use override are needed.
 
 **F08 — No difference-of-proportions statistic exists.** *New.* TORIVA's ORR estimand specifies a
 stratified Mantel–Haenszel **risk difference**. `M.CMH` yields an odds ratio, and the statistics
 vocabulary carries no difference statistic at all. Under ICH E9(R1) the population-level summary
 is part of the estimand, so substituting the odds ratio answers a different question.
 
+**F09, F10, F11 — three gaps around selection and visit windowing.** *New, from the lab tier.*
+`M.RecordSelection` orders by a single required `time_order` role that **no transformation in
+the library binds**, and offers no tie-break, while `M.CoxPH` and `M.Rounding` both declare tie
+enums (F09). `M.WindowedVisitAssignment` takes an enumerated window array — it cannot express a
+window *rule*, cannot express TORIVA's open-ended maintenance schedule, and gives event-driven
+visits no escape from day-windowing (F10). And `M.RecordSelection`'s output description names
+`ANL01FL` while nothing produces one; five of its six selection rules are used by nothing (F11).
+
 Five issues are drafted for upstream, with a suggested filing order — Issue 4 (no risk
-difference) is the recommended opener, being the smallest and most concrete. See
+difference) is the recommended opener, being the smallest and most concrete. F09–F11 are
+recorded as candidates rather than drafts, each needing a decision first. See
 `docs/findings/upstream-issues.md`. None has been filed, and none has been human-reviewed.
+
+**Issues 3 and 5 were rewritten after the lab tier**, because F01 and F07 each carried a false
+premise into its draft. Both would have told the maintainers something untrue about their own
+library — the third and fourth time verification has caught that, after F02 and F04.
 
 ## The endpoint ladder
 
@@ -124,8 +146,8 @@ Step 4 is the point. One ADAS-Cog endpoint took nine nested derivation steps, ma
 │   ├── specification.md             full spec and plan
 │   ├── method.md                    how the findings were verified
 │   └── findings/
-│       ├── README.md                index and status of F01–F08
-│       ├── F01 … F08                one file each, with evidence
+│       ├── README.md                index and status of F01–F11
+│       ├── F01 … F11                one file each, with evidence
 │       └── upstream-issues.md       drafts for cdisc-org issues
 ├── study/
 │   ├── README.md                    why TORIVA, what is used
@@ -158,7 +180,7 @@ The specification is complete and the findings are verified against pinned commi
 
 | | |
 |---|---|
-| Findings F01–F08 | Written up with evidence. F02 corrected, F04 retired, F05 restated; F06–F08 new, from paper mapping |
+| Findings F01–F11 | Written up with evidence. F01 corrected in part, F02 corrected, F04 retired, F05 restated, F07 amended; F06–F11 new, from paper mapping |
 | Upstream issues | Five drafted with a suggested filing order, none filed |
 | Complex tier (PFS) | `mapping.md` written. **Does not compose on paper** — F06. Steps 2–4 blocked |
 | Moderate tier (ORR) | `mapping.md` written. **Half composes** — 6 of 11 steps. Partial authoring recommended |

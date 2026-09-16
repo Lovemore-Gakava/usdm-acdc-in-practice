@@ -8,6 +8,14 @@ on paper rather than from inspecting the libraries. **The first does not survive
 [F02](F02-time-event-role-collision.md); there is no `censoring` role. It is replaced below
 by the role-collision issue, which is the defensible part of the same concern.
 
+**Issues 3 and 5 were both rewritten on 2026-09-16**, after the lab tier disproved a premise in
+each. Issue 3 previously asserted that every derivation method declares exactly one output
+class, which is false — `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and
+three ([F01](F01-no-tte-derivation-transformations.md)). Issue 5 previously proposed
+concept-level ordering as the fix, which one of the study's own tables contradicts
+([F07](F07-ordering-is-unstated.md)). Both would have been filed telling the maintainers
+something untrue about their own library.
+
 Before filing, check the `estimands_01` branch (Stuart Malcolm, 2026-08-14, unmerged at the
 pinned commit) and issue #11 — that work covers ICH E9(R1) strategies and touches the same
 survival bindings, so some of this may already be in flight.
@@ -65,7 +73,7 @@ a configuration — would unblock most of the hierarchy.
 
 ---
 
-## Issue 3 — No time-to-event derivation transformations, and the output shape may not admit them
+## Issue 3 — No time-to-event derivation transformations, and no settled shape for one
 
 **Type:** transformation library gap
 **Depends on:** Issue 2
@@ -77,20 +85,30 @@ The transformation library holds 14 derivation transformations. None produces `A
 already derived, with nothing upstream deriving it.
 
 The methods to close this look present at first — `M.DateDifference`, `M.RecordSelection`,
-`M.Aggregation` — but two structural issues sit behind them:
+`M.Aggregation` — but two questions sit behind them:
 
 1. **Predicates.** Issue 2. The hierarchy cannot be expressed.
-2. **Output cardinality.** Every derivation method declares exactly one `computed_value`
-   output class, and all 14 derivation transformations emit at most one output measure
-   binding. `AVAL`, `CNSR`, `ADT` and `EVNTDESC` are four projections of a *single* censoring
-   resolution. Deriving them as four independent transformations leaves nothing in the
-   metadata requiring them to agree — an `AVAL` from the PD date paired with `CNSR = 1` is
-   individually well-formed and jointly wrong.
+2. **Output shape.** `AVAL`, `CNSR`, `ADT` and `EVNTDESC` are four projections of a *single*
+   censoring resolution. Deriving them as four independent transformations would leave nothing
+   in the metadata requiring them to agree — an `AVAL` from the PD date paired with `CNSR = 1`
+   is individually well-formed and jointly wrong.
 
-**Question for maintainers, before proposing entries.** Is a transformation intended to be
-able to emit multiple coordinated output measures, or is a TTE derivation meant to be
-modelled some other way — for example as one transformation per column sharing a slice key?
-The answer determines whether this is a library gap or a model gap.
+   The library already has two ways of emitting coordinated outputs from one derivation, so
+   this may be a question about which to use rather than a gap. `M.WindowedVisitAssignment`
+   declares three output classes (`analysisVisit`, `analysisVisitNumber`, `analysisDay`) and
+   `T.DeriveAnalysisVisit` binds all three from a single windowing decision. `T.UnitConversion`
+   emits two **facets of one `Measure`** — `result.value` as a `measure` and `result.unit` as
+   an `attribute`, the latter noted as *"propagated so downstream derivations/analyses can read
+   the Measure's unit without re-reading config."*
+
+   What has no precedent is a derivation emitting several coordinated outputs that are each a
+   `measure` in their own right: thirteen derivation transformations emit exactly one measure
+   binding and `T.DeriveAnalysisVisit` emits none.
+
+**Question for maintainers, before proposing entries.** Is the `T.UnitConversion` facet pattern
+the intended shape here — one `Measure` for the time-to-event, with `CNSR`, `ADT` and
+`EVNTDESC` as facets or attributes of it — or should a TTE derivation emit four coordinated
+measures, which would be new? We would rather follow the existing convention than invent one.
 
 We have the PFS chain mapped against a public simulated study and are happy to contribute
 the `T.` entries once the shape is settled.
@@ -170,12 +188,34 @@ The practical effect: best overall response composes as a single configured `M.R
 which is a genuinely good outcome — but two chains built that way, one ranking CR best and one
 ranking CR worst, are identical in metadata and produce opposite results.
 
-**Suggestion.** Either a `direction` configuration on `M.RecordSelection` for the numeric case,
-or — better, because it generalises — an ordering declared on the concept or parameter, so that
-`best` resolves against a stated ranking. RECIST response ordering is a property of the response
-scale rather than of any one analysis, which argues for carrying it with the concept.
+There is also no worked example of any kind: `T.BaselineSelection` is the only transformation
+in the library that uses `M.RecordSelection`, and it configures `last_non_missing`. Five of the
+six selection rules are exercised by nothing.
+
+**Suggestion.** An ordering declared on the concept or parameter, **with a per-transformation
+override.** Both halves are needed, and we found the second the hard way.
+
+RECIST response ordering (`CR ≺ PR ≺ SD ≺ PD ≺ NE`) is a property of the response scale, which
+argues for carrying it with the concept. But a laboratory shift table in the same study ranks
+its reference-range indicator `LOW = HIGH > NORMAL` — collapsing the two abnormal directions,
+because for that table "worst" means *abnormal either way*. A directional parameter in the same
+dataset would need low to outrank high. That ordering belongs to the analysis, not to the
+scale, so concept-level declaration alone would be authoritative and wrong.
+
+A `direction` configuration would cover the simple numeric case but neither of these.
 
 ---
+
+## Candidates, not yet drafted
+
+Three findings from the lab tier are real and verified but not written up as issues here, so
+the count above stays at five. Each needs a decision before drafting:
+
+| Finding | Why not drafted yet |
+|---|---|
+| [F09](F09-record-selection-has-no-tiebreak.md) — no tie-break, and `time_order` unbound by every transformation | Probably belongs *inside* Issue 5 rather than beside it: same method, and both are "the ordering is unstated". It also carries a separable conformance defect — three transformations omit a role their method marks `required: true` — which may be worth reporting on its own, since it suggests nothing validates transformations against their methods |
+| [F10](F10-visit-windows-are-enumerated-not-generated.md) — windows enumerated not generated; nothing escapes windowing; `windows` has no item schema and `tieBreak` no enum | Four fixes of very different sizes bundled in one finding. Needs splitting before filing — the `tieBreak` enum is a one-line fix and the generated-windows question is a design discussion |
+| [F11](F11-analysis-record-flag-has-no-transformation.md) — `ANL01FL` is named in `M.RecordSelection`'s output description and produced by nothing | Overlaps Issue 2: the rule TORIVA needs is conditional on another derivation's output, which is the predicate gap again. The missing `T.` entry is ordinary library work and could be contributed rather than filed |
 
 ## Suggested filing order
 

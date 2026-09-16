@@ -42,6 +42,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `tools/check_consistency.py`, `.githooks/pre-commit` | 2026-09-16 | AI | Not yet |
 | `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
 | `docs/findings/F01`–`F08`, `docs/findings/README.md`, `upstream-issues.md` | This session | AI | Not yet |
+| `docs/findings/F09`, `F10`, `F11`; F01 and F07 amendments; Issues 3 and 5 rewritten | 2026-09-16 | AI | Not yet |
 | `docs/method.md` | This session | AI | Not yet |
 | `study/README.md`, `study/source-refs.md` | This session | AI | Not yet |
 | `endpoints/03-complex-pfs/mapping.md` | This session | AI | Not yet |
@@ -169,7 +170,20 @@ F07 and F08 came later and by a different route: neither was inherited, and neit
 inspecting the libraries. Both fell out of mapping ORR on paper (step 1 of the method) and were
 then verified against the pinned commit by the same classes of evidence above — `M.RecordSelection`'s
 `selection_rule` enum and `value` dataType for F07, `M.CMH`'s output classes and the contents of
-`statistics_vocabulary.json` for F08.
+`statistics_vocabulary.json` for F08. F09–F11 arrived the same way from the lab tier, and rest
+on counts over `lib/methods/**` and `lib/transformations/**` that each file records a command for.
+
+**Verification is not a single pass, and the first pass missed things.** Mapping the lab tier
+disproved a premise in F01 and a proposed fix in F07, both of which had survived the original
+check and both of which had been carried into upstream issue drafts:
+
+| | |
+|---|---|
+| F01 | Asserted every derivation method declares exactly one `computed_value` output class. Two declare more — `M.UnitConversion` (2) and `M.WindowedVisitAssignment` (3) — and the latter belongs to `T.DeriveAnalysisVisit`, which F01 itself cites. Issue 3 rewritten |
+| F07 | Proposed declaring the `best`/`worst` ordering on the concept. TORIVA's own shift table ranks `LOW = HIGH > NORMAL`, an ordering belonging to one analysis rather than to the scale. Issue 5 rewritten |
+
+That is four findings now whose premise or fix did not survive — F01, F02, F04, F07 — and all
+four had been drafted for public filing. §7.1 should be read with that number in mind.
 
 ---
 
@@ -190,6 +204,9 @@ AI's reasoning from verified facts, not themselves verified:
 | Reporting an odds ratio where the estimand specifies a risk difference "answers a different question" (F08) | Inference. The absence of a difference-of-proportions statistic is verified by search; that the substitution is not an approximation is a reading of ICH E9(R1) |
 | `best` being undeclared "produces opposite results" for two identical chains (F07) | Inference. The enum value, the absent direction configuration and the `decimal` dataType are verified; the consequence is argued |
 | `M.RecordSelection`'s formula/output mismatch is a defect | Inference. Both fragments are quoted; that they conflict is an argument |
+| Three transformations leaving a `required: true` role unbound means nothing validates transformations against their methods (F09) | Inference. The unbound roles are counted by command; the absence of a validator is not established, only suggested |
+| `T.UnitConversion`'s facet pattern is "close to what a TTE derivation needs" (F01, as corrected) | Inference. The two facet bindings are quoted verbatim; that they are the right model for `AVAL`/`CNSR` is exactly what Issue 3 now asks maintainers rather than asserting |
+| An enumerated window array makes metadata "a function of the data it describes" (F10) | Inference from the open-ended maintenance schedule in SAP §12.2. No run was attempted against a longer data cut |
 | The `responseCodes` / `sdtmDatasetSpecialization` split is a constraint on §11 | Inference from counts across the two shipped files |
 | Authoring-cost figures | **None exist.** No tier has been authored. The specification's "nine nested derivation steps" for ADAS-Cog is LG's pre-existing figure, not measured here |
 
@@ -214,10 +231,15 @@ AI's reasoning from verified facts, not themselves verified:
 ## 7. Limitations and open provenance items
 
 **7.1 Nothing here has been human-reviewed.** The findings assert errors in a third party's
-public repository and five are drafted as public issues. F02 and F04 as *originally* written
-would both have been wrong; they were caught by verification, which is evidence the method
-works and equally evidence that confident-sounding claims in this repository can be wrong.
-Review before filing.
+public repository and five are drafted as public issues.
+
+**Four findings have now had a premise or a proposed fix disproved — F01, F02, F04 and F07 —
+and all four had been drafted for filing.** Two were caught in the original verification pass;
+two survived it and were caught later, by unrelated work, which means the pass is necessary and
+not sufficient. Each was wrong in a way that would have been visible to a maintainer
+immediately, because each concerned their own library. That this keeps happening is evidence
+the verification step works and equally evidence that confident-sounding claims in this
+repository can be wrong. **Review before filing.**
 
 **7.2 Generated output was committed in error.** `README.html` and `README_files/` (888 KB)
 are Quarto 1.10.18 output produced outside this session at 18:04 on 2026-09-15. They were
@@ -314,3 +336,4 @@ recorded in each `mapping.md`.
 | 0.2 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Reconciled against work that landed **after** v0.1 was written. v0.1 was committed at 18:33 on 2026-09-15; the ORR mapping, F07, F08 and discrepancies D3–D7 landed between 18:37 and 18:52 in the same session and were never recorded here. Updated: issue count three → five (§1, §7.1); F01–F06 → F01–F08 and the ORR mapping added to the division of labour (§2); ORR source sections and `ADRS-spec.md` added to quoted material (§3.2); `statistics_vocabulary.json` added (§3.1); §4 scoped to the inherited five with F07/F08's provenance stated separately; the ORR "less severely" row in §5 marked **disproved** and three new inference rows added; §6 given the ORR mapping row; §7.6 D1–D2 → D1–D7; §7.7 corrected from one endpoint to two |
 | 0.3 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Initialised the `upstream/analysis-concepts` submodule at the pinned commit, which the 2026-09-15 session had registered but never checked out, and reproduced `docs/method.md`'s expected tool output against it (§7.8, new). Corrected the stale §9 cross-reference in `tools/acdc_divergence.py`'s docstring and marked §7.5 resolved |
 | 0.4 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | Simple tier mapped on paper (`endpoints/01-simple-lab-cfb/mapping.md`), completing step 1 for the ladder. Five discrepancies added (D8–D12), the first established partly from TORIVA's **source code** rather than its specification prose. §7.7 rewritten: all three endpoints mapped, none authored, still no cost figure. §7.9 added — the cost measurement as specified in §6.1 cannot honestly be produced by this process, and what can be produced instead |
+| 0.5 | 2026-09-16 | AI (`claude-opus-5[1m]`), unreviewed | F09, F10 and F11 written up from the lab tier's B7, B8 and B10, each verified against `739344c` with a reproduce command. **F01 corrected** — its output-cardinality argument was false; `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and three output classes. **F07 amended** — the lab shift table contradicts its concept-level-ordering fix. Upstream Issues 3 and 5 rewritten accordingly; F09–F11 recorded as candidates, not drafts, so the issue count stays at five. §4, §5, §7.1 and `docs/method.md` updated with the running tally of four disproved premises or fixes |

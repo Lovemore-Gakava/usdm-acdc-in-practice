@@ -8,11 +8,23 @@ This was not a formality. Of the five findings inherited from the specification:
 
 | | |
 |---|---|
-| Confirmed | F01, F03 |
+| Confirmed | F01 *(in part — see below)*, F03 |
 | Premise wrong, consequence intact | F02 |
 | Retired | F04 |
 | Overstated, restated | F05 |
 | Found during verification | F06 |
+
+**And verification is not a one-pass step.** F01 was confirmed in that first pass and its
+output-cardinality argument was still false: `M.UnitConversion` and `M.WindowedVisitAssignment`
+declare two and three coordinated output classes, where F01 asserted every derivation method
+declares one. It was caught only when the lab tier put `M.WindowedVisitAssignment` under the
+same scrutiny for an unrelated reason — and the counter-example was a transformation F01
+already cited by name. F07's proposed fix fell the same way, to a table in the study it was
+drawn from.
+
+Running total: four findings whose premise or fix did not survive (F01, F02, F04, F07), of
+which **all four had been drafted as upstream issues**. The pass rate of confident-sounding
+claims in this repository is not high, and that is the argument for the step.
 
 F02 and F04 were both slated to be filed as issues on `cdisc-org/analysis-concepts`
 (specification §12). F02 asserted a declared-but-unused `censoring` statistical role that has
