@@ -147,23 +147,21 @@ terminal `linkedBCIds` is a second, independent join that the author must supply
 
 ---
 
-### L6 — the estimand is assembled from two sources *(stage 5, 2026-09-17)*
+### L6 — two dimension values the eSAP needs that the chain did not have *(stage 5, 2026-09-17)*
 
-Found by generating the eSAP. `instance-serializer.js` builds the estimand's E9(R1) attributes
-from two different places: `populationSummary` and `intercurrentEvents` are read from the USDM
-`Estimand` matched on `variableOfInterestId`, while `analysisPopulation` and `interventions` are
-resolved from the **chain's** `dimensionValues.Population` and `.Treatment`.
+Found by generating the eSAP. Step 7 reads the estimand's population-level summary and
+intercurrent events from the USDM `Estimand` (matched on `variableOfInterestId`), and reads the
+analysis population and treatment from the chain's `dimensionValues.Population` and
+`.Treatment` (`instance-serializer.js`, `resolveAnalysisPopulation` / `resolveInterventions`).
 
-The chain as authored through stage 4 carried `dimensionValues: {}` — no dimension had been
-*required* to reach a complete-looking chain, exactly as L5 records for BCs. The eSAP therefore
-emitted `AnalysisPopulation_unknown` and `Intervention_unspecified`, while estimand E6 sat in the
-USDM naming `AnalysisPopulation_SAF`. Nothing warned. Adding the Population and Treatment
-dimensions in step 3 and setting them resolved both — to `SAF`, and to both arms with their types
-— which is the answer USDM already held.
+The chain reached stage 4 with `dimensionValues: {}` — no dimension had been required to get
+there, as L5 records for BCs — so the first eSAP carried `AnalysisPopulation_unknown` and
+`Intervention_unspecified`. Adding the Population and Treatment dimensions in step 3 and setting
+them to `SAF` and `Torivumab vs Placebo` resolved both.
 
-Two decisions, D12 and D13, neither determined by the SAP and both determined by the USDM, which
-the tool did not consult. This is the same shape as L5: **a join authored in USDM, and a second,
-independent join the chain requires anyway.**
+**Two decisions, D12 and D13.** Neither is stated in the SAP for this endpoint; both are stated
+in the USDM (`E6.analysisPopulationId`, the two arms), which is not where step 7 reads them
+from. So the chain has to carry them itself. Same shape as L5.
 
 ## What this tier cost, in one line
 
