@@ -22,6 +22,10 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 
 **Reached 2026-09-17, on laboratory change from baseline.**
 
+**What comes next is undecided.** LG deferred the decision on 2026-09-18. Until it is made, the
+test still applies and no stage exists to advance: do not start a second endpoint, a re-authoring,
+or a write-up on the strength of this file. Ask.
+
 <!-- north:status -->
 
 | # | Stage | Status |
