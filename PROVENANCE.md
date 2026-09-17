@@ -40,7 +40,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `tools/acdc_divergence.py` | Pre-existing, on disk at session start | LG | LG |
 | — its docstring §9 cross-reference | 2026-09-16 | AI | Not yet — see §7.5 |
 | `tools/check_consistency.py`, `.githooks/pre-commit` | 2026-09-16 | AI | Not yet |
-| `README.md` | Pre-existing; Findings, Structure and Status sections rewritten this session | LG, then AI | Not yet |
+| `README.md` | Pre-existing; restructured 2026-09-17 so the findings sit after the stage work rather than second, per NORTH.md's "findings are a by-product" | LG, then AI | Not yet |
 | `docs/findings/F01`–`F08`, `docs/findings/README.md`, `upstream-issues.md` | This session | AI | Not yet |
 | `docs/findings/F09`–`F13`; F01, F07 and F09 amendments; Issues 3 and 5 rewritten | 2026-09-16 | AI | Not yet |
 | `docs/review-plan.md` | 2026-09-16 | AI | Not yet — and it is the document that ends that |

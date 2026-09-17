@@ -15,7 +15,8 @@ progress is visible at every commit rather than only when someone looks.
 
 Checks:
   1. findings      F01-F0N ranges match the files in docs/findings/
-  2. findings-index every finding file appears in both findings tables
+  2. findings-index every finding file appears in docs/findings/README.md, and the
+                   top-level README links to that index
   3. issues        stated counts of drafted issues match '## Issue' headings
   4. discrepancies stated counts of D-items match the source-refs table, and the
                    D-ids are contiguous from D1
@@ -194,16 +195,30 @@ def check_findings(root: Path, files: dict[str, list[str]],
 
 
 def check_findings_index(root: Path, files: dict[str, list[str]]) -> list[Problem]:
+    """Every finding is indexed, in exactly one place.
+
+    This once required the full F01-FNN table in the top-level README too. That
+    rule encoded the structure of the drifted era, in which findings were the
+    product: it made the README's second heading a thirteen-row table and kept
+    it there. Findings are a by-product (NORTH.md), so the index owns the list
+    and the README owns a link to it.
+    """
     found = sorted(p.name for p in (root / "docs" / "findings").glob("F*.md"))
     problems: list[Problem] = []
-    for table, label in (("docs/findings/README.md", "the findings index"),
-                         ("README.md", "the top-level findings table")):
-        body = "\n".join(files.get(table, []))
-        for name in found:
-            stem = name[:3]  # F01
-            if name not in body and f"[{stem}]" not in body:
-                problems.append(Problem(table, 0,
-                                        f"{name} is not listed in {label}"))
+
+    index = "docs/findings/README.md"
+    body = "\n".join(files.get(index, []))
+    for name in found:
+        stem = name[:3]  # F01
+        if name not in body and f"[{stem}]" not in body:
+            problems.append(Problem(index, 0,
+                                    f"{name} is not listed in the findings index"))
+
+    # The README need not enumerate them, but it must lead a reader to them.
+    if index not in "\n".join(files.get("README.md", [])):
+        problems.append(Problem("README.md", 0,
+                                f"does not link to {index}, so the findings are "
+                                f"unreachable from the top level"))
     return problems
 
 
