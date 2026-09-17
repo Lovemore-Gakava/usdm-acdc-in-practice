@@ -20,6 +20,8 @@ the destination it was tested against was missing that half.
 
 Done means all nine green, on at least one endpoint. Nothing else counts as finishing.
 
+**Reached 2026-09-17, on laboratory change from baseline.**
+
 <!-- north:status -->
 
 | # | Stage | Status |
@@ -31,8 +33,8 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 | 3 | DC — derivation authored | ✓ |
 | 4 | AC — analysis bound | ✓ |
 | 5 | eSAP generated | ✓ |
-| 6 | Executed, a real result produced | ✗ |
-| 7 | Compared against built ADaM | ✗ |
+| 6 | Executed, a real result produced | ✓ |
+| 7 | Compared against built ADaM | ✓ |
 
 <!-- /north:status -->
 
@@ -126,20 +128,29 @@ complete estimand out of step 7, the chain has to carry those two dimensions —
 `Endpoint.biomedicalConceptIds`: the USDM join and the chain's join are separate, and the chain's
 is the one the builder uses.
 
-**Stage 6 — executed.** Step 8, via WebR. Unknown whether it needs real ADaM loaded into the
-browser. First action — open it and find out. This is the stage that produces an actual number,
-and nothing in this repository has ever produced one.
+**Stage 6 — executed. Done 2026-09-17.** `endpoints/01-simple-lab-cfb/results.json` — the
+lab chain run in step 8 via WebR against TORIVA's ADLB (136,242 rows, converted to `.xpt`).
+**The first number this repository has produced:** an ANCOVA of ALT change from baseline at
+C2D1, torivumab − placebo = −1.830 (SE 1.768, n = 432). Three runs are kept because each is a
+different authoring state; the eleven execution decisions are L7 in the tier's log.
 
-**Stage 7 — compared against built ADaM.** `endpoints/01-simple-lab-cfb/comparison.md` exists
-and is worth keeping: it read 136,242 rows of TORIVA's ADLB and confirmed two specification
-errors (D8, D9) against data.
+What was learned: step 8 needs real data in the browser and it needs the chain's dimensions in
+their **DC forms** — `Parameter`, `AnalysisVisit` — because the engine filters on dimension names
+as literal columns of a concept-keyed frame, and the OC forms have no column in ADaM. The
+builder's own tooltip says this; the chain reached stage 4 without it.
 
-> **Went from ✓ to ✗ on 2026-09-17.** It was green because `comparison.md` existed. But this
-> stage sits *after* "executed, a real result produced", so what it compares is the **result** —
-> and `comparison.md` says in its own scope limit that it is not that: the chain has never run,
-> so it compares **definitions**. The checker now requires stage 6 before stage 7 can be green.
-> Found when LG asked why the SAP was being used as a yardstick; the answer was that it was
-> standing in for an execution that had not happened.
+**Stage 7 — compared against built ADaM. Done 2026-09-17**, this time on a result.
+`endpoints/01-simple-lab-cfb/comparison.md`. The executed number does not match the same model on
+TORIVA's `CHG` and `BASE` (−0.893, SE 1.385), and every run is **reproduced to four decimals**
+once the engine's selection is known. The gap has two halves: authoring — the covariate had
+resolved to the C2D1 value, the cube to collected `VISIT` — both fixable in the builder; and the
+baseline row, which the engine takes as the first at `AVISIT = Baseline` and TORIVA takes by
+`ABLFL`. **303 of 432 subjects (70.1%) differ** — the 71% the paper comparison predicted, now
+measured — and that half alone is worth 0.86 on the treatment difference.
+
+> **Was ✓, then ✗, now ✓.** Green from 2026-09-16 on a comparison of definitions; red on
+> 2026-09-17 when the checker began requiring stage 6 first; green again the same day on a
+> comparison of results.
 
 Findings encountered on the way are recorded in two paragraphs and left alone. They are not
 progress.

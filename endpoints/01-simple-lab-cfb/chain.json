@@ -2,8 +2,8 @@
   "$schema": "acdc-study-instance.schema.json",
   "instanceId": "SI_TORIVA-LUNG-301_2026-09-17",
   "formatVersion": "1.0",
-  "createdAt": "2026-09-17T22:02:13.679Z",
-  "updatedAt": "2026-09-17T22:02:13.679Z",
+  "createdAt": "2026-09-17T22:56:44.845Z",
+  "updatedAt": "2026-09-17T22:56:44.845Z",
   "$references": {
     "transformationLibrary": {
       "file": "lib/transformations/ACDC_Transformation_Library_v06.json",
@@ -36,7 +36,10 @@
       "linkedBCIds": [],
       "dimensionValues": {
         "Population": "SAF",
-        "Treatment": "Torivumab vs Placebo"
+        "Treatment": "Torivumab vs Placebo",
+        "Parameter": "Alanine Aminotransferase",
+        "Visit": "",
+        "AnalysisVisit": "C2D1"
       },
       "derivationNote": "",
       "selectedTransformationOid": "T.CFB_ANCOVA",
@@ -104,7 +107,7 @@
       "cubeDimensions": [
         {
           "dimension": "Parameter",
-          "sliceValue": ""
+          "sliceValue": "Alanine Aminotransferase"
         },
         {
           "dimension": "Population",
@@ -113,26 +116,41 @@
         {
           "dimension": "Treatment",
           "sliceValue": "Torivumab vs Placebo"
+        },
+        {
+          "dimension": "Visit",
+          "sliceValue": "C2D1"
+        },
+        {
+          "dimension": "AnalysisVisit",
+          "sliceValue": ""
         }
       ],
       "cubeSlices": [],
       "selectedEndpointPhrase": "SP_CFB_ENDPOINT",
       "selectedDimPhrases": [
         "SP_POPULATION",
-        "SP_GROUPING"
+        "SP_GROUPING",
+        "SP_TIMEPOINT"
       ],
       "resolvedSlices": [
         {
           "name": "endpoint",
           "fixedDimensions": {
+            "Parameter": "Alanine Aminotransferase",
             "Population": "SAF",
-            "Treatment": "Torivumab vs Placebo"
+            "Treatment": "Torivumab vs Placebo",
+            "Visit": "C2D1",
+            "AnalysisVisit": "C2D1"
           }
         }
       ],
       "sliceKeyDimensions": [
+        "Parameter",
         "Population",
-        "Treatment"
+        "Treatment",
+        "Visit",
+        "AnalysisVisit"
       ],
       "resolvedBindings": [
         {
@@ -256,7 +274,11 @@
           "roleLabel": "constraint"
         }
       ],
-      "pipelineReferences": []
+      "pipelineReferences": [],
+      "dimensionCategoryPicks": {
+        "ParameterDimension": "Parameter",
+        "VisitDimension": "AnalysisVisit"
+      }
     }
   },
   "unitConversions": {
@@ -459,6 +481,6 @@
   },
   "preferences": {
     "modelViewMode": "concepts_adam",
-    "currentStep": 7
+    "currentStep": 8
   }
 }

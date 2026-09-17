@@ -163,10 +163,41 @@ them to `SAF` and `Torivumab vs Placebo` resolved both.
 in the USDM (`E6.analysisPopulationId`, the two arms), which is not where step 7 reads them
 from. So the chain has to carry them itself. Same shape as L5.
 
+### L7 — execution took eleven more decisions, none of them statistical *(stage 6, 2026-09-17)*
+
+Step 8 needs `.xpt` files; TORIVA ships parquet (converted with `pyreadstat`, 44.8 MB for ADLB).
+The engine's R source parsed with an error on first execute — `unexpected invalid token` — because
+`core.autocrlf=true` had checked it out with CRLF; `git config core.autocrlf false` in the
+submodule and a re-checkout fixed it, without changing the pinned commit.
+
+Then the chain as authored through stage 4 did not describe TORIVA's data. In order:
+
+| # | Decision | Chosen | Why |
+|---|---|---|---|
+| D14 | Source dataset | `adlb` | the builder defaulted to `adsl` |
+| D15 | Treatment variable | `TRT01P` | the mapping says `TRTP`; ADLB carries `TRT01P` |
+| D16 | Population slice | `SAFFL == "Y"` | the estimand's `SAF` became `ITTFL == "SAF"` |
+| D17 | Treatment slice | *no filter* | the step 3 value `Torivumab vs Placebo` is a contrast label, and the data reads `Torivumab + Chemotherapy` — D14 in `source-refs.md`, in the data |
+| D18 | Parameter dimension form | `Parameter (DC)` | the OC form `Observation.Identification.Topic` has no column in ADaM; the builder's own tooltip says to switch |
+| D19 | Parameter value | `Alanine Aminotransferase` | the DC form is label-valued, so `ALT` matched nothing |
+| D20 | Visit dimension form | `AnalysisVisit (DC)` | the OC form is collected `VISIT`, which has no `Baseline` |
+| D21 | Visit | `C2D1` | one visit, or the cube pools every post-baseline row |
+| D22 | Covariate variable | `BASE` | the default `AVAL` is the C2D1 value — run 3's covariate was the response's own minuend |
+| D23 | Which baseline row | *not offered* | the engine takes the first; TORIVA takes `ABLFL` — see `comparison.md` |
+| D24 | `ANL01FL` | *not offered* | F11 |
+
+**Nine decisions the builder offered, two it could not.** Of the nine, none is a statistical
+judgement; all are about which column and which label. Four (D15–D17, D19) exist because the
+USDM and the chain name things differently from the data, which is L6 again at execution.
+
+**Three runs are kept** in `results.json`, because each is a different authoring state and each
+was reproduced exactly: run 1 with constraints skipped, run 3 after D18–D21, run 4 after D22.
+
 ## What this tier cost, in one line
 
-**Zero authoring, eleven decisions, four of them unguided by the SAP, and a chain that
-completes while being wrong by a median 21% on the value it subtracts.**
+**Zero authoring, eleven decisions to specify and eleven more to execute, and a chain that
+completes while being wrong by a median 21% on the value it subtracts — a gap that, executed,
+is 0.86 on a treatment difference with SE 1.4, on 70% of subjects.**
 
 ## What it says about scale
 

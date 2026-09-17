@@ -1,99 +1,89 @@
 # Lab change from baseline — comparison against built ADaM
 
-Step 3 of the method. **The first time in this repository that any claim has been checked
-against data rather than against a specification.**
+Step 3 of the method, and `NORTH.md` **stage 7**. Rewritten 2026-09-17 once stage 6 had run:
+this now compares an **executed result** against TORIVA's built ADLB, not a definition against a
+specification.
 
 Ground truth: TORIVA-LUNG 301 at `8534339d`, `datasets/adam/adlb.parquet` — 136,242 rows,
-37 columns, 5,400 subject × parameter groups. Read with `pyarrow` 25.0.1.
+37 columns, converted to `adlb.xpt` for the builder. The executed runs are in
+[`results.json`](results.json); the authoring decisions that produced them are L7 in
+[`log.md`](log.md).
+
+> **Updated 2026-09-17.** Until today this file compared *definitions* — the chain had never
+> run — and said so in its scope limit. Stage 7 was marked green on that weaker reading and was
+> taken back to red on 2026-09-17 (`NORTH.md`). Divergence 1 below is the same question that
+> file asked on paper, now answered in numbers. Divergences 2 and 3 (specification errors D8, D9)
+> are unchanged and kept at the end.
 
 ---
 
-## What is and is not being compared
+## The analysis compared
 
-**Scope limit, stated first.** This is **not** a numeric diff of the authored chain's output
-against TORIVA's columns, because the chain has never been executed — that is `NORTH.md` stage 6
-and it is not done.
+One ANCOVA, chosen because it is the simplest thing the chain can express and TORIVA's data can
+answer: **change from baseline in ALT at analysis visit C2D1, safety population, adjusted for
+baseline, torivumab vs placebo.** TORIVA's SAP specifies no laboratory analysis (D11), so the
+reference is not a TORIVA table; it is the same model fitted to TORIVA's own `CHG` and `BASE`.
 
-What it is: a test of whether **the definition the concept model is able to express** reproduces
-the definition TORIVA built. That is the question step 3 exists to answer — *"either the model
-cannot express something real, or it has exposed an ambiguity the SAP was carrying silently."*
-
-> **Updated 2026-09-16.** This section originally carried a second, larger caveat: the chain was
-> authored against the **CDISC Pilot**, because no TORIVA USDM existed. That is no longer true.
-> Stages 1 and 0b produced `study/usdm/`, and the chain was re-authored against TORIVA —
-> `chain.json` now carries `"studyName": "TORIVA-LUNG 301"` and `Endpoint_SAFETY_LAB`, with the
-> seven laboratory BCs linked on each measure terminal. The comparison below was unaffected,
-> because it tests definitions rather than identifiers, but the caveat is gone.
-
----
-
-## Divergence 1 — the model cannot say *which* baseline record. **Model limitation.**
-
-This is [F12](../../docs/findings/F12-baseline-flag-and-baseline-value-are-disconnected.md),
-and the data settles it.
-
-The model reaches the baseline value only through `T.ChangeFromBaseline`'s slice:
-
-```
-parameter_baseline:  Parameter = {parameter}   AND   AnalysisVisit = {baseline_visit}
-```
-
-TORIVA reaches it through `ABLFL` — the last non-missing record on or before `TRTSDT`.
-
-The two agree on *which visit*. They disagree on *how many records that identifies*:
-
-| | |
-|---|---|
-| Subject × parameter groups | 5,400 |
-| Groups where `ABLFL='Y'` is **not** at `AVISIT='Baseline'` | **0** |
-| Groups where `BASE` ≠ `AVAL` of the `ABLFL` record | **0** |
-| **Groups carrying *two* rows at `AVISIT='Baseline'`** | **3,832 (71%)** |
-| Groups carrying one | 1,537 |
-| Groups carrying none | 31 |
-
-The 3,832 are every subject × parameter whose screening draw and Cycle 1 Day 1 pre-dose draw
-both window into the baseline visit — collected `VISIT` pairs are `('C1D1', 'SCREENING')` in
-**all 3,832 cases**.
-
-So `AnalysisVisit = Baseline` is not a key. It selects two records for 71% of the study, and
-the model has no way to choose between them.
-
-### It matters numerically, not just formally
-
-The two candidate records carry **different values in 3,710 of 3,832 groups (96.8%)**. Had the
-other been taken as `BASE`:
-
-| | median | mean | p90 | max |
+| | n | Torivumab − Placebo | SE | p |
 |---|---|---|---|---|
-| \|relative difference\| in `BASE` | **21.3%** | 46.5% | 87.0% | 2750% |
+| **Reference A** — TORIVA `CHG ~ BASE + TRT01P`, `AVISIT = C2D1`, `SAFFL = Y`, `ANL01FL = Y` | 432 | **−0.893** | 1.385 | — |
+| Reference B — as A, every `AVISIT = C2D1` row (no `ANL01FL`) | 439 | −0.446 | 1.377 | — |
+| **Engine run 1** — chain as authored through stage 4 | 432 | +0.381 | 0.495 | 0.44 |
+| **Engine run 3** — dimensions switched to their DC forms | 432 | −1.025 | 1.282 | 0.42 |
+| **Engine run 4** — as 3, covariate bound to `BASE` | 432 | **−1.830** | 1.768 | 0.30 |
 
-`CHG` is `AVAL − BASE`, so that error passes straight through to every change-from-baseline
-value for that subject and parameter.
+None of the three runs reproduces the reference. Every one of them is **reproduced exactly**, to
+four decimals, by a Python refit once the engine's actual data selection is known — so the gap
+is not noise and not the arithmetic. It is three authoring choices and one selection rule.
 
-### What disambiguates them is a flag the model cannot reach
+## Divergence 1 — what the engine actually computed. **Authoring, then model limitation.**
 
-Exactly one of the two rows carries `ABLFL='Y'`, and exactly one carries `ANL01FL='Y'` — and
-they are **the same row in all 3,832 groups**, which is SAP §12.2's rule (*"inside the
-`Baseline` visit the `ABLFL='Y'` record wins"*) holding in the built data.
+Runs 3 and 4 were reproduced by refitting on the parquet with these rules
+(`results.json` carries the engine console that establishes each one):
 
-Both of those flags are outside what the chain can use:
+| | Engine | TORIVA |
+|---|---|---|
+| Rows in the cube | collected `VISIT == "C2D1"` — 435 rows, 432 with a baseline | `AVISIT == "C2D1"` — 442 rows |
+| Response | `AVAL − AVAL(baseline)`, recomputed by the derivation | `CHG` |
+| Baseline row | **first** row at `AVISIT == "Baseline"` per subject, in file order (`!duplicated(join_keys)`) | the `ABLFL = "Y"` row |
+| Covariate, run 3 | `AVAL` **at C2D1** — the response's own minuend | `BASE` |
+| Covariate, run 4 | `BASE` | `BASE` |
+| Analysis-record flag | not applied | `ANL01FL = "Y"` |
 
-- `ABLFL` **is** derivable — `T.BaselineSelection` produces it — but its output is a `Flag`, so
-  it can never resolve a `Measure` dependency and the slice cannot reference it
-  ([F12](../../docs/findings/F12-baseline-flag-and-baseline-value-are-disconnected.md)).
-- `ANL01FL` has no transformation at all
-  ([F11](../../docs/findings/F11-analysis-record-flag-has-no-transformation.md)).
+**The baseline row is the whole of the remaining gap.** In the executed cube, **303 of 432
+subjects (70.1%)** have an engine baseline that is not TORIVA's `BASE`, because their screening
+draw and their Cycle 1 Day 1 pre-dose draw both window into the Baseline visit and the engine
+takes whichever comes first. That is the 71% this file predicted on paper on 2026-09-16, now
+measured in the result. Substituting the `ABLFL` row for the first row, and changing nothing
+else, moves run 4 from −1.830 to −0.969 — within 0.08 of Reference A; what is left is
+`ANL01FL` and the visit column.
 
-**So F11 and F12 compose into a single concrete failure**: the one piece of information that
-makes `BASE` well-defined is derived by the framework and unusable by it, or not derivable at
-all. This is the simplest derivation in the library, on a study where everything else matched.
+Classification follows the method's three classes:
 
-### Why TORIVA does not hit this
+| Cause | Class | Fixable in the builder? |
+|---|---|---|
+| Covariate resolved to `AVAL`, not the baseline (run 3) | **Authoring error** — `BASE` was in the step 8 dropdown; the default was `AVAL`, and `execute_cube` skips the baseline join when the chosen column already exists | Yes — run 4 |
+| Cube on collected `VISIT`, not `AVISIT` | **Authoring error** — the Timepoint dimension added in step 3 maps to `VISIT`; the DC form `AnalysisVisit` maps to `AVISIT` | Yes |
+| Baseline = first row at `AVISIT = Baseline` | **Model limitation** — the chain can state the visit but not *which record in it*; TORIVA's rule is a flag ([F12](../../docs/findings/F12-baseline-flag-and-baseline-value-are-disconnected.md)) | No |
+| `ANL01FL` not applied | **Model limitation** — nothing produces it ([F11](../../docs/findings/F11-analysis-record-flag-has-no-transformation.md)) | No |
 
-`adlb.R` calls `apply_baseline_visit()`, which forces `AVISIT="Baseline"` onto the `ABLFL='Y'`
-record. That is what makes flag and visit agree — and it is a *labelling* step, not a
-selection step. It does not reduce the two Baseline rows to one; `ANL01FL` does that. Nothing
-in the concept model corresponds to either.
+Run 1 is kept in `results.json` but not classified: two of its slice constraints were skipped
+with a warning in the console (`Visit == Baseline` matched no rows because the dimension was the
+OC form; `Observation.Identification.Topic` was not a column), the baseline join then used all
+136,242 rows, and the run reported **complete**. It is the chain as it left stage 4.
+
+## What this changes
+
+Two things the definitional comparison could not say.
+
+**The executed number is deterministic and explainable.** Three runs, three different answers,
+each reproduced to four decimals from the console's own account of the selection. Nothing in
+the divergence is opaque.
+
+**The remaining gap has a size.** The model-limitation half — first row versus `ABLFL` row —
+is worth **0.86** on a difference whose SE is 1.4, on 70% of subjects. On this endpoint it does
+not change the conclusion (nothing here is significant). It is the number the paper comparison
+could only predict.
 
 ---
 
@@ -138,33 +128,13 @@ between the SAP and the code; it is between the SAP and **what the concept model
 
 ---
 
-## Classification
-
-| # | Divergence | Class |
-|---|---|---|
-| 1 | Baseline record not identifiable — `AnalysisVisit = Baseline` selects two rows in 71% of groups, differing in value 96.8% of the time | **Model limitation** (F11 + F12) |
-| 2 | `ANRIND` / `BNRIND` specified, not built | **Specification error** (D8) |
-| 3 | `BTOXGR` specified, not built | **Specification error** (D9) |
-
-No authoring errors: the chain resolved without an unresolved slot, and every binding the
-builder demanded was satisfiable.
-
-## What this changes
-
-The lab tier's paper mapping called Chain A steps 5 and 6 a clean compose. At the level of
-*structure* that holds — the chain authors, validates and serialises. At the level of
-*semantics* it does not: the chain as authored would compute a different `BASE` from TORIVA's
-for most of the study, and nothing in the artefact records that it is under-determined.
-
-That is the sharpest available answer to the specification's own question — *"if we adopted
-this, what would actually happen?"* On the simplest endpoint in the ladder, what would happen is
-a chain that looks complete, passes the builder, and is wrong by a median 21% on the baseline
-it subtracts.
-
 ## Reproduce
 
 ```
-pip install pyarrow
-git -C <toriva> sparse-checkout add /datasets/adam/adlb.parquet
+pip install pyarrow pyreadstat
+git -C <toriva> sparse-checkout add /datasets/adam/adlb.parquet /datasets/adam/adsl.parquet
 python tools/check_baseline_ambiguity.py --adlb <toriva>/datasets/adam/adlb.parquet
 ```
+
+The engine runs are reproduced by the refits described in Divergence 1; the console for each
+run, with the filter row counts, is in `results.json`.

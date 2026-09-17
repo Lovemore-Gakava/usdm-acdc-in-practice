@@ -1,0 +1,771 @@
+{
+  "$comment": "NORTH.md stage 6 — executed in ac-dc-app step 8 (WebR) at upstream 739344c against TORIVA ADLB (8534339d), 2026-09-17. Three runs kept: run1 = constraints skipped; run3 = DC dimension forms, covariate resolved to AVAL; run4 = covariate BASE. See comparison.md.",
+  "runs": {
+    "run1": {
+      "status": "complete",
+      "results": {
+        "fit_statistics": {
+          "R_squared": 0.8899,
+          "Adj_R_squared": 0.8894,
+          "AIC": 2666.1191,
+          "BIC": 2682.4205
+        },
+        "type3_tests": [
+          {
+            "Term": "(Intercept)",
+            "SS": 104217.5168,
+            "df": 1,
+            "F_statistic": 3922.8494,
+            "p_value": 7.1255e-219
+          },
+          {
+            "Term": "Measure.Result.Value",
+            "SS": 92730.6667,
+            "df": 1,
+            "F_statistic": 3490.4731,
+            "p_value": 4.6206e-209
+          },
+          {
+            "Term": "TRT01P",
+            "SS": 15.7838,
+            "df": 1,
+            "F_statistic": 0.5941,
+            "p_value": 0.4413
+          },
+          {
+            "Term": "Residuals",
+            "SS": 11476.8534,
+            "df": 432
+          }
+        ],
+        "ls_means": [
+          {
+            "Group": "Placebo + Chemotherapy",
+            "estimate": -8.8704,
+            "SE": 0.3532,
+            "df": 432,
+            "CI_lower": -9.5647,
+            "CI_upper": -8.1761
+          },
+          {
+            "Group": "Torivumab + Chemotherapy",
+            "estimate": -8.4892,
+            "SE": 0.346,
+            "df": 432,
+            "CI_lower": -9.1693,
+            "CI_upper": -7.8092
+          }
+        ],
+        "contrasts": {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -0.3812,
+          "SE": 0.4945,
+          "df": 432,
+          "CI_lower": -1.3532,
+          "CI_upper": 0.5908,
+          "t_statistic": -0.7708,
+          "p_value": 0.4413
+        },
+        "covariance_parameters": {
+          "residual_variance": 26.5668
+        },
+        "resolved_code": "# ═══════════════════════════════════════════════════════════════\n# Resolved R Program (standalone, concept-keyed)\n# Generated from AC/DC specification + r_implementations.json\n# ═══════════════════════════════════════════════════════════════\n\n# --- Concept → Column mapping ---\n# Change → Change\n# Measure.Result.Value → Measure.Result.Value\n# Treatment → TRT01P\n# Subject → Subject\n# Observation.Identification.Topic → Observation.Identification.Topic\n# Visit → Visit\n\n# --- Filter data ---\nanalysis_data <- subset(dataset,\n  Parameter == \"ALT\" &\n  Population == \"Y\" &\n  Visit == \"C2D1\"\n)\n\n# --- Coerce types (from dataStructureRole) ---\nanalysis_data$Change <- as.numeric(analysis_data$Change)\nanalysis_data$TRT01P <- factor(analysis_data$TRT01P)\nanalysis_data$Subject <- factor(analysis_data$Subject)\nanalysis_data$Observation.Identification.Topic <- factor(analysis_data$Observation.Identification.Topic)\nanalysis_data$Visit <- factor(analysis_data$Visit)\n\n# --- Execute (from r_implementations.json callTemplate) ---\nmodel <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `Measure.Result.Value` + `TRT01P`, data = analysis_data)\nmodel_summary <- summary(model)\nanova_result <- car::Anova(model, type = \"III\")\nlsm <- emmeans::emmeans(model, ~ `TRT01P`)\nlsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\ncontr <- pairs(lsm, adjust = \"none\")\ncontr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))",
+        "derived_data_preview": [
+          {
+            "CHG": -27,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 3,
+            "BASE": 43,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -8,
+            "BASE": 34,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -1,
+            "BASE": 33,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 0,
+            "BASE": 37,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0066",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 7,
+            "BASE": 53,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0068",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -11,
+            "BASE": 31,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0078",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 6,
+            "BASE": 43,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0092",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -19,
+            "BASE": 28,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0099",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 16,
+            "BASE": 50,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0119",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 5,
+            "BASE": 37,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0134",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -17,
+            "BASE": 17,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0140",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": 15,
+            "BASE": 55,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0157",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -8,
+            "BASE": 41,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0208",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -22,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0216",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -38,
+            "BASE": 9,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0251",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -6,
+            "BASE": 41,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0263",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -44,
+            "BASE": 2,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0267",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -31,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0271",
+            "VISITNUM": "C2D1"
+          },
+          {
+            "CHG": -20,
+            "BASE": 19,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0303",
+            "VISITNUM": "C2D1"
+          }
+        ],
+        "derived_data_store": "adam",
+        "derived_data_total": 435
+      },
+      "console": "AC/DC Engine: Executing analysis\n  Method: M.ANCOVA \n  Derivations: 1 \n  Detected store: adam ( 36 column matches)\n  Aliases skipped (not referenced by spec): PeakValue, AreaUnderCurve, EventCount, TimeToEvent, Flag, Category \n  Qualifier-resolved columns:\n     Treatment ← copy of TRT01P (IntentType=Planned) \n  Ingest column mapping:\n     USUBJID → Subject \n     PARAM → Parameter \n     ATPT → Timing \n     AVISIT → AnalysisVisit \n     TRTA → Treatment \n     APERIODC → Period \n     APHASE → Epoch \n     SITEID → Site \n     VISIT → Visit \n     STUDYID → Study \n     AGEGRy → Age \n     SEX → Sex \n     RACE → Race \n     REGIONy → Region \n     AVAL → Measure.Result.Value \n     AVALU → Measure.Result.Unit \n     --TERM → OccurrenceTerm.Identification.ReportedTerm \n     --DECOD → OccurrenceTerm.Coding.PreferredTerm \n     --BODSYS → OccurrenceTerm.Coding.BodySystem \n     --HLT → OccurrenceTerm.Coding.HighLevelTerm \n     --HLGT → OccurrenceTerm.Coding.HighLevelGroupTerm \n     --LLT → OccurrenceTerm.Coding.LowLevelTerm \n     CHG → Change \n     PCHG → PercentChange \n     AVALC → Shift \n  Post-ingest columns: Study, Subject, SUBJID, Site, SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN, TRTSDT, TRTEDT, LBSEQ, Parameter, PARAMCD, LBCAT, LBDTC, ADT, ADY, Visit, VISITNUM, AnalysisVisit, AVISITN, Measure.Result.Value, Shift, Measure.Result.Unit, ANRLO, ANRHI, NRIND, ABLFL, BASE, Change, PercentChange, ATOXGR, ATOXGRN, ANL01FL, DTYPE, Treatment \n  Applying 1 derivation(s) before analysis cube...\n  Derivation: M.Subtraction \n    [chain-lookup] slotKey: T.CFB_ANCOVA/Change/0 outputColumn: __col_T_CFB_ANCOVA_Change_0 inputColumns keys:  \n    [chain-lookup] override output role difference -> __col_T_CFB_ANCOVA_Change_0 \n    Bindings:\n       minuend -> Measure.Result.Value \n       subtrahend -> Measure.Result.Value \n       partition -> Subject Visit \n       constraint -> Observation.Identification.Topic \n       difference -> __col_T_CFB_ANCOVA_Change_0 \n    [slice] dim Observation.Identification.Topic not in data — skipping constraint\n    [slice] no rows match Visit == Baseline — skipping THIS constraint (other constraints still apply)\n    [slice] WARN: pre-join used 136242 rows with one or more constraints skipped\n    [slice] role subtrahend → Measure.Result.Value__parameter_baseline (slice parameter_baseline , joined by Subject ; filter-dims excluded:  Visit )\n    [slice] joined col 'Measure.Result.Value__parameter_baseline': nrow=136242 na=0 unique-non-NA=28 sample=[43,40,42,34,37]\n    Resolved derivation code:\n      concept_data[[\"__col_T_CFB_ANCOVA_Change_0\"]] <- as.numeric(concept_data[[\"Measure.Result.Value\"]]) - as.numeric(concept_data[[\"Measure.Result.Value__parameter_baseline\"]])\n  Post-derivation: 136242 rows x 40 cols\n  [analysis chain-lookup] override role response -> __col_T_CFB_ANCOVA_Change_0 \n  Concept → Column:\n     Change → Change \n     Measure.Result.Value → Measure.Result.Value \n     Treatment → TRT01P \n     Subject → Subject \n     Observation.Identification.Topic → Observation.Identification.Topic \n     Visit → Visit \n  Role → Column:\n     response → __col_T_CFB_ANCOVA_Change_0 \n     covariate → Measure.Result.Value \n     fixed_effect → TRT01P \n     partition → Subject \n     constraint → Observation.Identification.Topic, Visit \n    Filter: PARAMCD == ALT → 11594 rows\n    Filter: SAFFL == Y → 11592 rows\n    Filter: Visit == C2D1 → 435 rows\n  Default slice ' endpoint ': 435 rows\n  Analysis data: 435 rows x 40 cols\n  numeric(): Change \n  factor(): TRT01P → 2 levels\n  factor(): Subject → 435 levels\n  factor(): Visit → 1 levels\n  Resolved call template:\n    model <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `Measure.Result.Value` + `TRT01P`, data = analysis_data)\n    model_summary <- summary(model)\n    anova_result <- car::Anova(model, type = \"III\")\n    lsm <- emmeans::emmeans(model, ~ `TRT01P`)\n    lsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\n    contr <- pairs(lsm, adjust = \"none\")\n    contr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))\n  Output class ' fit_statistics ': OK\n  Output class ' type3_tests ': OK\n  Output class ' ls_means ': OK\n  Output class ' contrasts ': OK\n  Output class ' covariance_parameters ': OK",
+      "meta": null
+    },
+    "run3": {
+      "status": "complete",
+      "results": {
+        "fit_statistics": {
+          "R_squared": 0.5028,
+          "Adj_R_squared": 0.5004,
+          "AIC": 3467.5875,
+          "BIC": 3483.8612
+        },
+        "type3_tests": [
+          {
+            "Term": "(Intercept)",
+            "SS": 39856.5999,
+            "df": 1,
+            "F_statistic": 224.8981,
+            "p_value": 3.5522e-41
+          },
+          {
+            "Term": "Measure.Result.Value",
+            "SS": 76474.0392,
+            "df": 1,
+            "F_statistic": 431.5186,
+            "p_value": 7.7688e-67
+          },
+          {
+            "Term": "TRT01P",
+            "SS": 113.1787,
+            "df": 1,
+            "F_statistic": 0.6386,
+            "p_value": 0.4246
+          },
+          {
+            "Term": "Residuals",
+            "SS": 76027.6886,
+            "df": 429
+          }
+        ],
+        "ls_means": [
+          {
+            "Group": "Placebo + Chemotherapy",
+            "estimate": 3.788,
+            "SE": 0.9167,
+            "df": 429,
+            "CI_lower": 1.9862,
+            "CI_upper": 5.5899
+          },
+          {
+            "Group": "Torivumab + Chemotherapy",
+            "estimate": 2.7635,
+            "SE": 0.8957,
+            "df": 429,
+            "CI_lower": 1.0029,
+            "CI_upper": 4.5241
+          }
+        ],
+        "contrasts": {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": 1.0245,
+          "SE": 1.2821,
+          "df": 429,
+          "CI_lower": -1.4953,
+          "CI_upper": 3.5444,
+          "t_statistic": 0.7991,
+          "p_value": 0.4246
+        },
+        "covariance_parameters": {
+          "residual_variance": 177.2207
+        },
+        "resolved_code": "# ═══════════════════════════════════════════════════════════════\n# Resolved R Program (standalone, concept-keyed)\n# Generated from AC/DC specification + r_implementations.json\n# ═══════════════════════════════════════════════════════════════\n\n# --- Concept → Column mapping ---\n# Change → Change\n# Measure.Result.Value → Measure.Result.Value\n# Treatment → TRT01P\n# Subject → Subject\n# Parameter → Parameter\n# AnalysisVisit → AnalysisVisit\n\n# --- Filter data ---\nanalysis_data <- subset(dataset,\n  Parameter == \"Alanine Aminotransferase\" &\n  Population == \"Y\" &\n  Visit == \"C2D1\"\n)\n\n# --- Coerce types (from dataStructureRole) ---\nanalysis_data$Change <- as.numeric(analysis_data$Change)\nanalysis_data$TRT01P <- factor(analysis_data$TRT01P)\nanalysis_data$Subject <- factor(analysis_data$Subject)\nanalysis_data$Parameter <- factor(analysis_data$Parameter)\nanalysis_data$AnalysisVisit <- factor(analysis_data$AnalysisVisit)\n\n# --- Execute (from r_implementations.json callTemplate) ---\nmodel <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `Measure.Result.Value` + `TRT01P`, data = analysis_data)\nmodel_summary <- summary(model)\nanova_result <- car::Anova(model, type = \"III\")\nlsm <- emmeans::emmeans(model, ~ `TRT01P`)\nlsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\ncontr <- pairs(lsm, adjust = \"none\")\ncontr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))",
+        "derived_data_preview": [
+          {
+            "CHG": 3,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 19,
+            "BASE": 43,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 10,
+            "BASE": 34,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 2,
+            "BASE": 33,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -2,
+            "BASE": 37,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0066",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 10,
+            "BASE": 53,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0068",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -19,
+            "BASE": 31,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0078",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 18,
+            "BASE": 43,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0092",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 0,
+            "BASE": 28,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0099",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 14,
+            "BASE": 50,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0119",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 33,
+            "BASE": 37,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0134",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 6,
+            "BASE": 17,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0140",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 41,
+            "BASE": 55,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0157",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -2,
+            "BASE": 41,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0208",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 7,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0216",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -15,
+            "BASE": 9,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0251",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 12,
+            "BASE": 41,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0263",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -56,
+            "BASE": 2,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0267",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -9,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0271",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -3,
+            "BASE": 19,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0303",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          }
+        ],
+        "derived_data_store": "adam",
+        "derived_data_total": 435
+      },
+      "console": "AC/DC Engine: Executing analysis\n  Method: M.ANCOVA \n  Derivations: 1 \n  Detected store: adam ( 36 column matches)\n  Aliases skipped (not referenced by spec): PeakValue, AreaUnderCurve, EventCount, TimeToEvent, Flag, Category \n  Qualifier-resolved columns:\n     Treatment ← copy of TRT01P (IntentType=Planned) \n  Ingest column mapping:\n     USUBJID → Subject \n     PARAM → Parameter \n     ATPT → Timing \n     AVISIT → AnalysisVisit \n     TRTA → Treatment \n     APERIODC → Period \n     APHASE → Epoch \n     SITEID → Site \n     VISIT → Visit \n     STUDYID → Study \n     AGEGRy → Age \n     SEX → Sex \n     RACE → Race \n     REGIONy → Region \n     AVAL → Measure.Result.Value \n     AVALU → Measure.Result.Unit \n     --TERM → OccurrenceTerm.Identification.ReportedTerm \n     --DECOD → OccurrenceTerm.Coding.PreferredTerm \n     --BODSYS → OccurrenceTerm.Coding.BodySystem \n     --HLT → OccurrenceTerm.Coding.HighLevelTerm \n     --HLGT → OccurrenceTerm.Coding.HighLevelGroupTerm \n     --LLT → OccurrenceTerm.Coding.LowLevelTerm \n     CHG → Change \n     PCHG → PercentChange \n     AVALC → Shift \n  Post-ingest columns: Study, Subject, SUBJID, Site, SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN, TRTSDT, TRTEDT, LBSEQ, Parameter, PARAMCD, LBCAT, LBDTC, ADT, ADY, Visit, VISITNUM, AnalysisVisit, AVISITN, Measure.Result.Value, Shift, Measure.Result.Unit, ANRLO, ANRHI, NRIND, ABLFL, BASE, Change, PercentChange, ATOXGR, ATOXGRN, ANL01FL, DTYPE, Treatment \n  Applying 1 derivation(s) before analysis cube...\n  Derivation: M.Subtraction \n    [chain-lookup] slotKey: T.CFB_ANCOVA/Change/0 outputColumn: __col_T_CFB_ANCOVA_Change_0 inputColumns keys:  \n    [chain-lookup] override output role difference -> __col_T_CFB_ANCOVA_Change_0 \n    Bindings:\n       minuend -> Measure.Result.Value \n       subtrahend -> Measure.Result.Value \n       partition -> Subject AnalysisVisit \n       constraint -> Parameter \n       difference -> __col_T_CFB_ANCOVA_Change_0 \n    [slice] role subtrahend → Measure.Result.Value__parameter_baseline (slice parameter_baseline , joined by Subject ; filter-dims excluded:  AnalysisVisit )\n    [slice] joined col 'Measure.Result.Value__parameter_baseline': nrow=136242 na=723 unique-non-NA=57 sample=[13,24,31,39,43]\n    Resolved derivation code:\n      concept_data[[\"__col_T_CFB_ANCOVA_Change_0\"]] <- as.numeric(concept_data[[\"Measure.Result.Value\"]]) - as.numeric(concept_data[[\"Measure.Result.Value__parameter_baseline\"]])\n  Post-derivation: 136242 rows x 40 cols\n  [analysis chain-lookup] override role response -> __col_T_CFB_ANCOVA_Change_0 \n  Concept → Column:\n     Change → Change \n     Measure.Result.Value → Measure.Result.Value \n     Treatment → TRT01P \n     Subject → Subject \n     Parameter → Parameter \n     AnalysisVisit → AnalysisVisit \n  Role → Column:\n     response → __col_T_CFB_ANCOVA_Change_0 \n     covariate → Measure.Result.Value \n     fixed_effect → TRT01P \n     partition → Subject \n     constraint → Parameter, AnalysisVisit \n    Filter: Parameter == Alanine Aminotransferase → 11594 rows\n    Filter: SAFFL == Y → 11592 rows\n    Filter: Visit == C2D1 → 435 rows\n  Default slice ' endpoint ': 435 rows\n  Analysis data: 435 rows x 40 cols\n  numeric(): Change \n  factor(): TRT01P → 2 levels\n  factor(): Subject → 435 levels\n  factor(): Parameter → 1 levels\n  factor(): AnalysisVisit → 1 levels\n  Resolved call template:\n    model <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `Measure.Result.Value` + `TRT01P`, data = analysis_data)\n    model_summary <- summary(model)\n    anova_result <- car::Anova(model, type = \"III\")\n    lsm <- emmeans::emmeans(model, ~ `TRT01P`)\n    lsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\n    contr <- pairs(lsm, adjust = \"none\")\n    contr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))\n  Output class ' fit_statistics ': OK\n  Output class ' type3_tests ': OK\n  Output class ' ls_means ': OK\n  Output class ' contrasts ': OK\n  Output class ' covariance_parameters ': OK",
+      "meta": {
+        "dimensionValues": {
+          "Population": "SAF",
+          "Treatment": "Torivumab vs Placebo",
+          "Parameter": "Alanine Aminotransferase",
+          "Visit": "C2D1"
+        },
+        "categoryPicks": null,
+        "overrides": {
+          "varOverrides": {
+            "Treatment": "TRT01P"
+          },
+          "sliceOverrides": {
+            "endpoint|Population": {
+              "variable": "SAFFL",
+              "value": "Y"
+            },
+            "endpoint|Treatment": {
+              "variable": "TRT01P",
+              "value": ""
+            }
+          },
+          "datasetOverride": "adlb",
+          "auxiliarySources": {
+            "Treatment": {
+              "dataset": "adsl",
+              "joinKey": "Subject"
+            },
+            "Subject": {
+              "dataset": "adsl",
+              "joinKey": "Subject"
+            }
+          }
+        },
+        "adamMappingParameter": {
+          "variable": "PARAMCD/PARAM",
+          "byDataType": {
+            "code": "PARAMCD",
+            "string": "PARAM"
+          },
+          "notes": "Parameter code and label"
+        },
+        "adamMappingVisit": {
+          "variable": "AVISIT",
+          "byDataType": {
+            "code": "VISIT",
+            "string": "VISIT",
+            "integer": "VISITNUM",
+            "decimal": "VISITNUM"
+          },
+          "notes": "Protocol-defined visit (character/numeric)"
+        }
+      }
+    },
+    "run4": {
+      "status": "complete",
+      "results": {
+        "fit_statistics": {
+          "R_squared": 0.0537,
+          "Adj_R_squared": 0.0493,
+          "AIC": 3745.5804,
+          "BIC": 3761.8541
+        },
+        "type3_tests": [
+          {
+            "Term": "(Intercept)",
+            "SS": 11611.7863,
+            "df": 1,
+            "F_statistic": 34.4283,
+            "p_value": 8.8526e-09
+          },
+          {
+            "Term": "BASE",
+            "SS": 7810.8233,
+            "df": 1,
+            "F_statistic": 23.1586,
+            "p_value": 2.0699e-06
+          },
+          {
+            "Term": "TRT01P",
+            "SS": 361.499,
+            "df": 1,
+            "F_statistic": 1.0718,
+            "p_value": 0.3011
+          },
+          {
+            "Term": "Residuals",
+            "SS": 144690.9045,
+            "df": 429
+          }
+        ],
+        "ls_means": [
+          {
+            "Group": "Placebo + Chemotherapy",
+            "estimate": 4.2001,
+            "SE": 1.2643,
+            "df": 429,
+            "CI_lower": 1.7151,
+            "CI_upper": 6.6852
+          },
+          {
+            "Group": "Torivumab + Chemotherapy",
+            "estimate": 2.37,
+            "SE": 1.2354,
+            "df": 429,
+            "CI_lower": -0.0582,
+            "CI_upper": 4.7982
+          }
+        ],
+        "contrasts": {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": 1.8301,
+          "SE": 1.7678,
+          "df": 429,
+          "CI_lower": -1.6444,
+          "CI_upper": 5.3047,
+          "t_statistic": 1.0353,
+          "p_value": 0.3011
+        },
+        "covariance_parameters": {
+          "residual_variance": 337.2748
+        },
+        "resolved_code": "# ═══════════════════════════════════════════════════════════════\n# Resolved R Program (standalone, concept-keyed)\n# Generated from AC/DC specification + r_implementations.json\n# ═══════════════════════════════════════════════════════════════\n\n# --- Concept → Column mapping ---\n# Change → Change\n# Measure.Result.Value → BASE\n# Treatment → TRT01P\n# Subject → Subject\n# Parameter → Parameter\n# AnalysisVisit → AnalysisVisit\n\n# --- Filter data ---\nanalysis_data <- subset(dataset,\n  Parameter == \"Alanine Aminotransferase\" &\n  Population == \"Y\" &\n  Visit == \"C2D1\" &\n  AnalysisVisit == \"C2D1\"\n)\n\n# --- Coerce types (from dataStructureRole) ---\nanalysis_data$Change <- as.numeric(analysis_data$Change)\nanalysis_data$TRT01P <- factor(analysis_data$TRT01P)\nanalysis_data$Subject <- factor(analysis_data$Subject)\nanalysis_data$Parameter <- factor(analysis_data$Parameter)\nanalysis_data$AnalysisVisit <- factor(analysis_data$AnalysisVisit)\n\n# --- Execute (from r_implementations.json callTemplate) ---\nmodel <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `BASE` + `TRT01P`, data = analysis_data)\nmodel_summary <- summary(model)\nanova_result <- car::Anova(model, type = \"III\")\nlsm <- emmeans::emmeans(model, ~ `TRT01P`)\nlsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\ncontr <- pairs(lsm, adjust = \"none\")\ncontr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))",
+        "derived_data_preview": [
+          {
+            "CHG": 3,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 19,
+            "BASE": 43,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 10,
+            "BASE": 34,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 2,
+            "BASE": 33,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -2,
+            "BASE": 37,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0066",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 10,
+            "BASE": 53,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0068",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -19,
+            "BASE": 31,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0078",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 18,
+            "BASE": 43,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0092",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 0,
+            "BASE": 28,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0099",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 14,
+            "BASE": 50,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0119",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 33,
+            "BASE": 37,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0134",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 6,
+            "BASE": 17,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0140",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 41,
+            "BASE": 55,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0157",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -2,
+            "BASE": 41,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0208",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 7,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0216",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -15,
+            "BASE": 9,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0251",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": 12,
+            "BASE": 41,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0263",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -56,
+            "BASE": 2,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0267",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -9,
+            "BASE": 16,
+            "TRTA": "Torivumab + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0271",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          },
+          {
+            "CHG": -3,
+            "BASE": 19,
+            "TRTA": "Placebo + Chemotherapy",
+            "USUBJID": "CTX-NSCLC-301-SITE001-0303",
+            "PARAMCD": "Alanine Aminotransferase",
+            "AVISITN": "C2D1"
+          }
+        ],
+        "derived_data_store": "adam",
+        "derived_data_total": 435
+      },
+      "console": "AC/DC Engine: Executing analysis\n  Method: M.ANCOVA \n  Derivations: 1 \n  Detected store: adam ( 36 column matches)\n  Aliases skipped (not referenced by spec): PeakValue, AreaUnderCurve, EventCount, TimeToEvent, Flag, Category \n  Qualifier-resolved columns:\n     Treatment ← copy of TRT01P (IntentType=Planned) \n  Ingest column mapping:\n     USUBJID → Subject \n     PARAM → Parameter \n     ATPT → Timing \n     AVISIT → AnalysisVisit \n     TRTA → Treatment \n     APERIODC → Period \n     APHASE → Epoch \n     SITEID → Site \n     VISIT → Visit \n     STUDYID → Study \n     AGEGRy → Age \n     SEX → Sex \n     RACE → Race \n     REGIONy → Region \n     AVAL → Measure.Result.Value \n     AVALU → Measure.Result.Unit \n     --TERM → OccurrenceTerm.Identification.ReportedTerm \n     --DECOD → OccurrenceTerm.Coding.PreferredTerm \n     --BODSYS → OccurrenceTerm.Coding.BodySystem \n     --HLT → OccurrenceTerm.Coding.HighLevelTerm \n     --HLGT → OccurrenceTerm.Coding.HighLevelGroupTerm \n     --LLT → OccurrenceTerm.Coding.LowLevelTerm \n     CHG → Change \n     PCHG → PercentChange \n     AVALC → Shift \n  Post-ingest columns: Study, Subject, SUBJID, Site, SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN, TRTSDT, TRTEDT, LBSEQ, Parameter, PARAMCD, LBCAT, LBDTC, ADT, ADY, Visit, VISITNUM, AnalysisVisit, AVISITN, Measure.Result.Value, Shift, Measure.Result.Unit, ANRLO, ANRHI, NRIND, ABLFL, BASE, Change, PercentChange, ATOXGR, ATOXGRN, ANL01FL, DTYPE, Treatment \n  Applying 1 derivation(s) before analysis cube...\n  Derivation: M.Subtraction \n    [chain-lookup] slotKey: T.CFB_ANCOVA/Change/0 outputColumn: __col_T_CFB_ANCOVA_Change_0 inputColumns keys:  \n    [chain-lookup] override output role difference -> __col_T_CFB_ANCOVA_Change_0 \n    Bindings:\n       minuend -> Measure.Result.Value \n       subtrahend -> Measure.Result.Value \n       partition -> Subject AnalysisVisit \n       constraint -> Parameter \n       difference -> __col_T_CFB_ANCOVA_Change_0 \n    [slice] role subtrahend → Measure.Result.Value__parameter_baseline (slice parameter_baseline , joined by Subject ; filter-dims excluded:  AnalysisVisit )\n    [slice] joined col 'Measure.Result.Value__parameter_baseline': nrow=136242 na=723 unique-non-NA=57 sample=[13,24,31,39,43]\n    Resolved derivation code:\n      concept_data[[\"__col_T_CFB_ANCOVA_Change_0\"]] <- as.numeric(concept_data[[\"Measure.Result.Value\"]]) - as.numeric(concept_data[[\"Measure.Result.Value__parameter_baseline\"]])\n  Post-derivation: 136242 rows x 40 cols\n  [analysis chain-lookup] override role response -> __col_T_CFB_ANCOVA_Change_0 \n  Concept → Column:\n     Change → Change \n     Measure.Result.Value → BASE \n     Treatment → TRT01P \n     Subject → Subject \n     Parameter → Parameter \n     AnalysisVisit → AnalysisVisit \n  Role → Column:\n     response → __col_T_CFB_ANCOVA_Change_0 \n     covariate → BASE \n     fixed_effect → TRT01P \n     partition → Subject \n     constraint → Parameter, AnalysisVisit \n    Filter: Parameter == Alanine Aminotransferase → 11594 rows\n    Filter: SAFFL == Y → 11592 rows\n    Filter: Visit == C2D1 → 435 rows\n    Filter: AnalysisVisit == C2D1 → 435 rows\n  Default slice ' endpoint ': 435 rows\n  Analysis data: 435 rows x 40 cols\n  numeric(): Change \n  factor(): TRT01P → 2 levels\n  factor(): Subject → 435 levels\n  factor(): Parameter → 1 levels\n  factor(): AnalysisVisit → 1 levels\n  Resolved call template:\n    model <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `BASE` + `TRT01P`, data = analysis_data)\n    model_summary <- summary(model)\n    anova_result <- car::Anova(model, type = \"III\")\n    lsm <- emmeans::emmeans(model, ~ `TRT01P`)\n    lsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\n    contr <- pairs(lsm, adjust = \"none\")\n    contr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))\n  Output class ' fit_statistics ': OK\n  Output class ' type3_tests ': OK\n  Output class ' ls_means ': OK\n  Output class ' contrasts ': OK\n  Output class ' covariance_parameters ': OK",
+      "meta": {
+        "dimensionValues": {
+          "Population": "SAF",
+          "Treatment": "Torivumab vs Placebo",
+          "Parameter": "Alanine Aminotransferase",
+          "Visit": "",
+          "AnalysisVisit": "C2D1"
+        },
+        "varOverrides": {
+          "Treatment": "TRT01P",
+          "Measure": "BASE"
+        },
+        "sliceOverrides": {
+          "endpoint|Population": {
+            "variable": "SAFFL",
+            "value": "Y"
+          },
+          "endpoint|Treatment": {
+            "variable": "TRT01P",
+            "value": ""
+          }
+        },
+        "datasetOverride": "adlb"
+      }
+    }
+  }
+}

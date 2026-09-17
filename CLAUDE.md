@@ -74,6 +74,12 @@ disproved, so:
 - `tools/check_baseline_ambiguity.py` needs `pyarrow`. Note `pyarrow.dataset` is blocked by
   Application Control on this machine — use `pq.ParquetFile(...).read()`, not `pq.read_table`.
 - Python is `python`, not `python3`.
+- **Step 8 (WebR) will not parse the engine with CRLF endings.** `core.autocrlf=true` checks
+  `ac-dc-app/r/acdc_engine.R` out as CRLF and R reports `unexpected invalid token`. Fix once per
+  clone: `git -C upstream/analysis-concepts config core.autocrlf false`, then re-checkout the file.
+  The submodule stays clean. Step 8 also needs `.xpt`; TORIVA is parquet — `pyreadstat.write_xport`.
+- The builder's **Load** button opens a native file picker and can call `alert()`; both freeze
+  browser automation. Call `deserializeStudyInstance` on `window.appState` instead.
 
 ## Writing
 
