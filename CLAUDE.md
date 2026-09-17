@@ -28,6 +28,17 @@ are actively trying to complete**, and when one does, record it in two paragraph
 `docs/review-plan.md`. Do not polish them, do not propose filing them, and do not treat the
 review backlog as a blocker. Nothing is being filed.
 
+**The SAP is an input, not a yardstick.** `study/usdm/README.md` fixes the layering: protocol +
+CDISC Library → USDM, SAP → DC/AC. So the SAP tells you *what derivation to author*. The moment
+it is used the other way round — *here is what the SAP says, here is what the model cannot say* —
+the work has become an assessment of `cdisc-org/analysis-concepts` again, whatever it is called.
+This is the drift's second shape and it is harder to see than the first, because every individual
+step is legitimate. It recurred on 2026-09-17, inside an hour of the README being restructured to
+remove it, and LG caught it, not the model.
+
+The check: **what does this comparison decide?** If the answer is *whether the framework is
+adequate*, stop. If it is *whether I authored the chain correctly*, continue.
+
 Specific failures to avoid, each of which actually happened here:
 
 - Noticing drift and continuing. Writing *"I should stop generating findings"* and then

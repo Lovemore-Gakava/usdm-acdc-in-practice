@@ -11,8 +11,9 @@ So this sheet drops the five upstream issues entirely and asks that question of 
 work** instead. The selection rule was: *which claim, if wrong, costs a stage that is green or
 one that is about to be attempted?*
 
-Three qualify. Roughly an hour. It advances no numbered stage — it protects stages 0, 0b, 1 and 7,
-and it keeps stage 6 from being compared against a wrong benchmark.
+Three qualified. **Item 1 was withdrawn the same day** — see its banner; the selection rule let
+in a framework-adequacy question, which is the drift this project guards against. Items 2 and 3
+stand, protect stages 0, 0b and 1, and gate nothing: neither blocks stage 5.
 
 **How to use it.** Each item states the claim so it can be disagreed with, then lists what would
 *falsify* it. Read for the falsifiers, not for general plausibility — §3 of the review plan
@@ -22,6 +23,28 @@ bottom.
 ---
 
 ## 1. The baseline result — `endpoints/01-simple-lab-cfb/comparison.md`
+
+> # ⏸ WITHDRAWN — 2026-09-17, the day it was written
+>
+> **LG: *"why are we comparing against the SAP again?"*** Because this item had drifted. It asks
+> whether the concept model can express what the SAP specifies — the framework-adequacy question,
+> in a repository whose README had been restructured hours earlier to remove exactly that frame.
+>
+> Falsifiers **1a** and **1d** were checked before it was withdrawn, and both results stand:
+>
+> - **1a does not fire.** In all 3,832 pairs the two Baseline rows are identical on `PARAM`,
+>   `PARAMCD`, `AVALU`, `LBCAT`, `ANRLO`, `ANRHI` and `DTYPE`, and differ on `LBSEQ`, `LBDTC`,
+>   `ADT`, `ADY`, `VISIT`, `VISITNUM`, `ABLFL`, `ANL01FL`. Two draws, not a unit variant, a second
+>   parameter or an imputed record. Collected `VISIT` is `('C1D1','SCREENING')` in 3,832 of 3,832.
+> - **1b's quotations verify verbatim.** SAP §12.2 and §12.3, including *"The selection is
+>   date-based, not visit-based"*.
+> - **1d: the sheet described the statistic wrongly.** 21.3% is the median across all 3,832
+>   ambiguous groups, not across the 3,710 that differ — that figure is 22.2%. Across all 5,400
+>   subject × parameter groups it is 9.8%. `comparison.md` uses the first and does not say so.
+>
+> **The question this item was trying to answer belongs to stage 6.** Once the chain executes it
+> computes a `BASE`; whether that matches TORIVA's is then arithmetic, needing nobody's
+> adjudication. Carried forward as a thing to look at in stage 6's output, not as a verdict.
 
 **Priority: highest.** It is the only claim in this repository checked against data, it is what
 stage 7 asserts, and stage 6's number will be read against it.

@@ -32,7 +32,7 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 | 4 | AC — analysis bound | ✓ |
 | 5 | eSAP generated | ✗ |
 | 6 | Executed, a real result produced | ✗ |
-| 7 | Compared against built ADaM | ✓ |
+| 7 | Compared against built ADaM | ✗ |
 
 <!-- /north:status -->
 
@@ -104,7 +104,16 @@ First action — open it with the lab chain loaded and see.
 browser. First action — open it and find out. This is the stage that produces an actual number,
 and nothing in this repository has ever produced one.
 
-**Stage 7** is already green for this endpoint (`endpoints/01-simple-lab-cfb/comparison.md`).
+**Stage 7 — compared against built ADaM.** `endpoints/01-simple-lab-cfb/comparison.md` exists
+and is worth keeping: it read 136,242 rows of TORIVA's ADLB and confirmed two specification
+errors (D8, D9) against data.
+
+> **Went from ✓ to ✗ on 2026-09-17.** It was green because `comparison.md` existed. But this
+> stage sits *after* "executed, a real result produced", so what it compares is the **result** —
+> and `comparison.md` says in its own scope limit that it is not that: the chain has never run,
+> so it compares **definitions**. The checker now requires stage 6 before stage 7 can be green.
+> Found when LG asked why the SAP was being used as a yardstick; the answer was that it was
+> standing in for an execution that had not happened.
 
 Findings encountered on the way are recorded in two paragraphs and left alone. They are not
 progress.

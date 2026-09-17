@@ -404,7 +404,14 @@ def north_stages(root: Path) -> list[tuple[str, str, bool]]:
     stage4 = any(sp.get("selectedTransformationOid") for sp in specs)
     stage5 = any((root / "endpoints").glob("*/esap*"))
     stage6 = any((root / "endpoints").glob("*/results*"))
-    stage7 = any((root / "endpoints").glob("*/comparison.md"))
+
+    # Stage 7 is "compared against built ADaM", inside a finish line whose stage 6
+    # is "executed, a real result produced". So what is compared is the RESULT.
+    # A comparison.md with no execution behind it compares *definitions* — useful,
+    # and not what the row claims. This was green from 2026-09-16 to 2026-09-17 on
+    # the weaker test, while the stronger one had never been attempted, which is
+    # precisely the quiet lie the scoreboard exists to prevent.
+    stage7 = any((root / "endpoints").glob("*/comparison.md")) and stage6
 
     return [
         ("0",  "Protocol mapped to ICH M11 elements", stage0),

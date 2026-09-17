@@ -5,7 +5,7 @@ ICH M11, USDM v4.0 and the CDISC AC/DC framework — BC to DC to AC — learned 
 ---
 
 **Start with [`NORTH.md`](NORTH.md)** — the destination, the nine-stage finish line, and the
-test any piece of work has to pass. Seven of nine stages are done.
+test any piece of work has to pass. Six of nine stages are done.
 
 ## What this is
 
@@ -128,7 +128,7 @@ Two deliberate choices:
 
 ## Status
 
-Seven of nine stages. [`NORTH.md`](NORTH.md) carries the table, and `tools/check_consistency.py`
+Six of nine stages. [`NORTH.md`](NORTH.md) carries the table, and `tools/check_consistency.py`
 verifies it against the filesystem on every commit, so it cannot claim a stage that has not
 happened.
 
@@ -138,7 +138,7 @@ happened.
 | Stages 1, 0b — **USDM** | `study/usdm/toriva-lung-301.usdm.json`, hand-authored and then **regenerated from the M11 protocol** — which took it from one estimand to six. Loads and renders in the builder |
 | Stages 2, 3, 4 — **BC, DC, AC** | The lab chain carries seven TORIVA laboratory BCs on each measure terminal, `T.ChangeFromBaseline` as its derivation and `T.CFB_ANCOVA` as its analysis |
 | Stages 5, 6 — **eSAP, execution** | **Not started.** Builder steps 7 and 8, never opened. Nothing in this repository has yet produced a number |
-| Stage 7 — **comparison** | Done for the lab tier (`endpoints/01-simple-lab-cfb/comparison.md`), against 136,242 rows of built ADLB |
+| Stage 7 — **comparison** | **Not done.** `endpoints/01-simple-lab-cfb/comparison.md` read 136,242 rows of built ADLB and confirmed two specification errors against data — but it compares *definitions*, because the chain has never run. This stage follows stage 6, so what it compares is the result |
 | Moderate tier (ORR) | Mapped and attempted. **Composes at method level and cannot be authored** — the authorable chain has `derivationChain: []` |
 | Complex tier (PFS) | Mapped. **Does not compose on paper** — F06. Steps 2–4 blocked |
 
