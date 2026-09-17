@@ -30,7 +30,7 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 | 2 | BC linked on the chain's terminals | ✓ |
 | 3 | DC — derivation authored | ✓ |
 | 4 | AC — analysis bound | ✓ |
-| 5 | eSAP generated | ✗ |
+| 5 | eSAP generated | ✓ |
 | 6 | Executed, a real result produced | ✗ |
 | 7 | Compared against built ADaM | ✗ |
 
@@ -97,8 +97,32 @@ endpoint, it was still offered in the terminal picker. So the USDM endpoint→BC
 stages 1 and 0b is not consumed by the chain; terminal-level `linkedBCIds` is an independent,
 second join.
 
-**Stage 5 — eSAP generated.** Step 7 of the builder, never opened. Unknown what it emits.
-First action — open it with the lab chain loaded and see.
+**Stage 5 — eSAP generated. Done 2026-09-17.** `endpoints/01-simple-lab-cfb/esap.json` — an
+eSAP instance against `study_esap.schema.json`, generated from the lab chain with TORIVA loaded.
+
+What step 7 emits: a **fourteen-section SAP document**, plus ADaM Datasets, an ADaM Spec, the
+eSAP JSON and a Define-XML — five artefacts from one chain. Its `$provenance` names three models
+at once: USDM v4.0, the AC/DC Transformation & Method Model, and ARS.
+
+The thing worth carrying forward is **how the eSAP assembles an estimand**, because it is not
+from one place:
+
+| E9(R1) attribute | Source |
+|---|---|
+| Population-level summary | USDM `Estimand`, matched on `variableOfInterestId` |
+| Intercurrent events | USDM `Estimand` |
+| **Analysis population** | the **chain's** `Population` dimension value — *not* the estimand's `analysisPopulationId` |
+| **Treatment** | the **chain's** `Treatment` dimension value |
+| Variable of interest | the endpoint |
+
+So USDM supplies two attributes and the chain must supply two more, by hand, even when USDM
+already holds the answer. Authored with `dimensionValues: {}`, the estimand came out carrying
+`AnalysisPopulation_unknown` and `Intervention_unspecified` while E6 sat in the USDM naming
+`AnalysisPopulation_SAF`. Setting the two dimensions in step 3 resolved them — to `SAF` and to
+both arms with their types — which is the same answer the estimand already held.
+
+That is the second instance of the pattern stage 2 found with `Endpoint.biomedicalConceptIds`:
+**a join authored in USDM, and a second, independent join the chain requires anyway.**
 
 **Stage 6 — executed.** Step 8, via WebR. Unknown whether it needs real ADaM loaded into the
 browser. First action — open it and find out. This is the stage that produces an actual number,

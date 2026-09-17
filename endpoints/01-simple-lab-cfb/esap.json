@@ -1,0 +1,354 @@
+{
+  "model": "eSAP",
+  "version": "0.1.0",
+  "description": "Study eSAP for TORIVA-LUNG 301",
+  "$provenance": {
+    "usdm": {
+      "model": "CDISC Unified Study Definitions Model",
+      "version": "4.0",
+      "uri": "https://www.cdisc.org/usdm",
+      "entities": [
+        "Study",
+        "StudyVersion",
+        "StudyDesign",
+        "Objective",
+        "Endpoint",
+        "AnalysisPopulation",
+        "StudyIntervention",
+        "IntercurrentEvent",
+        "StudyDefinitionDocument",
+        "NarrativeContent",
+        "StudyTitle"
+      ]
+    },
+    "acdc_transformation": {
+      "model": "AC/DC Transformation & Method Model",
+      "schemaRef": "https://cdisc.org/acdc/transformation",
+      "entities": [
+        "Transformation",
+        "SmartPhrase"
+      ],
+      "version": "0.6"
+    },
+    "ars": {
+      "model": "Analysis Results Standard",
+      "uri": "https://www.cdisc.org/ars",
+      "entities": [
+        "Analysis"
+      ]
+    }
+  },
+  "study": {
+    "id": "Study_TORIVA",
+    "name": "TORIVA-LUNG 301",
+    "label": "TORIVA-LUNG 301",
+    "description": "Simulated Phase 3 study of torivumab versus placebo in previously untreated advanced NSCLC with PD-L1 TPS >= 50%. Fictional sponsor and drug; synthetic data, educational use only.",
+    "versions": [
+      {
+        "id": "StudyVersion_1",
+        "versionIdentifier": "1.1",
+        "rationale": "Hand-authored USDM v4 fragment. REGENERATED 2026-09-16 from the ICH M11-restructured protocol in study/m11/protocol/ rather than transcribed from prose: objectives and endpoints from section-03-objectives-endpoints.md, study identity from section-00-title-page.md, laboratory BCs from section-12-01-clinical-laboratory-tests.md. Estimands now derive from M11 protocol 3.1.1 and 3.2.1, where M11 requires them, rather than from SAP 13. Not a full study definition: no schedule of activities, no eligibility criteria, no interventions beyond the arms.",
+        "titles": [
+          {
+            "id": "StudyTitle_1",
+            "text": "TORIVA-LUNG 301"
+          }
+        ],
+        "studyDesigns": [
+          {
+            "id": "StudyDesign_1",
+            "name": "TORIVA-LUNG 301 Design",
+            "description": "Randomised, double-blind, placebo-controlled parallel-group design. Protocol specifies 2:1 randomisation (300 torivumab : 150 placebo); the simulated data is 1:1 (225 : 225). The protocol synopsis records this discrepancy itself.",
+            "objectives": [
+              {
+                "id": "Objective_S5",
+                "name": "OBJ-S5",
+                "level": "secondary",
+                "endpoints": [
+                  {
+                    "id": "Endpoint_SAFETY_LAB",
+                    "name": "END-S5-LAB",
+                    "text": "Laboratory evaluations: haematology and chemistry parameters, analysed as change from baseline and as shifts in reference-range indicator. Baseline is the last non-missing value on or before first dose (SAP section 12.3).",
+                    "level": "secondary",
+                    "derivationSteps": [
+                      {
+                        "sequence": 1,
+                        "basedOn": {
+                          "transformationId": "T.ChangeFromBaseline"
+                        },
+                        "resolvedBindings": [
+                          {
+                            "concept": "Measure",
+                            "methodRole": "minuend",
+                            "direction": "input",
+                            "dataStructureRole": "measure",
+                            "requiredValueType": "Quantity"
+                          },
+                          {
+                            "concept": "Measure",
+                            "methodRole": "subtrahend",
+                            "direction": "input",
+                            "dataStructureRole": "measure",
+                            "slice": "parameter_baseline",
+                            "requiredValueType": "Quantity"
+                          },
+                          {
+                            "concept": "Subject",
+                            "methodRole": "partition",
+                            "direction": "input",
+                            "dataStructureRole": "dimension"
+                          },
+                          {
+                            "methodRole": "constraint",
+                            "direction": "input",
+                            "dataStructureRole": "dimension"
+                          },
+                          {
+                            "methodRole": "partition",
+                            "direction": "input",
+                            "dataStructureRole": "dimension"
+                          },
+                          {
+                            "concept": "Change",
+                            "methodRole": "difference",
+                            "direction": "output",
+                            "dataStructureRole": "measure"
+                          },
+                          {
+                            "concept": "Subject",
+                            "direction": "output",
+                            "dataStructureRole": "dimension"
+                          },
+                          {
+                            "direction": "output",
+                            "dataStructureRole": "dimension"
+                          },
+                          {
+                            "direction": "output",
+                            "dataStructureRole": "dimension"
+                          }
+                        ],
+                        "resolvedSlices": [],
+                        "resolvedPhrases": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "estimands": [
+      {
+        "id": "Estimand_Endpoint_SAFETY_LAB",
+        "name": "Estimand for END-S5-LAB",
+        "label": "Change change from baseline in {Parameter} in the SAF population",
+        "populationSummary": "Descriptive. n (%) per arm for incidence; events per 100 patient-years for exposure-adjusted rates; KM for irAE time-to-onset and time-to-resolution. NO LABORATORY SUMMARY IS SPECIFIED IN EITHER SOURCE DOCUMENT - see discrepancy D11.",
+        "variableOfInterest": {
+          "id": "Endpoint_SAFETY_LAB",
+          "name": "END-S5-LAB"
+        },
+        "analysisPopulation": {
+          "id": "AnalysisPopulation_SAF",
+          "name": "SAF"
+        },
+        "interventions": [
+          {
+            "id": "StudyArm_1",
+            "name": "Torivumab",
+            "type": "Investigational Arm"
+          },
+          {
+            "id": "StudyArm_2",
+            "name": "Placebo",
+            "type": "Placebo Control Arm"
+          }
+        ],
+        "intercurrentEvents": [
+          {
+            "id": "IntercurrentEvent_E6",
+            "name": "E6-IE"
+          }
+        ],
+        "analysisSteps": [
+          {
+            "sequence": 1,
+            "basedOn": {
+              "transformationId": "T.CFB_ANCOVA"
+            },
+            "resolvedBindings": [
+              {
+                "concept": "Change",
+                "methodRole": "response",
+                "direction": "input",
+                "dataStructureRole": "measure",
+                "requiredValueType": "Quantity"
+              },
+              {
+                "concept": "Measure",
+                "methodRole": "covariate",
+                "direction": "input",
+                "dataStructureRole": "measure",
+                "requiredValueType": "Quantity",
+                "slice": "parameter_baseline",
+                "description": "Baseline value of the endpoint parameter"
+              },
+              {
+                "concept": "Treatment",
+                "methodRole": "fixed_effect",
+                "direction": "input",
+                "dataStructureRole": "dimension",
+                "requiredValueType": "CodeableConcept",
+                "qualifierType": "IntentType",
+                "qualifierValue": "Planned"
+              },
+              {
+                "concept": "Subject",
+                "methodRole": "partition",
+                "direction": "input",
+                "dataStructureRole": "dimension"
+              },
+              {
+                "concept": "Observation.Identification.Topic",
+                "methodRole": "constraint",
+                "direction": "input",
+                "dataStructureRole": "dimension",
+                "conceptCategory": "ParameterDimension"
+              },
+              {
+                "concept": "Visit",
+                "methodRole": "constraint",
+                "direction": "input",
+                "dataStructureRole": "dimension",
+                "conceptCategory": "VisitDimension"
+              }
+            ],
+            "resolvedSlices": [
+              {
+                "name": "endpoint",
+                "resolvedValues": {
+                  "Population": "SAF",
+                  "Treatment": "Torivumab vs Placebo"
+                }
+              },
+              {
+                "name": "parameter_baseline",
+                "resolvedValues": {
+                  "Observation.Identification.Topic": "{parameter}",
+                  "Visit": "Baseline"
+                }
+              }
+            ],
+            "resolvedExpression": {
+              "notation": "wilkinson_rogers",
+              "resolved": "Change ~ Measure@Parameter_baseline + Treatment"
+            },
+            "arsAnalysis": {
+              "analysisId": "ARS_T.CFB_ANCOVA_Endpoint_SAFETY_LAB"
+            }
+          }
+        ]
+      }
+    ],
+    "documentedBy": [
+      {
+        "id": "eSAP_Document",
+        "name": "electronic Statistical Analysis Plan",
+        "type": "eSAP",
+        "versions": [
+          {
+            "id": "eSAP_DocVersion_1",
+            "contents": [
+              {
+                "id": "eSAP_Section_abbreviations",
+                "name": "abbreviations",
+                "sectionNumber": "1",
+                "sectionTitle": "1. List of Abbreviations"
+              },
+              {
+                "id": "eSAP_Section_introduction",
+                "name": "introduction",
+                "sectionNumber": "2",
+                "sectionTitle": "2. Introduction"
+              },
+              {
+                "id": "eSAP_Section_objectives",
+                "name": "objectives",
+                "sectionNumber": "3",
+                "sectionTitle": "3. Study Objectives"
+              },
+              {
+                "id": "eSAP_Section_studyDesign",
+                "name": "studyDesign",
+                "sectionNumber": "4",
+                "sectionTitle": "4. Study Design"
+              },
+              {
+                "id": "eSAP_Section_protocolChanges",
+                "name": "protocolChanges",
+                "sectionNumber": "5",
+                "sectionTitle": "5. Changes in the Protocol"
+              },
+              {
+                "id": "eSAP_Section_estimands",
+                "name": "estimands",
+                "sectionNumber": "6",
+                "sectionTitle": "6. Estimands"
+              },
+              {
+                "id": "eSAP_Section_endpoints",
+                "name": "endpoints",
+                "sectionNumber": "7",
+                "sectionTitle": "7. Study Endpoints"
+              },
+              {
+                "id": "eSAP_Section_analysisSets",
+                "name": "analysisSets",
+                "sectionNumber": "8",
+                "sectionTitle": "8. Analysis Sets"
+              },
+              {
+                "id": "eSAP_Section_statMethods",
+                "name": "statMethods",
+                "sectionNumber": "9",
+                "sectionTitle": "9. Statistical Methods"
+              },
+              {
+                "id": "eSAP_Section_statAnalysis",
+                "name": "statAnalysis",
+                "sectionNumber": "10",
+                "sectionTitle": "10. Statistical Analysis"
+              },
+              {
+                "id": "eSAP_Section_software",
+                "name": "software",
+                "sectionNumber": "11",
+                "sectionTitle": "11. Computer Software"
+              },
+              {
+                "id": "eSAP_Section_references",
+                "name": "references",
+                "sectionNumber": "12",
+                "sectionTitle": "12. References"
+              },
+              {
+                "id": "eSAP_Section_shells",
+                "name": "shells",
+                "sectionNumber": "13",
+                "sectionTitle": "13. Table/Figure/Listing Shells"
+              },
+              {
+                "id": "eSAP_Section_appendices",
+                "name": "appendices",
+                "sectionNumber": "14",
+                "sectionTitle": "14. Appendices"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
