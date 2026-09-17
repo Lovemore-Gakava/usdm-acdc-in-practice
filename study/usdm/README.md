@@ -70,10 +70,19 @@ BCs attach to — all protocol.
 shipped Pilot's carry `reference: /mdr/bc/packages/2025-04-01/biomedicalconcepts/C28421` — and
 they attach to *activities* in the protocol's SoA. The SAP has no role.
 
-**One exception: `Estimand`.** TORIVA's protocol defers it. Synopsis line 834 lists
+**One exception: estimand content.** TORIVA's protocol defers it. Synopsis line 834 lists
 *"Define estimands per ICH E9(R1) … for OS, PFS, ORR separately"* as an **SAP deliverable**, and
-the estimands themselves exist only in SAP §13. So `Estimand_E1` here is the single object the
-protocol could not supply, and it says so on the object.
+the estimands themselves exist only in SAP §13. So the six `Estimand` objects here are what the
+protocol could not supply, and each says so on the object.
+
+> **Corrected 2026-09-17.** This said *"one exception: the `Estimand` class"* and *"`Estimand_E1`
+> is the single object the protocol could not supply"*. That was too narrow on both counts. It is
+> **estimand content** that is displaced, not one class, and it surfaces in USDM as two: the
+> `Estimand` objects, and two of the four `AnalysisPopulation` objects. `RESPEVAL` and
+> `RESPONDER` cite SAP §13.6 and §13.7, because they arrive through M11's **Population** element
+> `C70833` — itself an ICH E9(R1) estimand attribute — rather than from any population section of
+> the protocol. `ITT` and `SAF` are the protocol-native pair. The layering below is unchanged;
+> the exception is one category wider than stated.
 
 That is worth noticing rather than shrugging at. ICH E9(R1) intends estimands to be
 pre-specified in the protocol, and USDM models `Estimand` as study-definition content. A study

@@ -9,6 +9,9 @@
 > because §3, *the five ways this repository has actually been wrong*, is worth reading on its
 > own. Those five failure modes apply to any claim made here, including the ones made while
 > learning USDM and M11.
+>
+> **For the review that is in scope, see [`review-sheet.md`](review-sheet.md)** — three claims
+> from the stage work, selected by what a wrong answer would cost rather than by filing risk.
 
 
 Nothing in this repository has been reviewed by a human. This plan says what to review, in what
