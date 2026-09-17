@@ -36,10 +36,11 @@ The CDISC Pilot's ADAS-Cog endpoint is retained as a control, since it is alread
 
 **Out of scope:** adverse events (a different shape — event observations, counts, OCCDS rather than BDS) and the remaining five ADTTE parameters.
 
-## Three tiers, three failure modes
+## Why the lab tier
 
-The ladder was built to vary *difficulty*. What it actually produced was one tier failing at
-each of three successive gates — and **no tier passed all three.**
+The ladder was built to vary *difficulty*. What it actually did was show which tier could be
+carried to the finish line: each stops at a different one of three successive gates, and only
+one reaches the third.
 
 ```mermaid
 flowchart TD
