@@ -46,7 +46,7 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `docs/review-plan.md` | 2026-09-16 | AI | Not yet — and it is the document that ends that |
 | `NORTH.md` | 2026-09-16 | Destination sentence: **LG**. Finish line, test and prose: AI | Destination confirmed by LG |
 | `study/usdm/toriva-lung-301.usdm.json`, `study/usdm/README.md` | 2026-09-16 | AI, from TORIVA's protocol synopsis and SAP §2 | Not yet |
-| `study/m11/protocol-to-m11.md` (headline claim; review-sheet item 2a) | 2026-09-16 | AI, from the merged electronic ICH M11 v0.17.0 and TORIVA's protocol synopsis | Not yet |
+| `study/m11/protocol-to-m11.md` (headline claim; review-sheet item 2a) | 2026-09-16 | AI, from the merged electronic ICH M11 v0.17.0 and TORIVA's protocol synopsis | **Headline judgement: LG, 2026-09-18.** Count corrected 30 → 25 by the model the same day. Rest not yet |
 | `study/m11/protocol/section-00-title-page.md`, `study/m11/protocol/section-03-objectives-endpoints.md`, `study/m11/protocol/section-12-01-clinical-laboratory-tests.md`, `study/m11/protocol/README.md` | 2026-09-16 | AI. **A derived work** — TORIVA's protocol §2/§6 and SAP §13 restructured to M11 §3. No estimand content invented; every attribute transcribed and cited | Not yet |
 | `CLAUDE.md` | 2026-09-16 | AI | Not yet |
 | — Issues 1–5 restructured requirement-first | 2026-09-16 | AI | Not yet — Issue 4 is a Tier 1 item, the rest Tier 2 |
@@ -304,7 +304,7 @@ AI's reasoning from verified facts, not themselves verified:
 
 ## 7. Limitations and open provenance items
 
-**7.1 Nothing here has been human-reviewed.** The findings assert errors in a third party's
+**7.1 Nothing here has been human-reviewed** — with one exception since 2026-09-18: the M11 headline's central judgement (review-sheet item 2a) is LG's, and the mechanical falsifiers of items 2 and 3 were checked by the model against the sources, which is verification, not review. Everything else stands as written below. The findings assert errors in a third party's
 public repository and five were drafted as public issues — **now parked, and not being filed**
 (`docs/findings/upstream-issues.md`). The warning below stands as a statement about this
 repository's reliability, not as a gate on a pending action.
