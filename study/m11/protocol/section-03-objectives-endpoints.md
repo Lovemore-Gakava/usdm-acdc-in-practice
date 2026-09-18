@@ -69,7 +69,7 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 |---|---|
 | **Secondary Objective** `C85827` | To compare the Objective Response Rate (ORR) (complete response [CR] + partial response [PR]) between treatment arms per RECIST 1.1 by BICR. *(protocol §2.2)* |
 | **Secondary Endpoint** `C25212` | Proportion of patients with best overall response of CR or PR. Confirmation requires a second CR or PR at a subsequent assessment ≥28 days later with no intervening PD. *(protocol §6; SAP §4.3)* |
-| **Secondary Population** `C70833` | Response Evaluable — ITT with ≥1 post-baseline tumour assessment, or clinical progression before first assessment (`EFFFL = "Y"` on ADRS). *(SAP §13.6)* |
+| **Secondary Population** `C70833` | Response Evaluable — ITT with ≥1 post-baseline tumour assessment, or clinical progression before first assessment (`EFFFL = "Y"` on ADRS). *(Protocol §8.2; ADaM flag per SAP §13.6)* |
 | **Secondary Treatment** `C49236` | As §3.0. |
 | **Secondary Population-level Summary** `C188853` | Stratified Mantel–Haenszel **risk difference** (torivumab − placebo) with 95% CI; strata = histology × region. Supplementary per-arm Clopper–Pearson exact 95% CI for the proportion. *(SAP §13.6)* |
 | **Secondary Intercurrent Event Strategy** `C188857` | **Composite** — the intercurrent event is incorporated into the variable by counting the subject as a non-responder. *(SAP §13.6)* |
@@ -81,7 +81,7 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 |---|---|
 | **Secondary Objective** `C85827` | To evaluate the Duration of Response (DoR) in responders in each treatment arm. *(protocol §2.2)* |
 | **Secondary Endpoint** `C25212` | Time from first documented CR or PR to first documented disease progression or death from any cause, in responding patients. *(protocol §6)* |
-| **Secondary Population** `C70833` | Confirmed responders only (subset of Response Evaluable). *(SAP §13.7)* |
+| **Secondary Population** `C70833` | Confirmed responders only (subset of Response Evaluable). *(Named in protocol analysis table; defined SAP §13.7)* |
 | **Secondary Treatment** `C49236` | As §3.0. |
 | **Secondary Population-level Summary** `C188853` | Kaplan–Meier median per arm with 95% CI. No formal between-arm hypothesis test; descriptive / hypothesis-generating. *(SAP §13.7)* |
 | **Secondary Intercurrent Event Strategy** `C188857` | As PFS — **hypothetical** for subsequent therapy and for missed assessments. *(SAP §13.7, §13.3)* |
@@ -93,7 +93,7 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 |---|---|
 | **Secondary Objective** `C85827` | To compare the Disease Control Rate (DCR) (CR + PR + stable disease [SD]) between treatment arms. *(protocol §2.2)* |
 | **Secondary Endpoint** `C25212` | Proportion of patients with best overall response of CR, PR, or SD maintained ≥8 weeks from randomisation. *(protocol §6)* |
-| **Secondary Population** `C70833` | Response Evaluable, as §3.2.2. *(SAP §13.7)* |
+| **Secondary Population** `C70833` | Response Evaluable, as §3.2.2. *(Protocol §8.2)* |
 | **Secondary Treatment** `C49236` | As §3.0. |
 | **Secondary Population-level Summary** `C188853` | Same structure as ORR — stratified Mantel–Haenszel risk difference with 95% CI. *(SAP §13.7)* |
 | **Secondary Intercurrent Event Strategy** `C188857` | **Composite**, as ORR. *(SAP §13.7)* |
@@ -142,6 +142,6 @@ and defines no estimands, so Population-level Summary and Intercurrent Event Str
 | §3.2.1 Secondary Objective ×5 | 7 each | **7 each** | — |
 | §3.3.1 Exploratory Objective ×5 | 6 each | 3 each | source defines no exploratory estimands |
 
-**Thirty required elements that the source protocol omitted are now present**, all transcribed
+**Twenty-five required elements *(thirty until the 2026-09-18 review; M11 makes the secondary population Optional)* that the source protocol omitted are now present**, all transcribed
 from SAP §13 rather than written. Two absences remain and are properties of the source, not of
 this restructure: no laboratory estimand (D11), and no exploratory estimands.

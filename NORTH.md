@@ -68,8 +68,9 @@ protocol had omitted.
 **Stage 0 — protocol mapped to ICH M11 elements. Done 2026-09-16.**
 [`study/m11/protocol-to-m11.md`](study/m11/protocol-to-m11.md). The headline: **M11 §3.1.1
 requires the estimand in the protocol** — five of its seven required elements are ICH E9(R1)
-estimand attributes — and TORIVA defers all five to the SAP, failing thirty required elements
-across six objectives. That independently confirms, and makes countable, what stage 1 found
+estimand attributes — and TORIVA defers all five to the SAP, failing twenty-five required elements
+across six objectives *(thirty until the 2026-09-18 review: M11 makes the secondary population
+Optional)*. That independently confirms, and makes countable, what stage 1 found
 from the USDM side. Everything M11 wants exists somewhere in TORIVA's document set; none of it
 is missing, all of it is misplaced.
 

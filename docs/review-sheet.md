@@ -1,6 +1,8 @@
 # Review sheet — three claims to check before stage 5
 
-Written 2026-09-17, for LG, to be worked through offline.
+Written 2026-09-17, for LG, to be worked through offline. **Worked through 2026-09-18 by the model**, at
+LG's request, for the falsifiers that are mechanical; what remains for LG is one judgement (2a's
+"in practice" half) and reading the verdicts.
 
 This is **not** [`review-plan.md`](review-plan.md), which is parked. That plan is ordered by
 filing risk — its Tier 1 is titled *"blocks filing Issue 4"* — and since nothing is being filed,
@@ -132,9 +134,9 @@ place and is the reason 3a is now the sharp question rather than a general one.
 
 | Item | Verdict | Date | Notes |
 |---|---|---|---|
-| 1 — baseline result (falsifiers 1a–1d) | | | |
-| 2 — M11 estimand claim (2a–2d) | | | |
-| 3 — layering (3a–3b) | | | |
+| 1 — baseline result (falsifiers 1a–1d) | withdrawn | 2026-09-17 | Answered by stage 6 in numbers; see banner |
+| 2 — M11 estimand claim (2a–2d) | **narrower than stated** | 2026-09-18 | **2b fires**: `secondary_population` is Optional in the spec, so §3.2.1 has four Required attributes and the count is **25, not 30**. 2c holds (1 primary + 5 secondary, no exploratory). 2d holds (codes confirmed; one secondary page carries no code). **2a**: the M11 text has no by-reference provision for these elements — the only SAP mention is §10's *"whether a separate statistical analysis plan exists"* — so on the text the claim holds; whether a reviewer would accept a cross-reference in practice is outside the spec and left to LG. Checked by the model against the spec pages, not by LG |
+| 3 — layering (3a–3b) | **holds** | 2026-09-18 | **3a**: ITT, Safety *and Response Evaluable* are defined in protocol §8.2; responders are named there. The 09-17 correction was itself too wide; the fragment's citations were the error and are fixed. 3b: no other USDM class is sourced from the SAP (objective/endpoint descriptions *cross-reference* it for hypotheses, by design). Checked by the model, not by LG |
 
 Use **holds / narrower than stated / wrong**. "Narrower than stated" is the most likely outcome
 and has been the right verdict five times already — record *how much* narrower, in the source

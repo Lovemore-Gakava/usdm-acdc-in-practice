@@ -27,8 +27,15 @@ attributes:
 | **Intercurrent Event Strategy** | `C188857` | ❌ **absent** |
 | **Description of Intercurrent Event** | `C188856` | ❌ **absent** |
 
-The same five repeat under **§3.2.1** for each secondary objective (7 Required) and **§3.3.1**
-for exploratory (6 Required).
+The same five exist under **§3.2.1** for each secondary objective and **§3.3.1** for exploratory —
+but not all of them Required there.
+
+> **Corrected 2026-09-18, on review (review-sheet item 2b).** The merged spec's own element pages
+> give `secondary_population` the status **Optional**, and `exploratory_population` and
+> `exploratory_intercurrent_event_strategy` likewise. So §3.1.1 carries five Required estimand
+> attributes, **§3.2.1 carries four**, and §3.3.1 three. Two smaller things from the same pages:
+> the per-objective scoping *is* the spec's (cardinality *"3.2.X where X is a unique number"*),
+> and `secondary_description_of_intercurrent_event` carries no CDISC code on its page.
 
 All five exist — in **SAP §13**. In the protocol the words *"intercurrent"* and
 *"population-level summary"* each occur exactly once, both inside a single row of a
@@ -37,9 +44,10 @@ lists
 *"Define estimands per ICH E9(R1): target population, variable, population-level summary,
 intercurrent event handling strategy … for OS, PFS, ORR separately"* as an **SAP deliverable**.
 
-So TORIVA's protocol fails M11 §3 on **five required elements per objective, across six
-objectives — thirty required elements**, all of which the sponsor has written, in the wrong
-document for M11.
+So TORIVA's protocol fails M11 §3 on **five required elements for the primary objective and four
+for each of five secondary objectives — twenty-five required elements** *(originally stated as
+thirty; see the correction above)*, all of which the sponsor has written, in the wrong document
+for M11.
 
 **This independently confirms what the USDM side showed.** `study/usdm/README.md` recorded that
 `Estimand` is the one USDM class the protocol could not supply. M11 says the same thing from

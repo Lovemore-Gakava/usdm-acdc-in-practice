@@ -712,7 +712,7 @@
                 "id": "AnalysisPopulation_RESPEVAL",
                 "name": "RESPEVAL",
                 "label": "Response Evaluable",
-                "text": "ITT with at least one post-baseline tumour assessment, or clinical progression before first assessment (EFFFL = Y on ADRS). SAP section 13.6.",
+                "text": "All patients in the ITT population with at least one post-baseline tumour assessment, or clinical progression before the first post-baseline assessment. Protocol section 8.2 (Response Evaluable Population). ADaM realisation EFFFL = Y on ADRS per SAP section 13.6.",
                 "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md.",
                 "instanceType": "AnalysisPopulation"
               },
@@ -720,7 +720,7 @@
                 "id": "AnalysisPopulation_RESPONDER",
                 "name": "RESPONDER",
                 "label": "Confirmed responders",
-                "text": "Confirmed responders only, a subset of Response Evaluable. SAP section 13.7.",
+                "text": "Confirmed responders only, a subset of Response Evaluable. Named by the protocol (DoR analysis restricted to responders, protocol analysis table); defined in SAP section 13.7.",
                 "description": "Derived from study/m11/protocol/section-03-objectives-endpoints.md.",
                 "instanceType": "AnalysisPopulation"
               }

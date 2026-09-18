@@ -54,7 +54,7 @@ have been a fiction about what the sponsor specified, and the gaps are the inter
 
 ## What §3 achieved
 
-**Thirty required elements** that the source protocol omitted — Population, Treatment,
+**Twenty-five required elements** *(thirty until the 2026-09-18 review — M11 makes the secondary population Optional)* that the source protocol omitted — Population, Treatment,
 Population-level Summary, Intercurrent Event Strategy and Description of Intercurrent Event,
 across six objectives — are now present in the protocol, where M11 §3.1.1 and §3.2.1 require
 them. All thirty existed in SAP §13 already.

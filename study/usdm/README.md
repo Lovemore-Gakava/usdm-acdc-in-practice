@@ -83,6 +83,15 @@ protocol could not supply, and each says so on the object.
 > `C70833` — itself an ICH E9(R1) estimand attribute — rather than from any population section of
 > the protocol. `ITT` and `SAF` are the protocol-native pair. The layering below is unchanged;
 > the exception is one category wider than stated.
+>
+> **Corrected again 2026-09-18, on review (review-sheet item 3a).** The paragraph above is itself
+> too wide. TORIVA's protocol defines the Response Evaluable population at **§8.2**, alongside
+> ITT, Safety and Per-Protocol, and names the responder set in its analysis table. The fragment's
+> `RESPEVAL` and `RESPONDER` objects cited SAP §13.6/§13.7 because *I* took them from there — a
+> citation error in the fragment, not a property of the study. Corrected in the fragment and in
+> `study/m11/protocol/section-03-objectives-endpoints.md`. So three of the four populations are
+> protocol-native and the fourth is protocol-named; the exception is the estimand attributes and
+> nothing else. The layering holds as first written.
 
 That is worth noticing rather than shrugging at. ICH E9(R1) intends estimands to be
 pre-specified in the protocol, and USDM models `Estimand` as study-definition content. A study
