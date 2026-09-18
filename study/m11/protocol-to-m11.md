@@ -36,6 +36,10 @@ but not all of them Required there.
 > attributes, **§3.2.1 carries four**, and §3.3.1 three. Two smaller things from the same pages:
 > the per-objective scoping *is* the spec's (cardinality *"3.2.X where X is a unique number"*),
 > and `secondary_description_of_intercurrent_event` carries no CDISC code on its page.
+>
+> **Whether deferral to the SAP could satisfy these elements** was the one judgement left to LG,
+> and LG's answer (2026-09-18) closes it: the SAP is written after the protocol, so a Required
+> protocol element cannot be met by pointing at it. *Fails* is the right word.
 
 All five exist — in **SAP §13**. In the protocol the words *"intercurrent"* and
 *"population-level summary"* each occur exactly once, both inside a single row of a

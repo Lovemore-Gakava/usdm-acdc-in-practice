@@ -1,8 +1,8 @@
 # Review sheet — three claims to check before stage 5
 
 Written 2026-09-17, for LG, to be worked through offline. **Worked through 2026-09-18 by the model**, at
-LG's request, for the falsifiers that are mechanical; what remains for LG is one judgement (2a's
-"in practice" half) and reading the verdicts.
+LG's request, for the falsifiers that are mechanical; 2a was LG's, and is given: the SAP comes
+after the protocol, so deferral to it cannot satisfy a Required element. Nothing remains open.
 
 This is **not** [`review-plan.md`](review-plan.md), which is parked. That plan is ordered by
 filing risk — its Tier 1 is titled *"blocks filing Issue 4"* — and since nothing is being filed,
@@ -135,7 +135,7 @@ place and is the reason 3a is now the sharp question rather than a general one.
 | Item | Verdict | Date | Notes |
 |---|---|---|---|
 | 1 — baseline result (falsifiers 1a–1d) | withdrawn | 2026-09-17 | Answered by stage 6 in numbers; see banner |
-| 2 — M11 estimand claim (2a–2d) | **narrower than stated** | 2026-09-18 | **2b fires**: `secondary_population` is Optional in the spec, so §3.2.1 has four Required attributes and the count is **25, not 30**. 2c holds (1 primary + 5 secondary, no exploratory). 2d holds (codes confirmed; one secondary page carries no code). **2a**: the M11 text has no by-reference provision for these elements — the only SAP mention is §10's *"whether a separate statistical analysis plan exists"* — so on the text the claim holds; whether a reviewer would accept a cross-reference in practice is outside the spec and left to LG. Checked by the model against the spec pages, not by LG |
+| 2 — M11 estimand claim (2a–2d) | **narrower than stated** | 2026-09-18 | **2b fires**: `secondary_population` is Optional in the spec, so §3.2.1 has four Required attributes and the count is **25, not 30**. 2c holds (1 primary + 5 secondary, no exploratory). 2d holds (codes confirmed; one secondary page carries no code). **2a**: the M11 text has no by-reference provision for these elements — the only SAP mention is §10's *"whether a separate statistical analysis plan exists"* — so on the text the claim holds. **2a resolved by LG, 2026-09-18:** the SAP is written *after* the protocol, so a Required protocol element cannot be satisfied by deferring to it — deferral is omission, not cross-reference. The claim holds in full, at 25. 2b–2d checked by the model against the spec pages; 2a is LG's verdict |
 | 3 — layering (3a–3b) | **holds** | 2026-09-18 | **3a**: ITT, Safety *and Response Evaluable* are defined in protocol §8.2; responders are named there. The 09-17 correction was itself too wide; the fragment's citations were the error and are fixed. 3b: no other USDM class is sourced from the SAP (objective/endpoint descriptions *cross-reference* it for hypotheses, by design). Checked by the model, not by LG |
 
 Use **holds / narrower than stated / wrong**. "Narrower than stated" is the most likely outcome
