@@ -7,6 +7,9 @@ ICH M11, USDM v4.0 and the CDISC AC/DC framework — BC to DC to AC — learned 
 **Start with [`NORTH.md`](NORTH.md)** — the destination, the nine-stage finish line, and the
 test any piece of work has to pass. **All nine stages are done**, on one endpoint.
 
+**New to USDM, M11 or AC/DC?** Read [`docs/vignette.md`](docs/vignette.md) first — the whole
+traverse in plain terms, with the three letters explained and every artefact linked.
+
 ## What this is
 
 CDISC's [`cdisc-org/analysis-concepts`](https://github.com/cdisc-org/analysis-concepts) implements the AC/DC framework: an Observation / Derivation / Analysis Concept model, 60 methods, a transformation library, an eSAP model and a working browser-based builder with in-browser R execution.
@@ -104,6 +107,7 @@ reasoning.
 ├── docs/
 │   ├── specification.md             the original plan — §2 superseded by NORTH.md
 │   ├── method.md                    how claims are verified, and the two surfaces
+│   ├── vignette.md                  the whole traverse in plain terms — start here if new
 │   ├── review-plan.md               ⏸ parked — planned a review of the parked issues
 │   └── findings/
 │       ├── README.md                index and status of F01–F13

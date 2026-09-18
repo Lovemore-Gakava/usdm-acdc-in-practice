@@ -22,9 +22,11 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 
 **Reached 2026-09-17, on laboratory change from baseline.**
 
-**What comes next is undecided.** LG deferred the decision on 2026-09-18. Until it is made, the
-test still applies and no stage exists to advance: do not start a second endpoint, a re-authoring,
-or a write-up on the strength of this file. Ask.
+**Decided 2026-09-18: write the explanation.** LG asked for the plain-language walkthrough as a
+vignette, which is the second of the four options that were on the table (freeze; write the
+explanation; re-author the lab tier cleanly; a second endpoint). It is the *explain* half of the
+destination, and it is written: [`docs/vignette.md`](docs/vignette.md). No further stage exists;
+anything after this is a new decision.
 
 <!-- north:status -->
 
