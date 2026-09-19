@@ -25,8 +25,14 @@ Done means all nine green, on at least one endpoint. Nothing else counts as fini
 **Decided 2026-09-18: write the explanation.** LG asked for the plain-language walkthrough as a
 vignette, which is the second of the four options that were on the table (freeze; write the
 explanation; re-author the lab tier cleanly; a second endpoint). It is the *explain* half of the
-destination, and it is written: [`docs/vignette.md`](docs/vignette.md). No further stage exists;
-anything after this is a new decision.
+destination, and it is written: [`docs/vignette.md`](docs/vignette.md).
+
+**Decided 2026-09-19: a second endpoint.** Systolic blood pressure, change from baseline, by
+MMRM — chosen because it is new on three axes at once (a vital-signs BC, the ADVS dataset, and
+`M.MMRM` with every visit as the repeated factor) and because it composes: `T.CFB_MMRM_Primary`
+exists in the library. Its finish line is the second table below; the checker scores it from
+`endpoints/04-vitals-cfb-mmrm/`, M11 §8.4.2 and BC `C25298` only, so it cannot inherit the
+lab tier's rows.
 
 <!-- north:status -->
 
@@ -47,6 +53,31 @@ anything after this is a new decision.
 This table is **verified against the filesystem** by `tools/check_consistency.py`, which the
 pre-commit hook runs. It cannot quietly say ✓ for something that has not happened, and the
 scoreboard prints on every commit.
+
+### Endpoint 2 — systolic blood pressure, change from baseline, MMRM
+
+<!-- north:status:vitals -->
+
+| # | Stage | Status |
+|---|---|---|
+| 0 | Protocol mapped to ICH M11 elements | ✓ |
+| 0b | Protocol restructured to M11, USDM regenerated from it | ✗ |
+| 1 | USDM fragments hand-authored | ✗ |
+| 2 | BC linked on the chain's terminals | ✗ |
+| 3 | DC — derivation authored | ✗ |
+| 4 | AC — analysis bound | ✗ |
+| 5 | eSAP generated | ✗ |
+| 6 | Executed, a real result produced | ✗ |
+| 7 | Compared against built ADaM | ✗ |
+
+<!-- /north:status:vitals -->
+
+Stage 0 for this endpoint is M11 **§8.4.2 Vital Signs** — one Required element, mapped in
+`study/m11/protocol-to-m11.md` on 2026-09-19: TORIVA supplies the schedule and the list of
+measurements, and no text of collection procedures. Stage 0b is a `section-08-04-02-vital-signs.md`
+under `study/m11/protocol/` and the USDM regenerated to cite it; stage 1 is the BC `C25298` in
+the fragment; stages 2–7 live in `endpoints/04-vitals-cfb-mmrm/`. The reference for stage 7 is
+an MMRM fitted in local R (`mmrm` 4.6), since Python has no equivalent.
 
 ## The route
 

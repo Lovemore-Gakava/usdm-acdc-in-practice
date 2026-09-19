@@ -6,7 +6,8 @@
 TORIVA's protocol is **not** M11-structured, so this is a mapping, not a re-format. Scoped to
 the sections that feed the endpoint being carried: **Title Page**, **§3 objectives and
 endpoints**, **§8.4.4 / §12.1 clinical laboratory**. That is 83 of M11's 303 elements, 40 of
-them Required.
+them Required. **§8.4.2 vital signs** was added on 2026-09-19 for the second endpoint
+(one further Required element, mapped below).
 
 Full protocol digitisation remains a non-goal (`docs/specification.md` §13).
 
@@ -152,6 +153,28 @@ those seven as `BiomedicalConcept`s. M11 says the protocol should have specified
 and it does not, so the USDM BCs are sourced from a programming spec. Recorded, not hidden.
 
 ---
+
+## §8.4.2 Vital Signs — 1 Required *(added 2026-09-19, second endpoint)*
+
+Scoped in for the second endpoint — systolic blood pressure, change from baseline — under the
+same rule as §12.1: map only the M11 section that feeds the endpoint being carried.
+
+M11 **§8.4.2 Vital Signs** is a single Required element (`C154628`, data type Text, cardinality
+one-to-one, conformance *"Conditional: when Vital Signs are required"*). Its guidance:
+*"Include any specific instructions for the collection and interpretation of vital signs."*
+
+| M11 asks for | TORIVA protocol | |
+|---|---|---|
+| That vital signs are collected, and when | SoA row (synopsis line 504): Screening ✓, cycle visits *"Pre/post-infusion"*, EOT ✓, follow-up ✓ | ✅ timing |
+| Which measurements | Data-domain table (line 808): *"BP, HR, temperature, weight, height"* → `VS` | ✅ list |
+| Instructions for collection and interpretation | **none** — §7 SAFETY ASSESSMENTS carries the SoA and the domain list and no procedure text (position, rest period, cuff, repeat rules, clinically-significant criteria) | ❌ absent |
+
+So the element is **supplied in part**: M11 wants a text describing procedures, and TORIVA gives
+a schedule and a list. Nothing in the SAP fills the gap either — the SAP names `ADVS` among the
+datasets required (line 841) and specifies no vital-signs analysis, which is the laboratory
+situation (D11) again. For the traverse this is enough: the BC (systolic blood pressure) attaches
+to the scheduled assessment, and the analysis is the one this project chooses, not one TORIVA
+specifies.
 
 ## Where this disagrees with stage 1
 

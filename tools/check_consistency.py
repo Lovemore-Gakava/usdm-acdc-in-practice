@@ -370,12 +370,47 @@ def _specs(chains: list[dict]) -> list[dict]:
     return [sp for c in chains for sp in (c.get("endpointSpecs") or {}).values()]
 
 
-def north_stages(root: Path) -> list[tuple[str, str, bool]]:
-    """The stages of NORTH.md's finish line, each computed from the repository."""
-    chains = _chains(root)
+# Per-endpoint definitions of the finish line. NORTH.md's unnamed status block
+# is the first endpoint, whose stages 0, 0b and 1 were defined study-wide before
+# a second endpoint existed. A named block (<!-- north:status:NAME -->) is scoped
+# to its own endpoint directory, M11 section, restructured protocol file and BC
+# code, so a second endpoint cannot inherit the first one's green rows.
+ENDPOINTS: dict[str, dict] = {
+    "": {"dir": None, "m11_mark": None, "protocol_file": None, "bc_code": None},
+    "vitals": {
+        "dir": "04-vitals-cfb-mmrm",
+        "m11_mark": "8.4.2",
+        "protocol_file": "section-08-04-02-vital-signs.md",
+        "bc_code": "C25298",
+    },
+}
+
+
+def north_stages(root: Path, name: str = "") -> list[tuple[str, str, bool]]:
+    """The stages of NORTH.md's finish line, each computed from the repository.
+
+    `name` selects the endpoint (see ENDPOINTS). The unnamed endpoint keeps the
+    original study-wide definitions; a named one is scoped to its own files.
+    """
+    ep = ENDPOINTS[name]
+    ep_glob = f"{ep['dir']}/" if ep["dir"] else "*/"
+    chains = [c for f in sorted((root / "endpoints").glob(ep_glob + "chain.json"))
+              for c in [_load_json(f)] if c is not None]
     specs = _specs(chains)
 
     m11 = root / "study" / "m11"
+    usdm_text = "".join(
+        f.read_text(encoding="utf-8", errors="replace")
+        for f in (root / "study" / "usdm").iterdir() if f.is_file()
+    ) if (root / "study" / "usdm").is_dir() else ""
+    if ep["m11_mark"]:
+        mapping = m11 / "protocol-to-m11.md"
+        stage0 = mapping.is_file() and ep["m11_mark"] in mapping.read_text(encoding="utf-8", errors="replace")
+        prot_file = m11 / "protocol" / ep["protocol_file"]
+        stage0b = prot_file.is_file() and ep["protocol_file"] in usdm_text
+        stage1 = ep["bc_code"] in usdm_text
+        return _north_rows(root, ep_glob, specs, stage0, stage0b, stage1)
+
     stage0 = m11.is_dir() and any(m11.iterdir())
 
     # 0b: the protocol restructured to M11, AND the USDM regenerated from it.
@@ -393,7 +428,18 @@ def north_stages(root: Path) -> list[tuple[str, str, bool]]:
 
     usdm = root / "study" / "usdm"
     stage1 = usdm.is_dir() and any(usdm.iterdir())
+    return _north_rows(root, ep_glob, specs, stage0, stage0b, stage1)
 
+
+def _load_json(f: Path):
+    try:
+        return json.loads(f.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def _north_rows(root: Path, ep_glob: str, specs: list[dict],
+                stage0: bool, stage0b: bool, stage1: bool) -> list[tuple[str, str, bool]]:
     def linked(sp: dict) -> bool:
         if sp.get("linkedBCIds"):
             return True
@@ -402,8 +448,8 @@ def north_stages(root: Path) -> list[tuple[str, str, bool]]:
     stage2 = any(linked(sp) for sp in specs)
     stage3 = any(sp.get("derivationChain") or sp.get("selectedDerivations") for sp in specs)
     stage4 = any(sp.get("selectedTransformationOid") for sp in specs)
-    stage5 = any((root / "endpoints").glob("*/esap*"))
-    stage6 = any((root / "endpoints").glob("*/results*"))
+    stage5 = any((root / "endpoints").glob(ep_glob + "esap*"))
+    stage6 = any((root / "endpoints").glob(ep_glob + "results*"))
 
     # Stage 7 is "compared against built ADaM", inside a finish line whose stage 6
     # is "executed, a real result produced". So what is compared is the RESULT.
@@ -411,7 +457,7 @@ def north_stages(root: Path) -> list[tuple[str, str, bool]]:
     # and not what the row claims. This was green from 2026-09-16 to 2026-09-17 on
     # the weaker test, while the stronger one had never been attempted, which is
     # precisely the quiet lie the scoreboard exists to prevent.
-    stage7 = any((root / "endpoints").glob("*/comparison.md")) and stage6
+    stage7 = any((root / "endpoints").glob(ep_glob + "comparison.md")) and stage6
 
     return [
         ("0",  "Protocol mapped to ICH M11 elements", stage0),
@@ -438,31 +484,57 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
                         "NORTH.md is missing — it is the project's destination and the "
                         "only statement of what 'done' means")]
 
-    stated: dict[str, tuple[int, bool]] = {}
+    # Rows count only inside a marker block: <!-- north:status --> for the first
+    # endpoint, <!-- north:status:NAME --> for a named one. Two tables with the
+    # same stage numbers would otherwise overwrite each other.
+    stated: dict[str, dict[str, tuple[int, bool]]] = {}
     row = re.compile(r"^\|\s*([0-9][a-z]?)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
+    open_mark = re.compile(r"<!--\s*north:status(?::([A-Za-z0-9_-]+))?\s*-->")
+    close_mark = re.compile(r"<!--\s*/north:status")
+    block: str | None = None
+    problems: list[Problem] = []
     for i, line in enumerate(lines, 1):
+        m = open_mark.search(line)
+        if m:
+            block = m.group(1) or ""
+            if block not in ENDPOINTS:
+                problems.append(Problem("NORTH.md", i,
+                                        f"status block {block!r} is not a known endpoint "
+                                        f"(tools/check_consistency.py ENDPOINTS)"))
+            stated.setdefault(block, {})
+            continue
+        if close_mark.search(line):
+            block = None
+            continue
+        if block is None or block not in ENDPOINTS:
+            continue
         m = row.match(line)
         if not m:
             continue
         num, mark = m.group(1), m.group(3).strip().lower()
         if mark in TRUE_MARKS:
-            stated[num] = (i, True)
+            stated[block][num] = (i, True)
         elif mark in FALSE_MARKS:
-            stated[num] = (i, False)
+            stated[block][num] = (i, False)
 
-    problems: list[Problem] = []
-    for num, label, actual in north_stages(root):
-        if num not in stated:
-            problems.append(Problem("NORTH.md", 0,
-                                    f"stage {num} ({label}) has no row in the status table"))
+    if "" not in stated:
+        problems.append(Problem("NORTH.md", 0, "no <!-- north:status --> block found"))
+    for name, rows in stated.items():
+        if name not in ENDPOINTS:
             continue
-        line_no, claimed = stated[num]
-        if claimed != actual:
-            problems.append(Problem(
-                "NORTH.md", line_no,
-                f"stage {num} ({label}) is marked "
-                f"{'done' if claimed else 'not done'} but the filesystem says "
-                f"{'done' if actual else 'not done'}"))
+        tag = f" [{name}]" if name else ""
+        for num, label, actual in north_stages(root, name):
+            if num not in rows:
+                problems.append(Problem("NORTH.md", 0,
+                                        f"stage {num}{tag} ({label}) has no row in its status table"))
+                continue
+            line_no, claimed = rows[num]
+            if claimed != actual:
+                problems.append(Problem(
+                    "NORTH.md", line_no,
+                    f"stage {num}{tag} ({label}) is marked "
+                    f"{'done' if claimed else 'not done'} but the filesystem says "
+                    f"{'done' if actual else 'not done'}"))
     return problems
 
 
@@ -558,14 +630,19 @@ def main() -> int:
     problems += sub_problems
     problems += check_north(root, files)
 
-    stages = north_stages(root)
-    done = sum(1 for _, _, ok in stages if ok)
-    print()
-    print(f"NORTH — finish line: {done} of {len(stages)} stages")
-    for num, label, ok in stages:
-        print(f"  [{'x' if ok else ' '}] {num}. {label}")
-    if done < len(stages):
-        print("  → the test: which numbered stage does the next piece of work advance?")
+    north_text = "\n".join(files.get("NORTH.md", []))
+    for name in ENDPOINTS:
+        marker = "<!-- north:status" + (f":{name}" if name else "") + " -->"
+        if marker not in north_text:
+            continue
+        stages = north_stages(root, name)
+        done = sum(1 for _, _, ok in stages if ok)
+        print()
+        print(f"NORTH — finish line{' [' + name + ']' if name else ''}: {done} of {len(stages)} stages")
+        for num, label, ok in stages:
+            print(f"  [{'x' if ok else ' '}] {num}. {label}")
+        if done < len(stages):
+            print("  → the test: which numbered stage does the next piece of work advance?")
     print()
 
     print(f"truth:   {n_findings} findings, {n_issues} drafted issues, "
