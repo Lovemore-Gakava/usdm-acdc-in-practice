@@ -74,8 +74,25 @@ The terminal picker listed all eight study BCs for every measure terminal, the n
 three times over. `Endpoint.biomedicalConceptIds` still is not consulted (lab tier L5): the
 endpoint says SYSBP and the picker offers the seven lab tests beside it.
 
+### V4 — step 8 cannot run it: `M.MMRM` has no R implementation *(stage 6, 2026-09-19)*
+
+With ADSL and ADVS loaded (450 and 52,920 rows), the dataset set to `advs`, `TRT01P`, `SAFFL = Y`,
+no treatment filter and the covariate bound to `BASE`, Execute returned at once:
+**`No R implementation available for M.MMRM`**. The registry confirms it:
+`lib/method_implementations/r_implementations.json` at `739344c` carries 19 R implementations —
+`M.ANCOVA`, `M.Subtraction`, `M.WindowedVisitAssignment`, the descriptive statistics and tests —
+and no `M.MMRM`; the SAS registry (11) has none either. So the library ships the MMRM *template*
+and the *method*, the builder authors the chain and generates the eSAP, and the execution layer
+has nothing to run it with.
+
+This blocks stage 6 for this endpoint, and therefore stage 7. It is the same shape as F13 one
+layer down — method ≠ transformation ≠ builder, and now ≠ implementation — recorded here in the
+log rather than as a fourteenth finding, because it blocked a stage being actively completed and
+two paragraphs is what that gets. What happens next is a decision, not authoring.
+
 ## What this endpoint cost, in one line (so far)
 
 **Zero authoring, thirteen decisions of which nine were repeats, two bindings resolved by hand
 because the app's own rule was not applied on the path taken, and a chain that reached the
-eSAP with no single-visit choice.** Execution and comparison follow.
+eSAP with no single-visit choice — and cannot be executed at `739344c`, because `M.MMRM` has no
+R implementation (V4).**
