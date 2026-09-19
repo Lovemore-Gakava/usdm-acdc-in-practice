@@ -66,9 +66,15 @@ entry cannot be reached through the UI.
 ## What LG decides before filing
 
 - The **form**: a pull request adding the entry (and, if wanted, the V1 change), or an issue
-  offering it. Check upstream's contribution guidance first; at `739344c` the repository carries
-  no `CONTRIBUTING.md` (verified 2026-09-19).
-- The **licence line**: upstream is MIT and CC BY 4.0; the entry can carry either.
+  offering it. Upstream's guidance at `739344c` — `CONTRIBUTING.md`, sixteen lines, and README
+  §Contribution — says contribution is welcome, that the Code of Conduct applies, and that
+  **whatever is committed is under the repository's licences: MIT for code and scripts, CC BY 4.0
+  for documents**, with other licences not accepted. A registry entry is code, so MIT.
+
+  > *Corrected 2026-09-19, minutes after writing.* This paragraph first said the repository
+  > carried no `CONTRIBUTING.md`. The check run beside it showed one, plus `CODE_OF_CONDUCT.md`.
+  > Wrong, and corrected before anyone acted on it.
+- The **licence line** is therefore not a choice: MIT, upstream's, on commit.
 - The **name** it goes under, and the wording of the three-rules paragraph, which is the part
   that invites discussion.
 
