@@ -5,7 +5,7 @@ ICH M11, USDM v4.0 and the CDISC AC/DC framework — BC to DC to AC — learned 
 ---
 
 **Start with [`NORTH.md`](NORTH.md)** — the destination, the nine-stage finish line, and the
-test any piece of work has to pass. **All nine stages are done**, on one endpoint.
+test any piece of work has to pass. **All nine stages are done, on two endpoints.**
 
 **New to USDM, M11 or AC/DC?** Read [`docs/vignette.md`](docs/vignette.md) first — the whole
 traverse in plain terms, with the three letters explained and every artefact linked.
@@ -21,7 +21,8 @@ a number that can be compared against built ADaM. [`NORTH.md`](NORTH.md) states 
 and which of them are green.
 
 Three endpoints of graded complexity were mapped on paper first, to find where the framework's
-limits sit before committing to one. One is being carried all the way.
+limits sit before committing to one. Two have been carried all the way: laboratory change from
+baseline, and — added on 2026-09-19 — systolic blood pressure by MMRM and by ANCOVA.
 
 The source study is [TORIVA-LUNG 301](https://github.com/OpenTrialReporting/torivumab-nsclc-301), a simulated Phase 3 NSCLC trial with a fictional sponsor. It was chosen because it is the only available source where protocol, SAP, programming specs and built ADaM all exist, are internally consistent, and carry no confidentiality constraint. That last point matters: without built ADaM there is no ground truth, and without ground truth the exercise only demonstrates internal coherence.
 
@@ -122,9 +123,9 @@ reasoning.
 │   └── usdm/                        stage 1 / 0b — USDM v4, generated from the above
 ├── endpoints/
 │   ├── 01-simple-lab-cfb/           mapping, chain.json, comparison, log — all four steps
-│   ├── 04-vitals-cfb-mmrm/          second endpoint: MMRM + ANCOVA chains, our M.MMRM implementation, executed and compared
 │   ├── 02-moderate-orr/             mapping, chain.json, log — unauthorable, see F13
-│   └── 03-complex-pfs/              mapping only — does not compose, see F06
+│   ├── 03-complex-pfs/              mapping only — does not compose, see F06
+│   └── 04-vitals-cfb-mmrm/          second endpoint: MMRM + ANCOVA chains, our M.MMRM implementation, executed and compared
 └── tools/
     ├── acdc_divergence.py           signature and divergence detection
     ├── check_consistency.py         documents vs. filesystem, and NORTH's scoreboard
