@@ -73,6 +73,19 @@ def parse_safety_table(text: str) -> list[dict]:
     return rows
 
 
+def parse_endpoint_texts(sec03: str) -> list[str]:
+    """§3: one '| **Endpoint** …' or '| **Secondary Endpoint** …' row per objective block, in
+    document order. The trailing citation '*(protocol §6…)*' is the section's own note and is
+    dropped; the rest is the protocol's wording as moved under stage 0b."""
+    out = []
+    for line in sec03.splitlines():
+        m = re.match(r"^\|\s*\*\*(?:Secondary |Primary )?Endpoint\*\*\s*`C25212`\s*\|\s*(.*?)\s*\|\s*$", line)
+        if m:
+            txt = re.sub(r"\s*\*\([^)]*\)\*\s*$", "", m.group(1)).strip()
+            out.append(txt)
+    return out
+
+
 def parse_tumour_table(text: str) -> list[tuple[str, str]]:
     """§6.1 Tumour Assessment Schedule → [(timepoint, assessment)]."""
     hdr = "| Timepoint | Assessment |"
@@ -136,6 +149,34 @@ def build(root: Path) -> dict:
     sec01 = read_section(root, "section-01-protocol-summary.md")
     safety_rows = parse_safety_table(sec01)
     tumour_rows = parse_tumour_table(sec01)
+
+    # ---- endpoint texts: from the M11 protocol, not from the previous fragment ----
+    # §3 carries one endpoint row per objective in the order 3.1.1, 3.2.1 … 3.2.5; the USDM's
+    # objectives hold their endpoints in the same order. The vitals endpoint has no §3 row (the
+    # safety objective's row is the AE/laboratory one); its text is the measurement list the
+    # source gives at the data-domain row moved into §8.4.2, verbatim.
+    ep_texts = parse_endpoint_texts(read_section(root, "section-03-objectives-endpoints.md"))
+    assert len(ep_texts) == 6, f"expected 6 endpoint rows in section 03, found {len(ep_texts)}"
+    sec0842 = read_section(root, "section-08-04-02-vital-signs.md")
+    vs_text = "BP, HR, temperature, weight, height"
+    assert vs_text in sec0842
+    ordered = [e for o in sd["objectives"] for e in o.get("endpoints", [])]
+    non_vs = [e for e in ordered if e["id"] != "Endpoint_SAFETY_VS"]
+    assert len(non_vs) == 6, [e["id"] for e in non_vs]
+    for e, txt in zip(non_vs, ep_texts):
+        e["text"] = txt
+        e["notes"] = [n for n in e.get("notes", []) if "lifted verbatim" not in n] + [
+            "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"]
+    for e in ordered:
+        if e["id"] == "Endpoint_SAFETY_VS":
+            e["text"] = vs_text   # verbatim: the source's own list of what "Vital Signs" collects
+            e["description"] = ("The source protocol names the vital-signs measurements only as a data-domain row — "
+                                "'BP, HR, temperature, weight, height' — and schedules them in §7.2; both are moved into "
+                                "section-08-04-02-vital-signs.md, from which this text is lifted verbatim. Collected per the §7.2 "
+                                "schedule; analysed as change from baseline by this project (gap register S2), not by the sponsor. "
+                                "No estimand targets this endpoint.")
+            e["notes"] = [n for n in e.get("notes", []) if "lifted verbatim" not in n] + [
+                "measurement list lifted verbatim from study/m11/protocol/section-08-04-02-vital-signs.md by tools/m11_to_usdm.py"]
 
     # ---- arms and interventions: D14 / D15 corrected, source wording kept ----
     note14 = ("D14: the source protocol describes torivumab monotherapy versus placebo (title, §1.4, §3.5, §5.1). "

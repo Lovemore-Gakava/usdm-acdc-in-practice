@@ -408,7 +408,7 @@
                     "id": "Endpoint_OS",
                     "name": "END-OS",
                     "label": "Overall Survival",
-                    "text": "Time from randomisation to death from any cause. Subjects not known to have died at data cut-off are censored at the date last known alive.",
+                    "text": "Time from randomisation to death from any cause. Patients not known to have died at data cut-off will be censored at the date last known alive.",
                     "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.1. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Primary efficacy",
                     "instanceType": "Endpoint",
@@ -420,7 +420,10 @@
                       "decode": "Primary Endpoint",
                       "instanceType": "Code"
                     },
-                    "biomedicalConceptIds": []
+                    "biomedicalConceptIds": [],
+                    "notes": [
+                      "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"
+                    ]
                   }
                 ]
               },
@@ -444,7 +447,7 @@
                     "id": "Endpoint_PFS",
                     "name": "END-PFS",
                     "label": "Progression-Free Survival",
-                    "text": "Time from randomisation to the first documented disease progression per RECIST 1.1 (BICR) or death from any cause, whichever occurs first. Subjects without progression or death are censored at the last adequate tumour assessment.",
+                    "text": "Time from randomisation to the first documented disease progression per RECIST 1.1 (BICR) or death from any cause, whichever occurs first. Patients without progression or death are censored at the last adequate tumour assessment.",
                     "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.2. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
@@ -456,7 +459,10 @@
                       "decode": "Secondary Endpoint",
                       "instanceType": "Code"
                     },
-                    "biomedicalConceptIds": []
+                    "biomedicalConceptIds": [],
+                    "notes": [
+                      "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"
+                    ]
                   }
                 ]
               },
@@ -480,7 +486,7 @@
                     "id": "Endpoint_ORR",
                     "name": "END-ORR",
                     "label": "Objective Response Rate",
-                    "text": "Proportion of subjects with best overall response of CR or PR.",
+                    "text": "Proportion of patients with best overall response of CR or PR. Confirmation requires a second CR or PR at a subsequent assessment ≥28 days later with no intervening PD.",
                     "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.3. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
@@ -492,7 +498,10 @@
                       "decode": "Secondary Endpoint",
                       "instanceType": "Code"
                     },
-                    "biomedicalConceptIds": []
+                    "biomedicalConceptIds": [],
+                    "notes": [
+                      "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"
+                    ]
                   }
                 ]
               },
@@ -516,7 +525,7 @@
                     "id": "Endpoint_DOR",
                     "name": "END-DOR",
                     "label": "Duration of Response",
-                    "text": "Time from first documented CR or PR to first documented disease progression or death from any cause, in responding subjects.",
+                    "text": "Time from first documented CR or PR to first documented disease progression or death from any cause, in responding patients.",
                     "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.4. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
@@ -528,7 +537,10 @@
                       "decode": "Secondary Endpoint",
                       "instanceType": "Code"
                     },
-                    "biomedicalConceptIds": []
+                    "biomedicalConceptIds": [],
+                    "notes": [
+                      "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"
+                    ]
                   }
                 ]
               },
@@ -552,7 +564,7 @@
                     "id": "Endpoint_DCR",
                     "name": "END-DCR",
                     "label": "Disease Control Rate",
-                    "text": "Proportion of subjects with best overall response of CR, PR, or SD maintained for at least 8 weeks.",
+                    "text": "Proportion of patients with best overall response of CR, PR, or SD maintained ≥8 weeks from randomisation.",
                     "description": "Protocol synopsis section 6, endpoint definitions. SAP section 4.5. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary efficacy",
                     "instanceType": "Endpoint",
@@ -564,7 +576,10 @@
                       "decode": "Secondary Endpoint",
                       "instanceType": "Code"
                     },
-                    "biomedicalConceptIds": []
+                    "biomedicalConceptIds": [],
+                    "notes": [
+                      "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"
+                    ]
                   }
                 ]
               },
@@ -588,7 +603,7 @@
                     "id": "Endpoint_SAFETY_LAB",
                     "name": "END-S5-LAB",
                     "label": "Safety - laboratory evaluations",
-                    "text": "Laboratory evaluations: haematology and chemistry parameters, analysed as change from baseline and as shifts in reference-range indicator. Baseline is the last non-missing value on or before first dose (SAP section 12.3).",
+                    "text": "Incidence and severity of TEAEs, SAEs, irAEs and AESIs; exposure-adjusted event rates. **Clinical laboratory evaluations** — haematology and chemistry parameters — are collected per §7.2 and analysed as change from baseline and as shifts in reference-range indicator.",
                     "description": "The protocol names Safety as a key secondary endpoint and section 7.2 schedules laboratory assessments. The SAP does NOT define a laboratory analysis: ADLB appears only in the data-handling conventions (sections 12.2, 12.3 and 7), and the three safety estimands in section 13.7 are all adverse-event based. This endpoint is therefore authored from the protocol, not from the SAP, and that gap is recorded as discrepancy D11. Restructured into study/m11/protocol/section-03-objectives-endpoints.md.",
                     "purpose": "Secondary safety",
                     "instanceType": "Endpoint",
@@ -608,14 +623,17 @@
                       "BiomedicalConcept_CREAT",
                       "BiomedicalConcept_HGB",
                       "BiomedicalConcept_NEUT"
+                    ],
+                    "notes": [
+                      "text lifted verbatim from study/m11/protocol/section-03-objectives-endpoints.md by tools/m11_to_usdm.py"
                     ]
                   },
                   {
                     "id": "Endpoint_SAFETY_VS",
                     "name": "END-S5-VS",
                     "label": "Safety - vital signs",
-                    "text": "Vital signs (BP, HR, temperature, weight, height) collected at screening, pre- and post-infusion on Day 1 of each cycle, end of treatment and 30-day safety follow-up, analysed as change from baseline. Baseline is the last non-missing value on or before first dose (SAP section 12.3).",
-                    "description": "Second endpoint of the traverse, added 2026-09-19. The protocol schedules vital signs (section 7.2) and lists the measurements (data-domain table); it gives no collection or interpretation instructions and the SAP specifies no vital-signs analysis, as for laboratory evaluations (D11). Authored from the protocol, restructured into study/m11/protocol/section-08-04-02-vital-signs.md. No estimand targets this endpoint; E6 targets the laboratory endpoint.",
+                    "text": "BP, HR, temperature, weight, height",
+                    "description": "The source protocol names the vital-signs measurements only as a data-domain row — 'BP, HR, temperature, weight, height' — and schedules them in §7.2; both are moved into section-08-04-02-vital-signs.md, from which this text is lifted verbatim. Collected per the §7.2 schedule; analysed as change from baseline by this project (gap register S2), not by the sponsor. No estimand targets this endpoint.",
                     "purpose": "Secondary safety",
                     "instanceType": "Endpoint",
                     "level": {
@@ -628,6 +646,9 @@
                     },
                     "biomedicalConceptIds": [
                       "BiomedicalConcept_SYSBP"
+                    ],
+                    "notes": [
+                      "measurement list lifted verbatim from study/m11/protocol/section-08-04-02-vital-signs.md by tools/m11_to_usdm.py"
                     ]
                   }
                 ]

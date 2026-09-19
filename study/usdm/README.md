@@ -172,3 +172,10 @@ hand-written fragment:
 - Objectives, endpoints, estimands, populations and BCs are carried over unchanged from stage 0b.
 
 The "known limitation carried into stage 2" below no longer holds; it is kept as the record.
+
+**Endpoint texts, 2026-09-19 (P3 found this).** The alignment tool's first run failed five of
+seven endpoints: the fragment's endpoint texts had been *written* at stage 1 — "subjects" where
+the protocol says "patients", the lab and vitals endpoints composed rather than moved — so the
+USDM disagreed with the M11 protocol on wording. The generator now lifts each endpoint's text
+verbatim from the `Endpoint` row of its §3 block, and the vitals endpoint's text is the source's
+own measurement list from §8.4.2. Each endpoint carries a note saying so.
