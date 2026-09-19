@@ -1,7 +1,7 @@
 # Gap register — everything found wrong in TORIVA's documents, with a disposition
 
 Phase 2, stage **P0** (`NORTH.md`). Written 2026-09-19. One list of every gap this project
-found in TORIVA-LUNG 301's document set — the fourteen discrepancies in
+found in TORIVA-LUNG 301's document set — the fifteen discrepancies in
 [`source-refs.md`](source-refs.md), the ICH M11 elements the protocol does not supply, and the
 things the SAP never specified — each with a **disposition** that says where, if anywhere, it is
 fixed. The dispositions are LG's decision of 2026-09-19: fixes are made **here, in the derived
@@ -17,7 +17,7 @@ Dispositions used:
 | **resolved** | already fixed by phase 1 (stage 0b), verified by the checker |
 | **not a study gap** | found on the way but belongs to the framework or to this project, not to TORIVA; excluded |
 
-## A. The fourteen discrepancies (D1–D14)
+## A. The fifteen discrepancies (D1–D15)
 
 | ID | Area | Gap, in one line | Disposition | Action, and where |
 |---|---|---|---|---|
@@ -35,6 +35,7 @@ Dispositions used:
 | D12 | Lab | `ADLB-spec` header says v0.1 DRAFT; its change log says v0.3 | **upstream only** | minor |
 | D13 | ORR | SAP asks for a stratified MH **risk difference**; the named estimator returns an **odds ratio** | **fix here** | the derived SAP excerpt for E3 states the risk difference and notes the estimator mismatch; P3 checks §3.2.2's Population-level Summary says "risk difference" |
 | D14 | Design | Protocol: torivumab **monotherapy** vs placebo; SAP §13.2 and the built data (`TRT01P` = "Torivumab + Chemotherapy"): combination with carboplatin/pemetrexed | **fix here** | the built data is the ground truth. The derived title page, §3.0 Treatment and the USDM arms are corrected to the combination, each carrying a note that the source protocol says monotherapy. P3 checks arm names against `TRT01P` |
+| D15 | Design | Protocol says 2:1 randomisation (300:150); the shipped data is 1:1 (225:225), by TORIVA's own header note; the sample-size arithmetic was not re-derived | **fix here** | the derived §1, §4 and §10 carry the source text with the note; the USDM's arms and P3's alignment use 1:1 as the ground truth. Found reading the synopsis whole for P1 |
 
 ## B. ICH M11 elements the source protocol does not supply
 

@@ -1,0 +1,381 @@
+{
+  "source": "OpenTrialReporting/torivumab-nsclc-301 protocol/synopsis.md",
+  "source_commit": "8534339d",
+  "source_sha256_12": "58f06496894e",
+  "generator": "tools/m11_restructure.py",
+  "sections": [
+    {
+      "section": "0",
+      "title": "Title Page",
+      "file": "section-00-title-page.md",
+      "status": "restructured by hand (stage 0b)",
+      "gaps": "G2, G3"
+    },
+    {
+      "section": "1",
+      "title": "1 Protocol Summary",
+      "file": "section-01-protocol-summary.md",
+      "status": "generated — moved from source",
+      "moved_lines": 137,
+      "blocks": [
+        [
+          "1.1 Overall Design ← SYNOPSIS TABLE",
+          113,
+          141
+        ],
+        [
+          "1.1 Objectives ← §2.1–2.3 STUDY OBJECTIVES",
+          185,
+          205
+        ],
+        [
+          "1.2 Trial Schema ← §3.2 Design Schematic",
+          215,
+          268
+        ],
+        [
+          "1.3 Schedule of Activities — efficacy ← §6.1 Tumour Assessment Schedule",
+          444,
+          458
+        ],
+        [
+          "1.3 Schedule of Activities — safety ← §7.2 Safety Assessment Schedule",
+          498,
+          515
+        ]
+      ],
+      "absent_elements": 3
+    },
+    {
+      "section": "2",
+      "title": "2 Introduction",
+      "file": "section-02-introduction.md",
+      "status": "generated — moved from source",
+      "moved_lines": 44,
+      "blocks": [
+        [
+          "2.1 Purpose of Trial ← §1 BACKGROUND AND RATIONALE",
+          145,
+          182
+        ],
+        [
+          "2.2 Overall Risk-Benefit Assessment ← §9.5 Risk-Benefit Assessment",
+          779,
+          784
+        ]
+      ],
+      "absent_elements": 2
+    },
+    {
+      "section": "3",
+      "title": "3 Trial Objectives, Endpoints and Estimands",
+      "file": "section-03-objectives-endpoints.md",
+      "status": "restructured by hand (stage 0b)",
+      "gaps": "G1 resolved; G7"
+    },
+    {
+      "section": "4",
+      "title": "4 Trial Design",
+      "file": "section-04-trial-design.md",
+      "status": "generated — moved from source",
+      "moved_lines": 30,
+      "blocks": [
+        [
+          "4.1 Description of Trial Design ← §3.1 Overview",
+          209,
+          213
+        ],
+        [
+          "4.1 Randomisation ← §3.3",
+          270,
+          274
+        ],
+        [
+          "4.1 Blinding ← §3.4",
+          276,
+          282
+        ],
+        [
+          "4.1 Treatment Arms ← §3.5",
+          284,
+          291
+        ],
+        [
+          "4.4 End of Trial / follow-up ← §3.6 Post-Treatment Follow-Up",
+          293,
+          297
+        ]
+      ],
+      "absent_elements": 5
+    },
+    {
+      "section": "5",
+      "title": "5 Trial Population",
+      "file": "section-05-trial-population.md",
+      "status": "generated — moved from source",
+      "moved_lines": 66,
+      "blocks": [
+        [
+          "5.2 Inclusion Criteria ← §4.1",
+          303,
+          335
+        ],
+        [
+          "5.3 Exclusion Criteria ← §4.2",
+          337,
+          369
+        ]
+      ],
+      "absent_elements": 3
+    },
+    {
+      "section": "6",
+      "title": "6 Trial Intervention And Concomitant Therapy",
+      "file": "section-06-trial-intervention.md",
+      "status": "generated — moved from source",
+      "moved_lines": 33,
+      "blocks": [
+        [
+          "6.1 Investigational Medicinal Products ← §5.1",
+          375,
+          382
+        ],
+        [
+          "6.3 Dosing and Administration ← §5.2",
+          384,
+          391
+        ],
+        [
+          "6.8 Concomitant Medications ← §5.4",
+          422,
+          438
+        ]
+      ],
+      "absent_elements": 5
+    },
+    {
+      "section": "7",
+      "title": "7 Discontinuation of Trial Intervention and Participant Withdrawal from Trial",
+      "file": "section-07-discontinuation.md",
+      "status": "generated — moved from source",
+      "moved_lines": 41,
+      "blocks": [
+        [
+          "7.1 Temporary Discontinuation and Rechallenge ← §5.3 Dose Modifications, §5.3.1 Treatment Delays",
+          393,
+          405
+        ],
+        [
+          "7.1 Permanent Discontinuation ← §5.3.2",
+          407,
+          420
+        ],
+        [
+          "7.2 Withdrawal and follow-up ← §3.6",
+          293,
+          297
+        ],
+        [
+          "7.4 Trial Stopping Rules ← §7.4 (myocarditis stopping rule) and §7.5 SMC",
+          599,
+          607
+        ]
+      ],
+      "absent_elements": 2
+    },
+    {
+      "section": "8",
+      "title": "8 Trial Assessments and Procedures",
+      "file": "section-08-assessments-and-procedures.md",
+      "status": "generated — moved from source",
+      "moved_lines": 57,
+      "blocks": [
+        [
+          "8.3 Efficacy Assessments ← §6.1 Tumour Assessment Schedule",
+          444,
+          458
+        ],
+        [
+          "8.3 Response Evaluation — RECIST 1.1 ← §6.2",
+          460,
+          483
+        ],
+        [
+          "8.4 Safety Assessment Schedule ← §7.2",
+          498,
+          515
+        ]
+      ],
+      "absent_elements": 6
+    },
+    {
+      "section": "8.4.2",
+      "title": "8.4.2 Vital Signs",
+      "file": "section-08-04-02-vital-signs.md",
+      "status": "restructured by hand (endpoint 2)",
+      "gaps": "G6"
+    },
+    {
+      "section": "9",
+      "title": "9 Adverse Events, Serious Adverse Events, Product Complaints, Pregnancy and Special Safety Situations",
+      "file": "section-09-adverse-events.md",
+      "status": "generated — moved from source",
+      "moved_lines": 97,
+      "blocks": [
+        [
+          "9.1 Definitions and 9.2 Timing ← §7.1 Adverse Event Monitoring",
+          489,
+          496
+        ],
+        [
+          "9.6 irAE Management ← §7.3",
+          517,
+          583
+        ],
+        [
+          "9.6 Adverse Events of Special Interest ← §7.4",
+          585,
+          599
+        ],
+        [
+          "9.7 Safety Monitoring Committee ← §7.5",
+          601,
+          607
+        ]
+      ],
+      "absent_elements": 3
+    },
+    {
+      "section": "10",
+      "title": "10 Statistical Considerations",
+      "file": "section-10-statistical-considerations.md",
+      "status": "generated — moved from source",
+      "moved_lines": 145,
+      "blocks": [
+        [
+          "10.9 Sample Size Determination ← §8.1",
+          612,
+          685
+        ],
+        [
+          "10.2 Analysis Sets ← §8.2 Analysis Populations",
+          687,
+          694
+        ],
+        [
+          "10.3 Primary Analysis — Overall Survival ← §8.3",
+          696,
+          702
+        ],
+        [
+          "10.4 Secondary Analyses ← §8.4",
+          704,
+          709
+        ],
+        [
+          "10.10 Multiplicity Control ← §8.5",
+          711,
+          720
+        ],
+        [
+          "10.8 Interim Analyses ← §8.6",
+          722,
+          739
+        ],
+        [
+          "10.1 General Considerations ← §11 KEY INFORMATION FOR STATISTICAL ANALYSIS PLAN",
+          823,
+          844
+        ]
+      ],
+      "absent_elements": 4
+    },
+    {
+      "section": "11",
+      "title": "11 General Considerations: Regulatory, Ethical, Trial Oversight and Data Handling",
+      "file": "section-11-general-considerations.md",
+      "status": "generated — moved from source",
+      "moved_lines": 59,
+      "blocks": [
+        [
+          "11.1 Regulatory and GCP Compliance ← §9.1",
+          745,
+          754
+        ],
+        [
+          "11.1 IRB/IEC ← §9.2",
+          756,
+          760
+        ],
+        [
+          "11.3 Informed Consent ← §9.3",
+          762,
+          773
+        ],
+        [
+          "11.4 Data Privacy and Confidentiality ← §9.4",
+          775,
+          777
+        ],
+        [
+          "11.5 Data Handling — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN",
+          789,
+          817
+        ]
+      ],
+      "absent_elements": 2
+    },
+    {
+      "section": "12",
+      "title": "12 Appendix: Supporting Details",
+      "file": "section-12-appendix-supporting-details.md",
+      "status": "generated — moved from source",
+      "moved_lines": 6,
+      "blocks": [
+        [
+          "12.3 Prior Protocol Amendments ← DOCUMENT HISTORY",
+          946,
+          951
+        ]
+      ],
+      "absent_elements": 3
+    },
+    {
+      "section": "12.1",
+      "title": "12.1 Clinical Laboratory Tests",
+      "file": "section-12-01-clinical-laboratory-tests.md",
+      "status": "restructured by hand (stage 0b)",
+      "gaps": "G4, G5"
+    },
+    {
+      "section": "13",
+      "title": "13 Appendix: Glossary of Terms and Abbreviations",
+      "file": "section-13-glossary.md",
+      "status": "generated — moved from source",
+      "moved_lines": 76,
+      "blocks": [
+        [
+          "13 ← APPENDIX A — ABBREVIATIONS",
+          850,
+          925
+        ]
+      ],
+      "absent_elements": 1
+    },
+    {
+      "section": "14",
+      "title": "14 Appendix: References",
+      "file": "section-14-references.md",
+      "status": "generated — moved from source",
+      "moved_lines": 12,
+      "blocks": [
+        [
+          "14 ← APPENDIX B — KEY REFERENCES",
+          931,
+          942
+        ]
+      ],
+      "absent_elements": 0
+    }
+  ]
+}
