@@ -8,7 +8,8 @@ ICH M11, USDM v4.0 and the CDISC AC/DC framework — BC to DC to AC — learned 
 test any piece of work has to pass. **All nine stages are done, on two endpoints.**
 
 **New to USDM, M11 or AC/DC?** Read [`docs/vignette.md`](docs/vignette.md) first — the whole
-traverse in plain terms, with the three letters explained and every artefact linked.
+traverse in plain terms, with the three letters explained and every artefact linked. To **drive it
+yourself**, [`docs/walkthrough.md`](docs/walkthrough.md) is the click-by-click guide.
 
 ## What this is
 
@@ -109,6 +110,7 @@ reasoning.
 │   ├── specification.md             the original plan — §2 superseded by NORTH.md
 │   ├── method.md                    how claims are verified, and the two surfaces
 │   ├── vignette.md                  the whole traverse in plain terms — start here if new
+│   ├── walkthrough.md               drive one endpoint through the builder yourself
 │   ├── review-plan.md               ⏸ parked — planned a review of the parked issues
 │   └── findings/
 │       ├── README.md                index and status of F01–F13

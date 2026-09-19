@@ -112,7 +112,7 @@ stays as it is and nothing is filed; and the **walkthrough is a stage**, not an 
 | P1 | Protocol fully M11 — all 14 sections covered | ✓ |
 | P2 | USDM generated from it, with the schedule of activities | ✓ |
 | P3 | Alignment verified by a tool | ✓ |
-| P4 | Hands-on walkthrough written | ✗ |
+| P4 | Hands-on walkthrough written | ✓ |
 | P5 | Both endpoints re-run on the aligned study | ✗ |
 
 <!-- /north:status:phase2 -->
