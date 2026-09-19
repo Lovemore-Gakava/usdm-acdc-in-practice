@@ -26,7 +26,9 @@ are actively trying to complete**, and when one does, record it in two paragraph
 
 **The upstream issues and the review plan are parked** — `docs/findings/upstream-issues.md`,
 `docs/review-plan.md`. Do not polish them, do not propose filing them, and do not treat the
-review backlog as a blocker. Nothing is being filed.
+review backlog as a blocker. Nothing is being filed — with one decided exception: the `M.MMRM`
+implementation is *prepared* for upstream in `docs/contribution-mmrm.md` (LG, 2026-09-19), and
+only LG files it. Preparing it is not a licence to prepare anything else.
 
 **The SAP is an input, not a yardstick.** `study/usdm/README.md` fixes the layering: protocol +
 CDISC Library → USDM, SAP → DC/AC. So the SAP tells you *what derivation to author*. The moment

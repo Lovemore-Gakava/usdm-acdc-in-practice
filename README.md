@@ -111,6 +111,8 @@ reasoning.
 │   ├── method.md                    how claims are verified, and the two surfaces
 │   ├── vignette.md                  the whole traverse in plain terms — start here if new
 │   ├── walkthrough.md               drive one endpoint through the builder yourself
+│   ├── review-sheet-phase2.md       LG's review of phase 2 — claims with falsifiers
+│   ├── contribution-mmrm.md         the M.MMRM implementation, packaged for upstream (not filed)
 │   ├── review-plan.md               ⏸ parked — planned a review of the parked issues
 │   └── findings/
 │       ├── README.md                index and status of F01–F13

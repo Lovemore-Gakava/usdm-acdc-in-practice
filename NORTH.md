@@ -139,6 +139,14 @@ the last decimal** — the lab ANCOVA, the vitals MMRM at every visit, the vital
 is what "aligned" has to mean for an execution: the study description changed, the number did
 not, and every results file now carries the fragment's hash.
 
+**Decided 2026-09-19, after phase 2 — two things.** (1) LG reviews phase 2:
+[`docs/review-sheet-phase2.md`](docs/review-sheet-phase2.md), claims with falsifiers, the
+mechanical ones already run; the one that changes the most if disagreed is whether the built
+data is the right ground truth for D14/D15. (2) The `M.MMRM` implementation is **offered to
+`cdisc-org/analysis-concepts`** — prepared as [`docs/contribution-mmrm.md`](docs/contribution-mmrm.md),
+filed only by LG, under LG's name. This is a contribution of working code and does not reopen
+the parked issues, which stay parked.
+
 ## The route
 
 All four remaining stages run on **one endpoint — laboratory change from baseline**, which is
