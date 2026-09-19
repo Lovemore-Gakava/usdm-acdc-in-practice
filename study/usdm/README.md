@@ -150,3 +150,7 @@ with correct Primary/Secondary levels. The submodule was then reverted —
 This fragment has **no `activities` and no `scheduleTimelines`**, so the Schedule of Activities
 tab is empty. Whether the derivation pipeline's terminal BC picker can offer these BCs without
 an activity to hang them on is **not yet known**, and is the first thing to find out in stage 2.
+
+## Second endpoint, 2026-09-19
+
+`END-S5-VS` — vital signs, under OBJ-S5 beside `END-S5-LAB` — and the BC `Systolic Blood Pressure` (`C25298`, shape copied from the shipped Pilot's SYSBP BC) were added, sourced from the restructured M11 §8.4.2 (`../m11/protocol/section-08-04-02-vital-signs.md`). No estimand targets it: the SAP specifies no vital-signs analysis, the laboratory situation (D11) again. The fragment now carries eight BCs and seven endpoints.

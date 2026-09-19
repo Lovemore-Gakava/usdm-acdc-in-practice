@@ -13,7 +13,7 @@
       {
         "id": "StudyVersion_1",
         "versionIdentifier": "1.1",
-        "rationale": "Hand-authored USDM v4 fragment. REGENERATED 2026-09-16 from the ICH M11-restructured protocol in study/m11/protocol/ rather than transcribed from prose: objectives and endpoints from section-03-objectives-endpoints.md, study identity from section-00-title-page.md, laboratory BCs from section-12-01-clinical-laboratory-tests.md. Estimands now derive from M11 protocol 3.1.1 and 3.2.1, where M11 requires them, rather than from SAP 13. Not a full study definition: no schedule of activities, no eligibility criteria, no interventions beyond the arms.",
+        "rationale": "Hand-authored USDM v4 fragment. REGENERATED 2026-09-16 from the ICH M11-restructured protocol in study/m11/protocol/ rather than transcribed from prose: objectives and endpoints from section-03-objectives-endpoints.md, study identity from section-00-title-page.md, laboratory BCs from section-12-01-clinical-laboratory-tests.md. Estimands now derive from M11 protocol 3.1.1 and 3.2.1, where M11 requires them, rather than from SAP 13. Not a full study definition: no schedule of activities, no eligibility criteria, no interventions beyond the arms. 2026-09-19: second endpoint END-S5-VS (systolic blood pressure) and BC C25298 added from study/m11/protocol/section-08-04-02-vital-signs.md.",
         "instanceType": "StudyVersion",
         "studyIdentifiers": [
           {
@@ -238,6 +238,40 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ]
+          },
+          {
+            "id": "BiomedicalConcept_SYSBP",
+            "name": "Systolic Blood Pressure",
+            "label": "SYSBP",
+            "synonyms": [
+              "SYSBP",
+              "Systolic BP"
+            ],
+            "reference": "/mdr/specializations/sdtm/packages/2025-04-01/datasetspecializations/SYSBP",
+            "instanceType": "BiomedicalConcept",
+            "code": {
+              "id": "Code_SYSBP",
+              "code": "C25298",
+              "codeSystem": "http://www.cdisc.org",
+              "codeSystemVersion": "2024-09-27",
+              "decode": "Systolic Blood Pressure",
+              "instanceType": "Code"
+            },
+            "properties": [
+              {
+                "id": "BCP_SYSBP_RES",
+                "name": "SYSBP Result",
+                "label": "Systolic Blood Pressure (mmHg)",
+                "isRequired": true,
+                "isEnabled": true,
+                "datatype": "decimal",
+                "responseCodes": [],
+                "instanceType": "BiomedicalConceptProperty"
+              }
+            ],
+            "notes": [
+              "Second endpoint, 2026-09-19. Code and reference taken from the shipped CDISC Pilot USDM's SYSBP BC; attached to the vital-signs assessment scheduled in study/m11/protocol/section-08-04-02-vital-signs.md."
             ]
           }
         ],
@@ -546,6 +580,26 @@
                       "BiomedicalConcept_CREAT",
                       "BiomedicalConcept_HGB",
                       "BiomedicalConcept_NEUT"
+                    ]
+                  },
+                  {
+                    "id": "Endpoint_SAFETY_VS",
+                    "name": "END-S5-VS",
+                    "label": "Safety - vital signs",
+                    "text": "Vital signs (BP, HR, temperature, weight, height) collected at screening, pre- and post-infusion on Day 1 of each cycle, end of treatment and 30-day safety follow-up, analysed as change from baseline. Baseline is the last non-missing value on or before first dose (SAP section 12.3).",
+                    "description": "Second endpoint of the traverse, added 2026-09-19. The protocol schedules vital signs (section 7.2) and lists the measurements (data-domain table); it gives no collection or interpretation instructions and the SAP specifies no vital-signs analysis, as for laboratory evaluations (D11). Authored from the protocol, restructured into study/m11/protocol/section-08-04-02-vital-signs.md. No estimand targets this endpoint; E6 targets the laboratory endpoint.",
+                    "purpose": "Secondary safety",
+                    "instanceType": "Endpoint",
+                    "level": {
+                      "id": "Code_EL6",
+                      "code": "C139173",
+                      "codeSystem": "http://www.cdisc.org",
+                      "codeSystemVersion": "2024-09-27",
+                      "decode": "Secondary Endpoint",
+                      "instanceType": "Code"
+                    },
+                    "biomedicalConceptIds": [
+                      "BiomedicalConcept_SYSBP"
                     ]
                   }
                 ]

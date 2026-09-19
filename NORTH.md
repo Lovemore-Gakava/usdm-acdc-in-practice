@@ -61,8 +61,8 @@ scoreboard prints on every commit.
 | # | Stage | Status |
 |---|---|---|
 | 0 | Protocol mapped to ICH M11 elements | ✓ |
-| 0b | Protocol restructured to M11, USDM regenerated from it | ✗ |
-| 1 | USDM fragments hand-authored | ✗ |
+| 0b | Protocol restructured to M11, USDM regenerated from it | ✓ |
+| 1 | USDM fragments hand-authored | ✓ |
 | 2 | BC linked on the chain's terminals | ✗ |
 | 3 | DC — derivation authored | ✗ |
 | 4 | AC — analysis bound | ✗ |

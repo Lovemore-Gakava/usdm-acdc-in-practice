@@ -85,3 +85,7 @@ M11 element names, Required/Optional status and CDISC codes come from the merged
 M11 v0.17.0 (`study/source-refs.md`). Source content is TORIVA at commit `8534339d`:
 `protocol/synopsis.md` §2, §6, §7 and `sap/SAP.md` §3, §13. Every row cites the section it came
 from, so the restructure can be checked against the source without trusting this document.
+
+## Added 2026-09-19 — second endpoint
+
+`section-08-04-02-vital-signs.md` — M11 §8.4.2, one Required element, supplied in part: the schedule and the list of measurements are moved from protocol §7.2 and the data-domain table; the collection and interpretation instructions the element asks for are absent from the source and left absent. Its BC (`SYSBP`, `C25298`) and endpoint `END-S5-VS` were added to the USDM fragment from it.
