@@ -71,5 +71,5 @@
     }
   ],
   "documentation": "MMRM on change from baseline: fixed effects baseline covariate, treatment, visit and treatment-by-visit; within-subject covariance over visits (structure from the covariance_structure configuration, default unstructured); REML by default; Kenward-Roger degrees of freedom by default. LS means and treatment contrasts are reported at each visit.",
-  "notes": "Not an upstream artefact. Written for endpoints/04-vitals-cfb-mmrm; see log.md V4 and V5. Rows are made unique per subject and visit (first kept, the engine's convention) and the baseline visit — the level at which every change is zero — is dropped, because mmrm refuses duplicate time points and a change-from-baseline model has no baseline row (V5)."
+  "notes": "Not an upstream artefact. Written for endpoints/04-vitals-cfb-mmrm; see log.md V4 and V5. Rows are made unique per subject and visit (first kept, the engine's convention) and the baseline visit — the level at which every change is zero — is dropped, because mmrm refuses duplicate time points and a change-from-baseline model has no baseline row (V5). The engine does not install from `packages`: run webr::install(\"mmrm\") in the WebR session first (found on the P5 re-run, when a fresh page load reported 'there is no package called mmrm')."
 }

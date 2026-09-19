@@ -166,8 +166,16 @@ Same steps, with these differences:
   window.appState.methodImplementationCatalog.implementations['M.MMRM'] = [impl];
   ```
 
-  (after copying that file into `ac-dc-app/data/toriva/` so the page can fetch it). Then
-  Execute. Expect **+1.38 (SE 1.93)** at C2D1 against a reference of +1.95 — same mechanism.
+  (after copying that file into `ac-dc-app/data/toriva/` so the page can fetch it). The `mmrm`
+  package must also be installed in the WebR session — once per page load — which the engine
+  does not do from the implementation's `packages` list. In the same console:
+
+  ```js
+  const eng = await import('/ac-dc-app/js/utils/webr-engine.js');
+  await eng.executeR('webr::install("mmrm")');   // about half a minute
+  ```
+
+  Then Execute; the fit takes one to two minutes and the page freezes while it runs. Expect **+1.38 (SE 1.93)** at C2D1 against a reference of +1.95 — same mechanism.
 
 ## What to notice
 
