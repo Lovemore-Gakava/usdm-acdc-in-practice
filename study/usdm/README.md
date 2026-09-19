@@ -154,3 +154,21 @@ an activity to hang them on is **not yet known**, and is the first thing to find
 ## Second endpoint, 2026-09-19
 
 `END-S5-VS` — vital signs, under OBJ-S5 beside `END-S5-LAB` — and the BC `Systolic Blood Pressure` (`C25298`, shape copied from the shipped Pilot's SYSBP BC) were added, sourced from the restructured M11 §8.4.2 (`../m11/protocol/section-08-04-02-vital-signs.md`). No estimand targets it: the SAP specifies no vital-signs analysis, the laboratory situation (D11) again. The fragment now carries eight BCs and seven endpoints.
+
+## Phase 2, stage P2 — generated, 2026-09-19
+
+The fragment is now **generated** by [`../../tools/m11_to_usdm.py`](../../tools/m11_to_usdm.py) from the
+M11 sections in `../m11/protocol/`, and re-runnable (`--check` verifies). What changed from the
+hand-written fragment:
+
+- **A schedule of activities exists.** 3 epochs, 39 encounters (screening, Cycle 1–35 Day 1, EOT,
+  30- and 90-day follow-up), 13 activities parsed from the source's §7.2 safety table plus tumour
+  imaging from §6.1, and one timeline of 39 instances with 334 activity-visits. The lab BCs hang on
+  the Haematology and Chemistry activities, SYSBP on Vital signs. The app's Schedule of Activities
+  tab, empty since stage 1, renders it.
+- **Arms and interventions are corrected and marked** — D14 (both arms on the chemotherapy backbone,
+  named as `TRT01P` names them; a third `StudyIntervention` for the backbone cites SAP §13.2) and
+  D15 (1:1). The source's monotherapy and 2:1 wording is kept in `notes` on each object.
+- Objectives, endpoints, estimands, populations and BCs are carried over unchanged from stage 0b.
+
+The "known limitation carried into stage 2" below no longer holds; it is kept as the record.

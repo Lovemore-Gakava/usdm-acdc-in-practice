@@ -45,7 +45,8 @@ issues to be filed publicly. **Read §7 before filing anything.**
 | `docs/findings/F09`–`F13`; F01, F07 and F09 amendments; Issues 3 and 5 rewritten | 2026-09-16 | AI | Not yet |
 | `docs/review-plan.md` | 2026-09-16 | AI | Not yet — and it is the document that ends that |
 | `NORTH.md` | 2026-09-16 | Destination sentence: **LG**. Finish line, test and prose: AI | Destination confirmed by LG |
-| `study/usdm/toriva-lung-301.usdm.json`, `study/usdm/README.md` | 2026-09-16 | AI, from TORIVA's protocol synopsis and SAP §2 | Not yet |
+| `study/usdm/toriva-lung-301.usdm.json`, `study/usdm/README.md` | 2026-09-16; **regenerated 2026-09-19 by `tools/m11_to_usdm.py`** | Hand-authored under stages 1/0b; since P2, generated from the M11 sections — §3 content carried over, arms/interventions/epochs/encounters/activities/schedule generated, D14 and D15 corrected and marked | Not yet |
+| `tools/m11_to_usdm.py` | 2026-09-19 | AI. Parses the two moved assessment tables into a schedule of activities; applies D14/D15 with the source wording kept in notes | Not yet |
 | `study/m11/protocol-to-m11.md` (headline claim; review-sheet item 2a) | 2026-09-16 | AI, from the merged electronic ICH M11 v0.17.0 and TORIVA's protocol synopsis | **Headline judgement: LG, 2026-09-18.** Count corrected 30 → 25 by the model the same day. Rest not yet |
 | `study/m11/protocol/section-00-title-page.md`, `study/m11/protocol/section-03-objectives-endpoints.md`, `study/m11/protocol/section-12-01-clinical-laboratory-tests.md`, `study/m11/protocol/README.md` | 2026-09-16 | AI. **A derived work** — TORIVA's protocol §2/§6 and SAP §13 restructured to M11 §3. No estimand content invented; every attribute transcribed and cited | Not yet |
 | `CLAUDE.md` | 2026-09-16 | AI | Not yet |
