@@ -108,7 +108,7 @@ stays as it is and nothing is filed; and the **walkthrough is a stage**, not an 
 
 | # | Stage | Status |
 |---|---|---|
-| P0 | Gap register — every discrepancy with a disposition | ✗ |
+| P0 | Gap register — every discrepancy with a disposition | ✓ |
 | P1 | Protocol fully M11 — all 14 sections covered | ✗ |
 | P2 | USDM generated from it, with the schedule of activities | ✗ |
 | P3 | Alignment verified by a tool | ✗ |
