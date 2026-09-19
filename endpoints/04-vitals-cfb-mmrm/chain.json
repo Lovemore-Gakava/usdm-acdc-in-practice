@@ -1,0 +1,499 @@
+{
+  "$schema": "acdc-study-instance.schema.json",
+  "instanceId": "SI_TORIVA-LUNG-301_2026-09-19",
+  "formatVersion": "1.0",
+  "createdAt": "2026-09-19T06:28:36.414Z",
+  "updatedAt": "2026-09-19T06:28:36.414Z",
+  "$references": {
+    "transformationLibrary": {
+      "file": "lib/transformations/ACDC_Transformation_Library_v06.json",
+      "version": "0.6"
+    },
+    "acConceptModel": {
+      "file": "model/concept/AC_Concept_Model_v016.json",
+      "version": "0.16"
+    },
+    "dcConceptModel": {
+      "file": "model/concept/Option_D_Clinical_with_Dimensions.json",
+      "version": "0.20b"
+    }
+  },
+  "studyRef": {
+    "selectedStudyIndex": 1,
+    "studyName": "TORIVA-LUNG 301"
+  },
+  "selectedEndpointIds": [
+    "Endpoint_SAFETY_VS"
+  ],
+  "esapLinkedNarratives": {
+    "abbreviations": [],
+    "introduction": [],
+    "objectives": [],
+    "studyDesign": [],
+    "protocolChanges": [],
+    "estimands": [],
+    "endpoints": [],
+    "analysisSets": [],
+    "statMethods": [],
+    "statAnalysis": [],
+    "software": [],
+    "references": [],
+    "shells": [],
+    "appendices": []
+  },
+  "endpointAnalyses": {},
+  "endpointSpecs": {
+    "Endpoint_SAFETY_VS": {
+      "conceptCategory": "Change",
+      "dataType": "Quantity",
+      "parameterSource": "bc",
+      "parameterName": "",
+      "linkedBCIds": [],
+      "dimensionValues": {
+        "Parameter": "Systolic Blood Pressure",
+        "Population": "SAF",
+        "Treatment": "Torivumab vs Placebo"
+      },
+      "derivationNote": "",
+      "selectedTransformationOid": "T.CFB_MMRM_Primary",
+      "selectedDerivationOid": null,
+      "useInEsap": true,
+      "writeBackToUsdm": false,
+      "estimandSummaryPattern": null,
+      "selectedOcFacet": null,
+      "derivationConfigValues": {},
+      "derivationDimensionValues": {},
+      "selectedAnalyses": [
+        {
+          "transformationOid": "T.CFB_MMRM_Primary",
+          "resolvedBindings": [
+            {
+              "methodRole": "response",
+              "concept": "Change",
+              "qualifierType": null,
+              "qualifierValue": null,
+              "requiredValueType": "Quantity",
+              "direction": "input",
+              "dataStructureRole": "measure"
+            },
+            {
+              "methodRole": "covariate",
+              "concept": "Measure",
+              "requiredValueType": "Quantity",
+              "description": "Baseline value of the endpoint parameter",
+              "direction": "input",
+              "dataStructureRole": "measure",
+              "slice": "parameter_baseline"
+            },
+            {
+              "methodRole": "repeated_factor",
+              "conceptCategory": "VisitDimension",
+              "qualifierType": "DerivationStatus",
+              "qualifierValue": "Analysis",
+              "requiredValueType": "CodeableConcept",
+              "direction": "input",
+              "dataStructureRole": "dimension",
+              "concept": "AnalysisVisit"
+            },
+            {
+              "methodRole": "fixed_effect",
+              "concept": "Treatment",
+              "qualifierType": "IntentType",
+              "qualifierValue": "Planned",
+              "requiredValueType": "CodeableConcept",
+              "direction": "input",
+              "dataStructureRole": "dimension"
+            },
+            {
+              "methodRole": "repeated_subject",
+              "concept": "Subject",
+              "qualifierType": null,
+              "qualifierValue": null,
+              "requiredValueType": "Identifier",
+              "direction": "input",
+              "dataStructureRole": "dimension"
+            },
+            {
+              "conceptCategory": "ParameterDimension",
+              "methodRole": "constraint",
+              "direction": "input",
+              "dataStructureRole": "dimension",
+              "concept": "Parameter"
+            }
+          ],
+          "activeInteractions": [],
+          "estimandSummaryPattern": "Contrasts"
+        }
+      ],
+      "cubeDimensions": [
+        {
+          "dimension": "Parameter",
+          "sliceValue": "Systolic Blood Pressure"
+        },
+        {
+          "dimension": "Population",
+          "sliceValue": "SAF"
+        },
+        {
+          "dimension": "Treatment",
+          "sliceValue": "Torivumab vs Placebo"
+        },
+        {
+          "dimension": "AnalysisVisit",
+          "sliceValue": ""
+        },
+        {
+          "dimension": "M.MMRM",
+          "sliceValue": ""
+        },
+        {
+          "dimension": "Measure",
+          "sliceValue": ""
+        }
+      ],
+      "cubeSlices": [],
+      "selectedEndpointPhrase": "SP_CFB_ENDPOINT",
+      "selectedDimPhrases": [
+        "SP_POPULATION",
+        "SP_GROUPING",
+        "SP_TIMEPOINT",
+        "SP_METHOD_MMRM",
+        "SP_COVARIATE_BASELINE"
+      ],
+      "resolvedSlices": [
+        {
+          "name": "endpoint",
+          "fixedDimensions": {
+            "Parameter": "Systolic Blood Pressure",
+            "Population": "SAF",
+            "Treatment": "Torivumab vs Placebo"
+          }
+        }
+      ],
+      "sliceKeyDimensions": [
+        "Parameter",
+        "Population",
+        "Treatment"
+      ],
+      "dimensionCategoryPicks": {
+        "ParameterDimension": "Parameter",
+        "VisitDimension": "AnalysisVisit"
+      },
+      "resolvedBindings": [
+        {
+          "methodRole": "response",
+          "concept": "Change",
+          "qualifierType": null,
+          "qualifierValue": null,
+          "requiredValueType": "Quantity",
+          "direction": "input",
+          "dataStructureRole": "measure"
+        },
+        {
+          "methodRole": "covariate",
+          "concept": "Measure",
+          "requiredValueType": "Quantity",
+          "description": "Baseline value of the endpoint parameter",
+          "direction": "input",
+          "dataStructureRole": "measure",
+          "slice": "parameter_baseline"
+        },
+        {
+          "methodRole": "repeated_factor",
+          "conceptCategory": "VisitDimension",
+          "qualifierType": "DerivationStatus",
+          "qualifierValue": "Analysis",
+          "requiredValueType": "CodeableConcept",
+          "direction": "input",
+          "dataStructureRole": "dimension",
+          "concept": "AnalysisVisit"
+        },
+        {
+          "methodRole": "fixed_effect",
+          "concept": "Treatment",
+          "qualifierType": "IntentType",
+          "qualifierValue": "Planned",
+          "requiredValueType": "CodeableConcept",
+          "direction": "input",
+          "dataStructureRole": "dimension"
+        },
+        {
+          "methodRole": "repeated_subject",
+          "concept": "Subject",
+          "qualifierType": null,
+          "qualifierValue": null,
+          "requiredValueType": "Identifier",
+          "direction": "input",
+          "dataStructureRole": "dimension"
+        },
+        {
+          "conceptCategory": "ParameterDimension",
+          "methodRole": "constraint",
+          "direction": "input",
+          "dataStructureRole": "dimension",
+          "concept": "Parameter"
+        }
+      ],
+      "activeInteractions": [],
+      "derivationChain": [
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Change/0",
+          "concept": "Change",
+          "derivationOid": "T.ChangeFromBaseline"
+        }
+      ],
+      "selectedDerivations": {
+        "T.CFB_MMRM_Primary/Change/0": "T.ChangeFromBaseline"
+      },
+      "confirmedTerminals": [
+        {
+          "slotKey": "T.CFB_MMRM_Primary/AnalysisVisit/2",
+          "concept": "AnalysisVisit",
+          "roleLabel": "repeated_factor"
+        },
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Subject/4",
+          "concept": "Subject",
+          "roleLabel": "repeated_subject"
+        },
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Parameter/5",
+          "concept": "Parameter",
+          "roleLabel": "constraint"
+        },
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Change/0/Measure/0",
+          "concept": "Measure",
+          "roleLabel": "minuend",
+          "linkedBCIds": [
+            "BiomedicalConcept_SYSBP"
+          ]
+        },
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Change/0/Measure/1",
+          "concept": "Measure",
+          "roleLabel": "subtrahend",
+          "linkedBCIds": [
+            "BiomedicalConcept_SYSBP"
+          ]
+        },
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Measure/1",
+          "concept": "Measure",
+          "roleLabel": "covariate",
+          "linkedBCIds": [
+            "BiomedicalConcept_SYSBP"
+          ]
+        },
+        {
+          "slotKey": "T.CFB_MMRM_Primary/Treatment/3",
+          "concept": "Treatment",
+          "roleLabel": "fixed_effect"
+        }
+      ],
+      "pipelineReferences": []
+    }
+  },
+  "unitConversions": {
+    "model": "UnitConversionVocabulary",
+    "version": "0.1.0",
+    "description": "Linear conversion factors between units of the same physical dimension. Lookup is (from_code, to_code) first, then (from_name, to_name) as a fallback. target_value = source_value * factor. Non-linear (affine) conversions such as temperature are out of scope — they require a different method (e.g., M.AffineUnitConversion with offset + factor). Identity rows (cm → cm, factor 1.0) are included so the lookup is uniform and downstream code never needs to special-case 'source unit already matches target'.",
+    "units": [
+      {
+        "code": "C49668",
+        "name": "cm",
+        "display": "centimeter",
+        "dimension": "length"
+      },
+      {
+        "code": "C41139",
+        "name": "m",
+        "display": "meter",
+        "dimension": "length"
+      },
+      {
+        "code": "C48500",
+        "name": "inch",
+        "display": "inch",
+        "dimension": "length",
+        "synonyms": [
+          "in",
+          "IN",
+          "INCHES"
+        ]
+      },
+      {
+        "code": "C28252",
+        "name": "kg",
+        "display": "kilogram",
+        "dimension": "mass"
+      },
+      {
+        "code": "C48531",
+        "name": "lb",
+        "display": "pound",
+        "dimension": "mass",
+        "synonyms": [
+          "LB",
+          "LBS"
+        ]
+      },
+      {
+        "code": "C48155",
+        "name": "g",
+        "display": "gram",
+        "dimension": "mass"
+      }
+    ],
+    "conversions": [
+      {
+        "from_code": "C49668",
+        "to_code": "C41139",
+        "from_name": "cm",
+        "to_name": "m",
+        "factor": 0.01,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C41139",
+        "to_code": "C49668",
+        "from_name": "m",
+        "to_name": "cm",
+        "factor": 100,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C48500",
+        "to_code": "C49668",
+        "from_name": "inch",
+        "to_name": "cm",
+        "factor": 2.54,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C49668",
+        "to_code": "C48500",
+        "from_name": "cm",
+        "to_name": "inch",
+        "factor": 0.3937007874,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C48500",
+        "to_code": "C41139",
+        "from_name": "inch",
+        "to_name": "m",
+        "factor": 0.0254,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C41139",
+        "to_code": "C48500",
+        "from_name": "m",
+        "to_name": "inch",
+        "factor": 39.3700787402,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C49668",
+        "to_code": "C49668",
+        "from_name": "cm",
+        "to_name": "cm",
+        "factor": 1,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C41139",
+        "to_code": "C41139",
+        "from_name": "m",
+        "to_name": "m",
+        "factor": 1,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C48500",
+        "to_code": "C48500",
+        "from_name": "inch",
+        "to_name": "inch",
+        "factor": 1,
+        "dimension": "length"
+      },
+      {
+        "from_code": "C28252",
+        "to_code": "C48531",
+        "from_name": "kg",
+        "to_name": "lb",
+        "factor": 2.2046226218,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C48531",
+        "to_code": "C28252",
+        "from_name": "lb",
+        "to_name": "kg",
+        "factor": 0.45359237,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C28252",
+        "to_code": "C48155",
+        "from_name": "kg",
+        "to_name": "g",
+        "factor": 1000,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C48155",
+        "to_code": "C28252",
+        "from_name": "g",
+        "to_name": "kg",
+        "factor": 0.001,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C48531",
+        "to_code": "C48155",
+        "from_name": "lb",
+        "to_name": "g",
+        "factor": 453.59237,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C48155",
+        "to_code": "C48531",
+        "from_name": "g",
+        "to_name": "lb",
+        "factor": 0.0022046226,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C28252",
+        "to_code": "C28252",
+        "from_name": "kg",
+        "to_name": "kg",
+        "factor": 1,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C48531",
+        "to_code": "C48531",
+        "from_name": "lb",
+        "to_name": "lb",
+        "factor": 1,
+        "dimension": "mass"
+      },
+      {
+        "from_code": "C48155",
+        "to_code": "C48155",
+        "from_name": "g",
+        "to_name": "g",
+        "factor": 1,
+        "dimension": "mass"
+      }
+    ]
+  },
+  "preferences": {
+    "modelViewMode": "concepts_adam",
+    "currentStep": 6
+  }
+}
