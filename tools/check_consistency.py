@@ -386,6 +386,89 @@ ENDPOINTS: dict[str, dict] = {
 }
 
 
+def _sha256(path: Path) -> str:
+    import hashlib
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
+    """Phase 2 — fix the study's gaps, digitise the protocol, verify alignment.
+
+    Decided 2026-09-19 (NORTH.md). Each stage is computed from files, as the
+    endpoint stages are, so the block cannot claim what has not happened:
+
+      P0  study/gap-register.md exists and names every discrepancy D1..Dn from
+          study/source-refs.md, each with a disposition.
+      P1  study/m11/protocol/coverage.json lists the 14 M11 sections, each with
+          a status that is not "not started".
+      P2  the USDM fragment carries activities and scheduleTimelines AND names
+          the generator that produced it (tools/m11_to_usdm.py), which exists.
+      P3  tools/check_alignment.py exists and exits 0.
+      P4  docs/walkthrough.md exists.
+      P5  every endpoints/*/results.json carries usdm_sha256 equal to the
+          current fragment's hash — i.e. the runs are against the aligned study.
+    """
+    import subprocess as _sp
+    src = root / "study" / "source-refs.md"
+    d_ids = sorted(set(re.findall(r"\bD(\d+)\b", src.read_text(encoding="utf-8", errors="replace")))) if src.is_file() else []
+    reg = root / "study" / "gap-register.md"
+    p0 = reg.is_file() and bool(d_ids) and all(re.search(rf"\bD{n}\b", reg.read_text(encoding="utf-8", errors="replace")) for n in d_ids) \
+        and "disposition" in reg.read_text(encoding="utf-8", errors="replace").lower()
+
+    cov = root / "study" / "m11" / "protocol" / "coverage.json"
+    p1 = False
+    if cov.is_file():
+        try:
+            c = json.loads(cov.read_text(encoding="utf-8"))
+            secs = c.get("sections") if isinstance(c, dict) else c
+            p1 = isinstance(secs, list) and len(secs) >= 14 and all(
+                str(s.get("status", "not started")).lower() != "not started" for s in secs)
+        except (OSError, json.JSONDecodeError, AttributeError):
+            p1 = False
+
+    usdm_files = [f for f in (root / "study" / "usdm").glob("*.usdm.json")] if (root / "study" / "usdm").is_dir() else []
+    p2 = False
+    gen = root / "tools" / "m11_to_usdm.py"
+    for f in usdm_files:
+        try:
+            u = json.loads(f.read_text(encoding="utf-8"))
+            sd = u["study"]["versions"][0]["studyDesigns"][0]
+            txt = f.read_text(encoding="utf-8")
+            if sd.get("activities") and sd.get("scheduleTimelines") and "tools/m11_to_usdm.py" in txt and gen.is_file():
+                p2 = True
+        except (OSError, json.JSONDecodeError, KeyError, IndexError, TypeError):
+            pass
+
+    aln = root / "tools" / "check_alignment.py"
+    p3 = False
+    if aln.is_file():
+        try:
+            p3 = _sp.run([sys.executable, str(aln), "--root", str(root)], capture_output=True, timeout=120).returncode == 0
+        except (OSError, _sp.SubprocessError):
+            p3 = False
+
+    p4 = (root / "docs" / "walkthrough.md").is_file()
+
+    p5 = False
+    if usdm_files:
+        sha = _sha256(usdm_files[0])
+        results = list((root / "endpoints").glob("*/results.json"))
+        p5 = bool(results) and all(
+            (lambda r: r.get("usdm_sha256") == sha)(_load_json(f) or {}) for f in results)
+
+    return [
+        ("P0", "Gap register — every discrepancy with a disposition", p0),
+        ("P1", "Protocol fully M11 — all 14 sections covered", p1),
+        ("P2", "USDM generated from it, with the schedule of activities", p2),
+        ("P3", "Alignment verified by a tool", p3),
+        ("P4", "Hands-on walkthrough written", p4),
+        ("P5", "Both endpoints re-run on the aligned study", p5),
+    ]
+
+
+PHASES: dict[str, object] = {"phase2": phase2_stages}
+
+
 def north_stages(root: Path, name: str = "") -> list[tuple[str, str, bool]]:
     """The stages of NORTH.md's finish line, each computed from the repository.
 
@@ -488,7 +571,7 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
     # endpoint, <!-- north:status:NAME --> for a named one. Two tables with the
     # same stage numbers would otherwise overwrite each other.
     stated: dict[str, dict[str, tuple[int, bool]]] = {}
-    row = re.compile(r"^\|\s*([0-9][a-z]?)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
+    row = re.compile(r"^\|\s*([0-9P][0-9a-z]?)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
     open_mark = re.compile(r"<!--\s*north:status(?::([A-Za-z0-9_-]+))?\s*-->")
     close_mark = re.compile(r"<!--\s*/north:status")
     block: str | None = None
@@ -497,7 +580,7 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
         m = open_mark.search(line)
         if m:
             block = m.group(1) or ""
-            if block not in ENDPOINTS:
+            if block not in ENDPOINTS and block not in PHASES:
                 problems.append(Problem("NORTH.md", i,
                                         f"status block {block!r} is not a known endpoint "
                                         f"(tools/check_consistency.py ENDPOINTS)"))
@@ -506,7 +589,7 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
         if close_mark.search(line):
             block = None
             continue
-        if block is None or block not in ENDPOINTS:
+        if block is None or (block not in ENDPOINTS and block not in PHASES):
             continue
         m = row.match(line)
         if not m:
@@ -520,10 +603,11 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
     if "" not in stated:
         problems.append(Problem("NORTH.md", 0, "no <!-- north:status --> block found"))
     for name, rows in stated.items():
-        if name not in ENDPOINTS:
+        if name not in ENDPOINTS and name not in PHASES:
             continue
         tag = f" [{name}]" if name else ""
-        for num, label, actual in north_stages(root, name):
+        computed = north_stages(root, name) if name in ENDPOINTS else PHASES[name](root)
+        for num, label, actual in computed:
             if num not in rows:
                 problems.append(Problem("NORTH.md", 0,
                                         f"stage {num}{tag} ({label}) has no row in its status table"))
@@ -631,11 +715,11 @@ def main() -> int:
     problems += check_north(root, files)
 
     north_text = "\n".join(files.get("NORTH.md", []))
-    for name in ENDPOINTS:
+    for name in list(ENDPOINTS) + list(PHASES):
         marker = "<!-- north:status" + (f":{name}" if name else "") + " -->"
         if marker not in north_text:
             continue
-        stages = north_stages(root, name)
+        stages = north_stages(root, name) if name in ENDPOINTS else PHASES[name](root)
         done = sum(1 for _, _, ok in stages if ok)
         print()
         print(f"NORTH — finish line{' [' + name + ']' if name else ''}: {done} of {len(stages)} stages")

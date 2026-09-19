@@ -90,6 +90,43 @@ Baseline window, TORIVA's is the `ABLFL` row, 74% of subjects differ — and und
 enters every visit: residual variance up a third, AIC 760 worse. Two endpoints, two domains,
 two analyses, one mechanism.
 
+## Phase 2 — fix the study, digitise the protocol, verify alignment
+
+**Decided 2026-09-19 by LG**, after both endpoints reached the finish line. A different
+destination from the one above, so it gets its own finish line and its own scoreboard:
+
+> **Make TORIVA's study documents right and digital, and show that they agree** — the gaps found
+> on the way (D1–D14, the missing M11 estimand elements, the vital-signs procedures) fixed in
+> this repository's derived M11 protocol, the whole protocol digitised to USDM *by generation*
+> rather than by hand, the protocol, SAP, USDM and ADaM specifications checked against each other
+> by a tool, and a hands-on walkthrough so the traverse can be driven, not watched.
+
+Two scoping decisions, LG's: the gaps are fixed **here, in the derived work** — TORIVA upstream
+stays as it is and nothing is filed; and the **walkthrough is a stage**, not an extra.
+
+<!-- north:status:phase2 -->
+
+| # | Stage | Status |
+|---|---|---|
+| P0 | Gap register — every discrepancy with a disposition | ✗ |
+| P1 | Protocol fully M11 — all 14 sections covered | ✗ |
+| P2 | USDM generated from it, with the schedule of activities | ✗ |
+| P3 | Alignment verified by a tool | ✗ |
+| P4 | Hands-on walkthrough written | ✗ |
+| P5 | Both endpoints re-run on the aligned study | ✗ |
+
+<!-- /north:status:phase2 -->
+
+What makes each row green, as the checker computes it: **P0** `study/gap-register.md` naming
+every D-item in `source-refs.md` with a disposition; **P1** `study/m11/protocol/coverage.json`
+listing all fourteen M11 sections with a status; **P2** the USDM fragment carrying activities
+and a schedule of activities and naming `tools/m11_to_usdm.py` as its generator; **P3**
+`tools/check_alignment.py` existing and exiting 0; **P4** `docs/walkthrough.md`; **P5** every
+`endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256`.
+
+The test still applies, with the stage numbers now P0–P5. The two endpoint scoreboards stay as
+they are: green, and the record of the first phase.
+
 ## The route
 
 All four remaining stages run on **one endpoint — laboratory change from baseline**, which is
