@@ -78,6 +78,11 @@ disproved, so:
   `ac-dc-app/r/acdc_engine.R` out as CRLF and R reports `unexpected invalid token`. Fix once per
   clone: `git -C upstream/analysis-concepts config core.autocrlf false`, then re-checkout the file.
   The submodule stays clean. Step 8 also needs `.xpt`; TORIVA is parquet — `pyreadstat.write_xport`.
+- **Method implementations are pluggable at runtime.** The app reads
+  `lib/method_implementations/r_implementations.json` into `appState.methodImplementationCatalog`;
+  an entry added there in the page (same shape as `M.ANCOVA`'s) executes without touching the
+  submodule. WebR can `webr::install("mmrm")`. `endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json` is
+  the worked example, with the three rules an MMRM needed that the engine's data layer did not give it.
 - The builder's **Load** button opens a native file picker and can call `alert()`; both freeze
   browser automation. Call `deserializeStudyInstance` on `window.appState` instead.
 

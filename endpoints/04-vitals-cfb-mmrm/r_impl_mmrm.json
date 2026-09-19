@@ -1,0 +1,75 @@
+{
+  "$comment": "An R implementation for M.MMRM, written by this project on 2026-09-19 because upstream 739344c ships the MMRM method and template with no implementation (log.md V4). Same shape as upstream's M.ANCOVA entry in lib/method_implementations/r_implementations.json. Injected into the running app's methodImplementationCatalog at execution time; the pinned submodule is not edited. Uses the mmrm package, which WebR can install, and which is also what the stage 7 reference is fitted with in local R.",
+  "methodOid": "M.MMRM",
+  "language": "R",
+  "packages": [
+    "mmrm",
+    "emmeans"
+  ],
+  "function": "mmrm::mmrm",
+  "callTemplate": "analysis_data <- <dataset>\nanalysis_data <- analysis_data[!is.na(analysis_data[[\"<response>\"]]) & !is.na(analysis_data[[\"<covariate>\"]]), , drop = FALSE]\n# One row per subject and visit: mmrm refuses duplicate time points, where lm took the first.\n# Keep the first, which is the engine's own convention (!duplicated on join keys).\nanalysis_data <- analysis_data[!duplicated(analysis_data[, c(\"<repeated_subject>\", \"<repeated_factor>\")]), , drop = FALSE]\n# A change-from-baseline model has no baseline row: drop any visit at which every subject's\n# change is zero, which is the baseline visit by construction (AVAL minus the baseline AVAL).\nzero_visits <- names(which(tapply(analysis_data[[\"<response>\"]], analysis_data[[\"<repeated_factor>\"]], function(x) length(x) > 0 && all(x == 0))))\nif (length(zero_visits) > 0) analysis_data <- analysis_data[!(analysis_data[[\"<repeated_factor>\"]] %in% zero_visits), , drop = FALSE]\nanalysis_data[[\"<repeated_subject>\"]] <- factor(analysis_data[[\"<repeated_subject>\"]])\nanalysis_data[[\"<repeated_factor>\"]] <- factor(analysis_data[[\"<repeated_factor>\"]])\nanalysis_data[[\"<fixed_effect>\"]] <- factor(analysis_data[[\"<fixed_effect>\"]])\ncov_fn <- switch(\"<covariance_structure>\", UN = \"us\", CS = \"cs\", AR1 = \"ar1\", TOEP = \"toep\", CSH = \"csh\", ARH1 = \"ar1h\", \"us\")\ndf_meth <- switch(\"<df_method>\", KR = \"Kenward-Roger\", Satterthwaite = \"Satterthwaite\", \"Satterthwaite\")\nuse_reml <- identical(\"<estimation_method>\", \"REML\")\nalpha_val <- suppressWarnings(as.numeric(\"<alpha>\")); if (is.na(alpha_val)) alpha_val <- 0.05\nadj <- \"<multiplicity_adjustment>\"; if (grepl(\"<\", adj, fixed = TRUE) || !nzchar(adj)) adj <- \"none\"\n# mmrm does not accept non-syntactic column names such as the engine's __col_* derived response,\n# so the response and covariate are copied to syntactic names before the fit.\nanalysis_data$cfb_response <- analysis_data[[\"<response>\"]]\nanalysis_data$cfb_baseline <- analysis_data[[\"<covariate>\"]]\nfml <- as.formula(sprintf(\"cfb_response ~ cfb_baseline + `%s` * `%s` + %s(`%s` | `%s`)\", \"<fixed_effect>\", \"<repeated_factor>\", cov_fn, \"<repeated_factor>\", \"<repeated_subject>\"))\nmodel <- mmrm::mmrm(fml, data = analysis_data, reml = use_reml, method = df_meth)\nmodel_summary <- summary(model)\ncoef_tab <- as.data.frame(model_summary$coefficients)\nanova_result <- tryCatch(as.data.frame(emmeans::joint_tests(model)), error = function(e) data.frame())\nlsm <- emmeans::emmeans(model, as.formula(sprintf(\"~ `%s` | `%s`\", \"<fixed_effect>\", \"<repeated_factor>\")))\nlsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - alpha_val))\ncontr <- pairs(lsm, adjust = adj)\ncontr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - alpha_val))\ncov_mat <- mmrm::VarCorr(model)\ncov_df <- data.frame(term = paste(rownames(cov_mat)[row(cov_mat)][upper.tri(cov_mat, diag = TRUE)], colnames(cov_mat)[col(cov_mat)][upper.tri(cov_mat, diag = TRUE)], sep = \":\"), estimate = cov_mat[upper.tri(cov_mat, diag = TRUE)])\n",
+  "outputMapping": [
+    {
+      "outputClass": "fit_statistics",
+      "resultColumns": {
+        "AIC": "AIC(model)",
+        "BIC": "BIC(model)",
+        "minus2LogL": "-2 * as.numeric(logLik(model))"
+      }
+    },
+    {
+      "outputClass": "type3_tests",
+      "resultColumns": {
+        "Term": "anova_result[['model term']]",
+        "F_statistic": "anova_result[['F.ratio']]",
+        "df_num": "anova_result[['df1']]",
+        "df_den": "anova_result[['df2']]",
+        "p_value": "anova_result[['p.value']]"
+      }
+    },
+    {
+      "outputClass": "parameter_estimates",
+      "resultColumns": {
+        "Term": "rownames(coef_tab)",
+        "coefficient": "coef_tab[['Estimate']]",
+        "SE": "coef_tab[['Std. Error']]",
+        "df": "coef_tab[['df']]",
+        "t_statistic": "coef_tab[['t value']]",
+        "p_value": "coef_tab[['Pr(>|t|)']]"
+      }
+    },
+    {
+      "outputClass": "ls_means",
+      "resultColumns": {
+        "Group": "paste(lsm_df[[1]], lsm_df[[2]], sep = ' @ ')",
+        "estimate": "lsm_df$emmean",
+        "SE": "lsm_df$SE",
+        "df": "lsm_df$df",
+        "CI_lower": "lsm_df$lower.CL",
+        "CI_upper": "lsm_df$upper.CL"
+      }
+    },
+    {
+      "outputClass": "contrasts",
+      "resultColumns": {
+        "Contrast": "paste(as.character(contr_df$contrast), contr_df[[2]], sep = ' @ ')",
+        "estimate": "contr_df$estimate",
+        "SE": "contr_df$SE",
+        "df": "contr_df$df",
+        "CI_lower": "contr_df$lower.CL",
+        "CI_upper": "contr_df$upper.CL",
+        "t_statistic": "contr_df$t.ratio",
+        "p_value": "contr_df$p.value"
+      }
+    },
+    {
+      "outputClass": "covariance_parameters",
+      "resultColumns": {
+        "term": "cov_df$term",
+        "estimate": "cov_df$estimate"
+      }
+    }
+  ],
+  "documentation": "MMRM on change from baseline: fixed effects baseline covariate, treatment, visit and treatment-by-visit; within-subject covariance over visits (structure from the covariance_structure configuration, default unstructured); REML by default; Kenward-Roger degrees of freedom by default. LS means and treatment contrasts are reported at each visit.",
+  "notes": "Not an upstream artefact. Written for endpoints/04-vitals-cfb-mmrm; see log.md V4 and V5. Rows are made unique per subject and visit (first kept, the engine's convention) and the baseline visit — the level at which every change is zero — is dropped, because mmrm refuses duplicate time points and a change-from-baseline model has no baseline row (V5)."
+}

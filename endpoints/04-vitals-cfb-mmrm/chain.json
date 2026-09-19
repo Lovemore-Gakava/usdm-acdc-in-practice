@@ -2,8 +2,8 @@
   "$schema": "acdc-study-instance.schema.json",
   "instanceId": "SI_TORIVA-LUNG-301_2026-09-19",
   "formatVersion": "1.0",
-  "createdAt": "2026-09-19T06:28:36.414Z",
-  "updatedAt": "2026-09-19T06:28:36.414Z",
+  "createdAt": "2026-09-19T06:41:08.815Z",
+  "updatedAt": "2026-09-19T06:41:08.815Z",
   "$references": {
     "transformationLibrary": {
       "file": "lib/transformations/ACDC_Transformation_Library_v06.json",
@@ -52,10 +52,11 @@
       "dimensionValues": {
         "Parameter": "Systolic Blood Pressure",
         "Population": "SAF",
-        "Treatment": "Torivumab vs Placebo"
+        "Treatment": "Torivumab vs Placebo",
+        "AnalysisVisit": "C2D1"
       },
       "derivationNote": "",
-      "selectedTransformationOid": "T.CFB_MMRM_Primary",
+      "selectedTransformationOid": "T.CFB_ANCOVA",
       "selectedDerivationOid": null,
       "useInEsap": true,
       "writeBackToUsdm": false,
@@ -65,7 +66,7 @@
       "derivationDimensionValues": {},
       "selectedAnalyses": [
         {
-          "transformationOid": "T.CFB_MMRM_Primary",
+          "transformationOid": "T.CFB_ANCOVA",
           "resolvedBindings": [
             {
               "methodRole": "response",
@@ -86,16 +87,6 @@
               "slice": "parameter_baseline"
             },
             {
-              "methodRole": "repeated_factor",
-              "conceptCategory": "VisitDimension",
-              "qualifierType": "DerivationStatus",
-              "qualifierValue": "Analysis",
-              "requiredValueType": "CodeableConcept",
-              "direction": "input",
-              "dataStructureRole": "dimension",
-              "concept": "AnalysisVisit"
-            },
-            {
               "methodRole": "fixed_effect",
               "concept": "Treatment",
               "qualifierType": "IntentType",
@@ -105,11 +96,8 @@
               "dataStructureRole": "dimension"
             },
             {
-              "methodRole": "repeated_subject",
               "concept": "Subject",
-              "qualifierType": null,
-              "qualifierValue": null,
-              "requiredValueType": "Identifier",
+              "methodRole": "partition",
               "direction": "input",
               "dataStructureRole": "dimension"
             },
@@ -119,6 +107,13 @@
               "direction": "input",
               "dataStructureRole": "dimension",
               "concept": "Parameter"
+            },
+            {
+              "conceptCategory": "VisitDimension",
+              "methodRole": "constraint",
+              "direction": "input",
+              "dataStructureRole": "dimension",
+              "concept": "AnalysisVisit"
             }
           ],
           "activeInteractions": [],
@@ -140,14 +135,14 @@
         },
         {
           "dimension": "AnalysisVisit",
-          "sliceValue": ""
-        },
-        {
-          "dimension": "M.MMRM",
-          "sliceValue": ""
+          "sliceValue": "C2D1"
         },
         {
           "dimension": "Measure",
+          "sliceValue": ""
+        },
+        {
+          "dimension": "M.ANCOVA",
           "sliceValue": ""
         }
       ],
@@ -157,8 +152,8 @@
         "SP_POPULATION",
         "SP_GROUPING",
         "SP_TIMEPOINT",
-        "SP_METHOD_MMRM",
-        "SP_COVARIATE_BASELINE"
+        "SP_COVARIATE_BASELINE",
+        "SP_METHOD_ANCOVA"
       ],
       "resolvedSlices": [
         {
@@ -166,14 +161,16 @@
           "fixedDimensions": {
             "Parameter": "Systolic Blood Pressure",
             "Population": "SAF",
-            "Treatment": "Torivumab vs Placebo"
+            "Treatment": "Torivumab vs Placebo",
+            "AnalysisVisit": "C2D1"
           }
         }
       ],
       "sliceKeyDimensions": [
         "Parameter",
         "Population",
-        "Treatment"
+        "Treatment",
+        "AnalysisVisit"
       ],
       "dimensionCategoryPicks": {
         "ParameterDimension": "Parameter",
@@ -199,16 +196,6 @@
           "slice": "parameter_baseline"
         },
         {
-          "methodRole": "repeated_factor",
-          "conceptCategory": "VisitDimension",
-          "qualifierType": "DerivationStatus",
-          "qualifierValue": "Analysis",
-          "requiredValueType": "CodeableConcept",
-          "direction": "input",
-          "dataStructureRole": "dimension",
-          "concept": "AnalysisVisit"
-        },
-        {
           "methodRole": "fixed_effect",
           "concept": "Treatment",
           "qualifierType": "IntentType",
@@ -218,11 +205,8 @@
           "dataStructureRole": "dimension"
         },
         {
-          "methodRole": "repeated_subject",
           "concept": "Subject",
-          "qualifierType": null,
-          "qualifierValue": null,
-          "requiredValueType": "Identifier",
+          "methodRole": "partition",
           "direction": "input",
           "dataStructureRole": "dimension"
         },
@@ -232,37 +216,45 @@
           "direction": "input",
           "dataStructureRole": "dimension",
           "concept": "Parameter"
+        },
+        {
+          "conceptCategory": "VisitDimension",
+          "methodRole": "constraint",
+          "direction": "input",
+          "dataStructureRole": "dimension",
+          "concept": "AnalysisVisit"
         }
       ],
       "activeInteractions": [],
       "derivationChain": [
         {
-          "slotKey": "T.CFB_MMRM_Primary/Change/0",
+          "slotKey": "T.CFB_ANCOVA/Change/0",
           "concept": "Change",
           "derivationOid": "T.ChangeFromBaseline"
         }
       ],
       "selectedDerivations": {
-        "T.CFB_MMRM_Primary/Change/0": "T.ChangeFromBaseline"
+        "T.CFB_MMRM_Primary/Change/0": "T.ChangeFromBaseline",
+        "T.CFB_ANCOVA/Change/0": "T.ChangeFromBaseline"
       },
       "confirmedTerminals": [
         {
-          "slotKey": "T.CFB_MMRM_Primary/AnalysisVisit/2",
-          "concept": "AnalysisVisit",
-          "roleLabel": "repeated_factor"
-        },
-        {
-          "slotKey": "T.CFB_MMRM_Primary/Subject/4",
+          "slotKey": "T.CFB_ANCOVA/Subject/3",
           "concept": "Subject",
-          "roleLabel": "repeated_subject"
+          "roleLabel": "partition"
         },
         {
-          "slotKey": "T.CFB_MMRM_Primary/Parameter/5",
+          "slotKey": "T.CFB_ANCOVA/Parameter/4",
           "concept": "Parameter",
           "roleLabel": "constraint"
         },
         {
-          "slotKey": "T.CFB_MMRM_Primary/Change/0/Measure/0",
+          "slotKey": "T.CFB_ANCOVA/AnalysisVisit/5",
+          "concept": "AnalysisVisit",
+          "roleLabel": "constraint"
+        },
+        {
+          "slotKey": "T.CFB_ANCOVA/Change/0/Measure/0",
           "concept": "Measure",
           "roleLabel": "minuend",
           "linkedBCIds": [
@@ -270,7 +262,7 @@
           ]
         },
         {
-          "slotKey": "T.CFB_MMRM_Primary/Change/0/Measure/1",
+          "slotKey": "T.CFB_ANCOVA/Change/0/Measure/1",
           "concept": "Measure",
           "roleLabel": "subtrahend",
           "linkedBCIds": [
@@ -278,7 +270,7 @@
           ]
         },
         {
-          "slotKey": "T.CFB_MMRM_Primary/Measure/1",
+          "slotKey": "T.CFB_ANCOVA/Measure/1",
           "concept": "Measure",
           "roleLabel": "covariate",
           "linkedBCIds": [
@@ -286,7 +278,7 @@
           ]
         },
         {
-          "slotKey": "T.CFB_MMRM_Primary/Treatment/3",
+          "slotKey": "T.CFB_ANCOVA/Treatment/2",
           "concept": "Treatment",
           "roleLabel": "fixed_effect"
         }

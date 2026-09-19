@@ -144,7 +144,7 @@
       {
         "id": "Estimand_Endpoint_SAFETY_VS",
         "name": "Estimand for END-S5-VS",
-        "label": "Change change from baseline in Systolic Blood Pressure in the SAF population",
+        "label": "Change change from baseline in Systolic Blood Pressure at C2D1 in the SAF population",
         "populationSummary": "SAF",
         "variableOfInterest": {
           "id": "Endpoint_SAFETY_VS",
@@ -171,7 +171,7 @@
           {
             "sequence": 1,
             "basedOn": {
-              "transformationId": "T.CFB_MMRM_Primary"
+              "transformationId": "T.CFB_ANCOVA"
             },
             "resolvedBindings": [
               {
@@ -191,16 +191,6 @@
                 "description": "Baseline value of the endpoint parameter"
               },
               {
-                "concept": "AnalysisVisit",
-                "methodRole": "repeated_factor",
-                "direction": "input",
-                "dataStructureRole": "dimension",
-                "conceptCategory": "VisitDimension",
-                "requiredValueType": "CodeableConcept",
-                "qualifierType": "DerivationStatus",
-                "qualifierValue": "Analysis"
-              },
-              {
                 "concept": "Treatment",
                 "methodRole": "fixed_effect",
                 "direction": "input",
@@ -211,10 +201,9 @@
               },
               {
                 "concept": "Subject",
-                "methodRole": "repeated_subject",
+                "methodRole": "partition",
                 "direction": "input",
-                "dataStructureRole": "dimension",
-                "requiredValueType": "Identifier"
+                "dataStructureRole": "dimension"
               },
               {
                 "concept": "Parameter",
@@ -222,6 +211,13 @@
                 "direction": "input",
                 "dataStructureRole": "dimension",
                 "conceptCategory": "ParameterDimension"
+              },
+              {
+                "concept": "AnalysisVisit",
+                "methodRole": "constraint",
+                "direction": "input",
+                "dataStructureRole": "dimension",
+                "conceptCategory": "VisitDimension"
               }
             ],
             "resolvedSlices": [
@@ -230,7 +226,8 @@
                 "resolvedValues": {
                   "Parameter": "Systolic Blood Pressure",
                   "Population": "SAF",
-                  "Treatment": "Torivumab vs Placebo"
+                  "Treatment": "Torivumab vs Placebo",
+                  "AnalysisVisit": "C2D1"
                 }
               },
               {
@@ -243,10 +240,10 @@
             ],
             "resolvedExpression": {
               "notation": "wilkinson_rogers",
-              "resolved": "Change ~ Measure@Parameter_baseline + Treatment | Subject / AnalysisVisit"
+              "resolved": "Change ~ Measure@Parameter_baseline + Treatment"
             },
             "arsAnalysis": {
-              "analysisId": "ARS_T.CFB_MMRM_Primary_Endpoint_SAFETY_VS"
+              "analysisId": "ARS_T.CFB_ANCOVA_Endpoint_SAFETY_VS"
             }
           }
         ]

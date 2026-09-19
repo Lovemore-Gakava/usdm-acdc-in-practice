@@ -122,6 +122,7 @@ reasoning.
 │   └── usdm/                        stage 1 / 0b — USDM v4, generated from the above
 ├── endpoints/
 │   ├── 01-simple-lab-cfb/           mapping, chain.json, comparison, log — all four steps
+│   ├── 04-vitals-cfb-mmrm/          second endpoint: MMRM + ANCOVA chains, our M.MMRM implementation, executed and compared
 │   ├── 02-moderate-orr/             mapping, chain.json, log — unauthorable, see F13
 │   └── 03-complex-pfs/              mapping only — does not compose, see F06
 └── tools/
@@ -153,7 +154,12 @@ happened.
 | Moderate tier (ORR) | Mapped and attempted. **Composes at method level and cannot be authored** — the authorable chain has `derivationChain: []` |
 | Complex tier (PFS) | Mapped. **Does not compose on paper** — F06. Steps 2–4 blocked |
 
-The finish line is reached on one endpoint. What comes next is a decision, not a stage.
+The finish line is reached on **two endpoints**. The second — systolic blood pressure, change
+from baseline, by MMRM and by ANCOVA (`endpoints/04-vitals-cfb-mmrm/`) — went through all nine
+stages on 2026-09-19, with one thing the first did not need: an `M.MMRM` implementation written
+by this project, because upstream ships none. Both endpoints diverge from TORIVA's built ADaM by
+the same rule — the engine takes the first row in the Baseline window, TORIVA the `ABLFL` row —
+on 70% and 74% of subjects. What comes next is a decision, not a stage.
 
 Fourteen discrepancies inside TORIVA itself have surfaced from mapping (D1–D14), including one
 that makes estimand E3 unimplementable as specified (`EFFFL` does not exist on ADRS) and one

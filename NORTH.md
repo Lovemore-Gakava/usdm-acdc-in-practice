@@ -67,8 +67,8 @@ scoreboard prints on every commit.
 | 3 | DC — derivation authored | ✓ |
 | 4 | AC — analysis bound | ✓ |
 | 5 | eSAP generated | ✓ |
-| 6 | Executed, a real result produced | ✗ |
-| 7 | Compared against built ADaM | ✗ |
+| 6 | Executed, a real result produced | ✓ |
+| 7 | Compared against built ADaM | ✓ |
 
 <!-- /north:status:vitals -->
 
@@ -78,6 +78,17 @@ measurements, and no text of collection procedures. Stage 0b is a `section-08-04
 under `study/m11/protocol/` and the USDM regenerated to cite it; stage 1 is the BC `C25298` in
 the fragment; stages 2–7 live in `endpoints/04-vitals-cfb-mmrm/`. The reference for stage 7 is
 an MMRM fitted in local R (`mmrm` 4.6), since Python has no equivalent.
+
+**Reached 2026-09-19, the same day.** Stages 2–5 in the builder with the lab tier's lessons
+applied up front. Stage 6 stalled on `No R implementation available for M.MMRM` — upstream
+ships the template and the method and nothing to run it with — and LG asked why one could not
+be written. One was: [`endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json`](endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json),
+injected into the running app, `mmrm` in WebR. Both the MMRM and the ANCOVA companion executed
+and both are **reproduced exactly** by refits outside the engine. Against TORIVA's own `CHG` and
+`BASE` they diverge for the lab tier's reason — the engine's baseline is the first row in the
+Baseline window, TORIVA's is the `ABLFL` row, 74% of subjects differ — and under MMRM that error
+enters every visit: residual variance up a third, AIC 760 worse. Two endpoints, two domains,
+two analyses, one mechanism.
 
 ## The route
 

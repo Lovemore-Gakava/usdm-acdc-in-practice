@@ -37,9 +37,13 @@ second endpoint: to see what a second pass costs when the first one's decisions 
 | V-D11 | Resolve `covariate` | `(raw)` | lab tier D8 |
 | V-D12 | Confirm `Treatment` terminal | confirmed | — |
 | V-D13 | Link BC on three measure terminals | `SYSBP` | stage 2 |
+| V-D14 | Visit window for execution | Baseline + C1D15–C6D1, applied to the data before upload | an unstructured covariance over forty visits is not a fit; the cube's visit dimension holds one value, not a set |
+| V-D15 | Execute MMRM with what? | **write an `M.MMRM` implementation** | upstream ships none (V4); WebR can install `mmrm` |
+| V-D16 | Execution overrides | `advs`, `TRT01P`, `SAFFL = Y`, no treatment filter, covariate `BASE` | the lab tier's L7, applied up front |
 
-Thirteen decisions, none of them statistical, and nine of them already made once on the lab
-tier. The two that are new — V-D5 and V-D8 — are the ones the endpoint was chosen for.
+Sixteen decisions, none of them statistical, and ten of them already made once on the lab
+tier. The ones that are new — V-D5, V-D8, V-D14, V-D15 — are the ones the endpoint was chosen
+for, and V-D15 is the one nobody planned.
 
 ## Where it strained
 
@@ -90,9 +94,35 @@ layer down — method ≠ transformation ≠ builder, and now ≠ implementation
 log rather than as a fourteenth finding, because it blocked a stage being actively completed and
 two paragraphs is what that gets. What happens next is a decision, not authoring.
 
-## What this endpoint cost, in one line (so far)
+### V5 — writing the implementation: three things `mmrm` needed that the engine did not give it *(stage 6, 2026-09-19)*
 
-**Zero authoring, thirteen decisions of which nine were repeats, two bindings resolved by hand
-because the app's own rule was not applied on the path taken, and a chain that reached the
-eSAP with no single-visit choice — and cannot be executed at `739344c`, because `M.MMRM` has no
-R implementation (V4).**
+LG asked why an R implementation could not simply be written. It could. WebR reported `mmrm`,
+`nlme`, `emmeans` and `lme4` installable, the registry format is a JSON entry with a
+`callTemplate` of `<role>` placeholders and an `outputMapping` of R expressions per output class
+(upstream's `M.ANCOVA` entry was the model), and the app reads the catalog from
+`appState.methodImplementationCatalog` — so the entry was injected into the running page rather
+than written into the pinned submodule. It is [`r_impl_mmrm.json`](r_impl_mmrm.json), ours, and
+says so.
+
+It took three iterations, each a fact about the seam between the framework's data layer and a
+real mixed model:
+
+1. **Duplicate time points at Baseline.** The endpoint slice has no visit filter, so the cube
+   carried both Baseline-window rows for 340 subjects. `lm` had silently taken the first;
+   `mmrm` refuses. The implementation now keeps one row per subject and visit (the engine's own
+   `!duplicated` convention) and drops the visit at which every change is zero — the baseline
+   visit by construction — because the slice cannot say "≠ Baseline".
+2. **Non-syntactic names.** The engine's derived response is `__col_T_CFB_MMRM_Primary_Change_0`;
+   `mmrm`'s formula parser cannot use it. Response and covariate are copied to syntactic names.
+3. **Type-3 tests.** `car::Anova` fell to its default method on an `mmrm` object without `car`
+   attached. `emmeans::joint_tests` supports `mmrm` directly and is used instead.
+
+The run then completed in about a minute in WebR: six visits, 2,605 rows, 446 subjects, all six
+output classes populated — and reproduced exactly by the same model in local R.
+
+## What this endpoint cost, in one line
+
+**Zero chain authoring and one method implementation, sixteen decisions of which ten were
+repeats, two bindings resolved by hand because the app's own rule was not applied on the path
+taken, an MMRM that upstream could not run and this project could — reproduced exactly — and the
+same wrong baseline row as the lab tier, on 74% of subjects, at every visit.**

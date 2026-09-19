@@ -1,0 +1,1055 @@
+{
+  "$comment": "NORTH.md stage 6 for endpoint 2 — executed in ac-dc-app step 8 (WebR) at upstream 739344c against TORIVA ADVS (8534339d), restricted to Baseline + induction visits C1D15-C6D1 and converted to .xpt, 2026-09-19. run_mmrm used the M.MMRM implementation this project wrote (r_impl_mmrm.json), injected into the running app's methodImplementationCatalog; run_ancova is the companion chain. References were fitted outside the engine: ANCOVA in Python (numpy), MMRM in local R 4.6 with the mmrm package. See comparison.md.",
+  "run_mmrm": {
+    "status": "complete",
+    "results": {
+      "fit_statistics": {
+        "AIC": 22065.1148,
+        "BIC": 22151.2215,
+        "minus2LogL": 22023.1148
+      },
+      "type3_tests": [
+        {
+          "Term": "cfb_baseline",
+          "F_statistic": 18.531,
+          "df_num": 1,
+          "df_den": 445.46,
+          "p_value": 0
+        },
+        {
+          "Term": "TRT01P",
+          "F_statistic": 0.083,
+          "df_num": 1,
+          "df_den": 442.13,
+          "p_value": 0.7731
+        },
+        {
+          "Term": "AnalysisVisit",
+          "F_statistic": 0.639,
+          "df_num": 5,
+          "df_den": 430.92,
+          "p_value": 0.6703
+        },
+        {
+          "Term": "TRT01P:AnalysisVisit",
+          "F_statistic": 1.79,
+          "df_num": 5,
+          "df_den": 430.92,
+          "p_value": 0.1135
+        }
+      ],
+      "parameter_estimates": [
+        {
+          "Term": "(Intercept)",
+          "coefficient": 24.8949,
+          "SE": 6.1136,
+          "df": 464.0099,
+          "t_statistic": 4.0721,
+          "p_value": 0.0001
+        },
+        {
+          "Term": "cfb_baseline",
+          "coefficient": -0.2062,
+          "SE": 0.0479,
+          "df": 445.4576,
+          "t_statistic": 4.3047,
+          "p_value": 0
+        },
+        {
+          "Term": "TRT01PTorivumab + Chemotherapy",
+          "coefficient": 0.0367,
+          "SE": 1.8692,
+          "df": 443.6748,
+          "t_statistic": 0.0196,
+          "p_value": 0.9844
+        },
+        {
+          "Term": "AnalysisVisitC2D1",
+          "coefficient": -1.9279,
+          "SE": 1.377,
+          "df": 444.0013,
+          "t_statistic": 1.4001,
+          "p_value": 0.1622
+        },
+        {
+          "Term": "AnalysisVisitC3D1",
+          "coefficient": 0.2398,
+          "SE": 1.3813,
+          "df": 440.0337,
+          "t_statistic": 0.1736,
+          "p_value": 0.8623
+        },
+        {
+          "Term": "AnalysisVisitC4D1",
+          "coefficient": -0.0611,
+          "SE": 1.4042,
+          "df": 436.425,
+          "t_statistic": 0.0435,
+          "p_value": 0.9653
+        },
+        {
+          "Term": "AnalysisVisitC5D1",
+          "coefficient": 1.2675,
+          "SE": 1.4253,
+          "df": 437.4772,
+          "t_statistic": 0.8893,
+          "p_value": 0.3743
+        },
+        {
+          "Term": "AnalysisVisitC6D1",
+          "coefficient": -0.0238,
+          "SE": 1.4088,
+          "df": 433.0367,
+          "t_statistic": 0.0169,
+          "p_value": 0.9865
+        },
+        {
+          "Term": "TRT01PTorivumab + Chemotherapy:AnalysisVisitC2D1",
+          "coefficient": 1.3386,
+          "SE": 1.943,
+          "df": 444.0013,
+          "t_statistic": 0.689,
+          "p_value": 0.4912
+        },
+        {
+          "Term": "TRT01PTorivumab + Chemotherapy:AnalysisVisitC3D1",
+          "coefficient": -1.2064,
+          "SE": 1.9517,
+          "df": 440.9812,
+          "t_statistic": 0.6181,
+          "p_value": 0.5368
+        },
+        {
+          "Term": "TRT01PTorivumab + Chemotherapy:AnalysisVisitC4D1",
+          "coefficient": -0.3458,
+          "SE": 1.9872,
+          "df": 438.2465,
+          "t_statistic": 0.174,
+          "p_value": 0.8619
+        },
+        {
+          "Term": "TRT01PTorivumab + Chemotherapy:AnalysisVisitC5D1",
+          "coefficient": -3.4616,
+          "SE": 2.0153,
+          "df": 438.8573,
+          "t_statistic": 1.7176,
+          "p_value": 0.0866
+        },
+        {
+          "Term": "TRT01PTorivumab + Chemotherapy:AnalysisVisitC6D1",
+          "coefficient": 1.0353,
+          "SE": 1.9827,
+          "df": 430.9204,
+          "t_statistic": 0.5222,
+          "p_value": 0.6018
+        }
+      ],
+      "ls_means": [
+        {
+          "Group": "Placebo + Chemotherapy @ C1D15",
+          "estimate": -0.8326,
+          "SE": 1.3246,
+          "df": 443.6345,
+          "CI_lower": -3.436,
+          "CI_upper": 1.7707
+        },
+        {
+          "Group": "Torivumab + Chemotherapy @ C1D15",
+          "estimate": -0.796,
+          "SE": 1.3188,
+          "df": 443.6642,
+          "CI_lower": -3.3878,
+          "CI_upper": 1.7958
+        },
+        {
+          "Group": "Placebo + Chemotherapy @ C2D1",
+          "estimate": -2.7606,
+          "SE": 1.37,
+          "df": 443.5883,
+          "CI_lower": -5.4531,
+          "CI_upper": -0.068
+        },
+        {
+          "Group": "Torivumab + Chemotherapy @ C2D1",
+          "estimate": -1.3853,
+          "SE": 1.3639,
+          "df": 443.6184,
+          "CI_lower": -4.0658,
+          "CI_upper": 1.2953
+        },
+        {
+          "Group": "Placebo + Chemotherapy @ C3D1",
+          "estimate": -0.5928,
+          "SE": 1.2983,
+          "df": 440.0802,
+          "CI_lower": -3.1445,
+          "CI_upper": 1.9588
+        },
+        {
+          "Group": "Torivumab + Chemotherapy @ C3D1",
+          "estimate": -1.7626,
+          "SE": 1.2964,
+          "df": 441.7712,
+          "CI_lower": -4.3104,
+          "CI_upper": 0.7852
+        },
+        {
+          "Group": "Placebo + Chemotherapy @ C4D1",
+          "estimate": -0.8938,
+          "SE": 1.3025,
+          "df": 435.6965,
+          "CI_lower": -3.4537,
+          "CI_upper": 1.6662
+        },
+        {
+          "Group": "Torivumab + Chemotherapy @ C4D1",
+          "estimate": -1.2029,
+          "SE": 1.3054,
+          "df": 438.7046,
+          "CI_lower": -3.7684,
+          "CI_upper": 1.3627
+        },
+        {
+          "Group": "Placebo + Chemotherapy @ C5D1",
+          "estimate": 0.4349,
+          "SE": 1.3471,
+          "df": 434.6887,
+          "CI_lower": -2.2129,
+          "CI_upper": 3.0826
+        },
+        {
+          "Group": "Torivumab + Chemotherapy @ C5D1",
+          "estimate": -2.99,
+          "SE": 1.3474,
+          "df": 437.1829,
+          "CI_lower": -5.6382,
+          "CI_upper": -0.3419
+        },
+        {
+          "Group": "Placebo + Chemotherapy @ C6D1",
+          "estimate": -0.8565,
+          "SE": 1.3386,
+          "df": 428.3501,
+          "CI_lower": -3.4874,
+          "CI_upper": 1.7745
+        },
+        {
+          "Group": "Torivumab + Chemotherapy @ C6D1",
+          "estimate": 0.2155,
+          "SE": 1.3249,
+          "df": 424.1272,
+          "CI_lower": -2.3886,
+          "CI_upper": 2.8196
+        }
+      ],
+      "contrasts": [
+        {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy) @ C1D15",
+          "estimate": -0.0367,
+          "SE": 1.8692,
+          "df": 443.6748,
+          "CI_lower": -3.7103,
+          "CI_upper": 3.637,
+          "t_statistic": -0.0196,
+          "p_value": 0.9844
+        },
+        {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy) @ C2D1",
+          "estimate": -1.3753,
+          "SE": 1.9333,
+          "df": 443.6292,
+          "CI_lower": -5.1748,
+          "CI_upper": 2.4242,
+          "t_statistic": -0.7114,
+          "p_value": 0.4772
+        },
+        {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy) @ C3D1",
+          "estimate": 1.1697,
+          "SE": 1.8348,
+          "df": 440.9849,
+          "CI_lower": -2.4363,
+          "CI_upper": 4.7758,
+          "t_statistic": 0.6375,
+          "p_value": 0.5241
+        },
+        {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy) @ C4D1",
+          "estimate": 0.3091,
+          "SE": 1.8441,
+          "df": 437.2453,
+          "CI_lower": -3.3153,
+          "CI_upper": 3.9335,
+          "t_statistic": 0.1676,
+          "p_value": 0.867
+        },
+        {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy) @ C5D1",
+          "estimate": 3.4249,
+          "SE": 1.9054,
+          "df": 435.9294,
+          "CI_lower": -0.32,
+          "CI_upper": 7.1698,
+          "t_statistic": 1.7975,
+          "p_value": 0.0729
+        },
+        {
+          "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy) @ C6D1",
+          "estimate": -1.072,
+          "SE": 1.8834,
+          "df": 426.2439,
+          "CI_lower": -4.7739,
+          "CI_upper": 2.6299,
+          "t_statistic": -0.5692,
+          "p_value": 0.5695
+        }
+      ],
+      "covariance_parameters": [
+        {
+          "term": "C1D15:C1D15",
+          "estimate": 390.3962
+        },
+        {
+          "term": "C1D15:C2D1",
+          "estimate": 192.847
+        },
+        {
+          "term": "C2D1:C2D1",
+          "estimate": 418.1215
+        },
+        {
+          "term": "C1D15:C3D1",
+          "estimate": 170.2493
+        },
+        {
+          "term": "C2D1:C3D1",
+          "estimate": 217.5313
+        },
+        {
+          "term": "C3D1:C3D1",
+          "estimate": 372.6351
+        },
+        {
+          "term": "C1D15:C4D1",
+          "estimate": 164.3575
+        },
+        {
+          "term": "C2D1:C4D1",
+          "estimate": 171.3591
+        },
+        {
+          "term": "C3D1:C4D1",
+          "estimate": 174.4627
+        },
+        {
+          "term": "C4D1:C4D1",
+          "estimate": 374.0881
+        },
+        {
+          "term": "C1D15:C5D1",
+          "estimate": 170.8944
+        },
+        {
+          "term": "C2D1:C5D1",
+          "estimate": 219.3772
+        },
+        {
+          "term": "C3D1:C5D1",
+          "estimate": 187.1985
+        },
+        {
+          "term": "C4D1:C5D1",
+          "estimate": 183.947
+        },
+        {
+          "term": "C5D1:C5D1",
+          "estimate": 396.548
+        },
+        {
+          "term": "C1D15:C6D1",
+          "estimate": 173.5157
+        },
+        {
+          "term": "C2D1:C6D1",
+          "estimate": 171.5675
+        },
+        {
+          "term": "C3D1:C6D1",
+          "estimate": 168.1411
+        },
+        {
+          "term": "C4D1:C6D1",
+          "estimate": 189.8828
+        },
+        {
+          "term": "C5D1:C6D1",
+          "estimate": 179.3489
+        },
+        {
+          "term": "C6D1:C6D1",
+          "estimate": 379.6184
+        }
+      ],
+      "resolved_code": "# ═══════════════════════════════════════════════════════════════\n# Resolved R Program (standalone, concept-keyed)\n# Generated from AC/DC specification + r_implementations.json\n# ═══════════════════════════════════════════════════════════════\n\n# --- Concept → Column mapping ---\n# Change → Change\n# Measure.Result.Value → BASE\n# AnalysisVisit → AnalysisVisit\n# Treatment → TRT01P\n# Subject → Subject\n# Parameter → Parameter\n\n# --- Filter data ---\nanalysis_data <- subset(dataset,\n  Parameter == \"Systolic Blood Pressure\" &\n  Population == \"Y\"\n)\n\n# --- Coerce types (from dataStructureRole) ---\nanalysis_data$Change <- as.numeric(analysis_data$Change)\nanalysis_data$AnalysisVisit <- factor(analysis_data$AnalysisVisit)\nanalysis_data$TRT01P <- factor(analysis_data$TRT01P)\nanalysis_data$Subject <- factor(analysis_data$Subject)\nanalysis_data$Parameter <- factor(analysis_data$Parameter)\n\n# --- Execute (from r_implementations.json callTemplate) ---\nanalysis_data <- analysis_data\nanalysis_data <- analysis_data[!is.na(analysis_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]]) & !is.na(analysis_data[[\"BASE\"]]), , drop = FALSE]\n# One row per subject and visit: mmrm refuses duplicate time points, where lm took the first.\n# Keep the first, which is the engine's own convention (!duplicated on join keys).\nanalysis_data <- analysis_data[!duplicated(analysis_data[, c(\"Subject\", \"AnalysisVisit\")]), , drop = FALSE]\n# A change-from-baseline model has no baseline row: drop any visit at which every subject's\n# change is zero, which is the baseline visit by construction (AVAL minus the baseline AVAL).\nzero_visits <- names(which(tapply(analysis_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]], analysis_data[[\"AnalysisVisit\"]], function(x) length(x) > 0 && all(x == 0))))\nif (length(zero_visits) > 0) analysis_data <- analysis_data[!(analysis_data[[\"AnalysisVisit\"]] %in% zero_visits), , drop = FALSE]\nanalysis_data[[\"Subject\"]] <- factor(analysis_data[[\"Subject\"]])\nanalysis_data[[\"AnalysisVisit\"]] <- factor(analysis_data[[\"AnalysisVisit\"]])\nanalysis_data[[\"TRT01P\"]] <- factor(analysis_data[[\"TRT01P\"]])\ncov_fn <- switch(\"UN\", UN = \"us\", CS = \"cs\", AR1 = \"ar1\", TOEP = \"toep\", CSH = \"csh\", ARH1 = \"ar1h\", \"us\")\ndf_meth <- switch(\"KR\", KR = \"Kenward-Roger\", Satterthwaite = \"Satterthwaite\", \"Satterthwaite\")\nuse_reml <- identical(\"REML\", \"REML\")\nalpha_val <- suppressWarnings(as.numeric(\"<alpha>\")); if (is.na(alpha_val)) alpha_val <- 0.05\nadj <- \"None\"; if (grepl(\"<\", adj, fixed = TRUE) || !nzchar(adj)) adj <- \"none\"\n# mmrm does not accept non-syntactic column names such as the engine's __col_* derived response,\n# so the response and covariate are copied to syntactic names before the fit.\nanalysis_data$cfb_response <- analysis_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]]\nanalysis_data$cfb_baseline <- analysis_data[[\"BASE\"]]\nfml <- as.formula(sprintf(\"cfb_response ~ cfb_baseline + `%s` * `%s` + %s(`%s` | `%s`)\", \"TRT01P\", \"AnalysisVisit\", cov_fn, \"AnalysisVisit\", \"Subject\"))\nmodel <- mmrm::mmrm(fml, data = analysis_data, reml = use_reml, method = df_meth)\nmodel_summary <- summary(model)\ncoef_tab <- as.data.frame(model_summary$coefficients)\nanova_result <- tryCatch(as.data.frame(emmeans::joint_tests(model)), error = function(e) data.frame())\nlsm <- emmeans::emmeans(model, as.formula(sprintf(\"~ `%s` | `%s`\", \"TRT01P\", \"AnalysisVisit\")))\nlsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - alpha_val))\ncontr <- pairs(lsm, adjust = adj)\ncontr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - alpha_val))\ncov_mat <- mmrm::VarCorr(model)\ncov_df <- data.frame(term = paste(rownames(cov_mat)[row(cov_mat)][upper.tri(cov_mat, diag = TRUE)], colnames(cov_mat)[col(cov_mat)][upper.tri(cov_mat, diag = TRUE)], sep = \":\"), estimate = cov_mat[upper.tri(cov_mat, diag = TRUE)])",
+      "derived_data_preview": [
+        {
+          "CHG": 0,
+          "BASE": 122,
+          "AVISITN": "Baseline",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 2,
+          "BASE": 124,
+          "AVISITN": "C1D15",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 3,
+          "BASE": 125,
+          "AVISITN": "C2D1",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 0,
+          "BASE": 119,
+          "AVISITN": "Baseline",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 12,
+          "BASE": 131,
+          "AVISITN": "Baseline",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": -3,
+          "BASE": 116,
+          "AVISITN": "C1D15",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 25,
+          "BASE": 144,
+          "AVISITN": "C2D1",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 1,
+          "BASE": 120,
+          "AVISITN": "C3D1",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 2,
+          "BASE": 121,
+          "AVISITN": "C4D1",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 0,
+          "BASE": 103,
+          "AVISITN": "Baseline",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 7,
+          "BASE": 110,
+          "AVISITN": "Baseline",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 7,
+          "BASE": 110,
+          "AVISITN": "C1D15",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 48,
+          "BASE": 151,
+          "AVISITN": "C2D1",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 4,
+          "BASE": 107,
+          "AVISITN": "C3D1",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 26,
+          "BASE": 129,
+          "AVISITN": "C4D1",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 30,
+          "BASE": 133,
+          "AVISITN": "C5D1",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 18,
+          "BASE": 121,
+          "AVISITN": "C6D1",
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": 0,
+          "BASE": 149,
+          "AVISITN": "Baseline",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": -21,
+          "BASE": 128,
+          "AVISITN": "Baseline",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+          "PARAMCD": "Systolic Blood Pressure"
+        },
+        {
+          "CHG": -14,
+          "BASE": 135,
+          "AVISITN": "C1D15",
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+          "PARAMCD": "Systolic Blood Pressure"
+        }
+      ],
+      "derived_data_store": "adam",
+      "derived_data_total": 3398
+    },
+    "console": "AC/DC Engine: Executing analysis\n  Method: M.MMRM \n  Derivations: 1 \n  Detected store: adam ( 36 column matches)\n  Aliases skipped (not referenced by spec): PeakValue, AreaUnderCurve, EventCount, TimeToEvent, Flag, Category \n  Qualifier-resolved columns:\n     Treatment ← copy of TRT01P (IntentType=Planned) \n  Ingest column mapping:\n     USUBJID → Subject \n     PARAM → Parameter \n     ATPT → Timing \n     AVISIT → AnalysisVisit \n     TRTA → Treatment \n     APERIODC → Period \n     APHASE → Epoch \n     SITEID → Site \n     VISIT → Visit \n     STUDYID → Study \n     AGEGRy → Age \n     SEX → Sex \n     RACE → Race \n     REGIONy → Region \n     AVAL → Measure.Result.Value \n     AVALU → Measure.Result.Unit \n     --TERM → OccurrenceTerm.Identification.ReportedTerm \n     --DECOD → OccurrenceTerm.Coding.PreferredTerm \n     --BODSYS → OccurrenceTerm.Coding.BodySystem \n     --HLT → OccurrenceTerm.Coding.HighLevelTerm \n     --HLGT → OccurrenceTerm.Coding.HighLevelGroupTerm \n     --LLT → OccurrenceTerm.Coding.LowLevelTerm \n     CHG → Change \n     PCHG → PercentChange \n     AVALC → Shift \n  Post-ingest columns: Study, Subject, SUBJID, Site, SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN, TRTSDT, TRTEDT, VSSEQ, Parameter, PARAMCD, PARAMN, ADT, ADY, Visit, VISITNUM, AnalysisVisit, AVISITN, Measure.Result.Value, Shift, Measure.Result.Unit, BASE, Change, PercentChange, ABLFL, ANL01FL, Treatment \n  Applying 1 derivation(s) before analysis cube...\n  Derivation: M.Subtraction \n    [chain-lookup] slotKey: T.CFB_MMRM_Primary/Change/0 outputColumn: __col_T_CFB_MMRM_Primary_Change_0 inputColumns keys:  \n    [chain-lookup] override output role difference -> __col_T_CFB_MMRM_Primary_Change_0 \n    Bindings:\n       minuend -> Measure.Result.Value \n       subtrahend -> Measure.Result.Value \n       partition -> Subject AnalysisVisit \n       constraint -> Parameter \n       difference -> __col_T_CFB_MMRM_Primary_Change_0 \n    [slice] role subtrahend → Measure.Result.Value__parameter_baseline (slice parameter_baseline , joined by Subject ; filter-dims excluded:  AnalysisVisit )\n    [slice] joined col 'Measure.Result.Value__parameter_baseline': nrow=23793 na=0 unique-non-NA=71 sample=[122,119,103,149,125]\n    Resolved derivation code:\n      concept_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]] <- as.numeric(concept_data[[\"Measure.Result.Value\"]]) - as.numeric(concept_data[[\"Measure.Result.Value__parameter_baseline\"]])\n  Post-derivation: 23793 rows x 33 cols\n  [analysis chain-lookup] override role response -> __col_T_CFB_MMRM_Primary_Change_0 \n  Concept → Column:\n     Change → Change \n     Measure.Result.Value → BASE \n     AnalysisVisit → AnalysisVisit \n     Treatment → TRT01P \n     Subject → Subject \n     Parameter → Parameter \n  Role → Column:\n     response → __col_T_CFB_MMRM_Primary_Change_0 \n     covariate → BASE \n     repeated_factor → AnalysisVisit \n     fixed_effect → TRT01P \n     repeated_subject → Subject \n     constraint → Parameter \n    Filter: Parameter == Systolic Blood Pressure → 3399 rows\n    Filter: SAFFL == Y → 3398 rows\n  Default slice ' endpoint ': 3398 rows\n  Analysis data: 3398 rows x 33 cols\n  numeric(): Change \n  factor(): AnalysisVisit → 7 levels\n  factor(): TRT01P → 2 levels\n  factor(): Subject → 449 levels\n  factor(): Parameter → 1 levels\n  Resolved call template:\n    analysis_data <- analysis_data\n    analysis_data <- analysis_data[!is.na(analysis_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]]) & !is.na(analysis_data[[\"BASE\"]]), , drop = FALSE]\n    # One row per subject and visit: mmrm refuses duplicate time points, where lm took the first.\n    # Keep the first, which is the engine's own convention (!duplicated on join keys).\n    analysis_data <- analysis_data[!duplicated(analysis_data[, c(\"Subject\", \"AnalysisVisit\")]), , drop = FALSE]\n    # A change-from-baseline model has no baseline row: drop any visit at which every subject's\n    # change is zero, which is the baseline visit by construction (AVAL minus the baseline AVAL).\n    zero_visits <- names(which(tapply(analysis_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]], analysis_data[[\"AnalysisVisit\"]], function(x) length(x) > 0 && all(x == 0))))\n    if (length(zero_visits) > 0) analysis_data <- analysis_data[!(analysis_data[[\"AnalysisVisit\"]] %in% zero_visits), , drop = FALSE]\n    analysis_data[[\"Subject\"]] <- factor(analysis_data[[\"Subject\"]])\n    analysis_data[[\"AnalysisVisit\"]] <- factor(analysis_data[[\"AnalysisVisit\"]])\n    analysis_data[[\"TRT01P\"]] <- factor(analysis_data[[\"TRT01P\"]])\n    cov_fn <- switch(\"UN\", UN = \"us\", CS = \"cs\", AR1 = \"ar1\", TOEP = \"toep\", CSH = \"csh\", ARH1 = \"ar1h\", \"us\")\n    df_meth <- switch(\"KR\", KR = \"Kenward-Roger\", Satterthwaite = \"Satterthwaite\", \"Satterthwaite\")\n    use_reml <- identical(\"REML\", \"REML\")\n    alpha_val <- suppressWarnings(as.numeric(\"<alpha>\")); if (is.na(alpha_val)) alpha_val <- 0.05\n    adj <- \"None\"; if (grepl(\"<\", adj, fixed = TRUE) || !nzchar(adj)) adj <- \"none\"\n    # mmrm does not accept non-syntactic column names such as the engine's __col_* derived response,\n    # so the response and covariate are copied to syntactic names before the fit.\n    analysis_data$cfb_response <- analysis_data[[\"__col_T_CFB_MMRM_Primary_Change_0\"]]\n    analysis_data$cfb_baseline <- analysis_data[[\"BASE\"]]\n    fml <- as.formula(sprintf(\"cfb_response ~ cfb_baseline + `%s` * `%s` + %s(`%s` | `%s`)\", \"TRT01P\", \"AnalysisVisit\", cov_fn, \"AnalysisVisit\", \"Subject\"))\n    model <- mmrm::mmrm(fml, data = analysis_data, reml = use_reml, method = df_meth)\n    model_summary <- summary(model)\n    coef_tab <- as.data.frame(model_summary$coefficients)\n    anova_result <- tryCatch(as.data.frame(emmeans::joint_tests(model)), error = function(e) data.frame())\n    lsm <- emmeans::emmeans(model, as.formula(sprintf(\"~ `%s` | `%s`\", \"TRT01P\", \"AnalysisVisit\")))\n    lsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - alpha_val))\n    contr <- pairs(lsm, adjust = adj)\n    contr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - alpha_val))\n    cov_mat <- mmrm::VarCorr(model)\n    cov_df <- data.frame(term = paste(rownames(cov_mat)[row(cov_mat)][upper.tri(cov_mat, diag = TRUE)], colnames(cov_mat)[col(cov_mat)][upper.tri(cov_mat, diag = TRUE)], sep = \":\"), estimate = cov_mat[upper.tri(cov_mat, diag = TRUE)])\n  Output class ' fit_statistics ': OK\n  Output class ' type3_tests ': OK\n  Output class ' parameter_estimates ': OK\n  Output class ' ls_means ': OK\n  Output class ' contrasts ': OK\n  Output class ' covariance_parameters ': OK",
+    "implementation": "r_impl_mmrm.json (this project)",
+    "overrides": {
+      "datasetOverride": "advs",
+      "varOverrides": {
+        "Treatment": "TRT01P",
+        "Measure": "BASE"
+      },
+      "sliceOverrides": {
+        "endpoint|Population": {
+          "variable": "SAFFL",
+          "value": "Y"
+        },
+        "endpoint|Treatment": {
+          "variable": "TRT01P",
+          "value": ""
+        }
+      }
+    }
+  },
+  "run_ancova": {
+    "status": "complete",
+    "results": {
+      "fit_statistics": {
+        "R_squared": 0.0277,
+        "Adj_R_squared": 0.0233,
+        "AIC": 3962.975,
+        "BIC": 3979.3763
+      },
+      "type3_tests": [
+        {
+          "Term": "(Intercept)",
+          "SS": 4061.2757,
+          "df": 1,
+          "F_statistic": 9.7058,
+          "p_value": 0.002
+        },
+        {
+          "Term": "BASE",
+          "SS": 5101.4974,
+          "df": 1,
+          "F_statistic": 12.1918,
+          "p_value": 0.0005
+        },
+        {
+          "Term": "TRT01P",
+          "SS": 214.1964,
+          "df": 1,
+          "F_statistic": 0.5119,
+          "p_value": 0.4747
+        },
+        {
+          "Term": "Residuals",
+          "SS": 185368.0985,
+          "df": 443
+        }
+      ],
+      "ls_means": [
+        {
+          "Group": "Placebo + Chemotherapy",
+          "estimate": -2.7792,
+          "SE": 1.373,
+          "df": 443,
+          "CI_lower": -5.4775,
+          "CI_upper": -0.0808
+        },
+        {
+          "Group": "Torivumab + Chemotherapy",
+          "estimate": -1.393,
+          "SE": 1.3668,
+          "df": 443,
+          "CI_lower": -4.0793,
+          "CI_upper": 1.2933
+        }
+      ],
+      "contrasts": {
+        "Contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": -1.3862,
+        "SE": 1.9375,
+        "df": 443,
+        "CI_lower": -5.194,
+        "CI_upper": 2.4216,
+        "t_statistic": -0.7155,
+        "p_value": 0.4747
+      },
+      "covariance_parameters": {
+        "residual_variance": 418.4381
+      },
+      "resolved_code": "# ═══════════════════════════════════════════════════════════════\n# Resolved R Program (standalone, concept-keyed)\n# Generated from AC/DC specification + r_implementations.json\n# ═══════════════════════════════════════════════════════════════\n\n# --- Concept → Column mapping ---\n# Change → Change\n# Measure.Result.Value → BASE\n# Treatment → TRT01P\n# Subject → Subject\n# Parameter → Parameter\n# AnalysisVisit → AnalysisVisit\n\n# --- Filter data ---\nanalysis_data <- subset(dataset,\n  Parameter == \"Systolic Blood Pressure\" &\n  Population == \"Y\" &\n  AnalysisVisit == \"C2D1\"\n)\n\n# --- Coerce types (from dataStructureRole) ---\nanalysis_data$Change <- as.numeric(analysis_data$Change)\nanalysis_data$TRT01P <- factor(analysis_data$TRT01P)\nanalysis_data$Subject <- factor(analysis_data$Subject)\nanalysis_data$Parameter <- factor(analysis_data$Parameter)\nanalysis_data$AnalysisVisit <- factor(analysis_data$AnalysisVisit)\n\n# --- Execute (from r_implementations.json callTemplate) ---\nmodel <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `BASE` + `TRT01P`, data = analysis_data)\nmodel_summary <- summary(model)\nanova_result <- car::Anova(model, type = \"III\")\nlsm <- emmeans::emmeans(model, ~ `TRT01P`)\nlsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\ncontr <- pairs(lsm, adjust = \"none\")\ncontr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))",
+      "derived_data_preview": [
+        {
+          "CHG": 3,
+          "BASE": 125,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0026",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 25,
+          "BASE": 144,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0029",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 48,
+          "BASE": 151,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0034",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -28,
+          "BASE": 121,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0057",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -14,
+          "BASE": 111,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0066",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -13,
+          "BASE": 109,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0068",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 5,
+          "BASE": 126,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0078",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -11,
+          "BASE": 124,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0092",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 24,
+          "BASE": 134,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0099",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 2,
+          "BASE": 127,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0119",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 16,
+          "BASE": 123,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0134",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -26,
+          "BASE": 114,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0140",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 12,
+          "BASE": 133,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0157",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -7,
+          "BASE": 117,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0208",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 4,
+          "BASE": 119,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0216",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 28,
+          "BASE": 144,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0251",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -13,
+          "BASE": 104,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0263",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -5,
+          "BASE": 121,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0267",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": 14,
+          "BASE": 122,
+          "TRTA": "Torivumab + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0271",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        },
+        {
+          "CHG": -4,
+          "BASE": 125,
+          "TRTA": "Placebo + Chemotherapy",
+          "USUBJID": "CTX-NSCLC-301-SITE001-0303",
+          "PARAMCD": "Systolic Blood Pressure",
+          "AVISITN": "C2D1"
+        }
+      ],
+      "derived_data_store": "adam",
+      "derived_data_total": 446
+    },
+    "console": "AC/DC Engine: Executing analysis\n  Method: M.ANCOVA \n  Derivations: 1 \n  Detected store: adam ( 36 column matches)\n  Aliases skipped (not referenced by spec): PeakValue, AreaUnderCurve, EventCount, TimeToEvent, Flag, Category \n  Qualifier-resolved columns:\n     Treatment ← copy of TRT01P (IntentType=Planned) \n  Ingest column mapping:\n     USUBJID → Subject \n     PARAM → Parameter \n     ATPT → Timing \n     AVISIT → AnalysisVisit \n     TRTA → Treatment \n     APERIODC → Period \n     APHASE → Epoch \n     SITEID → Site \n     VISIT → Visit \n     STUDYID → Study \n     AGEGRy → Age \n     SEX → Sex \n     RACE → Race \n     REGIONy → Region \n     AVAL → Measure.Result.Value \n     AVALU → Measure.Result.Unit \n     --TERM → OccurrenceTerm.Identification.ReportedTerm \n     --DECOD → OccurrenceTerm.Coding.PreferredTerm \n     --BODSYS → OccurrenceTerm.Coding.BodySystem \n     --HLT → OccurrenceTerm.Coding.HighLevelTerm \n     --HLGT → OccurrenceTerm.Coding.HighLevelGroupTerm \n     --LLT → OccurrenceTerm.Coding.LowLevelTerm \n     CHG → Change \n     PCHG → PercentChange \n     AVALC → Shift \n  Post-ingest columns: Study, Subject, SUBJID, Site, SAFFL, ITTFL, TRT01P, TRT01A, TRT01PN, TRT01AN, TRTSDT, TRTEDT, VSSEQ, Parameter, PARAMCD, PARAMN, ADT, ADY, Visit, VISITNUM, AnalysisVisit, AVISITN, Measure.Result.Value, Shift, Measure.Result.Unit, BASE, Change, PercentChange, ABLFL, ANL01FL, Treatment \n  Applying 1 derivation(s) before analysis cube...\n  Derivation: M.Subtraction \n    [chain-lookup] slotKey: T.CFB_ANCOVA/Change/0 outputColumn: __col_T_CFB_ANCOVA_Change_0 inputColumns keys:  \n    [chain-lookup] override output role difference -> __col_T_CFB_ANCOVA_Change_0 \n    Bindings:\n       minuend -> Measure.Result.Value \n       subtrahend -> Measure.Result.Value \n       partition -> Subject AnalysisVisit \n       constraint -> Parameter \n       difference -> __col_T_CFB_ANCOVA_Change_0 \n    [slice] role subtrahend → Measure.Result.Value__parameter_baseline (slice parameter_baseline , joined by Subject ; filter-dims excluded:  AnalysisVisit )\n    [slice] joined col 'Measure.Result.Value__parameter_baseline': nrow=23793 na=0 unique-non-NA=71 sample=[122,119,103,149,125]\n    Resolved derivation code:\n      concept_data[[\"__col_T_CFB_ANCOVA_Change_0\"]] <- as.numeric(concept_data[[\"Measure.Result.Value\"]]) - as.numeric(concept_data[[\"Measure.Result.Value__parameter_baseline\"]])\n  Post-derivation: 23793 rows x 33 cols\n  [analysis chain-lookup] override role response -> __col_T_CFB_ANCOVA_Change_0 \n  Concept → Column:\n     Change → Change \n     Measure.Result.Value → BASE \n     Treatment → TRT01P \n     Subject → Subject \n     Parameter → Parameter \n     AnalysisVisit → AnalysisVisit \n  Role → Column:\n     response → __col_T_CFB_ANCOVA_Change_0 \n     covariate → BASE \n     fixed_effect → TRT01P \n     partition → Subject \n     constraint → Parameter, AnalysisVisit \n    Filter: Parameter == Systolic Blood Pressure → 3399 rows\n    Filter: SAFFL == Y → 3398 rows\n    Filter: AnalysisVisit == C2D1 → 446 rows\n  Default slice ' endpoint ': 446 rows\n  Analysis data: 446 rows x 33 cols\n  numeric(): Change \n  factor(): TRT01P → 2 levels\n  factor(): Subject → 446 levels\n  factor(): Parameter → 1 levels\n  factor(): AnalysisVisit → 1 levels\n  Resolved call template:\n    model <- lm(`__col_T_CFB_ANCOVA_Change_0` ~ `BASE` + `TRT01P`, data = analysis_data)\n    model_summary <- summary(model)\n    anova_result <- car::Anova(model, type = \"III\")\n    lsm <- emmeans::emmeans(model, ~ `TRT01P`)\n    lsm_df <- as.data.frame(summary(lsm, infer = TRUE, level = 1 - 0.05))\n    contr <- pairs(lsm, adjust = \"none\")\n    contr_df <- as.data.frame(summary(contr, infer = TRUE, level = 1 - 0.05))\n  Output class ' fit_statistics ': OK\n  Output class ' type3_tests ': OK\n  Output class ' ls_means ': OK\n  Output class ' contrasts ': OK\n  Output class ' covariance_parameters ': OK",
+    "overrides": {
+      "varOverrides": {
+        "Treatment": "TRT01P",
+        "Measure": "BASE"
+      },
+      "sliceOverrides": {
+        "endpoint|Population": {
+          "variable": "SAFFL",
+          "value": "Y"
+        },
+        "endpoint|Treatment": {
+          "variable": "TRT01P",
+          "value": ""
+        }
+      },
+      "datasetOverride": "advs"
+    }
+  },
+  "reference_ancova_python": {
+    "A_ANL01FL_AVISIT": {
+      "n": 446,
+      "diff": 1.961,
+      "se": 1.385,
+      "df": 443,
+      "lsT": 0.2631,
+      "lsP": -1.6979,
+      "slope": -0.957
+    },
+    "B_all_AVISIT": {
+      "n": 446,
+      "diff": 1.961,
+      "se": 1.385,
+      "df": 443,
+      "lsT": 0.2631,
+      "lsP": -1.6979,
+      "slope": -0.957
+    },
+    "C_all_collectedVISIT": {
+      "n": 446,
+      "diff": 1.961,
+      "se": 1.385,
+      "df": 443,
+      "lsT": 0.2631,
+      "lsP": -1.6979,
+      "slope": -0.957
+    },
+    "R_firstBaseline_BASE_collectedVISIT": {
+      "n": 446,
+      "diff": 1.3862,
+      "se": 1.9375,
+      "df": 443,
+      "lsT": -1.393,
+      "lsP": -2.7792,
+      "slope": -0.2295
+    },
+    "R_firstBaseline_BASE_AVISIT": {
+      "n": 446,
+      "diff": 1.3862,
+      "se": 1.9375,
+      "df": 443,
+      "lsT": -1.393,
+      "lsP": -2.7792,
+      "slope": -0.2295
+    },
+    "baseline_ambiguity": {
+      "subjects_with_baseline": 450,
+      "two_or_more_baseline_rows": 340,
+      "first_row_differs_from_BASE": 335
+    }
+  },
+  "reference_mmrm_R": {
+    "A_ANL01FL": {
+      "n_rows": 2605,
+      "n_subj": 446,
+      "AIC": 21303.467218,
+      "BIC": 21389.573916,
+      "contrasts": [
+        {
+          "visit": "C1D15",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -0.699544,
+          "SE": 1.370841,
+          "df": 443.982608,
+          "p": 0.610093
+        },
+        {
+          "visit": "C2D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -1.948096,
+          "SE": 1.381018,
+          "df": 443.880303,
+          "p": 0.159056
+        },
+        {
+          "visit": "C3D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": 0.657527,
+          "SE": 1.34686,
+          "df": 436.527643,
+          "p": 0.625659
+        },
+        {
+          "visit": "C4D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -0.138716,
+          "SE": 1.387958,
+          "df": 432.138361,
+          "p": 0.920436
+        },
+        {
+          "visit": "C5D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": 2.988182,
+          "SE": 1.382108,
+          "df": 425.454972,
+          "p": 0.031171
+        },
+        {
+          "visit": "C6D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -1.508244,
+          "SE": 1.4391,
+          "df": 412.403502,
+          "p": 0.295231
+        }
+      ]
+    },
+    "B_all": {
+      "n_rows": 2605,
+      "n_subj": 446,
+      "AIC": 21305.865784,
+      "BIC": 21391.972482,
+      "contrasts": [
+        {
+          "visit": "C1D15",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -0.609855,
+          "SE": 1.374531,
+          "df": 443.994552,
+          "p": 0.657488
+        },
+        {
+          "visit": "C2D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -1.948497,
+          "SE": 1.380986,
+          "df": 443.887757,
+          "p": 0.158961
+        },
+        {
+          "visit": "C3D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": 0.657375,
+          "SE": 1.346852,
+          "df": 436.528501,
+          "p": 0.625736
+        },
+        {
+          "visit": "C4D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -0.141438,
+          "SE": 1.387947,
+          "df": 432.134862,
+          "p": 0.91888
+        },
+        {
+          "visit": "C5D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": 2.982493,
+          "SE": 1.382147,
+          "df": 425.448355,
+          "p": 0.031497
+        },
+        {
+          "visit": "C6D1",
+          "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+          "estimate": -1.506831,
+          "SE": 1.439077,
+          "df": 412.407523,
+          "p": 0.295675
+        }
+      ]
+    }
+  },
+  "replica_mmrm_R_engine_selection": {
+    "n_rows": 2605,
+    "n_subj": 446,
+    "AIC": 22065.114778,
+    "BIC": 22151.221476,
+    "contrasts": [
+      {
+        "visit": "C1D15",
+        "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": -0.036663,
+        "SE": 1.869222,
+        "df": 443.674808,
+        "p": 0.98436
+      },
+      {
+        "visit": "C2D1",
+        "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": -1.375305,
+        "SE": 1.933259,
+        "df": 443.629176,
+        "p": 0.477215
+      },
+      {
+        "visit": "C3D1",
+        "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": 1.169741,
+        "SE": 1.834817,
+        "df": 440.984866,
+        "p": 0.524114
+      },
+      {
+        "visit": "C4D1",
+        "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": 0.309107,
+        "SE": 1.844115,
+        "df": 437.245308,
+        "p": 0.866961
+      },
+      {
+        "visit": "C5D1",
+        "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": 3.424892,
+        "SE": 1.905375,
+        "df": 435.929384,
+        "p": 0.07295
+      },
+      {
+        "visit": "C6D1",
+        "contrast": "(Placebo + Chemotherapy) - (Torivumab + Chemotherapy)",
+        "estimate": -1.071991,
+        "SE": 1.88338,
+        "df": 426.243853,
+        "p": 0.569531
+      }
+    ],
+    "first_row_differs_from_BASE": 332
+  }
+}
