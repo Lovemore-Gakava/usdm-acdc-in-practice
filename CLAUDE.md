@@ -71,6 +71,10 @@ disproved, so:
 
 - `upstream/analysis-concepts` is a **pinned, read-only submodule** at `739344c`. Never edit it;
   if a local change is unavoidable, `git -C upstream/analysis-concepts checkout <path>` after.
+  It shows `HEAD detached at 739344c` by design — a submodule is a pinned commit, not a branch — and
+  `739344c` is the tip of upstream `main` as of 2026-09-20. Do not put it on a branch. When upstream
+  moves, re-pin deliberately: update the hash in the parent, re-run `tools/check_consistency.py`,
+  and record what changed (LG, 2026-09-20).
 - TORIVA-LUNG 301 is **referenced, never vendored**. Sparse-checkout recipe in
   `study/source-refs.md`. On Git Bash for Windows, prefix `sparse-checkout set` with
   `MSYS_NO_PATHCONV=1` or it silently yields an empty tree.
