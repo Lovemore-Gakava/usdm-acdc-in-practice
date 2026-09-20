@@ -55,7 +55,7 @@ what the tool uses.
 
 ## Known discrepancies inside the source
 
-**Status at `a806630` (2026-09-20):** the first seventeen (D1 to D17) resolved by TORIVA issue #27 (the register says how, row by row); D18 found at the re-pin, open.
+**Status at `a806630` (2026-09-20):** the first seventeen (D1 to D17) resolved by TORIVA issue #27 (the register says how, row by row); D18 found at the re-pin, filed as TORIVA [#53](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/53), open.
 
 Recorded during the paper mappings; to be resolved against built ADaM at comparison time, not
 here. D1 and D2 came from PFS — see

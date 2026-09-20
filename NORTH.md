@@ -161,7 +161,8 @@ the checkout, the alignment tool reports 0 warn, and the results files carry the
 **Filed at TORIVA, 2026-09-20.** LG asked whether the gaps and the data regeneration could be raised on
 the TORIVA repository, saw the draft, and said yes: [issue #27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27), labelled qc/validation/sdtm/adam,
 following TORIVA's own #22. The first thing filed anywhere from this project, and LG's decision on the
-record. `cdisc-org/analysis-concepts` is untouched; the M.MMRM package stays prepared, not filed.
+record. `cdisc-org/analysis-concepts` is untouched; the M.MMRM package stays prepared, not filed. D18, found at the P7
+re-pin, followed the same pattern the same evening: [issue #53](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/53), on LG's yes to a draft shown first.
 
 **P6, added 2026-09-20 — the documents made correct.** Reviewing item 1 of the phase-2 sheet, LG
 withdrew the rule phase 2 had run on: *"my assertion of let's follow what is in the data is
