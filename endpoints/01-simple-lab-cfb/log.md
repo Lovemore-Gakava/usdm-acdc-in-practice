@@ -209,3 +209,12 @@ check is bespoke per endpoint and needs the built data.
 
 The measurement worth carrying forward is therefore not "eleven decisions per endpoint" but
 "one dataset-level correctness check per endpoint, none of which the framework provides."
+
+## P6 re-run, 2026-09-20
+
+The fragment was regenerated under P6 (`NORTH.md`): arms per the protocol corrected to the SAP
+(D14), randomisation 2:1 as the protocol states (D15), the "data is the ground truth" rule gone.
+The chain was executed again on it, same data, same selection — lab ANCOVA: 1.8301 (SE 1.7678, n 435, Placebo − Torivumab), identical to run 4. Recorded as `p6_rerun` in
+`results.json`, stamped with the new `usdm_sha256`, with the design note the app loaded
+(*"Randomisation 2:1 (D15, the protocol stands)…"*) kept beside the run as evidence of which
+fragment it was. The study description's corrections do not enter the execution, as P5 found.

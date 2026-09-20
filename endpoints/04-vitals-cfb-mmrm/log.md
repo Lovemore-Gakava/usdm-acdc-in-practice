@@ -126,3 +126,12 @@ output classes populated — and reproduced exactly by the same model in local R
 repeats, two bindings resolved by hand because the app's own rule was not applied on the path
 taken, an MMRM that upstream could not run and this project could — reproduced exactly — and the
 same wrong baseline row as the lab tier, on 74% of subjects, at every visit.**
+
+## P6 re-run, 2026-09-20
+
+The fragment was regenerated under P6 (`NORTH.md`): arms per the protocol corrected to the SAP
+(D14), randomisation 2:1 as the protocol states (D15), the "data is the ground truth" rule gone.
+The chain was executed again on it, same data, same selection — MMRM identical at all six visits and in AIC (C2D1 −1.3753, SE 1.9333); ANCOVA companion −1.3862 (SE 1.9375, n 446), identical. Recorded as `p6_rerun` in
+`results.json`, stamped with the new `usdm_sha256`, with the design note the app loaded
+(*"Randomisation 2:1 (D15, the protocol stands)…"*) kept beside the run as evidence of which
+fragment it was. The study description's corrections do not enter the execution, as P5 found.

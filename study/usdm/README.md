@@ -193,5 +193,6 @@ The rule the P2 generation ran on — *the built data is the ground truth* — w
 - **D15** — the design's randomisation is **2:1**, as the protocol states. The data's 1:1 is
   reported by `tools/check_alignment.py` as a WARN: the data diverging from the documents, to be
   regenerated upstream.
-- Nothing else in the fragment changed. The hash did, so both endpoints' `results.json` are stale
-  against it until re-run (P5).
+- Nothing else in the fragment changed. The hash did, so both endpoints were re-run on it the same
+  day (P5): identical at every number. Each `results.json` carries a `p6_rerun` block stamped with
+  the new hash and the design note the app loaded.

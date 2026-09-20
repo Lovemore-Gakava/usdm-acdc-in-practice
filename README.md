@@ -9,7 +9,7 @@ test any piece of work has to pass. **All nine stages are done, on two endpoints
 (P0–P6) fixed the study's gaps in the derived documents, generated the USDM from the M11
 protocol, and — under P6, 2026-09-20 — made the documents correct rather than following the
 data: the design is the combination the SAP describes, 2:1 stands, and every supplied element
-says where it came from. P5 is red until both endpoints are re-run on the corrected fragment.
+says where it came from. Both endpoints were re-run on the corrected fragment the same day; no number changed.
 
 **New to USDM, M11 or AC/DC?** Read [`docs/vignette.md`](docs/vignette.md) first — the whole
 traverse in plain terms, with the three letters explained and every artefact linked. To **drive it

@@ -115,7 +115,7 @@ it now means **the documents are made correct and the data is what diverges** (P
 | P2 | USDM generated from it, with the schedule of activities | ✓ |
 | P3 | Alignment verified by a tool | ✓ |
 | P4 | Hands-on walkthrough written | ✓ |
-| P5 | Both endpoints re-run on the aligned study | ✗ |
+| P5 | Both endpoints re-run on the aligned study | ✓ |
 | P6 | The documents made correct — six decisions applied, sources marked | ✓ |
 
 <!-- /north:status:phase2 -->
@@ -155,8 +155,9 @@ shift, worst CTCAE grade) and this project's ANCOVA/MMRM become demonstration an
 **G2** countries and site count from the trial's records, approval date = the version date;
 **G6** a standard vital-signs procedure paragraph, marked; **G5** central laboratory, marked.
 Everything supplied is marked *supplied under P6*; nothing supplied is a design choice presented
-as the source's. Regenerating the fragment changes its hash, so P5 goes red until both endpoints
-are re-run on it — the scoreboard says so rather than the text.
+as the source's. Regenerating the fragment changed its hash, so P5 went red; both endpoints were re-run on the
+corrected fragment the same day and every number was identical (`p6_rerun` in each
+`results.json`, with the design note the app loaded recorded beside the run). P5 is green again.
 
 **Decided 2026-09-19, after phase 2 — two things.** (1) LG reviews phase 2:
 [`docs/review-sheet-phase2.md`](docs/review-sheet-phase2.md), claims with falsifiers, the
