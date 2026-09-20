@@ -129,7 +129,7 @@ issues in the repository's lifetime. Those are observations of a live third-part
 | | |
 |---|---|
 | Repository | `OpenTrialReporting/torivumab-nsclc-301` |
-| Commit | `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29) |
+| Commit | `a8066307b976351b53a9ffa447a69047306e4cb9` (2026-09-20, after #27); `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29) through P6 |
 | Included as | **not included.** Referenced by commit; read in a scratch clone |
 | Licence | CC BY 4.0. *"Synthetic data — educational use only."* |
 
@@ -311,7 +311,7 @@ AI's reasoning from verified facts, not themselves verified:
 | `tools/check_baseline_ambiguity.py` | Tests F12 against built ADaM; reproduces every figure in the lab tier's `comparison.md` |
 | `endpoints/01-simple-lab-cfb/` | The only tier with all four method steps complete |
 | `docs/findings/` | The findings themselves, each with its evidence |
-| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the seventeen discrepancies found inside TORIVA (D1–D17) |
+| `study/source-refs.md` | Pinned commits, sparse-checkout recipe, and the eighteen discrepancies found inside TORIVA (D1–D18) |
 | `endpoints/03-complex-pfs/mapping.md` | Step 1 of the method for the complex tier |
 | `endpoints/02-moderate-orr/mapping.md` | Step 1 of the method for the moderate tier; source of F07, F08 and D3–D7 |
 | `endpoints/01-simple-lab-cfb/mapping.md` | Step 1 of the method for the simple tier; source of D8–D12, and of B11 → F12 |
@@ -373,7 +373,7 @@ in value 96.8% of the time. See `endpoints/01-simple-lab-cfb/comparison.md`.
 
 **It remains unrun for ORR and PFS**, and every claim about those two still derives from
 TORIVA's markdown, not its data.
-Discrepancies D1–D17 in `study/source-refs.md` are recorded as **open** precisely because
+Discrepancies D1–D18 in `study/source-refs.md` are recorded as **open** precisely because
 resolving them by inspection before authoring would contaminate step 3 of the method. D7 and
 D11 are the sharpest — `EFFFL` does not exist on ADRS, so estimand E3 is not implementable
 against the built ADaM as specified; and the SAP specifies no laboratory analysis at all, so

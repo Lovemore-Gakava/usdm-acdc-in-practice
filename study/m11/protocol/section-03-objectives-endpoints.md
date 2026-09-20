@@ -4,7 +4,7 @@
 purposes only. DO NOT submit to any regulatory authority. Celindra Therapeutics, torivumab and
 all trial details are fictional; all identifiers are non-functional.**
 
-Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `8534339d`,
+Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `a806630`, re-pinned 2026-09-20 after #27;
 CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section 3. See
 [`../protocol-to-m11.md`](../protocol-to-m11.md) for the mapping this implements and
 [`README.md`](README.md) for what was moved and what was invented.
@@ -29,6 +29,8 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 | Experimental | Torivumab 200 mg IV Q3W + chemotherapy backbone (carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W) for up to 6 induction cycles, then pemetrexed maintenance Q3W until PD/toxicity/withdrawal (max 35 cycles total) |
 | Control | Placebo IV Q3W + identical chemotherapy backbone, same duration rules |
 
+> **Resolved upstream at `a806630` (#27, 2026-09-20).** The source protocol now states the combination itself (title, §1.4, §3.5, §5.1); the P6 correction below is retired and kept as the record.
+>
 > **Corrected under P6 (2026-09-20) — D14.** The treatment condition for every estimand is
 > **torivumab 200 mg IV Q3W plus platinum-based chemotherapy versus placebo IV Q3W plus the same
 > chemotherapy**, as the table above (SAP §13.2) states. The source protocol's
@@ -121,6 +123,8 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 | **Secondary Intercurrent Event Strategy** `C188857` | **Treatment policy** for TEAE incidence. **While-on-treatment** for exposure-adjusted rates (person-time = `TRTEDT − TRTSDT + 1`). *(SAP §13.7)* |
 | **Secondary Description of Intercurrent Event** | Treatment discontinuation; initiation of new anti-cancer therapy, after which AE collection ceases (90-day window or new therapy, whichever first, per protocol §7.1). *(SAP §13.7, protocol §7.1)* |
 
+> **Now specified by the source — SAP v0.3 §5.6 and §5.7 (`a806630`, #27).** Laboratory: shift from baseline to worst post-baseline reference-range category on the central laboratory range, presented as a baseline × worst cross-tabulation per arm; worst post-baseline CTCAE v5.0 grade per parameter as n (%) with a Grade ≥3 summary; a listing of all Grade ≥3 abnormalities; values and change from baseline by visit where a continuous summary is informative. Vital signs: n, mean and SD of value and change from baseline at C1D1, C4D1 and End of Treatment; worst post-baseline percentage weight change in categories. Safety population, descriptive, no hypothesis testing, analysed by actual treatment. This is what P6 specified here on 2026-09-20 before the source did; the P6 text follows as the record.
+>
 > **Filled under P6 (2026-09-20) — G7 / D11.** The Population-level Summary for laboratory
 > evaluations is **descriptive, safety population, no inferential testing**: (i) summary statistics
 > of values and change from baseline by parameter and analysis visit; (ii) shift from baseline to

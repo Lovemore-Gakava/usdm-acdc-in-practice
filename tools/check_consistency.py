@@ -411,6 +411,10 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
       P6  (added 2026-09-20) the documents made correct: tools/check_alignment.py
           reports all six P6 decisions (D14, D15, D11/G7, G2, G6, G5) as PASS,
           on its "P6 decisions: n/6" line.
+      P7  (added 2026-09-20, after TORIVA #27) re-pinned to the corrected source:
+          study/source-refs.md pins the commit the sibling checkout is at, the
+          alignment tool reports 0 warn with the data layer, and every
+          endpoints/*/results.json carries a run stamped with that pin.
     """
     import subprocess as _sp
     src = root / "study" / "source-refs.md"
@@ -452,12 +456,23 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
             # alignment is the built ADaM, so a clone without TORIVA shows P3 red rather than green on documents alone.
             run = _sp.run([sys.executable, str(aln), "--root", str(root), "--require-data"], capture_output=True, timeout=120)
             p3 = run.returncode == 0
-            m = re.search(r"P6 decisions: (\d+)/(\d+) pass", run.stdout.decode("utf-8", errors="replace"))
+            out = run.stdout.decode("utf-8", errors="replace")
+            m = re.search(r"P6 decisions[^:]*: (\d+)/(\d+) pass", out)
             p6 = bool(m) and int(m.group(1)) == int(m.group(2)) == 6
+            m7 = re.search(r"alignment: \d+ pass, 0 fail, (\d+) warn", out)
+            p7_warn0 = bool(m7) and int(m7.group(1)) == 0 and p3
+            p7_pin = "PASS documents pin" in out.replace("  ", " ") or re.search(r"PASS\s+documents\s+pin\b", out) is not None
         except (OSError, _sp.SubprocessError):
             p3 = p6 = False
 
     p4 = (root / "docs" / "walkthrough.md").is_file()
+
+    p7 = False
+    pin_m = re.search(r"\| Commit \| `([0-9a-f]{40})`", (root / "study" / "source-refs.md").read_text(encoding="utf-8", errors="replace")) if (root / "study" / "source-refs.md").is_file() else None
+    if pin_m and (root / "endpoints").is_dir():
+        results = list((root / "endpoints").glob("*/results.json"))
+        stamped = bool(results) and all(pin_m.group(1)[:7] in json.dumps(_load_json(f) or {}) for f in results)
+        p7 = bool(locals().get("p7_warn0")) and bool(locals().get("p7_pin")) and stamped
 
     p5 = False
     if usdm_files:
@@ -474,6 +489,7 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
         ("P4", "Hands-on walkthrough written", p4),
         ("P5", "Both endpoints re-run on the aligned study", p5),
         ("P6", "The documents made correct — six decisions applied, sources marked", p6),
+        ("P7", "Re-pinned to the corrected source after #27 — 0 warn, runs stamped with the pin", p7),
     ]
 
 

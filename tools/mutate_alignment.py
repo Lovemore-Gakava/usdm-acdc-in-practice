@@ -22,15 +22,16 @@ MUT = [
  ("G3",  P + "section-00-title-page.md", "| Optional elements deliberately left unmapped | 1 — EudraCT, see note 1 |", "| Optional elements deliberately left unmapped | 0 |"),
  ("G2",  P + "section-00-title-page.md", "Republic of Korea, ", ""),
  ("G2",  P + "section-00-title-page.md", "**Sponsor Approval Date** | 22 March 2026", "**Sponsor Approval Date** | not stated"),
- ("G5",  P + "section-12-01-clinical-laboratory-tests.md", "local results are not used for analysis", "local results are used for analysis"),
- ("G6",  P + "section-08-04-02-vital-signs.md", "rested for at least five minutes", "rested briefly"),
+ ("G2",  P + "section-00-title-page.md", "15 investigational sites", "sites"),
+ ("G5",  P + "section-12-01-clinical-laboratory-tests.md", "local results are not used in the analysis", "local results are used in the analysis"),
+ ("G6",  P + "section-08-04-02-vital-signs.md", "seated at rest for at least 5 minutes", "seated briefly"),
  ("G9",  P + "section-08-assessments-and-procedures.md", "28 days before Cycle 1 Day 1", "before Cycle 1 Day 1"),
- ("G7",  P + "section-03-objectives-endpoints.md", "(ii) shift from baseline", "(ii) change from baseline"),
- ("D11", P + "section-03-objectives-endpoints.md", "CTCAE v5.0 grade by parameter, with a listing of grade ≥3 abnormalities", "toxicity grade by parameter, with a listing"),
+ ("G7",  P + "section-03-objectives-endpoints.md", "SAP v0.3 §5.6 and §5.7", "SAP v0.3"),
+ ("D11", P + "section-03-objectives-endpoints.md", "Now specified by the source", "Specified here"),
  ("S1",  P + "section-10-statistical-considerations.md", "**demonstration analyses**", "**analyses**"),
  ("D14", "study/usdm/toriva-lung-301.usdm.json", '"name": "Placebo + Chemotherapy"', '"name": "Placebo"'),
- ("D14", P + "section-00-title-page.md", "plus Platinum-Based Chemotherapy versus Placebo plus Platinum-Based Chemotherapy", "versus Placebo"),
- ("D15", "study/usdm/toriva-lung-301.usdm.json", "Randomisation 2:1 (D15, the protocol stands)", "Randomisation 1:1 (D15)"),
+ ("D14", P + "section-00-title-page.md", "plus Platinum-Pemetrexed Chemotherapy versus Placebo plus Platinum-Pemetrexed Chemotherapy", "versus Placebo"),
+ ("D15", "study/usdm/toriva-lung-301.usdm.json", "Randomisation 2:1 (D15, resolved upstream)", "Randomisation 1:1 (D15)"),
  ("G4",  P + "section-12-01-clinical-laboratory-tests.md", "Alkaline Phosphatase", "Alkaline Phos."),
  ("G1",  "study/usdm/toriva-lung-301.usdm.json", None, None),  # special: drop one estimand
  ("USDM↔protocol:END-OS", "study/usdm/toriva-lung-301.usdm.json", None, None),  # handled specially: append a word to END-OS text
@@ -61,7 +62,8 @@ for item, f, old, new in MUT:
     else:
         assert txt.count(old) >= 1, (item, f, old[:50]); txt2 = txt.replace(old, new)
     target.write_text(txt2, encoding="utf-8")
-    run = subprocess.run([sys.executable, str(ROOT / "tools/check_alignment.py"), "--root", str(tmp)], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    tor = ROOT.parent / "torivumab-nsclc-301"  # the source-reading checks (G2, G5, G6, D14) need the synopsis at the pin
+    run = subprocess.run([sys.executable, str(ROOT / "tools/check_alignment.py"), "--root", str(tmp)] + (["--toriva", str(tor)] if tor.is_dir() else []), capture_output=True, text=True, encoding="utf-8", errors="replace")
     failed_items = set(re.findall(r"^\s*FAIL\s+\S+\s+(\S+)", run.stdout, re.M))
     caught = item in failed_items
     results.append((item, f.split("/")[-1], (old or "special")[:45], caught, run.returncode, sorted(failed_items)))

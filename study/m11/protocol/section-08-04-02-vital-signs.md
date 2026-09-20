@@ -1,7 +1,7 @@
 # ⚠️ FICTIONAL EDUCATIONAL PROTOCOL — NOT FOR REGULATORY USE
 
 **Derived excerpt of a fictional protocol, restructured for educational purposes only.**
-Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `8534339d`,
+Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `a806630`, re-pinned 2026-09-20 after #27;
 CC BY 4.0). See [`README.md`](README.md).
 
 ---
@@ -39,6 +39,12 @@ Its Biomedical Concept is `SYSBP` (`C25298`), attached to the scheduled assessme
 
 ## Instructions for collection and interpretation
 
+**Now in the source — §7.2 *Vital signs procedure (G6)* at `a806630` (#27, PR #34), moved verbatim:**
+
+> Blood pressure, heart rate, respiratory rate, temperature and weight are measured pre-dose on Day 1 of each cycle, and again post-infusion on dosing days, after the patient has been seated at rest for at least 5 minutes. Site standard calibrated equipment is used; the same method and arm are used for a given patient throughout. Height is measured at screening only.
+
+The analysis is now SAP §5.7: change from baseline at C1D1, C4D1 and EOT, and weight-change categories, safety population, descriptive. This project's MMRM and ANCOVA remain demonstration analyses (S2). The paragraph this project supplied under P6 follows as the record.
+
 **Supplied under P6 (2026-09-20) — G6.** Blood pressure and heart rate are measured after the
 participant has rested for at least five minutes in a seated (or, if necessary, supine) position,
 using the same arm and the same position throughout the trial. On infusion days, vital signs are
@@ -62,6 +68,6 @@ vital-signs analysis, which is the laboratory situation (D11) again.
 |---|---|
 | Schedule of collection | ✅ moved from §7.2 |
 | Measurements collected | ✅ moved from the data-domain table |
-| Instructions for collection and interpretation | ✅ supplied under P6, marked (G6) |
+| Instructions for collection and interpretation | ✅ in the source at `a806630` (§7.2, G6); supplied under P6 before that |
 
-One Required element: two parts from the source, one supplied under P6 and marked.
+One Required element, all three parts from the source at `a806630`.

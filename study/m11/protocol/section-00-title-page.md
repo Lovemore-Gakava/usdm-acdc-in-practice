@@ -4,7 +4,7 @@
 purposes only. DO NOT submit to any regulatory authority. All identifiers below are fictional
 and non-functional. Celindra Therapeutics and torivumab are fictional.**
 
-Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `8534339d`,
+Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `a806630`, re-pinned 2026-09-20 after #27;
 CC BY 4.0). See [`README.md`](README.md).
 
 ---
@@ -18,7 +18,7 @@ amendment-conditional and correctly absent from an unamended v1.0 protocol.
 
 | M11 element | Code | Value |
 |---|---|---|
-| Full Title | `C132346` | A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti-PD-L1 Monoclonal Antibody) versus Placebo as First-Line Treatment in Patients with Advanced or Metastatic Non-Small Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50% and No EGFR or ALK Genomic Tumour Aberrations |
+| Full Title | `C132346` | A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti-PD-L1 Monoclonal Antibody) plus Platinum-Pemetrexed Chemotherapy versus Placebo plus Platinum-Pemetrexed Chemotherapy as First-Line Treatment in Patients with Advanced or Metastatic Non-Small Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50% and No EGFR or ALK Genomic Tumour Aberrations — *the source's own title at `a806630` (#27, D14); at `8534339d` it said versus placebo, monotherapy* |
 | Trial Short Title | `C94105` | TORIVA-LUNG 301 |
 | Trial Acronym | `C94108` | TORIVA-LUNG 301 — **see note 2** |
 | Sponsor Protocol Identifier | `C132351` | SIMULATED-TORIVUMAB-2026 *(fictional)* |
@@ -41,8 +41,8 @@ document conformant and untrue, and the gaps are the point of the exercise.
 
 | M11 element | Code | Why absent |
 |---|---|---|
-| Country Identifier | `C20108` | The protocol enumerates no countries. §5.2 refers to the "enrolling jurisdiction" and defers the detail to a *"country-specific protocol appendix"* that does not exist in the source |
-| Site Identifier | `C20108` | No site list anywhere in the source |
+| Country Identifier | `C20108` | *(at `8534339d`)* The protocol enumerates no countries. §5.2 refers to the "enrolling jurisdiction" and defers the detail to a *"country-specific protocol appendix"* that does not exist in the source |
+| Site Identifier | `C20108` | *(at `8534339d`)* No site list anywhere in the source |
 | Sponsor Approval Date | `C132352` | Absent — zero occurrences of "approval date" in the protocol |
 | Sponsor Approval Date Location | `C132352` | As above |
 | State location where sponsor approval information is held | `C132352` | As above |
@@ -83,24 +83,29 @@ and `Proprietary Names` is left empty rather than duplicated.
 | | |
 |---|---|
 | Required elements applicable to a v1.0 protocol | 13 |
-| Supplied | **8** by the source; **3** more under P6 (Country, Site, Sponsor Approval Date) |
-| Absent in the source | **5** — Country, Site, and the three Sponsor Approval Date elements. Three supplied under P6; the two *Location* elements still absent |
+| Supplied | **8** by the source at `8534339d`; **10** at `a806630` (Country and Site now in its synopsis table); **1** still supplied here (Sponsor Approval Date) |
+| Absent in the source | **5** — Country, Site, and the three Sponsor Approval Date elements. Country and Site now in the source (#27); Approval Date supplied here; the two *Location* elements still absent |
 | Required but amendment-conditional, correctly absent | 11 |
 | Optional elements supplied | 7 |
 | Optional elements deliberately left unmapped | 1 — EudraCT, see note 1 |
 
-## Corrected and supplied under P6 (2026-09-20)
+## Corrected and supplied under P6 (2026-09-20) — and what the source now carries (`a806630`, #27)
 
-Phase 2, stage P6: the documents made correct. The rule *not invented* above stands for anything
-that would be a design choice; what follows is either a correction to the SAP, a fact taken from
-the trial's own records, or a supplied element marked as this project's. Each row says which.
+Phase 2, stage P6 supplied three elements and corrected one; TORIVA issue #27 then put most of
+it into the source itself. Each row says where the content stands now.
 
 | M11 element | Now | Source of the content |
 |---|---|---|
-| **Full Title** (corrected) | A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti-PD-L1 Monoclonal Antibody) plus Platinum-Based Chemotherapy versus Placebo plus Platinum-Based Chemotherapy as First-Line Treatment in Patients with Advanced or Metastatic Non-Small Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50% and No EGFR or ALK Genomic Tumour Aberrations | **D14 — the protocol corrected to the SAP.** The source title says torivumab versus placebo, monotherapy. A placebo-alone control does not exist in first-line NSCLC; SAP §13.2, the double-blind matched-infusion design and the trial's data all describe both arms on a carboplatin/pemetrexed backbone. The protocol is the document in error, so it is the one corrected |
-| **Country Identifier** | Australia, Brazil, Canada, France, Germany, Italy, Japan, Netherlands, Poland, Republic of Korea, Spain, United Kingdom, United States of America | the trial's records (ADSL `COUNTRY`: 13 countries) — a fact about where the trial ran, not a design decision. The source gives regions only |
-| **Site Identifier** | 15 sites (ADSL `SITEID`) | as above |
-| **Sponsor Approval Date** | 22 March 2026 | the version date of protocol v1.0, taken as the approval date in the absence of a separate one; v1.1 (30 March 2026) changed identifiers and legal notices only |
+| **Full Title** | the combination, as in the table above | **now the source's** (`a806630`, PR #33). Under P6 this project corrected it to the SAP; the correction is retired and this row is its record |
+| **Country Identifier** | Australia, Canada, France, Germany, Italy, Japan, Netherlands, Poland, Republic of Korea, Spain, United Kingdom, United States of America — **12** | **now the source's** synopsis table (*Countries / Sites*). The P6 list had 13, from ADSL at `8534339d`, which included Brazil; the regenerated data (#42, sites kept inside the three stratification regions) has 12, and the synopsis states 12 |
+| **Site Identifier** | 15 investigational sites | **now the source's** synopsis table |
+| **Sponsor Approval Date** | 22 March 2026 | **still supplied here**: the version date of protocol v1.0, taken as the approval date. The source still carries no approval date |
 | Sponsor Approval Date Location; State location where held | still absent | no source, and inventing one would be a design choice |
 
-*Supplied under P6 (2026-09-20, LG's decision), not by the source protocol.* Dispositions: [`../../gap-register.md`](../../gap-register.md) D14, G2.
+*Supplied under P6 (2026-09-20, LG's decision), not by the source protocol — now only the Sponsor
+Approval Date.* Dispositions: [`../../gap-register.md`](../../gap-register.md) D14, G2.
+
+**D18, found at the re-pin.** The synopsis at `a806630` is substantively amended — title, design,
+§3.5, §5.1, §7.2, §8.1 — and still states *Protocol Version 1.0, 22 March 2026*, with a document
+history that ends at v1.1 (30 March 2026, identifiers only). M11 §12.3 Prior Protocol Amendments
+cannot be populated truthfully from it. Recorded in the register as upstream-only.

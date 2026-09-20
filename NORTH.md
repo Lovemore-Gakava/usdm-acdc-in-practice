@@ -96,7 +96,7 @@ two analyses, one mechanism.
 destination from the one above, so it gets its own finish line and its own scoreboard:
 
 > **Make TORIVA's study documents right and digital, and show that they agree** — the gaps found
-> on the way (D1–D17, the missing M11 estimand elements, the vital-signs procedures) fixed in
+> on the way (D1–D18, the missing M11 estimand elements, the vital-signs procedures) fixed in
 > this repository's derived M11 protocol, the whole protocol digitised to USDM *by generation*
 > rather than by hand, the protocol, SAP, USDM and ADaM specifications checked against each other
 > by a tool, and a hands-on walkthrough so the traverse can be driven, not watched.
@@ -115,8 +115,9 @@ it now means **the documents are made correct and the data is what diverges** (P
 | P2 | USDM generated from it, with the schedule of activities | ✓ |
 | P3 | Alignment verified by a tool | ✓ |
 | P4 | Hands-on walkthrough written | ✓ |
-| P5 | Both endpoints re-run on the aligned study | ✓ |
+| P5 | Both endpoints re-run on the aligned study | ✗ |
 | P6 | The documents made correct — six decisions applied, sources marked | ✓ |
+| P7 | Re-pinned to the corrected source after #27 — 0 warn, runs stamped with the pin | ✗ |
 
 <!-- /north:status:phase2 -->
 
@@ -127,9 +128,11 @@ and a schedule of activities and naming `tools/m11_to_usdm.py` as its generator;
 `tools/check_alignment.py` exiting 0 *with the data layer run* — on a clone without TORIVA the row
 is red, by LG's decision of 2026-09-20 (review-sheet 4c); **P4** `docs/walkthrough.md`; **P5** every
 `endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256`; **P6** the alignment
-tool reporting all six P6 decisions as PASS on its `P6 decisions: n/6` line.
+tool reporting all six P6 decisions as PASS on its `P6 decisions: n/6` line; **P7** `study/source-refs.md`
+pinning the commit the TORIVA checkout is at, the alignment tool at 0 warn with the data layer, and every
+`endpoints/*/results.json` carrying a run stamped with that pin.
 
-The test still applies, with the stage numbers now P0–P6. The two endpoint scoreboards stay as
+The test still applies, with the stage numbers now P0–P7. The two endpoint scoreboards stay as
 they are: green, and the record of the first phase.
 
 **Reached 2026-09-19, the day it was decided.** P0 the register (15 discrepancies — D15, the 2:1
@@ -143,6 +146,16 @@ data. P4 the walkthrough. P5 all three runs repeated on the generated fragment: 
 the last decimal** — the lab ANCOVA, the vitals MMRM at every visit, the vitals ANCOVA — which
 is what "aligned" has to mean for an execution: the study description changed, the number did
 not, and every results file now carries the fragment's hash.
+
+**P7, added 2026-09-20 — re-pinned to the corrected source.** TORIVA issue #27 closed the day it
+was filed: eighteen PRs, a signed decision memo, the data regenerated 2:1 through raw → SDTM → ADaM
+→ TFL. The re-pin to `a806630` is a stage because everything below P1 rests on the source: the section
+map was remapped block by block (842 lines moved, verified verbatim), what P6 supplied and the source now
+carries (D14, D11/G7, G5, G6, G2's countries and sites) was retired in place with the P6 text kept as the
+record, the D1 check was rewritten to test the time origin and the spec's storage unit after TORIVA showed
+the units test was a false positive, and both endpoints are re-run on the regenerated data. One new
+discrepancy, D18: the synopsis was amended in place with no version bump. Green when the pin matches
+the checkout, the alignment tool reports 0 warn, and the results files carry the pin.
 
 **Filed at TORIVA, 2026-09-20.** LG asked whether the gaps and the data regeneration could be raised on
 the TORIVA repository, saw the draft, and said yes: [issue #27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27), labelled qc/validation/sdtm/adam,

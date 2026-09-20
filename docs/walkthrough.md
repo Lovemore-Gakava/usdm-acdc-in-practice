@@ -22,7 +22,7 @@ The second and third lines matter on Windows: with `autocrlf=true` the engine's 
 checked out with CRLF and step 8 fails to parse it (`unexpected invalid token`).
 
 **Data.** TORIVA ships parquet; the builder wants `.xpt`. From a checkout of
-`OpenTrialReporting/torivumab-nsclc-301` at `8534339d`:
+`OpenTrialReporting/torivumab-nsclc-301` at `a806630` (`8534339d` until 2026-09-20):
 
 ```python
 import pyarrow.parquet as pq, pyreadstat

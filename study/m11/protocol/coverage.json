@@ -1,7 +1,7 @@
 {
   "source": "OpenTrialReporting/torivumab-nsclc-301 protocol/synopsis.md",
-  "source_commit": "8534339d",
-  "source_sha256_12": "58f06496894e",
+  "source_commit": "a8066307",
+  "source_sha256_12": "21bc66f0024a",
   "generator": "tools/m11_restructure.py",
   "sections": [
     {
@@ -16,32 +16,32 @@
       "title": "1 Protocol Summary",
       "file": "section-01-protocol-summary.md",
       "status": "generated — moved from source",
-      "moved_lines": 137,
+      "moved_lines": 156,
       "blocks": [
         [
           "1.1.2 Overall Design ← SYNOPSIS TABLE",
-          113,
-          141
+          111,
+          140
         ],
         [
           "1.1.1 Primary and Secondary Objectives and Estimands ← §2.1–2.3 STUDY OBJECTIVES",
-          185,
-          205
+          184,
+          204
         ],
         [
           "1.2 Trial Schema ← §3.2 Design Schematic",
-          215,
-          268
+          214,
+          271
         ],
         [
           "1.3 Schedule of Activities — efficacy ← §6.1 Tumour Assessment Schedule",
-          444,
-          458
+          456,
+          470
         ],
         [
           "1.3 Schedule of Activities — safety ← §7.2 Safety Assessment Schedule",
-          498,
-          515
+          510,
+          541
         ]
       ],
       "absent_elements": 3
@@ -51,17 +51,17 @@
       "title": "2 Introduction",
       "file": "section-02-introduction.md",
       "status": "generated — moved from source",
-      "moved_lines": 44,
+      "moved_lines": 42,
       "blocks": [
         [
           "2.1 Purpose of Trial ← §1 BACKGROUND AND RATIONALE",
-          145,
-          182
+          144,
+          180
         ],
         [
           "2.2.3 Overall Risk-Benefit Assessment ← §9.5 Risk-Benefit Assessment",
-          779,
-          784
+          815,
+          819
         ]
       ],
       "absent_elements": 2
@@ -78,27 +78,27 @@
       "title": "4 Trial Design",
       "file": "section-04-trial-design.md",
       "status": "generated — moved from source",
-      "moved_lines": 19,
+      "moved_lines": 23,
       "blocks": [
         [
           "4.1 Description of Trial Design ← §3.1 Overview",
-          209,
-          213
+          208,
+          212
         ],
         [
           "4.1 Treatment Arms ← §3.5",
-          284,
-          291
+          287,
+          298
         ],
         [
           "4.3 Trial Stopping Rules ← §7.4, the myocarditis stopping rule",
-          599,
-          599
+          625,
+          625
         ],
         [
           "4.4 Start of Trial and End of Trial ← §3.6 Post-Treatment Follow-Up",
-          293,
-          297
+          300,
+          304
         ]
       ],
       "absent_elements": 7
@@ -112,13 +112,13 @@
       "blocks": [
         [
           "5.2 Inclusion Criteria ← §4.1",
-          303,
-          335
+          310,
+          342
         ],
         [
           "5.3 Exclusion Criteria ← §4.2",
-          337,
-          369
+          344,
+          376
         ]
       ],
       "absent_elements": 3
@@ -128,37 +128,37 @@
       "title": "6 Trial Intervention And Concomitant Therapy",
       "file": "section-06-trial-intervention.md",
       "status": "generated — moved from source",
-      "moved_lines": 58,
+      "moved_lines": 63,
       "blocks": [
         [
           "6.1 Description of Investigational Trial Intervention ← §5.1",
-          375,
-          382
-        ],
-        [
-          "6.3 Investigational Trial Intervention Administration ← §5.2",
-          384,
+          382,
           391
         ],
         [
-          "6.4 Investigational Trial Intervention Dose Modification ← §5.3 Dose Modifications, §5.3.1 Treatment Delays",
+          "6.3 Investigational Trial Intervention Administration ← §5.2",
           393,
-          405
+          403
+        ],
+        [
+          "6.4 Investigational Trial Intervention Dose Modification ← §5.3 Dose Modifications, §5.3.1 Treatment Delays",
+          405,
+          417
         ],
         [
           "6.7.2 Randomisation ← §3.3",
-          270,
-          274
+          273,
+          277
         ],
         [
           "6.7.3 Measures to Maintain Blinding ← §3.4",
-          276,
-          282
+          279,
+          285
         ],
         [
           "6.10 Concomitant Therapy ← §5.4",
-          422,
-          438
+          434,
+          450
         ]
       ],
       "absent_elements": 8
@@ -172,13 +172,13 @@
       "blocks": [
         [
           "7.1 Discontinuation of Trial Intervention — Permanent Discontinuation ← §5.3.2",
-          407,
-          420
+          419,
+          432
         ],
         [
           "7.2 Participant Discontinuation or Withdrawal from the Trial ← §3.6",
-          293,
-          297
+          300,
+          304
         ]
       ],
       "absent_elements": 4
@@ -188,22 +188,22 @@
       "title": "8 Trial Assessments and Procedures",
       "file": "section-08-assessments-and-procedures.md",
       "status": "generated — moved from source",
-      "moved_lines": 57,
+      "moved_lines": 71,
       "blocks": [
         [
           "8.3 Efficacy Assessments and Procedures ← §6.1 Tumour Assessment Schedule",
-          444,
-          458
+          456,
+          470
         ],
         [
           "8.3 Response Evaluation — RECIST 1.1 ← §6.2",
-          460,
-          483
+          472,
+          495
         ],
         [
           "8.4 Safety Assessments and Procedures ← §7.2",
-          498,
-          515
+          510,
+          541
         ]
       ],
       "absent_elements": 6
@@ -224,18 +224,18 @@
       "blocks": [
         [
           "9.1 Definitions and 9.2 Timing and Procedures for Collection and Reporting ← §7.1 Adverse Event Monitoring",
-          489,
-          496
+          501,
+          508
         ],
         [
           "9.2.4 Adverse Events of Special Interest ← §7.4",
-          585,
-          599
+          611,
+          625
         ],
         [
           "9.4 Special Safety Situations — irAE management ← §7.3",
-          517,
-          583
+          543,
+          609
         ]
       ],
       "absent_elements": 5
@@ -245,42 +245,42 @@
       "title": "10 Statistical Considerations",
       "file": "section-10-statistical-considerations.md",
       "status": "generated — moved from source",
-      "moved_lines": 145,
+      "moved_lines": 153,
       "blocks": [
         [
           "10.11 Sample Size Determination ← §8.1",
-          612,
-          685
+          638,
+          719
         ],
         [
           "10.2 Analysis Sets ← §8.2 Analysis Populations",
-          687,
-          694
+          721,
+          728
         ],
         [
           "10.4 Analyses Associated with the Primary Objective — Overall Survival ← §8.3",
-          696,
-          702
+          730,
+          736
         ],
         [
           "10.5 Analyses Associated with the Secondary Objectives ← §8.4",
-          704,
-          709
+          738,
+          743
         ],
         [
           "10.10 Multiplicity Adjustments ← §8.5",
-          711,
-          720
+          747,
+          756
         ],
         [
           "10.9 Interim Analyses ← §8.6",
-          722,
-          739
+          758,
+          775
         ],
         [
           "10.1 General Considerations ← §11 KEY INFORMATION FOR STATISTICAL ANALYSIS PLAN",
-          823,
-          844
+          859,
+          880
         ]
       ],
       "absent_elements": 6
@@ -290,37 +290,37 @@
       "title": "11 General Considerations: Regulatory, Ethical, Trial Oversight and Data Handling",
       "file": "section-11-general-considerations.md",
       "status": "generated — moved from source",
-      "moved_lines": 66,
+      "moved_lines": 65,
       "blocks": [
         [
           "11.1 Regulatory and Ethical Considerations — GCP compliance ← §9.1",
-          745,
-          754
+          781,
+          790
         ],
         [
           "11.1 Regulatory and Ethical Considerations — IRB/IEC ← §9.2",
-          756,
-          760
+          792,
+          796
         ],
         [
           "11.3 Informed Consent ← §9.3",
-          762,
-          773
+          798,
+          809
         ],
         [
           "11.4 Committees — Safety Monitoring Committee ← §7.5",
-          601,
-          607
+          627,
+          632
         ],
         [
           "11.8 Data Protection ← §9.4",
-          775,
-          777
+          811,
+          813
         ],
         [
           "11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN",
-          789,
-          817
+          825,
+          853
         ]
       ],
       "absent_elements": 2
@@ -334,8 +334,8 @@
       "blocks": [
         [
           "12.3 Prior Protocol Amendments ← DOCUMENT HISTORY",
-          946,
-          951
+          982,
+          987
         ]
       ],
       "absent_elements": 3
@@ -356,8 +356,8 @@
       "blocks": [
         [
           "13 ← APPENDIX A — ABBREVIATIONS",
-          850,
-          925
+          886,
+          961
         ]
       ],
       "absent_elements": 1
@@ -371,8 +371,8 @@
       "blocks": [
         [
           "14 ← APPENDIX B — KEY REFERENCES",
-          931,
-          942
+          967,
+          978
         ]
       ],
       "absent_elements": 0

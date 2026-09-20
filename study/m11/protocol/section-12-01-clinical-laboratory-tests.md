@@ -1,7 +1,7 @@
 # ⚠️ FICTIONAL EDUCATIONAL PROTOCOL — NOT FOR REGULATORY USE
 
 **Derived excerpt of a fictional protocol, restructured for educational purposes only.**
-Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `8534339d`,
+Derived from **TORIVA-LUNG 301** (`OpenTrialReporting/torivumab-nsclc-301` at `a806630`, re-pinned 2026-09-20 after #27;
 CC BY 4.0). See [`README.md`](README.md).
 
 ---
@@ -67,6 +67,12 @@ pin down, and this protocol has no §12.1.
 
 ## Reference ranges and laboratory
 
+**Now in the source — §7.2 *Laboratory source and reference ranges (G5)* at `a806630` (#27, PR #34), moved verbatim:**
+
+> Haematology, chemistry, thyroid function, cortisol and urinalysis are analysed at a **central** laboratory, whose reference ranges are the source of the reference-range category for each result. Local laboratory testing is permitted for clinical management of the patient only, and local results are not used in the analysis. PD-L1 TPS is determined centrally by 22C3 pharmDx IHC, where the central result governs eligibility. CTCAE v5.0 grading is applied to laboratory values programmatically during analysis, not at the site.
+
+The decision this project took under P6 follows as the record; the source now says the same.
+
 **Supplied under P6 (2026-09-20) — G5.** The haematology and chemistry panels analysed in this
 trial are performed by a **central laboratory**, and reference-range indicators use the central
 laboratory's ranges. Local laboratory testing is permitted where a result is needed for urgent
@@ -90,4 +96,4 @@ silent where it matters for safety analysis.
 | Assembled | **partially, and from the wrong document** |
 | From the protocol | panel names and collection schedule (§7.2) |
 | From a programming spec | the seven analytes, their identities, and CTCAE grading |
-| Absent from both, supplied under P6 (G5) | reference-range source; central versus local laboratory for safety analytes |
+| Absent from both at `8534339d`, supplied under P6, in the source at `a806630` (§7.2, G5) | reference-range source; central versus local laboratory for safety analytes |

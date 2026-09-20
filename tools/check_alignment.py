@@ -125,6 +125,21 @@ def main() -> int:
     R.add("PASS" if ok else "FAIL", "D13", "documents",
           "§3.2.2's Population-level Summary row names a risk difference" if ok else "§3.2.2's Population-level Summary row does not say 'risk difference'")
 
+    # ---- pin: study/source-refs.md names the commit the TORIVA checkout is at (P7, 2026-09-20) ----
+    pin = re.search(r"\| Commit \| `([0-9a-f]{40})`", read(root / "study" / "source-refs.md"))
+    tor0 = find_toriva(args.toriva, root)
+    head = ""
+    if tor0 is not None:
+        try:
+            import subprocess as _sp
+            head = _sp.run(["git", "-C", str(tor0), "rev-parse", "HEAD"], capture_output=True, text=True, timeout=30).stdout.strip()
+        except (OSError, _sp.SubprocessError):
+            head = ""
+    if pin and head:
+        R.add("PASS" if pin.group(1) == head else "WARN", "pin", "documents", f"source-refs pins {pin.group(1)[:8]}; the checkout is at {head[:8]}" + ("" if pin.group(1) == head else " — re-pin deliberately (CLAUDE.md)"))
+    else:
+        R.add("INFO", "pin", "documents", "pin not compared (no checkout or no pin line)")
+
     # ---- P6 (2026-09-20): the documents made correct. Six decisions, each a PASS/FAIL on the documents. ----
     p6: dict[str, bool] = {}
     usdm_text = json.dumps(usdm, ensure_ascii=False)
@@ -133,30 +148,34 @@ def main() -> int:
     # backbone intervention present, and the withdrawn "data is the ground truth" rule gone from the fragment
     want = {"Torivumab + Chemotherapy", "Placebo + Chemotherapy"}
     blk30 = sec["03"][sec["03"].find("## 3.0"):sec["03"].find("## 3.1")]
-    ok = set(arms) == want and "plus Platinum-Based Chemotherapy" in sec["00"] and "Corrected under P6" in blk30 \
-        and all(n in blk30 for n in want) and "D14" in sec["04"] and "P6" in sec["04"] \
+    src = read(find_toriva(args.toriva, root) / "protocol" / "synopsis.md") if find_toriva(args.toriva, root) else ""
+    src = re.sub(r"\s+", " ", src)  # the synopsis wraps at ~90 columns: compare phrases, not line breaks
+    flat00 = re.sub(r"\s+", " ", sec["00"]); flat842 = re.sub(r"\s+", " ", sec["08.4.2"]); flat121 = re.sub(r"\s+", " ", sec["12.1"])
+    ok = set(arms) == want and "plus Platinum-Pemetrexed Chemotherapy" in sec["00"] and "Resolved upstream" in blk30 \
+        and all(n in blk30 for n in want) and "D14" in sec["04"] and "resolved upstream" in sec["04"].lower() \
         and any("D14" in n for a in sd.get("arms", []) for n in a.get("notes", [])) \
         and any("backbone" in (i.get("name", "") + i.get("label", "")).lower() for i in ver.get("studyInterventions", [])) \
         and "ground truth" not in usdm_text
     p6["D14"] = ok
-    R.add("PASS" if ok else "FAIL", "D14", "documents", f"title, §3.0 and section 04 corrected to the combination; USDM arms {arms} per the corrected protocol; backbone intervention present; no 'ground truth' rule in the fragment" if ok else f"D14 correction incomplete: arms {arms}; title corrected: {'plus Platinum-Based Chemotherapy' in sec['00']}; §3.0 corrected: {'Corrected under P6' in blk30}; ground-truth rule gone: {'ground truth' not in usdm_text}")
+    R.add("PASS" if ok else "FAIL", "D14", "documents", f"the source states the combination (title page carries its title); §3.0 and section 04 record it as resolved upstream; USDM arms {arms}; backbone intervention present; no 'ground truth' rule" if ok else f"D14: arms {arms}; source title on the title page: {'plus Platinum-Pemetrexed Chemotherapy' in sec['00']}; §3.0 resolved: {'Resolved upstream' in blk30}; section 04 resolved: {'resolved upstream' in sec['04'].lower()}")
 
     # D15 — 2:1 as the protocol states, in the USDM and noted in sections 01, 04, 10
     ok = any("2:1" in str(n) for n in sd.get("notes", [])) and not any("1:1 (D15)" in str(n) for n in sd.get("notes", [])) \
         and all("D15" in sec[k] for k in ("01", "04", "10"))
     p6["D15"] = ok
-    R.add("PASS" if ok else "FAIL", "D15", "documents", "USDM design notes say 2:1, the protocol's ratio; sections 01, 04, 10 carry the D15 note" if ok else "D15: USDM does not say 2:1, or a section lacks the note")
+    ok = ok and "resolved upstream" in sec["01"].lower()
+    R.add("PASS" if ok else "FAIL", "D15", "documents", "USDM design notes say 2:1; sections 01, 04, 10 carry the D15 note, now as resolved upstream" if ok else "D15: USDM does not say 2:1, or a section lacks the note")
 
     # D11 / G7 — the laboratory (and vital-signs) analysis specified in §3.2.5, descriptive; section 10 restates it
     blk325 = sec["03"][sec["03"].find("3.2.5"):sec["03"].find("## 3.3")] if "3.2.5" in sec["03"] else ""
     flat325 = re.sub(r"\s+", " ", blk325.replace("\n>", " "))
     # phrases, not words (tightened 2026-09-20, review-sheet 4a: the word 'shift' alone survived a mutation)
-    ok = all(re.search(p, flat325, re.I) for p in (r"Filled under P6", r"shift from baseline to worst post-baseline reference-range category",
+    ok = all(re.search(p, flat325, re.I) for p in (r"Now specified by the source", r"SAP v0\.3 §5\.6 and §5\.7", r"shift from baseline to worst post-baseline reference-range category",
                                                     r"worst post-baseline CTCAE v5\.0 grade", r"descriptive", r"demonstration analyses")) \
-        and "specified under P6" in sec["10"]
+        and "now specified by the source" in sec["10"]
     p6["D11/G7"] = ok
     for i in ("D11", "G7"):
-        R.add("PASS" if ok else "FAIL", i, "documents", "§3.2.5 specifies the descriptive laboratory summary (values by visit, reference-range shift, worst CTCAE grade) and section 10 restates it" if ok else "§3.2.5 or section 10 lacks the P6 laboratory analysis specification")
+        R.add("PASS" if ok else "FAIL", i, "documents", "§3.2.5 transcribes SAP v0.3 §5.6/§5.7 (reference-range shift, worst CTCAE grade, values by visit) and section 10 says the source now specifies it" if ok else "§3.2.5 or section 10 does not carry the SAP §5.6/§5.7 specification")
 
     # S1–S3 — this project's analyses stated in section 10, now as demonstration analyses
     ok = all(f"**{s}**" in sec["10"] for s in ("S1", "S2", "S3")) and "not part of TORIVA's statistical plan" in sec["10"] \
@@ -165,15 +184,17 @@ def main() -> int:
         R.add("PASS" if ok else "FAIL", i, "documents", "section 10 states the analyses added by this project (S1–S3) as demonstration analyses, not the sponsor's" if ok else "section 10 lacks the S1–S3 demonstration statement")
 
     # G2 — title page: countries and site count from the trial's records, approval date = version date, all marked
-    ok = all(c in sec["00"] for c in ("Republic of Korea", "United States of America", "Poland")) and "15 sites" in sec["00"] \
-        and "**Sponsor Approval Date** | 22 March 2026" in sec["00"] and "Supplied under P6" in sec["00"]
+    ok = all(c in flat00 for c in ("Republic of Korea", "United States of America", "Poland")) and "Brazil, Canada" not in flat00 \
+        and "15 investigational sites" in flat00 and "**Sponsor Approval Date** | 22 March 2026" in flat00 and "now the source's" in flat00 \
+        and "12 countries" in src and "15 investigational sites" in src
     p6["G2"] = ok
-    R.add("PASS" if ok else "FAIL", "G2", "documents", "title page supplies 13 countries, 15 sites and the approval date, marked as supplied under P6" if ok else "title page G2 content missing or unmarked")
+    R.add("PASS" if ok else "FAIL", "G2", "documents", "title page carries the source's 12 countries and 15 sites (synopsis table at the pin) and still supplies the approval date, marked" if ok else "title page G2: countries/sites not the source's, or the approval date unmarked")
 
     # G6 — vital-signs procedure supplied in §8.4.2, marked
-    ok = "Supplied under P6" in sec["08.4.2"] and re.search(r"five minutes", sec["08.4.2"]) and "60 minutes before" in sec["08.4.2"]
+    ok = "Now in the source" in flat842 and "seated at rest for at least 5 minutes" in flat842 and "Vital signs procedure (G6)" in src \
+        and "seated at rest for at least 5 minutes" in src
     p6["G6"] = bool(ok)
-    R.add("PASS" if ok else "FAIL", "G6", "documents", "§8.4.2 supplies the collection procedure, marked as supplied under P6" if ok else "§8.4.2 G6 procedure missing or unmarked")
+    R.add("PASS" if ok else "FAIL", "G6", "documents", "§8.4.2 carries the source's §7.2 vital-signs procedure verbatim (present at the pin)" if ok else "§8.4.2 does not carry the source's §7.2 procedure, or the source lacks it")
 
     # G9 — §8.2 screening/baseline assessments supplied in section 08, marked, with the window and the pregnancy-test timing
     s08 = read(prot / "section-08-assessments-and-procedures.md")
@@ -181,9 +202,10 @@ def main() -> int:
     R.add("PASS" if ok else "FAIL", "G9", "documents", "section 08 supplies §8.2 from the source's own documents, marked, with the 28-day window and the 72-hour pregnancy-test rule" if ok else "section 08 lacks the supplied §8.2 paragraph or its markers")
 
     # G5 — central laboratory stated in §12.1, marked
-    ok = "Supplied under P6" in sec["12.1"] and re.search(r"central laboratory", sec["12.1"], re.I) and "not used for analysis" in sec["12.1"]
+    ok = "Now in the source" in flat121 and "analysed at a **central** laboratory" in flat121 and "local results are not used in the analysis" in flat121 \
+        and "Laboratory source and reference ranges (G5)" in src
     p6["G5"] = bool(ok)
-    R.add("PASS" if ok else "FAIL", "G5", "documents", "§12.1 states a central laboratory with central reference ranges, marked as supplied under P6" if ok else "§12.1 G5 content missing or unmarked")
+    R.add("PASS" if ok else "FAIL", "G5", "documents", "§12.1 carries the source's §7.2 laboratory-source paragraph verbatim (present at the pin)" if ok else "§12.1 does not carry the source's §7.2 paragraph, or the source lacks it")
 
     # G1 — resolved: six estimands in the USDM, six population-level summaries in §3
     n_est = len(sd.get("estimands", [])); n_pls = len(re.findall(r"Population-level Summary", sec["03"]))
@@ -284,12 +306,30 @@ def main() -> int:
             R.add("WARN" if "EFFFL" not in adrs else "PASS", "D7", "data", "EFFFL absent from ADRS, as recorded" if "EFFFL" not in adrs else "EFFFL now present in ADRS — register row D7 is stale")
             R.add("WARN" if ("ANRIND" not in adlb_c and "NRIND" in adlb_c) else "PASS", "D8", "data", "ADLB carries NRIND, not ANRIND/BNRIND, as recorded")
             R.add("WARN" if "BTOXGR" not in adlb_c else "PASS", "D9", "data", "BTOXGR absent from ADLB, as recorded")
-            R.add("WARN" if adtte_u == {"DAYS"} else "INFO", "D1", "data", f"ADTTE AVALU = {sorted(adtte_u)}; SAP says months")
+            # D1 — the substance is the time origin: OS/PFS/PFSINV start at RANDDT (M11 §3 "time from randomisation").
+            # The storage unit is compared with what the ADaM spec declares (days), not with the estimand's reporting
+            # unit (months) — TORIVA #27 showed the old test (AVALU vs "SAP says months") was a false positive that
+            # could only be cleared by breaking the spec (corrected 2026-09-20).
+            tte = pq.ParquetFile(adam / "adtte.parquet").read(columns=["USUBJID", "PARAMCD", "STARTDT", "AVAL"]).to_pydict()
+            randdt = dict(zip(col("adsl", "USUBJID"), col("adsl", "RANDDT")))
+            itt = {u for u, f in zip(col("adsl", "USUBJID"), col("adsl", "ITTFL")) if f == "Y"}
+            origin_bad = {}; null_aval = {}
+            for u, pc, sdt, av in zip(tte["USUBJID"], tte["PARAMCD"], tte["STARTDT"], tte["AVAL"]):
+                if pc in ("OS", "PFS", "PFSINV"):
+                    if sdt != randdt.get(u): origin_bad[pc] = origin_bad.get(pc, 0) + 1
+                    if av is None and u in itt: null_aval[pc] = null_aval.get(pc, 0) + 1
+            spec = read(tor / "programming-specs" / "ADTTE-spec.md")
+            spec_unit = "DAYS" if "AVAL in days" in spec or '"DAYS"' in spec else None
+            unit_ok = spec_unit is not None and adtte_u == {spec_unit}
+            ok = not origin_bad and not null_aval and unit_ok
+            R.add("PASS" if ok else "WARN", "D1", "data",
+                  (f"ADTTE OS/PFS/PFSINV start at RANDDT for every record, no ITT subject without a value, AVALU = {sorted(adtte_u)} as the ADaM spec declares"
+                   if ok else f"origin not RANDDT: {origin_bad or 'none'}; ITT subjects with null AVAL: {null_aval or 'none'}; AVALU {sorted(adtte_u)} vs spec {spec_unit}"))
             R.add("WARN" if "RSEVAL" not in adrs else "INFO", "D3", "data", "ADRS carries no RSEVAL column — reader cannot be told from the data; the SAP's BICR reader stands as recorded" if "RSEVAL" not in adrs else "RSEVAL present")
 
     # ---------------- report ----------------
     p6_pass = sum(1 for v in p6.values() if v)
-    p6_line = f"P6 decisions: {p6_pass}/{len(p6)} pass — " + ", ".join(f"{k} {'PASS' if v else 'FAIL'}" for k, v in p6.items())
+    p6_line = f"P6 decisions (as the source now carries them, a806630): {p6_pass}/{len(p6)} pass — " + ", ".join(f"{k} {'PASS' if v else 'FAIL'}" for k, v in p6.items())
     order = {"FAIL": 0, "WARN": 1, "INFO": 2, "SKIP": 3, "PASS": 4}
     rows = sorted(R.rows, key=lambda r: (order[r[0]], r[2], r[1]))
     counts = collections.Counter(v for v, *_ in R.rows)

@@ -5,7 +5,7 @@ TORIVA-LUNG 301 is **referenced by commit, not vendored**. It is ~81 MB and read
 | | |
 |---|---|
 | Repository | `OpenTrialReporting/torivumab-nsclc-301` |
-| Commit | `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` |
+| Commit | `a8066307b976351b53a9ffa447a69047306e4cb9` — re-pinned 2026-09-20 after issue #27 closed (was `8534339d95d6e1709f5def1e715a9b0c8cc06fe8`, 2026-07-29, through P6) |
 | Date | 2026-07-29 |
 | Branch | `main` |
 
@@ -55,6 +55,8 @@ what the tool uses.
 
 ## Known discrepancies inside the source
 
+**Status at `a806630` (2026-09-20):** the first seventeen (D1 to D17) resolved by TORIVA issue #27 (the register says how, row by row); D18 found at the re-pin, open.
+
 Recorded during the paper mappings; to be resolved against built ADaM at comparison time, not
 here. D1 and D2 came from PFS — see
 [endpoints/03-complex-pfs/mapping.md](../endpoints/03-complex-pfs/mapping.md). D3–D7 came from
@@ -81,6 +83,7 @@ D8–D12 came from the lab tier — see
 | **D13** | ORR | SAP §5.3 and §13.6: population-level summary is a **stratified MH risk difference** | §13.6's estimator is `stats::mantelhaen.test()`, which returns a common **odds ratio**, not a risk difference. The SAP specifies one statistic and names a tool that produces another |
 | **D16** | Schedule | Protocol §6.1: imaging **every 6 weeks for the first 12 months, every 12 weeks from month 12** | ADTR `AVISIT` runs `TUMOR_ASSESS_WK6` … `WK120` at **6-week spacing throughout**; there is no 12-weekly phase (17 subjects still imaged at week 120). Found 2026-09-20 laying the generated schedule beside the data (review-sheet 3b) |
 | **D17** | Schedule | Protocol §7.2: assessments at Screening, Cycle 1 Day 1, Day 1 of each subsequent cycle, EOT, 30- and 90-day follow-up — **no Day 15 visit** | ADVS and ADLB carry a **`C1D15`** visit for 446 of 449 subjects, defined by TORIVA's visit-window build (`programs/adam/_build_visit_windows.R`), not by the protocol. This project's MMRM used it as an induction visit (S3). Found 2026-09-20 (review-sheet 3b) |
+| **D18** | Document control | Protocol synopsis: *Version 1.0, 22 March 2026*; history ends at v1.1 (30 March 2026, identifiers only) | At `a806630` the synopsis is substantively amended by #27 (title, design, §3.5, §5.1, §7.2, §8.1) with no version bump, date change or history row |
 
 D4 and D7 are the same defect from two directions: **estimand E3 is not implementable against
 the built ADaM as specified.** What was built is E3a.
