@@ -24,6 +24,7 @@ MUT = [
  ("G2",  P + "section-00-title-page.md", "**Sponsor Approval Date** | 22 March 2026", "**Sponsor Approval Date** | not stated"),
  ("G5",  P + "section-12-01-clinical-laboratory-tests.md", "local results are not used for analysis", "local results are used for analysis"),
  ("G6",  P + "section-08-04-02-vital-signs.md", "rested for at least five minutes", "rested briefly"),
+ ("G9",  P + "section-08-assessments-and-procedures.md", "28 days before Cycle 1 Day 1", "before Cycle 1 Day 1"),
  ("G7",  P + "section-03-objectives-endpoints.md", "(ii) shift from baseline", "(ii) change from baseline"),
  ("D11", P + "section-03-objectives-endpoints.md", "CTCAE v5.0 grade by parameter, with a listing of grade ≥3 abnormalities", "toxicity grade by parameter, with a listing"),
  ("S1",  P + "section-10-statistical-considerations.md", "**demonstration analyses**", "**analyses**"),

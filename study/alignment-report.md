@@ -5,7 +5,7 @@ as its checklist. Re-run it to regenerate this file. `PASS` — a fix-here promi
 kept; `WARN` — the data diverging from the corrected documents, or an upstream-only divergence, confirmed against the data; `INFO` — worth knowing; `SKIP` —
 data not present.
 
-**27 pass, 0 fail, 8 warn, 3 info, 0 skip.** P6 decisions: 6/6 pass — D14 PASS, D15 PASS, D11/G7 PASS, G2 PASS, G6 PASS, G5 PASS. Data layer: TORIVA ADaM checked.
+**28 pass, 0 fail, 8 warn, 3 info, 0 skip.** P6 decisions: 6/6 pass — D14 PASS, D15 PASS, D11/G7 PASS, G2 PASS, G6 PASS, G5 PASS. Data layer: TORIVA ADaM checked.
 
 | Verdict | Item | Layer | Detail |
 |---|---|---|---|
@@ -35,6 +35,7 @@ data not present.
 | PASS | G6 | documents | §8.4.2 supplies the collection procedure, marked as supplied under P6 |
 | PASS | G7 | documents | §3.2.5 specifies the descriptive laboratory summary (values by visit, reference-range shift, worst CTCAE grade) and section 10 restates it |
 | PASS | G8 | documents | coverage.json covers sections ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'] |
+| PASS | G9 | documents | section 08 supplies §8.2 from the source's own documents, marked, with the 28-day window and the 72-hour pregnancy-test rule |
 | PASS | S1 | documents | section 10 states the analyses added by this project (S1–S3) as demonstration analyses, not the sponsor's |
 | PASS | S2 | documents | section 10 states the analyses added by this project (S1–S3) as demonstration analyses, not the sponsor's |
 | PASS | S3 | documents | section 10 states the analyses added by this project (S1–S3) as demonstration analyses, not the sponsor's |

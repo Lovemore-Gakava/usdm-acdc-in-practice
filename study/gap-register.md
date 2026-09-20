@@ -64,6 +64,7 @@ re-taken under that rule. A row that changed keeps its earlier disposition, stru
 | G6 | §8.4.2 | Vital-signs collection and interpretation procedures — absent | **fix here, supplied and marked** (P6; ~~sponsor decision~~) | standard procedure paragraph in `section-08-04-02-vital-signs.md` |
 | G7 | §3.2.5 | No Population-level Summary for laboratory evaluations (the M11 side of D11) | **fix here, supplied and marked** (P6; ~~sponsor decision~~) | descriptive summary specified in §3.2.5; S1–S3 remain demonstration analyses |
 | G8 | all other sections | Eleven of fourteen M11 sections not yet restructured — eligibility, interventions, schedule of activities, statistics, and the rest | **fix here** | this is stage **P1**; `coverage.json` will carry the status of each |
+| G9 | §8.2 | Screening/Baseline Assessments and Procedures (Required) — the source has no such section: the screening window sits in the §6.1 imaging table, the procedures only as the Screening column of §7.2 and in TORIVA's CRF strategy | **fix here, supplied and marked** (added 2026-09-20 on LG's decision, after the review's 2c search found where the content was) | supplied in section 08 as an §8.2 paragraph assembled from the source's own documents — window from synopsis §6.1, pregnancy-test timing from §4.1, procedure list from the §7.2 Screening column and the CRF strategy's Screening visit. Not in TORIVA issue #27; it is an assembly of what TORIVA already says, not a correction |
 
 ## C. Things the SAP never specified, which this project supplied
 

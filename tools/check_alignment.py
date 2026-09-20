@@ -111,7 +111,7 @@ def main() -> int:
     if not reg:
         R.add("FAIL", "register", "documents", "study/gap-register.md has no parsable rows")
     fix_here = sorted(i for i, d in reg.items() if "fix here" in d)
-    implemented = {"D11", "D13", "D14", "D15", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "S1", "S2", "S3"}
+    implemented = {"D11", "D13", "D14", "D15", "G2", "G3", "G4", "G5", "G6", "G7", "G8", "G9", "S1", "S2", "S3"}
     for i in fix_here:
         if i not in implemented:
             R.add("FAIL", i, "documents", "register says 'fix here' and this tool has no check for it")
@@ -174,6 +174,11 @@ def main() -> int:
     ok = "Supplied under P6" in sec["08.4.2"] and re.search(r"five minutes", sec["08.4.2"]) and "60 minutes before" in sec["08.4.2"]
     p6["G6"] = bool(ok)
     R.add("PASS" if ok else "FAIL", "G6", "documents", "§8.4.2 supplies the collection procedure, marked as supplied under P6" if ok else "§8.4.2 G6 procedure missing or unmarked")
+
+    # G9 — §8.2 screening/baseline assessments supplied in section 08, marked, with the window and the pregnancy-test timing
+    s08 = read(prot / "section-08-assessments-and-procedures.md")
+    ok = "supplied under P6 (G9" in s08 and "28 days before Cycle 1 Day 1" in s08 and "within 72 hours" in s08 and "Sources, each named" in s08
+    R.add("PASS" if ok else "FAIL", "G9", "documents", "section 08 supplies §8.2 from the source's own documents, marked, with the 28-day window and the 72-hour pregnancy-test rule" if ok else "section 08 lacks the supplied §8.2 paragraph or its markers")
 
     # G5 — central laboratory stated in §12.1, marked
     ok = "Supplied under P6" in sec["12.1"] and re.search(r"central laboratory", sec["12.1"], re.I) and "not used for analysis" in sec["12.1"]
