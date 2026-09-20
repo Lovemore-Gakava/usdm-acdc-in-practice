@@ -106,9 +106,9 @@ Unblinding provisions:
 - **6.2 Rationale for Dose and Regimen**: in the source at §1.4 (PK/PD, receptor occupancy), moved to section 2 here; not duplicated.
 - **Moved here 2026-09-20 (review-sheet item 2b, LG's verdict):** dose modifications and treatment delays (§5.3, §5.3.1) from section 7 to **6.4**; randomisation (§3.3) and blinding (§3.4) from section 4 to **6.7.2** and **6.7.3**. M11 numbers them here; the earlier placement followed the source's reading order.
 - **6.5 Management of Overdose**: absent from the source.
-- **6.6 Preparation, Storage and Handling, Accountability**: storage and dilution are in §5.1 (moved); accountability is absent.
-- **6.7.1 Participant Assignment** is inside the randomisation text; **6.7.4 Emergency Unblinding at the Site**: absent from the source.
-- **6.8 Adherence**: absent from the source.
+- **6.6 Preparation, Storage and Handling, Accountability**: storage and dilution are in §5.1 (moved). Accountability is absent from the *protocol*; TORIVA's CRF strategy and `SDTM-DA-spec.md` define a pharmacist dispensation log per cycle visit (dispensed, used, returned, lost; compliance %). Narrowed 2026-09-20 (review-sheet 2c): the document set has the procedure, the protocol does not state it.
+- **6.7.1 Participant Assignment** is inside the randomisation text. **6.7.4 Emergency Unblinding at the Site** is inside the blinding text at 6.7.3 (§3.4 *Unblinding provisions*: emergency unblinding at the Investigator's discretion, a procedure via the IWRS, and the SMC's unblinded statistician). *Corrected 2026-09-20 (review-sheet 2c): the note written that morning called it absent, and the search found it in the block moved the same day.*
+- **6.8 Adherence**: absent from the protocol; the CRF strategy collects dosing compliance on the DA form ("Dosing, compliance" at every on-treatment visit) and the DA simulator computes compliance %. Narrowed 2026-09-20 (2c).
 - **6.9 Noninvestigational Trial Intervention**: the platinum-based chemotherapy both arms receive (D14, corrected under P6) is a **6.9.1 Background Trial Intervention**; the source protocol never described it, and the SAP §13.2 wording is carried in the D14 note above rather than invented as a section.
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

@@ -111,6 +111,6 @@ CRF design will be reviewed by a CDISC-certified data manager prior to EDC build
 ## M11 conformance of this section
 
 - **11.4 Committees**: the Safety Monitoring Committee (§7.5), moved here from section 9 on 2026-09-20 (review-sheet item 2b, LG's verdict), where M11 numbers it. **11.2 Trial Oversight**: absent from the source.
-- **11.6–11.13**: source records, financial disclosure, insurance, publication policy, protocol deviations, early site closure, data dissemination, quality assurance — all absent from the source, which is a synopsis.
+- **11.2 Trial Oversight, 11.5 Insurance and Indemnity, 11.6 Risk-Based Quality Management, 11.9 Source Records, 11.11 Early Site Closure, 11.12 Data Dissemination**: absent from the source, which is a synopsis. **11.10 Protocol Deviations**: absent as a handling procedure; the SAP §3.2 lists the major-deviation categories that define the per-protocol set, carried here through 10.2. Renumbered and narrowed 2026-09-20 (review-sheet 2c and 2d).
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

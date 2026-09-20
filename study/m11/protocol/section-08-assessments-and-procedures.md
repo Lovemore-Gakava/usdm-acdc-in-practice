@@ -90,7 +90,7 @@ The DCR SD requirement of ≥8 weeks is consistent with RECIST 1.1 guidance and 
 - **8.4.4 Clinical Laboratory Assessments**: the schedule rows (haematology, chemistry, thyroid, cortisol, urinalysis) are in the moved §7.2 table; the analyte list is [`section-12-01-clinical-laboratory-tests.md`](section-12-01-clinical-laboratory-tests.md), backwards-sourced and marked (gap G4).
 - **8.4.1, 8.4.3, 8.4.5**: physical examination, ECG and pregnancy testing appear as rows of the §7.2 table and nowhere else — timing only, no procedures.
 - **8.4.6 Suicidal Ideation and Behaviour**: absent (and not applicable to the population; M11 marks it conditional).
-- **8.5 PK, 8.6 Biomarkers, 8.7 Immunogenicity**: named as exploratory objectives (§2.3) and deferred by the source to separate plans; absent here.
-- **8.1, 8.2, 8.8, 8.9**: absent from the source.
+- **8.5 PK, 8.6 Biomarkers, 8.7 Immunogenicity**: named as exploratory objectives (§2.3) and deferred by the source to separate plans; absent here. Narrowed 2026-09-20 (2c): the CRF strategy specifies the **baseline biomarker panel** (PD-L1 TPS, EGFR, ALK, ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK, TMB at Screening/C1D1) and records PK as *deferred to a separate PK substudy*; immunogenicity has nothing beyond the word ADA in the SAP's exploratory list.
+- **8.2 Screening/Baseline Assessments and Procedures**: the protocol gives the window — *Screening (within 28 days before Cycle 1 Day 1)* in the §6.1 table, moved to 8.3 — and no procedure list; the CRF strategy's visit table has one (Screening: DM, IE, MH, SU, VS, LB incl. biomarkers, PE, DS; Day −28 to 0). Narrowed 2026-09-20 (2c): absent from the protocol, present in TORIVA's CRF strategy. **8.1 Considerations** and **8.8 Medical Resource Utilisation**: absent from the source (M11 has no 8.9).
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

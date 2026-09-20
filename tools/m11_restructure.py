@@ -137,9 +137,9 @@ SECTIONS: list[dict] = [
             "**6.2 Rationale for Dose and Regimen**: in the source at §1.4 (PK/PD, receptor occupancy), moved to section 2 here; not duplicated.",
             "**Moved here 2026-09-20 (review-sheet item 2b, LG's verdict):** dose modifications and treatment delays (§5.3, §5.3.1) from section 7 to **6.4**; randomisation (§3.3) and blinding (§3.4) from section 4 to **6.7.2** and **6.7.3**. M11 numbers them here; the earlier placement followed the source's reading order.",
             "**6.5 Management of Overdose**: absent from the source.",
-            "**6.6 Preparation, Storage and Handling, Accountability**: storage and dilution are in §5.1 (moved); accountability is absent.",
-            "**6.7.1 Participant Assignment** is inside the randomisation text; **6.7.4 Emergency Unblinding at the Site**: absent from the source.",
-            "**6.8 Adherence**: absent from the source.",
+            "**6.6 Preparation, Storage and Handling, Accountability**: storage and dilution are in §5.1 (moved). Accountability is absent from the *protocol*; TORIVA's CRF strategy and `SDTM-DA-spec.md` define a pharmacist dispensation log per cycle visit (dispensed, used, returned, lost; compliance %). Narrowed 2026-09-20 (review-sheet 2c): the document set has the procedure, the protocol does not state it.",
+            "**6.7.1 Participant Assignment** is inside the randomisation text. **6.7.4 Emergency Unblinding at the Site** is inside the blinding text at 6.7.3 (§3.4 *Unblinding provisions*: emergency unblinding at the Investigator's discretion, a procedure via the IWRS, and the SMC's unblinded statistician). *Corrected 2026-09-20 (review-sheet 2c): the note written that morning called it absent, and the search found it in the block moved the same day.*",
+            "**6.8 Adherence**: absent from the protocol; the CRF strategy collects dosing compliance on the DA form (\"Dosing, compliance\" at every on-treatment visit) and the DA simulator computes compliance %. Narrowed 2026-09-20 (2c).",
             "**6.9 Noninvestigational Trial Intervention**: the platinum-based chemotherapy both arms receive (D14, corrected under P6) is a **6.9.1 Background Trial Intervention**; the source protocol never described it, and the SAP §13.2 wording is carried in the D14 note above rather than invented as a section.",
         ],
     },
@@ -172,8 +172,8 @@ SECTIONS: list[dict] = [
             "**8.4.4 Clinical Laboratory Assessments**: the schedule rows (haematology, chemistry, thyroid, cortisol, urinalysis) are in the moved §7.2 table; the analyte list is [`section-12-01-clinical-laboratory-tests.md`](section-12-01-clinical-laboratory-tests.md), backwards-sourced and marked (gap G4).",
             "**8.4.1, 8.4.3, 8.4.5**: physical examination, ECG and pregnancy testing appear as rows of the §7.2 table and nowhere else — timing only, no procedures.",
             "**8.4.6 Suicidal Ideation and Behaviour**: absent (and not applicable to the population; M11 marks it conditional).",
-            "**8.5 PK, 8.6 Biomarkers, 8.7 Immunogenicity**: named as exploratory objectives (§2.3) and deferred by the source to separate plans; absent here.",
-            "**8.1, 8.2, 8.8, 8.9**: absent from the source.",
+            "**8.5 PK, 8.6 Biomarkers, 8.7 Immunogenicity**: named as exploratory objectives (§2.3) and deferred by the source to separate plans; absent here. Narrowed 2026-09-20 (2c): the CRF strategy specifies the **baseline biomarker panel** (PD-L1 TPS, EGFR, ALK, ROS1, KRAS G12C, MET ex14, RET, BRAF V600E, NTRK, TMB at Screening/C1D1) and records PK as *deferred to a separate PK substudy*; immunogenicity has nothing beyond the word ADA in the SAP's exploratory list.",
+            "**8.2 Screening/Baseline Assessments and Procedures**: the protocol gives the window — *Screening (within 28 days before Cycle 1 Day 1)* in the §6.1 table, moved to 8.3 — and no procedure list; the CRF strategy's visit table has one (Screening: DM, IE, MH, SU, VS, LB incl. biomarkers, PE, DS; Day −28 to 0). Narrowed 2026-09-20 (2c): absent from the protocol, present in TORIVA's CRF strategy. **8.1 Considerations** and **8.8 Medical Resource Utilisation**: absent from the source (M11 has no 8.9).",
         ],
     },
     {
@@ -229,7 +229,7 @@ SECTIONS: list[dict] = [
         ],
         "notes": [
             "**11.4 Committees**: the Safety Monitoring Committee (§7.5), moved here from section 9 on 2026-09-20 (review-sheet item 2b, LG's verdict), where M11 numbers it. **11.2 Trial Oversight**: absent from the source.",
-            "**11.6–11.13**: source records, financial disclosure, insurance, publication policy, protocol deviations, early site closure, data dissemination, quality assurance — all absent from the source, which is a synopsis.",
+            "**11.2 Trial Oversight, 11.5 Insurance and Indemnity, 11.6 Risk-Based Quality Management, 11.9 Source Records, 11.11 Early Site Closure, 11.12 Data Dissemination**: absent from the source, which is a synopsis. **11.10 Protocol Deviations**: absent as a handling procedure; the SAP §3.2 lists the major-deviation categories that define the per-protocol set, carried here through 10.2. Renumbered and narrowed 2026-09-20 (review-sheet 2c and 2d).",
         ],
     },
     {
