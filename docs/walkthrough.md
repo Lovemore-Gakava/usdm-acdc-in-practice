@@ -1,13 +1,15 @@
 # Hands-on walkthrough — drive one endpoint through the builder yourself
 
 Phase 2, stage **P4** (`NORTH.md`). Written 2026-09-19 from what was actually clicked on the
-two endpoints, including the places that caught me. Budget about forty-five minutes for the
+two endpoints, including the places that caught me; revised 2026-09-20 after TORIVA issues #27 and
+#53 changed the source and its data (P7). Budget about forty-five minutes for the
 laboratory endpoint end to end; the vital-signs MMRM is a second pass of the same steps plus one
 extra.
 
-Everything below runs on the **aligned study** — the USDM generated from the M11 protocol under
-phase 2 — and on TORIVA's real datasets. You will see the number the repository reports
-(`endpoints/01-simple-lab-cfb/results.json`) come out of the browser.
+Everything below runs on the **aligned study** — the USDM generated from the M11 protocol, itself
+restructured from TORIVA's synopsis at the pinned commit — and on TORIVA's real datasets, regenerated
+under #27. You will see the number the repository reports (`endpoints/01-simple-lab-cfb/results.json`,
+`p7_rerun_a806630`) come out of the browser.
 
 ## 0. Before you open the browser (once per clone)
 
@@ -21,8 +23,13 @@ pip install pyarrow pyreadstat
 The second and third lines matter on Windows: with `autocrlf=true` the engine's R source is
 checked out with CRLF and step 8 fails to parse it (`unexpected invalid token`).
 
-**Data.** TORIVA ships parquet; the builder wants `.xpt`. From a checkout of
-`OpenTrialReporting/torivumab-nsclc-301` at `a806630` (`8534339d` until 2026-09-20):
+**Check the pin first.** `python tools/check_alignment.py --require-data` should print `PASS documents pin`
+with the commit `study/source-refs.md` names (`0f78331` at the time of writing). If it says WARN, your
+TORIVA checkout is not at the pin and the numbers below will not be yours.
+
+**Data.** TORIVA ships parquet; the builder wants `.xpt`. From the checkout of
+`OpenTrialReporting/torivumab-nsclc-301` at the pin (the datasets are those regenerated under #27 at
+`a806630`; #53 changed documents only):
 
 ```python
 import pyarrow.parquet as pq, pyreadstat
@@ -58,8 +65,9 @@ the generator's own provenance note — it names `tools/m11_to_usdm.py`.
 
 Tabs across the top. Two to look at:
 
-- **Arms** — *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*, as the corrected
-  protocol names them (D14, P6); the source protocol said monotherapy, and the data agrees.
+- **Arms** — *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*, as the source protocol now
+  states (D14: it said monotherapy until #27 corrected it; this project had corrected it under P6
+  the day before). The notes on each arm carry that history.
 - **Schedule of Activities** — *13 activities · 39 encounters*. This tab was empty for the
   whole of phase 1; the schedule was generated from the protocol's two assessment tables.
 
@@ -142,11 +150,12 @@ chain's dimension values, not by the USDM's estimand (L6).
    value is a contrast label, not a data value, and a blank means no filter.
 6. **Execute.** About a minute. The result: contrasts, LS means, type-3 tests, fit statistics.
 
-*What you should see* (on TORIVA at `a806630`, the data regenerated under #27): Torivumab − Placebo on
-ALT change from baseline at C2D1 = **−1.276 (SE 2.215, n = 429)**. On the data before #27
-(`8534339d`) it was −1.830 (SE 1.768, n = 432). Compare it with `endpoints/01-simple-lab-cfb/comparison.md`: the same
-model on TORIVA's own `CHG` and `BASE` gives −0.893, and the whole difference is the baseline
-row the engine picks.
+*What you should see* (on the data regenerated under #27): Torivumab − Placebo on ALT change from
+baseline at C2D1 = **−1.276 (SE 2.215, n = 429)**. On the data before #27 (`8534339d`) it was −1.830
+(SE 1.768, n = 432). Compare it with `endpoints/01-simple-lab-cfb/comparison.md`, section *At `a806630`*:
+the same model on TORIVA's own `CHG`, `BASE` and `ANL01FL` gives **−1.305 (SE 1.607)**, and the
+difference is the baseline row the engine picks — first row in the Baseline window rather than the
+`ABLFL` row — for 72% of subjects. Before #27 the reference was −0.893 and the share 70%.
 
 ## The second pass: vital signs by MMRM
 
@@ -181,6 +190,8 @@ Same steps, with these differences:
 ## What to notice
 
 Sixteen decisions in the second pass, none of them statistical, ten of them repeats. The
-number comes out; the reason it differs from the trial's own is the same on both endpoints.
+number comes out; the reason it differs from the trial's own is the same on both endpoints, and it
+survived a regeneration of the data: new numbers on 2026-09-20, the same 70-odd per cent of
+subjects with a different baseline row.
 That is the thing the whole traverse exists to show, and it is more convincing when the
 click that causes it is your own.
