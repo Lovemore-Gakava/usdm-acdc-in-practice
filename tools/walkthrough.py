@@ -8,9 +8,10 @@
 
 Option: --toriva <path> (default: a sibling checkout named torivumab-nsclc-301). The port is 8080.
 
-CDISC Library: set CDISC_API_KEY (a Library account's API key) before `serve`, and the app's concept
-*Reference* links open the SDTM dataset specialization through a proxy at /cdisc-library/ that adds
-the key. Without it the links point at the Library API directly and answer 401.
+CDISC Library: put a Library account's API key in a file named .cdisc-api-key in the repository root
+(git-ignored) or in your home directory — one line, the key — or set CDISC_API_KEY. Then the app's
+concept *Reference* links open the SDTM dataset specialization through a proxy at /cdisc-library/
+that adds the key. Without a key the links point at the Library API directly and answer 401.
 
 What it does not do is the clicking: steps 1–8 of the walkthrough are yours. The Load button and
 alert() freeze browser automation, so nothing here drives the page either.
@@ -46,7 +47,23 @@ CHAINS = {
 INDUCTION = ["Baseline", "C1D15", "C2D1", "C3D1", "C4D1", "C5D1", "C6D1"]
 LIBRARY = "https://api.library.cdisc.org/api/cosmos/v2/"
 PROXY = "/cdisc-library/"  # served by `serve`: forwards to LIBRARY with the api-key header from CDISC_API_KEY
-API_KEY = os.environ.get("CDISC_API_KEY", "").strip()
+KEY_FILES = (ROOT / ".cdisc-api-key", Path.home() / ".cdisc-api-key")  # both git-ignored / outside the repo
+
+
+def read_api_key() -> str:
+    """CDISC_API_KEY from the environment, else the first line of .cdisc-api-key in the repository root or the home directory."""
+    env = os.environ.get("CDISC_API_KEY", "").strip()
+    if env:
+        return env
+    for f in KEY_FILES:
+        if f.is_file():
+            key = f.read_text(encoding="utf-8").strip().splitlines()[0].strip() if f.read_text(encoding="utf-8").strip() else ""
+            if key:
+                return key
+    return ""
+
+
+API_KEY = read_api_key()
 
 
 for _s in (sys.stdout, sys.stderr):
@@ -154,7 +171,8 @@ def stage(args: argparse.Namespace) -> None:
         say(f"CDISC_API_KEY set: {n} concept references routed through {PROXY} (the staged copy only)")
     else:
         shutil.copy2(USDM_SRC, USDM_DST)
-        say("CDISC_API_KEY not set: concept Reference links point at the Library API directly and will answer 401")
+        say("no CDISC Library key (CDISC_API_KEY, or .cdisc-api-key in the repository root or your home directory): "
+            "concept Reference links point at the Library API directly and will answer 401")
     manifest = json.loads(STUDIES.read_text(encoding="utf-8"))
     entries = manifest if isinstance(manifest, list) else manifest["studies"]
     if not any(e.get("file") == USDM_DST.name for e in entries):

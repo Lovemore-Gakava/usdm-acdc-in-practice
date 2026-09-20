@@ -102,15 +102,15 @@ Tabs across the top. Two to look at:
 
   1. Sign in at [library.cdisc.org](https://library.cdisc.org) (a free account) and copy your **API
      key** from your account page.
-  2. Set it in the shell you start the server from, then start the server:
+  2. Save it once, as the only line of a file named `.cdisc-api-key` in the repository root (the
+     file is git-ignored) or in your home directory. Then start the server as usual:
 
      ```
-     # PowerShell                              # cmd                              # bash
-     $env:CDISC_API_KEY = "your-key"           set CDISC_API_KEY=your-key         export CDISC_API_KEY=your-key
      python tools/walkthrough.py serve
      ```
 
-     `stage` reports *CDISC_API_KEY set: 6 concept references routed through /cdisc-library/*.
+     `stage` reports *CDISC_API_KEY set: 6 concept references routed through /cdisc-library/*. (An
+     environment variable `CDISC_API_KEY` works too and takes precedence, if you prefer that.)
      The server forwards those requests to the Library with the key; the fragment in the
      repository is not changed, only the staged copy.
   3. Click **Reference** again: the specialization's JSON opens in the new tab. (Until 2026-09-20 the
