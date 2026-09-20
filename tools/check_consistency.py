@@ -403,7 +403,8 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
           a status that is not "not started".
       P2  the USDM fragment carries activities and scheduleTimelines AND names
           the generator that produced it (tools/m11_to_usdm.py), which exists.
-      P3  tools/check_alignment.py exists and exits 0.
+      P3  tools/check_alignment.py exists and exits 0 with --require-data,
+          i.e. the data layer ran against a TORIVA checkout (LG, 2026-09-20).
       P4  docs/walkthrough.md exists.
       P5  every endpoints/*/results.json carries usdm_sha256 equal to the
           current fragment's hash — i.e. the runs are against the aligned study.
@@ -447,7 +448,9 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
     p6 = False
     if aln.is_file():
         try:
-            run = _sp.run([sys.executable, str(aln), "--root", str(root)], capture_output=True, timeout=120)
+            # --require-data since 2026-09-20 (LG, review-sheet 4c): P3 claims alignment verified, and half of
+            # alignment is the built ADaM, so a clone without TORIVA shows P3 red rather than green on documents alone.
+            run = _sp.run([sys.executable, str(aln), "--root", str(root), "--require-data"], capture_output=True, timeout=120)
             p3 = run.returncode == 0
             m = re.search(r"P6 decisions: (\d+)/(\d+) pass", run.stdout.decode("utf-8", errors="replace"))
             p6 = bool(m) and int(m.group(1)) == int(m.group(2)) == 6

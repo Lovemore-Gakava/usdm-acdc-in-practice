@@ -124,7 +124,8 @@ What makes each row green, as the checker computes it: **P0** `study/gap-registe
 every D-item in `source-refs.md` with a disposition; **P1** `study/m11/protocol/coverage.json`
 listing all fourteen M11 sections with a status; **P2** the USDM fragment carrying activities
 and a schedule of activities and naming `tools/m11_to_usdm.py` as its generator; **P3**
-`tools/check_alignment.py` existing and exiting 0; **P4** `docs/walkthrough.md`; **P5** every
+`tools/check_alignment.py` exiting 0 *with the data layer run* — on a clone without TORIVA the row
+is red, by LG's decision of 2026-09-20 (review-sheet 4c); **P4** `docs/walkthrough.md`; **P5** every
 `endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256`; **P6** the alignment
 tool reporting all six P6 decisions as PASS on its `P6 decisions: n/6` line.
 

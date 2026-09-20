@@ -85,6 +85,9 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=".")
     ap.add_argument("--toriva", default=None)
+    ap.add_argument("--require-data", action="store_true",
+                    help="exit 1 if the data layer could not run (no TORIVA checkout, no pyarrow). "
+                         "LG, 2026-09-20 (review-sheet 4c): P3 is not verified without it.")
     args = ap.parse_args()
     root = Path(args.root)
     R = Report()
@@ -291,7 +294,7 @@ def main() -> int:
              "kept; `WARN` — the data diverging from the corrected documents, or an upstream-only divergence, confirmed against the data; `INFO` — worth knowing; `SKIP` —",
              "data not present.", "",
              f"**{counts.get('PASS', 0)} pass, {counts.get('FAIL', 0)} fail, {counts.get('WARN', 0)} warn, {counts.get('INFO', 0)} info, {counts.get('SKIP', 0)} skip.** {p6_line}."
-             + (" Data layer: TORIVA ADaM checked." if tor else " Data layer skipped."), "",
+             + (" Data layer: TORIVA ADaM checked." if tor else " Data layer skipped — alignment with the built ADaM is NOT verified by this report."), "",
              "| Verdict | Item | Layer | Detail |", "|---|---|---|---|"]
     for v, i, l, d in rows:
         lines.append(f"| {v} | {i} | {l} | {d.replace('|', '/')} |")
@@ -301,6 +304,9 @@ def main() -> int:
     print(p6_line)
     print(f"\nalignment: {counts.get('PASS', 0)} pass, {counts.get('FAIL', 0)} fail, {counts.get('WARN', 0)} warn, "
           f"{counts.get('INFO', 0)} info, {counts.get('SKIP', 0)} skip → {'FAIL' if R.failed else 'OK'}")
+    if args.require_data and (tor is None or any(v == "SKIP" for v, *_ in R.rows)):
+        print("data layer did not run and --require-data is set: alignment is NOT verified")
+        return 1
     return 1 if R.failed else 0
 
 
