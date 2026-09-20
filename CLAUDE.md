@@ -95,6 +95,10 @@ disproved, so:
   the worked example, with the three rules an MMRM needed that the engine's data layer did not give it.
 - The builder's **Load** button opens a native file picker and can call `alert()`; both freeze
   browser automation. Call `deserializeStudyInstance` on `window.appState` instead.
+- `python tools/walkthrough.py serve` stages the study, chains, implementation and `.xpt` data into
+  the app, serves it, and cleans the submodule on Ctrl-C (`stage` / `clean` separately). It refuses
+  to stage over foreign changes in the submodule and refuses to finish `clean` while `git status`
+  there is not empty.
 
 ## Writing
 

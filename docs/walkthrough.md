@@ -11,7 +11,24 @@ restructured from TORIVA's synopsis at the pinned commit — and on TORIVA's rea
 under #27. You will see the number the repository reports (`endpoints/01-simple-lab-cfb/results.json`,
 `p7_rerun_a806630`) come out of the browser.
 
-## 0. Before you open the browser (once per clone)
+## 0. Before you open the browser
+
+**The short way** (added 2026-09-20): one command does everything in this section except the two
+once-per-clone git settings —
+
+```
+python tools/walkthrough.py serve
+```
+
+It checks that your TORIVA checkout is at the pin, converts ADSL, ADLB and the induction-window
+ADVS to `.xpt`, stages the study, the three saved chains and the M.MMRM implementation into the
+app, serves it at `http://localhost:8080/ac-dc-app/index.html`, and on Ctrl-C removes everything it
+staged so the submodule is clean again. About a minute before the URL answers, most of it the
+ADLB conversion. `stage` and `clean` are the two halves on their own; if the server was killed
+rather than stopped, run `clean`. The staged files are at `ac-dc-app/data/toriva/` for step 8's
+upload dialog.
+
+**The long way**, kept as the record of what the command does (once per clone for the first block):
 
 ```
 git config core.hooksPath .githooks
