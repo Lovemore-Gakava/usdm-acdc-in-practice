@@ -302,12 +302,11 @@ def main() -> int:
     for v, i, l, d in rows:
         print(f"  {v:4s} {l:9s} {i:34s} {d[:110]}")
     print(p6_line)
+    not_verified = args.require_data and (tor is None or any(v == "SKIP" for v, *_ in R.rows))
+    verdict = "FAIL" if R.failed else ("NOT VERIFIED — the data layer did not run and --require-data is set" if not_verified else "OK")
     print(f"\nalignment: {counts.get('PASS', 0)} pass, {counts.get('FAIL', 0)} fail, {counts.get('WARN', 0)} warn, "
-          f"{counts.get('INFO', 0)} info, {counts.get('SKIP', 0)} skip → {'FAIL' if R.failed else 'OK'}")
-    if args.require_data and (tor is None or any(v == "SKIP" for v, *_ in R.rows)):
-        print("data layer did not run and --require-data is set: alignment is NOT verified")
-        return 1
-    return 1 if R.failed else 0
+          f"{counts.get('INFO', 0)} info, {counts.get('SKIP', 0)} skip → {verdict}")
+    return 1 if (R.failed or not_verified) else 0
 
 
 if __name__ == "__main__":
