@@ -54,14 +54,6 @@ The process of obtaining and documenting informed consent must be described in t
 
 For countries where a legally authorised representative may provide consent on behalf of a patient who lacks capacity, site-specific local consent procedures will be documented in a country-specific consent addendum and approved by the relevant local IRB/IEC prior to site activation.
 
-## 11.8 Data Protection ← §9.4
-
-*Source: `protocol/synopsis.md` lines 775–777, moved unchanged.*
-
-### 9.4 Data Privacy and Confidentiality
-
-All patient data will be handled in accordance with applicable data privacy legislation (e.g., GDPR in the European Union, HIPAA in the United States, and equivalent local regulations). Patient data will be pseudonymised. The master identification code list will be maintained securely at the study site and access restricted to authorised personnel.
-
 ## 11.4 Committees — Safety Monitoring Committee ← §7.5
 
 *Source: `protocol/synopsis.md` lines 601–607, moved unchanged.*
@@ -73,6 +65,14 @@ An independent **Safety Monitoring Committee (SMC)**, also referred to as a Data
 - SAE signal thresholds
 - Communication procedures with the Sponsor and regulatory authorities
 
+
+## 11.8 Data Protection ← §9.4
+
+*Source: `protocol/synopsis.md` lines 775–777, moved unchanged.*
+
+### 9.4 Data Privacy and Confidentiality
+
+All patient data will be handled in accordance with applicable data privacy legislation (e.g., GDPR in the European Union, HIPAA in the United States, and equivalent local regulations). Patient data will be pseudonymised. The master identification code list will be maintained securely at the study site and access restricted to authorised personnel.
 
 ## 11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN
 

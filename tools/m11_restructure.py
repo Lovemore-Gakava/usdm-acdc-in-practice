@@ -223,8 +223,8 @@ SECTIONS: list[dict] = [
             ("11.1 Regulatory and Ethical Considerations — GCP compliance ← §9.1", 745, 754),
             ("11.1 Regulatory and Ethical Considerations — IRB/IEC ← §9.2", 756, 760),
             ("11.3 Informed Consent ← §9.3", 762, 773),
-            ("11.8 Data Protection ← §9.4", 775, 777),
             ("11.4 Committees — Safety Monitoring Committee ← §7.5", 601, 607),
+            ("11.8 Data Protection ← §9.4", 775, 777),
             ("11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN", 789, 817),
         ],
         "notes": [
