@@ -40,7 +40,7 @@ import json
 import sys
 from pathlib import Path
 
-SOURCE_COMMIT = "a8066307"
+SOURCE_COMMIT = "0f78331b"
 BANNER = """# ⚠️ FICTIONAL EDUCATIONAL PROTOCOL — NOT FOR REGULATORY USE
 
 **Derived excerpt of a fictional protocol, restructured for educational purposes only.**
@@ -237,12 +237,12 @@ SECTIONS: list[dict] = [
         "title": "12 Appendix: Supporting Details",
         "elements": "12.1 Clinical Laboratory Tests; 12.2 Country/Region-Specific Differences; 12.3 Prior Protocol Amendment(s); 12.4 Additional Appendices",
         "blocks": [
-            ("12.3 Prior Protocol Amendments ← DOCUMENT HISTORY", 982, 987),
+            ("12.3 Prior Protocol Amendments ← DOCUMENT HISTORY", 982, 988),
         ],
         "notes": [
             "**12.1 Clinical Laboratory Tests**: [`section-12-01-clinical-laboratory-tests.md`](section-12-01-clinical-laboratory-tests.md), hand-made under stage 0b.",
             "**12.2 Country/Region-Specific Differences**: the source refers twice to a *\"country-specific protocol appendix\"* (§4.2 criterion 2) and a *\"country-specific consent addendum\"* (§9.3) that do not exist in the document set. Absent.",
-            "**12.3 Prior Protocol Amendments**: the document history records v1.0 → v1.1 (identifier and legal-notice changes only). No substantive amendment; M11's amendment elements are correctly absent for an unamended protocol.",
+            "**12.3 Prior Protocol Amendments**: the document history at `0f78331` records v1.0 → v1.1 (identifiers and legal notices) → **v1.2, 20 September 2026, Amendment 1** (issue #27: the combination design, sites and countries, §7.2 laboratory and vital-signs procedures, §8.4 analyses, the header note on D15–D17). At `a806630` the text had been amended without this row (D18, filed as TORIVA #53, fixed in PR #54); M11's amendment elements are now applicable and are populated on the title page from this row.",
         ],
     },
     {

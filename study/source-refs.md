@@ -5,7 +5,7 @@ TORIVA-LUNG 301 is **referenced by commit, not vendored**. It is ~81 MB and read
 | | |
 |---|---|
 | Repository | `OpenTrialReporting/torivumab-nsclc-301` |
-| Commit | `a8066307b976351b53a9ffa447a69047306e4cb9` — re-pinned 2026-09-20 after issue #27 closed (was `8534339d95d6e1709f5def1e715a9b0c8cc06fe8`, 2026-07-29, through P6) |
+| Commit | `0f78331b5b0c5e1af12cc429bfba090a978879ac` — re-pinned 2026-09-20 after issue #53 closed (Protocol v1.2). Before: `a8066307b976351b53a9ffa447a69047306e4cb9` after #27 (P7, same day), `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29) through P6. Datasets unchanged between the last two |
 | Date | 2026-07-29 |
 | Branch | `main` |
 
@@ -55,7 +55,7 @@ what the tool uses.
 
 ## Known discrepancies inside the source
 
-**Status at `a806630` (2026-09-20):** the first seventeen (D1 to D17) resolved by TORIVA issue #27 (the register says how, row by row); D18 found at the re-pin, filed as TORIVA [#53](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/53), open.
+**Status at `a806630` (2026-09-20):** the first seventeen (D1 to D17) resolved by TORIVA issue #27 (the register says how, row by row); D18 found at the re-pin, filed as TORIVA [#53](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/53), **resolved at `0f78331`** (PR #54: Protocol v1.2, 20 September 2026, with the Amendment 1 history row).
 
 Recorded during the paper mappings; to be resolved against built ADaM at comparison time, not
 here. D1 and D2 came from PFS — see

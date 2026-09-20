@@ -185,7 +185,7 @@ def main() -> int:
 
     # G2 — title page: countries and site count from the trial's records, approval date = version date, all marked
     ok = all(c in flat00 for c in ("Republic of Korea", "United States of America", "Poland")) and "Brazil, Canada" not in flat00 \
-        and "15 investigational sites" in flat00 and "**Sponsor Approval Date** | 22 March 2026" in flat00 and "now the source's" in flat00 \
+        and "15 investigational sites" in flat00 and "**Sponsor Approval Date** | 20 September 2026" in flat00 and "now the source's" in flat00 \
         and "12 countries" in src and "15 investigational sites" in src
     p6["G2"] = ok
     R.add("PASS" if ok else "FAIL", "G2", "documents", "title page carries the source's 12 countries and 15 sites (synopsis table at the pin) and still supplies the approval date, marked" if ok else "title page G2: countries/sites not the source's, or the approval date unmarked")
@@ -200,6 +200,13 @@ def main() -> int:
     s08 = read(prot / "section-08-assessments-and-procedures.md")
     ok = "supplied under P6 (G9" in s08 and "28 days before Cycle 1 Day 1" in s08 and "within 72 hours" in s08 and "Sources, each named" in s08
     R.add("PASS" if ok else "FAIL", "G9", "documents", "section 08 supplies §8.2 from the source's own documents, marked, with the 28-day window and the 72-hour pregnancy-test rule" if ok else "section 08 lacks the supplied §8.2 paragraph or its markers")
+
+    # D18 — the source carries a version, date and amendment row; the derived title page carries them from the source
+    ok = "**Protocol Version:** 1.2" in src and "| 1.2 | 20 September 2026 |" in src and "| Version Number | `C181232` | 1.2" in flat00 \
+        and "Amendment elements — applicable" in flat00 and "| Amendment Identifier | Amendment 1 |" in flat00
+    R.add("PASS" if ok else ("WARN" if "**Protocol Version:** 1.2" not in src else "FAIL"), "D18", "documents",
+          "the source is v1.2 with an Amendment 1 history row; the derived title page carries the version and the amendment elements from it" if ok
+          else ("the source at the pin still lacks a version bump for its amendments" if "**Protocol Version:** 1.2" not in src else "the derived title page does not carry the source's version or amendment elements"))
 
     # G5 — central laboratory stated in §12.1, marked
     ok = "Now in the source" in flat121 and "analysed at a **central** laboratory" in flat121 and "local results are not used in the analysis" in flat121 \

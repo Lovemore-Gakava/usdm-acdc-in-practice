@@ -1597,5 +1597,7 @@
       "pct": 68.6
     },
     "engine_equals_replica": true
-  }
+  },
+  "usdm_exec_sha256": "8d7caf0478011b1b3efe1e313a9b916bdfaed8f2fd1237194851fdd3369ef205",
+  "$comment_exec_sha256": "Hash of the fragment content the chain binds to (arms, endpoints, estimands, populations, concepts, encounters), computed as tools/check_consistency.py does. Stamped 2026-09-20 at the second re-pin (0f78331): the fragment's whole-file hash changed with its provenance note; this did not."
 }

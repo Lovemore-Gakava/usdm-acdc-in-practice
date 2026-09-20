@@ -131,7 +131,7 @@ issues in the repository's lifetime. Those are observations of a live third-part
 | | |
 |---|---|
 | Repository | `OpenTrialReporting/torivumab-nsclc-301` |
-| Commit | `a8066307b976351b53a9ffa447a69047306e4cb9` (2026-09-20, after #27); `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29) through P6 |
+| Commit | `0f78331b5b0c5e1af12cc429bfba090a978879ac` (2026-09-20, after #53, documents only); `a8066307b976351b53a9ffa447a69047306e4cb9` (2026-09-20, after #27); `8534339d95d6e1709f5def1e715a9b0c8cc06fe8` (2026-07-29) through P6 |
 | Included as | **not included.** Referenced by commit; read in a scratch clone |
 | Licence | CC BY 4.0. *"Synthetic data — educational use only."* |
 

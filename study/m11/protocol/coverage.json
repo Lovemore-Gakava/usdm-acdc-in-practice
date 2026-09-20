@@ -1,7 +1,7 @@
 {
   "source": "OpenTrialReporting/torivumab-nsclc-301 protocol/synopsis.md",
-  "source_commit": "a8066307",
-  "source_sha256_12": "21bc66f0024a",
+  "source_commit": "0f78331b",
+  "source_sha256_12": "2bab4a5ae204",
   "generator": "tools/m11_restructure.py",
   "sections": [
     {
@@ -330,12 +330,12 @@
       "title": "12 Appendix: Supporting Details",
       "file": "section-12-appendix-supporting-details.md",
       "status": "generated — moved from source",
-      "moved_lines": 6,
+      "moved_lines": 7,
       "blocks": [
         [
           "12.3 Prior Protocol Amendments ← DOCUMENT HISTORY",
           982,
-          987
+          988
         ]
       ],
       "absent_elements": 3

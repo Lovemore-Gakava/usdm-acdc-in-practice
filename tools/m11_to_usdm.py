@@ -39,7 +39,7 @@ import sys
 from pathlib import Path
 
 GENERATOR = "tools/m11_to_usdm.py"
-SOURCE_COMMIT = "a8066307"
+SOURCE_COMMIT = "0f78331b"
 CS = "http://www.cdisc.org"
 CSV = "2024-09-27"
 N_CYCLES = 35  # "Up to 35 cycles (~2 years)" — source §3.5

@@ -127,7 +127,9 @@ listing all fourteen M11 sections with a status; **P2** the USDM fragment carryi
 and a schedule of activities and naming `tools/m11_to_usdm.py` as its generator; **P3**
 `tools/check_alignment.py` exiting 0 *with the data layer run* — on a clone without TORIVA the row
 is red, by LG's decision of 2026-09-20 (review-sheet 4c); **P4** `docs/walkthrough.md`; **P5** every
-`endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256`; **P6** the alignment
+`endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256` — or, since the second re-pin of
+2026-09-20, the hash of the content a chain binds to (`usdm_exec_sha256`), so a provenance-only change
+to the fragment does not stale the runs; **P6** the alignment
 tool reporting all six P6 decisions as PASS on its `P6 decisions: n/6` line; **P7** `study/source-refs.md`
 pinning the commit the TORIVA checkout is at, the alignment tool at 0 warn with the data layer, and every
 `endpoints/*/results.json` carrying a run stamped with that pin.
@@ -156,7 +158,11 @@ record, the D1 check was rewritten to test the time origin and the spec's storag
 the units test was a false positive, and both endpoints were re-run on the regenerated data the same day — new numbers, each reproduced outside
 the engine by its own selection (lab −1.276 against a reference of −1.305; MMRM at C2D1 −4.44 against −1.80),
 the baseline-row divergence intact at 72% and 71%. One new discrepancy, D18: the synopsis was amended in place with no version bump. Green when the pin matches
-the checkout, the alignment tool reports 0 warn, and the results files carry the pin.
+the checkout, the alignment tool reports 0 warn, and the results files carry the pin. **Re-pinned again the same
+evening to `0f78331`** after TORIVA #53 (D18) closed: Protocol v1.2, an Amendment 1 history row, the SAP's reference
+updated. Documents only — the datasets did not change, so the P7 runs stand, and the checker accepts a run
+stamped with an earlier commit when the datasets are unchanged since. The derived title page now carries the
+version, date and amendment elements from the source; D18 is resolved upstream.
 
 **Filed at TORIVA, 2026-09-20.** LG asked whether the gaps and the data regeneration could be raised on
 the TORIVA repository, saw the draft, and said yes: [issue #27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27), labelled qc/validation/sdtm/adam,

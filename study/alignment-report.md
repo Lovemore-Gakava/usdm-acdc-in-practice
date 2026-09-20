@@ -5,7 +5,7 @@ as its checklist. Re-run it to regenerate this file. `PASS` — a fix-here promi
 kept; `WARN` — the data diverging from the corrected documents, or an upstream-only divergence, confirmed against the data; `INFO` — worth knowing; `SKIP` —
 data not present.
 
-**36 pass, 0 fail, 0 warn, 4 info, 0 skip.** P6 decisions (as the source now carries them, a806630): 6/6 pass — D14 PASS, D15 PASS, D11/G7 PASS, G2 PASS, G6 PASS, G5 PASS. Data layer: TORIVA ADaM checked.
+**37 pass, 0 fail, 0 warn, 4 info, 0 skip.** P6 decisions (as the source now carries them, a806630): 6/6 pass — D14 PASS, D15 PASS, D11/G7 PASS, G2 PASS, G6 PASS, G5 PASS. Data layer: TORIVA ADaM checked.
 
 | Verdict | Item | Layer | Detail |
 |---|---|---|---|
@@ -27,6 +27,7 @@ data not present.
 | PASS | D13 | documents | §3.2.2's Population-level Summary row names a risk difference |
 | PASS | D14 | documents | the source states the combination (title page carries its title); §3.0 and section 04 record it as resolved upstream; USDM arms ['Torivumab + Chemotherapy', 'Placebo + Chemotherapy']; backbone intervention present; no 'ground truth' rule |
 | PASS | D15 | documents | USDM design notes say 2:1; sections 01, 04, 10 carry the D15 note, now as resolved upstream |
+| PASS | D18 | documents | the source is v1.2 with an Amendment 1 history row; the derived title page carries the version and the amendment elements from it |
 | PASS | G1 | documents | USDM estimands 6; §3 population-level summaries 10 |
 | PASS | G2 | documents | title page carries the source's 12 countries and 15 sites (synopsis table at the pin) and still supplies the approval date, marked |
 | PASS | G3 | documents | title page records EudraCT as unmapped against M11's EU CT Number |
@@ -48,4 +49,4 @@ data not present.
 | PASS | USDM↔protocol:END-S5-LAB | documents | endpoint text present in the M11 protocol, all 263 characters |
 | PASS | USDM↔protocol:END-S5-VS | documents | endpoint text present in the M11 protocol, all 35 characters |
 | PASS | USDM↔protocol:END-S5-VS cites §8.4.2 | documents | yes |
-| PASS | pin | documents | source-refs pins a8066307; the checkout is at a8066307 |
+| PASS | pin | documents | source-refs pins 0f78331b; the checkout is at 0f78331b |

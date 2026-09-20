@@ -48,6 +48,7 @@ Exit code 0 if consistent, 1 if not. Python 3.10+. Standard library only.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -391,6 +392,20 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def _exec_sha256(fragment: dict) -> str:
+    """Hash of the fragment content a chain binds to — arms, endpoints (id, name, text), estimands,
+    analysis populations, biomedical concepts, encounters. Provenance notes and rationale are not in
+    it, so a re-pin that changes only those does not invalidate an execution (2026-09-20)."""
+    v = fragment["study"]["versions"][0]; sd = v["studyDesigns"][0]
+    view = {"arms": [(a.get("id"), a.get("name")) for a in sd.get("arms", [])],
+            "endpoints": [(e.get("id"), e.get("name"), e.get("text")) for o in sd.get("objectives", []) for e in o.get("endpoints", [])],
+            "estimands": [(e.get("id"), e.get("variableOfInterestId")) for e in sd.get("estimands", [])],
+            "populations": [(p.get("id"), p.get("name")) for p in sd.get("analysisPopulations", [])],
+            "bcs": [(b.get("id"), b.get("name")) for b in v.get("biomedicalConcepts", [])],
+            "encounters": [(e.get("id"), e.get("name")) for e in sd.get("encounters", [])]}
+    return hashlib.sha256(json.dumps(view, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
 def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
     """Phase 2 — fix the study's gaps, digitise the protocol, verify alignment.
 
@@ -407,14 +422,19 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
           i.e. the data layer ran against a TORIVA checkout (LG, 2026-09-20).
       P4  docs/walkthrough.md exists.
       P5  every endpoints/*/results.json carries usdm_sha256 equal to the
-          current fragment's hash — i.e. the runs are against the aligned study.
+          current fragment's hash — or usdm_exec_sha256 equal to the hash of the
+          content a chain binds to (arms, endpoints, estimands, populations,
+          concepts, encounters): a re-pin that changes only provenance notes
+          does not make the runs stale (2026-09-20).
       P6  (added 2026-09-20) the documents made correct: tools/check_alignment.py
           reports all six P6 decisions (D14, D15, D11/G7, G2, G6, G5) as PASS,
           on its "P6 decisions: n/6" line.
       P7  (added 2026-09-20, after TORIVA #27) re-pinned to the corrected source:
           study/source-refs.md pins the commit the sibling checkout is at, the
           alignment tool reports 0 warn with the data layer, and every
-          endpoints/*/results.json carries a run stamped with that pin.
+          endpoints/*/results.json carries a run stamped with that pin — or with
+          an earlier commit after which TORIVA's datasets/ did not change
+          (2026-09-20, second re-pin: #53 changed documents only).
     """
     import subprocess as _sp
     src = root / "study" / "source-refs.md"
@@ -471,15 +491,33 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
     pin_m = re.search(r"\| Commit \| `([0-9a-f]{40})`", (root / "study" / "source-refs.md").read_text(encoding="utf-8", errors="replace")) if (root / "study" / "source-refs.md").is_file() else None
     if pin_m and (root / "endpoints").is_dir():
         results = list((root / "endpoints").glob("*/results.json"))
-        stamped = bool(results) and all(pin_m.group(1)[:7] in json.dumps(_load_json(f) or {}) for f in results)
+        # a run is current if it is stamped with the pin, or with an earlier commit after which datasets/ did not change
+        def _current(f):
+            d = _load_json(f) or {}
+            if pin_m.group(1)[:7] in json.dumps(d):
+                return True
+            stamps = set(re.findall(r'"toriva_commit": "([0-9a-f]{40})"', json.dumps(d)))
+            tor = root.parent / "torivumab-nsclc-301"
+            for s in stamps:
+                try:
+                    if _sp.run(["git", "-C", str(tor), "diff", "--quiet", s, pin_m.group(1), "--", "datasets"], capture_output=True, timeout=60).returncode == 0:
+                        return True
+                except (OSError, _sp.SubprocessError):
+                    pass
+            return False
+        stamped = bool(results) and all(_current(f) for f in results)
         p7 = bool(locals().get("p7_warn0")) and bool(locals().get("p7_pin")) and stamped
 
     p5 = False
     if usdm_files:
         sha = _sha256(usdm_files[0])
         results = list((root / "endpoints").glob("*/results.json"))
+        try:
+            exec_sha = _exec_sha256(json.loads(usdm_files[0].read_text(encoding="utf-8")))
+        except (OSError, json.JSONDecodeError, KeyError, IndexError, TypeError):
+            exec_sha = None
         p5 = bool(results) and all(
-            (lambda r: r.get("usdm_sha256") == sha)(_load_json(f) or {}) for f in results)
+            (lambda r: r.get("usdm_sha256") == sha or (exec_sha is not None and r.get("usdm_exec_sha256") == exec_sha))(_load_json(f) or {}) for f in results)
 
     return [
         ("P0", "Gap register — every discrepancy with a disposition", p0),
