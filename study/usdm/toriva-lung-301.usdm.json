@@ -41,7 +41,7 @@
             "synonyms": [
               "SGPT"
             ],
-            "reference": "",
+            "reference": "https://api.library.cdisc.org/api/cosmos/v2/mdr/specializations/sdtm/datasetspecializations/ALTSERPL",
             "instanceType": "BiomedicalConcept",
             "code": {
               "id": "Code_ALT",
@@ -62,6 +62,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference: CDISC Library SDTM dataset specialization, identifier taken from the shipped Pilot fragment's concept for the same analyte (2026-09-20). The API needs an account: following the link gives 401, not a page."
             ]
           },
           {
@@ -71,7 +74,7 @@
             "synonyms": [
               "SGOT"
             ],
-            "reference": "",
+            "reference": "https://api.library.cdisc.org/api/cosmos/v2/mdr/specializations/sdtm/datasetspecializations/ASTSERPL",
             "instanceType": "BiomedicalConcept",
             "code": {
               "id": "Code_AST",
@@ -92,6 +95,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference: CDISC Library SDTM dataset specialization, identifier taken from the shipped Pilot fragment's concept for the same analyte (2026-09-20). The API needs an account: following the link gives 401, not a page."
             ]
           },
           {
@@ -99,7 +105,7 @@
             "name": "Alkaline Phosphatase",
             "label": "ALP",
             "synonyms": [],
-            "reference": "",
+            "reference": "https://api.library.cdisc.org/api/cosmos/v2/mdr/specializations/sdtm/datasetspecializations/ALPSERPL",
             "instanceType": "BiomedicalConcept",
             "code": {
               "id": "Code_ALP",
@@ -120,6 +126,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference: CDISC Library SDTM dataset specialization, identifier taken from the shipped Pilot fragment's concept for the same analyte (2026-09-20). The API needs an account: following the link gives 401, not a page."
             ]
           },
           {
@@ -129,7 +138,7 @@
             "synonyms": [
               "Total Bilirubin"
             ],
-            "reference": "",
+            "reference": "https://api.library.cdisc.org/api/cosmos/v2/mdr/specializations/sdtm/datasetspecializations/BILISERPL",
             "instanceType": "BiomedicalConcept",
             "code": {
               "id": "Code_BILI",
@@ -150,6 +159,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference: CDISC Library SDTM dataset specialization, identifier taken from the shipped Pilot fragment's concept for the same analyte (2026-09-20). The API needs an account: following the link gives 401, not a page."
             ]
           },
           {
@@ -178,6 +190,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference left empty (2026-09-20): the shipped Pilot fragment carries no serum/plasma specialization for this analyte (creatinine there is the urine specialization; neutrophils are absent), and an identifier is not guessed."
             ]
           },
           {
@@ -187,7 +202,7 @@
             "synonyms": [
               "Hemoglobin"
             ],
-            "reference": "",
+            "reference": "https://api.library.cdisc.org/api/cosmos/v2/mdr/specializations/sdtm/datasetspecializations/HGBBLD",
             "instanceType": "BiomedicalConcept",
             "code": {
               "id": "Code_HGB",
@@ -208,6 +223,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference: CDISC Library SDTM dataset specialization, identifier taken from the shipped Pilot fragment's concept for the same analyte (2026-09-20). The API needs an account: following the link gives 401, not a page."
             ]
           },
           {
@@ -238,6 +256,9 @@
                 "responseCodes": [],
                 "instanceType": "BiomedicalConceptProperty"
               }
+            ],
+            "notes": [
+              "reference left empty (2026-09-20): the shipped Pilot fragment carries no serum/plasma specialization for this analyte (creatinine there is the urine specialization; neutrophils are absent), and an identifier is not guessed."
             ]
           },
           {
@@ -248,7 +269,7 @@
               "SYSBP",
               "Systolic BP"
             ],
-            "reference": "/mdr/specializations/sdtm/packages/2025-04-01/datasetspecializations/SYSBP",
+            "reference": "https://api.library.cdisc.org/api/cosmos/v2/mdr/specializations/sdtm/datasetspecializations/SYSBP",
             "instanceType": "BiomedicalConcept",
             "code": {
               "id": "Code_SYSBP",
@@ -271,7 +292,8 @@
               }
             ],
             "notes": [
-              "Second endpoint, 2026-09-19. Code and reference taken from the shipped CDISC Pilot USDM's SYSBP BC; attached to the vital-signs assessment scheduled in study/m11/protocol/section-08-04-02-vital-signs.md."
+              "Second endpoint, 2026-09-19. Code and reference taken from the shipped CDISC Pilot USDM's SYSBP BC; attached to the vital-signs assessment scheduled in study/m11/protocol/section-08-04-02-vital-signs.md.",
+              "reference: CDISC Library SDTM dataset specialization, identifier taken from the shipped Pilot fragment's concept for the same analyte (2026-09-20). The API needs an account: following the link gives 401, not a page."
             ]
           }
         ],

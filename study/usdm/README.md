@@ -180,6 +180,17 @@ USDM disagreed with the M11 protocol on wording. The generator now lifts each en
 verbatim from the `Endpoint` row of its §3 block, and the vitals endpoint's text is the source's
 own measurement list from §8.4.2. Each endpoint carries a note saying so.
 
+## Concept references, 2026-09-20
+
+Each biomedical concept's `reference` is now an absolute CDISC Library URI in the convention the
+shipped Pilot fragment uses for most of its concepts (`https://api.library.cdisc.org/api/cosmos/v2/
+mdr/specializations/sdtm/datasetspecializations/<id>`), with the identifier taken from the Pilot's
+concept for the same analyte: ALTSERPL, ASTSERPL, ALPSERPL, BILISERPL, HGBBLD, SYSBP. Creatinine
+(the Pilot has only the urine specialization) and neutrophils (absent from the Pilot) are left empty
+with a note, not guessed. The app renders the field as a link; the API answers 401 without an
+account. Before this the SYSBP concept carried a relative path copied from the Pilot, which the
+app turned into a link to this server's own 404 page.
+
 ## Phase 2, stage P7 — regenerated from the re-pinned source (`a806630`), 2026-09-20
 
 TORIVA issue #27 closed and the source was re-pinned. The generator now runs on the synopsis at

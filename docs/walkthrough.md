@@ -95,6 +95,13 @@ Tabs across the top. Two to look at:
   the day before). The notes on each arm carry that history.
 - **Schedule of Activities** — *13 activities · 39 encounters*. This tab was empty for the
   whole of phase 1; the schedule was generated from the protocol's two assessment tables.
+  Clicking a concept opens its panel. **Its *Reference* link points at the CDISC Library API**,
+  which needs an account: expect a 401 answer in a new tab, not a page. (Until 2026-09-20 the
+  fragment carried a relative path copied from the pilot, which landed on this server's 404
+  page — that is what "reviewing the BC" ran into. The pilot's own fragment still does the same
+  for 32 of its 182 concepts.) The seven laboratory concepts and SYSBP link to their SDTM
+  dataset specializations where the pilot's fragment gave the identifier; creatinine and
+  neutrophils have none, and say so in their notes.
 
 Then **Objectives & Endpoints**: tick **END-S5-LAB** (under OBJ-S5). One endpoint selected.
 Click **Specify Endpoints →**.
