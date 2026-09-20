@@ -25,7 +25,27 @@ All adverse events (AEs) will be monitored from the time of informed consent unt
 - **Serious Adverse Event (SAE):** Any AE that results in death, is life-threatening, requires hospitalisation or prolongation of existing hospitalisation, results in persistent or significant disability/incapacity, is a congenital anomaly/birth defect, or is medically significant.
 - **Adverse Event of Special Interest (AESI):** Immune-related AEs (irAEs) and infusion-related reactions (IRRs), as defined in Section 7.3.
 
-## 9.6 irAE Management ← §7.3
+## 9.2.4 Adverse Events of Special Interest ← §7.4
+
+*Source: `protocol/synopsis.md` lines 585–599, moved unchanged.*
+
+### 7.4 Adverse Events of Special Interest (AESIs)
+
+The following AESIs will be prospectively tracked with enhanced monitoring and reported to the Sponsor within 24 hours of Investigator awareness:
+
+- Immune-related pneumonitis (any grade)
+- Immune-related hepatitis (Grade ≥2)
+- Immune-related colitis (Grade ≥2)
+- Immune-related endocrinopathies (Grade ≥2)
+- Immune-related nephritis
+- Immune-related myocarditis (irrespective of grade — potentially life-threatening; immediate cardiology assessment required)
+- Immune-related neurological toxicities (encephalitis, meningitis, Guillain-Barré syndrome)
+- Immune-related dermatological toxicities (Stevens-Johnson Syndrome, Toxic Epidermal Necrolysis)
+- Infusion-related reactions (Grade ≥2)
+
+Immune-related myocarditis is rare (<1%) but carries high mortality with PD-1/PD-L1 inhibitors. The SMC charter pre-specifies an enhanced review trigger: any confirmed or suspected Grade ≥2 immune-related myocarditis will trigger an expedited unblinded SMC review within 5 business days of notification. A stopping rule will be applied if the incidence of Grade ≥3 myocarditis exceeds 1% in the torivumab arm at any interim review.
+
+## 9.4 Special Safety Situations — irAE management ← §7.3
 
 *Source: `protocol/synopsis.md` lines 517–583, moved unchanged.*
 
@@ -97,41 +117,11 @@ IRR incidence: approximately 1–5% for anti-PD-L1 antibodies.
 
 **Pre-medication:** Not mandated routinely. Pre-medication with antihistamine (±paracetamol) should be considered for all subsequent cycles following a Grade 1–2 IRR.
 
-## 9.2.4 Adverse Events of Special Interest ← §7.4
-
-*Source: `protocol/synopsis.md` lines 585–599, moved unchanged.*
-
-### 7.4 Adverse Events of Special Interest (AESIs)
-
-The following AESIs will be prospectively tracked with enhanced monitoring and reported to the Sponsor within 24 hours of Investigator awareness:
-
-- Immune-related pneumonitis (any grade)
-- Immune-related hepatitis (Grade ≥2)
-- Immune-related colitis (Grade ≥2)
-- Immune-related endocrinopathies (Grade ≥2)
-- Immune-related nephritis
-- Immune-related myocarditis (irrespective of grade — potentially life-threatening; immediate cardiology assessment required)
-- Immune-related neurological toxicities (encephalitis, meningitis, Guillain-Barré syndrome)
-- Immune-related dermatological toxicities (Stevens-Johnson Syndrome, Toxic Epidermal Necrolysis)
-- Infusion-related reactions (Grade ≥2)
-
-Immune-related myocarditis is rare (<1%) but carries high mortality with PD-1/PD-L1 inhibitors. The SMC charter pre-specifies an enhanced review trigger: any confirmed or suspected Grade ≥2 immune-related myocarditis will trigger an expedited unblinded SMC review within 5 business days of notification. A stopping rule will be applied if the incidence of Grade ≥3 myocarditis exceeds 1% in the torivumab arm at any interim review.
-
-## 9.7 Safety Monitoring Committee ← §7.5
-
-*Source: `protocol/synopsis.md` lines 601–607, moved unchanged.*
-
-### 7.5 Safety Monitoring Committee
-
-An independent **Safety Monitoring Committee (SMC)**, also referred to as a Data Safety Monitoring Board (DSMB), will be constituted prior to study initiation. The SMC will conduct periodic unblinded safety reviews at predetermined intervals (at minimum every 6 months, or triggered by specific safety signals). The SMC charter will define:
-- Stopping rules (safety)
-- SAE signal thresholds
-- Communication procedures with the Sponsor and regulatory authorities
-
-
 ## M11 conformance of this section
 
-- **9.1 Product Complaints and Medical Device definitions**: absent (no device; M11 marks them conditional).
+- **Moved out 2026-09-20 (review-sheet item 2b, LG's verdict):** the Safety Monitoring Committee (§7.5) now sits at **11.4 Committees**. M11 has no 9.6 or 9.7.
+- **irAE management (§7.3)** is placed at 9.4 Special Safety Situations because M11 has no subsection for a toxicity-management algorithm; the nearest alternatives are 6.4 Dose Modification (it is partly that) and an appendix. Recorded, not resolved.
+- **9.1.3 Product Complaints** definitions: absent (no device; M11 marks them conditional).
 - **9.3 Follow-Up of AEs** and **9.4 Regulatory Reporting Requirements**: the source gives the AESI 24-hour reporting rule (§7.4) and nothing else on follow-up or expedited reporting. Partial.
 - **9.5 Pregnancy**: a serum pregnancy test row in the schedule and a contraception criterion; no pregnancy-reporting procedure. Absent as an element.
 

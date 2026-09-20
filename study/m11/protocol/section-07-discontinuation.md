@@ -12,25 +12,7 @@ CC BY 4.0). See [`README.md`](README.md).
 source synopsis at `8534339d`: every block below is a verbatim line range of it, cited. The notes
 at the foot are ours.
 
-## 7.1 Temporary Discontinuation and Rechallenge ← §5.3 Dose Modifications, §5.3.1 Treatment Delays
-
-*Source: `protocol/synopsis.md` lines 393–405, moved unchanged.*
-
-### 5.3 Dose Modifications
-
-Unlike cytotoxic chemotherapy, torivumab (an immune checkpoint inhibitor) **does not permit dose reductions**. Management of toxicity is achieved through treatment delays or permanent discontinuation based on the type and severity of adverse events.
-
-#### 5.3.1 Treatment Delays
-
-| AE Grade (CTCAE v5.0) | Action |
-|---|---|
-| Grade 2 (select irAEs) | Hold torivumab; initiate supportive care; resume when resolved to Grade ≤1 |
-| Grade 3 (non-life-threatening) | Hold torivumab; initiate corticosteroids as appropriate; resume if recovered to Grade ≤1 within 12 weeks |
-| Grade 4 (any) | Permanently discontinue torivumab (see Section 5.3.2) |
-
-A maximum treatment delay of **12 weeks** is permitted. If the toxicity does not resolve to Grade ≤1 within 12 weeks, torivumab must be permanently discontinued.
-
-## 7.1 Permanent Discontinuation ← §5.3.2
+## 7.1 Discontinuation of Trial Intervention — Permanent Discontinuation ← §5.3.2
 
 *Source: `protocol/synopsis.md` lines 407–420, moved unchanged.*
 
@@ -59,23 +41,11 @@ Patients who discontinue treatment for reasons other than disease progression or
 
 All patients will be followed for survival (Overall Survival follow-up) by telephone contact every 12 weeks following the end-of-treatment visit, until death, withdrawal of consent, or study close-out.
 
-## 7.4 Trial Stopping Rules ← §7.4 (myocarditis stopping rule) and §7.5 SMC
-
-*Source: `protocol/synopsis.md` lines 599–607, moved unchanged.*
-
-Immune-related myocarditis is rare (<1%) but carries high mortality with PD-1/PD-L1 inhibitors. The SMC charter pre-specifies an enhanced review trigger: any confirmed or suspected Grade ≥2 immune-related myocarditis will trigger an expedited unblinded SMC review within 5 business days of notification. A stopping rule will be applied if the incidence of Grade ≥3 myocarditis exceeds 1% in the torivumab arm at any interim review.
-
-### 7.5 Safety Monitoring Committee
-
-An independent **Safety Monitoring Committee (SMC)**, also referred to as a Data Safety Monitoring Board (DSMB), will be constituted prior to study initiation. The SMC will conduct periodic unblinded safety reviews at predetermined intervals (at minimum every 6 months, or triggered by specific safety signals). The SMC charter will define:
-- Stopping rules (safety)
-- SAE signal thresholds
-- Communication procedures with the Sponsor and regulatory authorities
-
-
 ## M11 conformance of this section
 
-- **7.3 Lost to Follow-Up**: absent from the source.
+- **Moved out 2026-09-20 (review-sheet item 2b, LG's verdict):** temporary discontinuation and rechallenge (§5.3, §5.3.1) are dose-modification rules and now sit at **6.4**; the myocarditis stopping rule (§7.4) at **4.3**; the Safety Monitoring Committee (§7.5) at **11.4**. M11 has no 7.4.
+- **7.1**: the source's temporary-discontinuation rules are its dose-modification table, now at 6.4; what remains here is permanent discontinuation (§5.3.2), which is what M11 7.1 asks for.
+- **7.3 Management of Loss to Follow-Up**: absent from the source.
 - **7.2**: the source gives what happens to assessments after discontinuation (§3.6) and no procedure for withdrawal of consent beyond naming it as a reason. Partial.
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

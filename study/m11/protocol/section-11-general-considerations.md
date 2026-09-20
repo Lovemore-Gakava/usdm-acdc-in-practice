@@ -62,6 +62,18 @@ For countries where a legally authorised representative may provide consent on b
 
 All patient data will be handled in accordance with applicable data privacy legislation (e.g., GDPR in the European Union, HIPAA in the United States, and equivalent local regulations). Patient data will be pseudonymised. The master identification code list will be maintained securely at the study site and access restricted to authorised personnel.
 
+## 11.4 Committees — Safety Monitoring Committee ← §7.5
+
+*Source: `protocol/synopsis.md` lines 601–607, moved unchanged.*
+
+### 7.5 Safety Monitoring Committee
+
+An independent **Safety Monitoring Committee (SMC)**, also referred to as a Data Safety Monitoring Board (DSMB), will be constituted prior to study initiation. The SMC will conduct periodic unblinded safety reviews at predetermined intervals (at minimum every 6 months, or triggered by specific safety signals). The SMC charter will define:
+- Stopping rules (safety)
+- SAE signal thresholds
+- Communication procedures with the Sponsor and regulatory authorities
+
+
 ## 11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN
 
 *Source: `protocol/synopsis.md` lines 789–817, moved unchanged.*
@@ -98,7 +110,7 @@ CRF design will be reviewed by a CDISC-certified data manager prior to EDC build
 
 ## M11 conformance of this section
 
-- **11.2 Committees**: the Safety Monitoring Committee is described in §7.5, moved to section 9.7; not duplicated.
+- **11.4 Committees**: the Safety Monitoring Committee (§7.5), moved here from section 9 on 2026-09-20 (review-sheet item 2b, LG's verdict), where M11 numbers it. **11.2 Trial Oversight**: absent from the source.
 - **11.6–11.13**: source records, financial disclosure, insurance, publication policy, protocol deviations, early site closure, data dissemination, quality assurance — all absent from the source, which is a synopsis.
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

@@ -78,7 +78,7 @@
       "title": "4 Trial Design",
       "file": "section-04-trial-design.md",
       "status": "generated — moved from source",
-      "moved_lines": 30,
+      "moved_lines": 19,
       "blocks": [
         [
           "4.1 Description of Trial Design ← §3.1 Overview",
@@ -86,19 +86,14 @@
           213
         ],
         [
-          "4.1 Randomisation ← §3.3",
-          270,
-          274
-        ],
-        [
-          "4.1 Blinding ← §3.4",
-          276,
-          282
-        ],
-        [
           "4.1 Treatment Arms ← §3.5",
           284,
           291
+        ],
+        [
+          "4.3 Trial Stopping Rules ← §7.4, the myocarditis stopping rule",
+          599,
+          599
         ],
         [
           "4.4 Start of Trial and End of Trial ← §3.6 Post-Treatment Follow-Up",
@@ -106,7 +101,7 @@
           297
         ]
       ],
-      "absent_elements": 5
+      "absent_elements": 7
     },
     {
       "section": "5",
@@ -133,7 +128,7 @@
       "title": "6 Trial Intervention And Concomitant Therapy",
       "file": "section-06-trial-intervention.md",
       "status": "generated — moved from source",
-      "moved_lines": 33,
+      "moved_lines": 58,
       "blocks": [
         [
           "6.1 Description of Investigational Trial Intervention ← §5.1",
@@ -146,27 +141,37 @@
           391
         ],
         [
+          "6.4 Investigational Trial Intervention Dose Modification ← §5.3 Dose Modifications, §5.3.1 Treatment Delays",
+          393,
+          405
+        ],
+        [
+          "6.7.2 Randomisation ← §3.3",
+          270,
+          274
+        ],
+        [
+          "6.7.3 Measures to Maintain Blinding ← §3.4",
+          276,
+          282
+        ],
+        [
           "6.10 Concomitant Therapy ← §5.4",
           422,
           438
         ]
       ],
-      "absent_elements": 5
+      "absent_elements": 8
     },
     {
       "section": "7",
       "title": "7 Discontinuation of Trial Intervention and Participant Withdrawal from Trial",
       "file": "section-07-discontinuation.md",
       "status": "generated — moved from source",
-      "moved_lines": 41,
+      "moved_lines": 19,
       "blocks": [
         [
-          "7.1 Temporary Discontinuation and Rechallenge ← §5.3 Dose Modifications, §5.3.1 Treatment Delays",
-          393,
-          405
-        ],
-        [
-          "7.1 Permanent Discontinuation ← §5.3.2",
+          "7.1 Discontinuation of Trial Intervention — Permanent Discontinuation ← §5.3.2",
           407,
           420
         ],
@@ -174,14 +179,9 @@
           "7.2 Participant Discontinuation or Withdrawal from the Trial ← §3.6",
           293,
           297
-        ],
-        [
-          "7.4 Trial Stopping Rules ← §7.4 (myocarditis stopping rule) and §7.5 SMC",
-          599,
-          607
         ]
       ],
-      "absent_elements": 2
+      "absent_elements": 4
     },
     {
       "section": "8",
@@ -220,7 +220,7 @@
       "title": "9 Adverse Events, Serious Adverse Events, Product Complaints, Pregnancy and Special Safety Situations",
       "file": "section-09-adverse-events.md",
       "status": "generated — moved from source",
-      "moved_lines": 97,
+      "moved_lines": 90,
       "blocks": [
         [
           "9.1 Definitions and 9.2 Timing and Procedures for Collection and Reporting ← §7.1 Adverse Event Monitoring",
@@ -228,22 +228,17 @@
           496
         ],
         [
-          "9.6 irAE Management ← §7.3",
-          517,
-          583
-        ],
-        [
           "9.2.4 Adverse Events of Special Interest ← §7.4",
           585,
           599
         ],
         [
-          "9.7 Safety Monitoring Committee ← §7.5",
-          601,
-          607
+          "9.4 Special Safety Situations — irAE management ← §7.3",
+          517,
+          583
         ]
       ],
-      "absent_elements": 3
+      "absent_elements": 5
     },
     {
       "section": "10",
@@ -295,7 +290,7 @@
       "title": "11 General Considerations: Regulatory, Ethical, Trial Oversight and Data Handling",
       "file": "section-11-general-considerations.md",
       "status": "generated — moved from source",
-      "moved_lines": 59,
+      "moved_lines": 66,
       "blocks": [
         [
           "11.1 Regulatory and Ethical Considerations — GCP compliance ← §9.1",
@@ -316,6 +311,11 @@
           "11.8 Data Protection ← §9.4",
           775,
           777
+        ],
+        [
+          "11.4 Committees — Safety Monitoring Committee ← §7.5",
+          601,
+          607
         ],
         [
           "11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN",
