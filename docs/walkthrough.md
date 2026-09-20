@@ -25,7 +25,15 @@ ADVS to `.xpt`, stages the study, the three saved chains and the M.MMRM implemen
 app, serves it at `http://localhost:8080/ac-dc-app/index.html`, and on Ctrl-C removes everything it
 staged so the submodule is clean again. About a minute before the URL answers, most of it the
 ADLB conversion. `stage` and `clean` are the two halves on their own; if the server was killed
-rather than stopped, run `clean`. The staged files are at `ac-dc-app/data/toriva/` for step 8's
+rather than stopped, run `clean`. The command refuses to start while something else holds port
+8080, and says which process.
+
+> **If you see "Failed to load data — Failed to fetch"** on a page served by upstream's
+> `python ac-dc-app/serve.py`, that is the server, not the app: it is the single-threaded
+> `HTTPServer` with a listen backlog of five, and the app fires about twenty-two fetches at
+> once on load, some of which are dropped (seen on Windows, 2026-09-20; the first version of
+> this script did the same, because it launched `serve.py`). `walkthrough.py serve` serves the
+> same directory with the same no-cache headers from the standard library's threading server. The staged files are at `ac-dc-app/data/toriva/` for step 8's
 upload dialog.
 
 **The long way**, kept as the record of what the command does (once per clone for the first block):

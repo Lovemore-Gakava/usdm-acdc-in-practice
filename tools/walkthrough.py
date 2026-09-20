@@ -3,7 +3,7 @@
 
     python tools/walkthrough.py stage     # check the pin, convert TORIVA's parquet to .xpt, stage the study,
                                           # chains and the M.MMRM implementation into the app
-    python tools/walkthrough.py serve     # 'stage', then serve the app until Ctrl-C, then 'clean'
+    python tools/walkthrough.py serve     # 'stage', then serve the app (threaded; not serve.py) until Ctrl-C, then 'clean'
     python tools/walkthrough.py clean     # remove everything staged; the submodule is clean at its pin again
 
 Option: --toriva <path> (default: a sibling checkout named torivumab-nsclc-301). The port is serve.py's, 8080.
@@ -22,7 +22,6 @@ import json
 import os
 import re
 import shutil
-import signal
 import subprocess
 import sys
 from pathlib import Path
@@ -65,6 +64,22 @@ def foreign_dirt() -> str:
 
 def git(*args: str, cwd: Path = SUB) -> str:
     return subprocess.run(["git", "-C", str(cwd), *args], capture_output=True, text=True).stdout.strip()
+
+
+def port_owner(port: int = 8080) -> str | None:
+    """PID of whatever is listening on the port, or None. Windows netstat and POSIX lsof/ss."""
+    try:
+        if os.name == "nt":
+            out = subprocess.run(["netstat", "-ano"], capture_output=True, text=True, timeout=15).stdout
+            for line in out.splitlines():
+                if f":{port}" in line and "LISTENING" in line:
+                    return line.split()[-1]
+        else:
+            out = subprocess.run(["lsof", "-t", f"-iTCP:{port}", "-sTCP:LISTEN"], capture_output=True, text=True, timeout=15).stdout.strip()
+            return out.splitlines()[0] if out else None
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return None
 
 
 def find_toriva(arg: str | None) -> Path:
@@ -163,20 +178,37 @@ def clean(_: argparse.Namespace | None = None) -> None:
 
 
 def serve(args: argparse.Namespace) -> None:
+    owner = port_owner(8080)
+    if owner:
+        sys.exit(f"port 8080 is already in use (PID {owner}) — a previous serve.py is still running. Stop it first "
+                 f"(Windows: taskkill /PID {owner} /F), then run this again. Nothing was staged.")
     stage(args)
     say("serving http://localhost:8080/ac-dc-app/index.html — Ctrl-C to stop and clean up")
-    proc = subprocess.Popen([sys.executable, "ac-dc-app/serve.py"], cwd=str(SUB))
+    # Not upstream's serve.py: that is the single-threaded HTTPServer with a listen backlog of 5, and the app
+    # fires ~22 fetches at once on load — on Windows some are dropped and the page says "Failed to load data"
+    # (seen 2026-09-20). Same root, same no-cache headers, threading server.
+    import functools
+    import http.server
+
+    class NoCache(http.server.SimpleHTTPRequestHandler):
+        def end_headers(self):
+            self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+            super().end_headers()
+
+        def log_message(self, fmt, *a):  # one line per request, like serve.py, without the date noise
+            sys.stderr.write("%s %s\n" % (self.address_string(), fmt % a))
+
+    NoCache.extensions_map.update({".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".svg": "image/svg+xml"})
+    http.server.ThreadingHTTPServer.request_queue_size = 64
+    httpd = http.server.ThreadingHTTPServer(("", 8080), functools.partial(NoCache, directory=str(SUB)))
     try:
-        proc.wait()
+        httpd.serve_forever()
     except KeyboardInterrupt:
-        pass
+        say("\nstopping")
     finally:
-        if proc.poll() is None:
-            proc.send_signal(signal.SIGTERM) if os.name != "nt" else proc.terminate()
-            try:
-                proc.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                proc.kill()
+        httpd.server_close()
         clean()
 
 
