@@ -24,12 +24,12 @@ data not present.
 | PASS | BC↔ADVS | data | SYSBP in ADVS PARAMCD |
 | PASS | D14 | data | ADSL TRT01P values ['Placebo + Chemotherapy', 'Torivumab + Chemotherapy'] == the corrected protocol's arms ['Placebo + Chemotherapy', 'Torivumab + Chemotherapy'] |
 | PASS | D11 | documents | §3.2.5 specifies the descriptive laboratory summary (values by visit, reference-range shift, worst CTCAE grade) and section 10 restates it |
-| PASS | D13 | documents | §3.2.2 Population-level Summary names a risk difference |
+| PASS | D13 | documents | §3.2.2's Population-level Summary row names a risk difference |
 | PASS | D14 | documents | title, §3.0 and section 04 corrected to the combination; USDM arms ['Torivumab + Chemotherapy', 'Placebo + Chemotherapy'] per the corrected protocol; backbone intervention present; no 'ground truth' rule in the fragment |
 | PASS | D15 | documents | USDM design notes say 2:1, the protocol's ratio; sections 01, 04, 10 carry the D15 note |
 | PASS | G1 | documents | USDM estimands 6; §3 population-level summaries 10 |
 | PASS | G2 | documents | title page supplies 13 countries, 15 sites and the approval date, marked as supplied under P6 |
-| PASS | G3 | documents | title page carries the EU CT number correction |
+| PASS | G3 | documents | title page records EudraCT as unmapped against M11's EU CT Number |
 | PASS | G4 | documents | all lab BCs named in §12.1 |
 | PASS | G5 | documents | §12.1 states a central laboratory with central reference ranges, marked as supplied under P6 |
 | PASS | G6 | documents | §8.4.2 supplies the collection procedure, marked as supplied under P6 |
@@ -39,11 +39,11 @@ data not present.
 | PASS | S2 | documents | section 10 states the analyses added by this project (S1–S3) as demonstration analyses, not the sponsor's |
 | PASS | S3 | documents | section 10 states the analyses added by this project (S1–S3) as demonstration analyses, not the sponsor's |
 | PASS | USDM generated | documents | fragment names its generator and carries a schedule |
-| PASS | USDM↔protocol:END-DCR | documents | endpoint text present in the M11 protocol |
-| PASS | USDM↔protocol:END-DOR | documents | endpoint text present in the M11 protocol |
-| PASS | USDM↔protocol:END-ORR | documents | endpoint text present in the M11 protocol |
-| PASS | USDM↔protocol:END-OS | documents | endpoint text present in the M11 protocol |
-| PASS | USDM↔protocol:END-PFS | documents | endpoint text present in the M11 protocol |
-| PASS | USDM↔protocol:END-S5-LAB | documents | endpoint text present in the M11 protocol |
-| PASS | USDM↔protocol:END-S5-VS | documents | endpoint text present in the M11 protocol |
+| PASS | USDM↔protocol:END-DCR | documents | endpoint text present in the M11 protocol, all 106 characters |
+| PASS | USDM↔protocol:END-DOR | documents | endpoint text present in the M11 protocol, all 124 characters |
+| PASS | USDM↔protocol:END-ORR | documents | endpoint text present in the M11 protocol, all 168 characters |
+| PASS | USDM↔protocol:END-OS | documents | endpoint text present in the M11 protocol, all 143 characters |
+| PASS | USDM↔protocol:END-PFS | documents | endpoint text present in the M11 protocol, all 229 characters |
+| PASS | USDM↔protocol:END-S5-LAB | documents | endpoint text present in the M11 protocol, all 263 characters |
+| PASS | USDM↔protocol:END-S5-VS | documents | endpoint text present in the M11 protocol, all 35 characters |
 | PASS | USDM↔protocol:END-S5-VS cites §8.4.2 | documents | yes |

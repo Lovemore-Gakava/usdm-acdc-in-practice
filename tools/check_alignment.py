@@ -113,10 +113,14 @@ def main() -> int:
         if i not in implemented:
             R.add("FAIL", i, "documents", "register says 'fix here' and this tool has no check for it")
 
-    # D13 — risk difference stated for ORR's estimand
+    # D13 — risk difference stated for ORR's estimand, in the Population-level Summary row itself
+    # (tightened 2026-09-20, review-sheet 4a: the words anywhere in the block — a note saying the source
+    # lacks them, say — used to pass)
     blk = sec["03"][sec["03"].find("3.2.2"):sec["03"].find("3.2.3")] if "3.2.2" in sec["03"] else ""
-    R.add("PASS" if re.search(r"risk difference", blk, re.I) else "FAIL", "D13", "documents",
-          "§3.2.2 Population-level Summary names a risk difference" if re.search(r"risk difference", blk, re.I) else "§3.2.2 does not say 'risk difference'")
+    pls_row = next((l for l in blk.split("\n") if "Population-level Summary" in l and l.strip().startswith("|")), "")
+    ok = bool(re.search(r"risk difference", pls_row, re.I))
+    R.add("PASS" if ok else "FAIL", "D13", "documents",
+          "§3.2.2's Population-level Summary row names a risk difference" if ok else "§3.2.2's Population-level Summary row does not say 'risk difference'")
 
     # ---- P6 (2026-09-20): the documents made correct. Six decisions, each a PASS/FAIL on the documents. ----
     p6: dict[str, bool] = {}
@@ -142,7 +146,10 @@ def main() -> int:
 
     # D11 / G7 — the laboratory (and vital-signs) analysis specified in §3.2.5, descriptive; section 10 restates it
     blk325 = sec["03"][sec["03"].find("3.2.5"):sec["03"].find("## 3.3")] if "3.2.5" in sec["03"] else ""
-    ok = all(re.search(p, blk325, re.I) for p in (r"Filled under P6", r"shift", r"CTCAE", r"descriptive", r"demonstration analyses")) \
+    flat325 = re.sub(r"\s+", " ", blk325.replace("\n>", " "))
+    # phrases, not words (tightened 2026-09-20, review-sheet 4a: the word 'shift' alone survived a mutation)
+    ok = all(re.search(p, flat325, re.I) for p in (r"Filled under P6", r"shift from baseline to worst post-baseline reference-range category",
+                                                    r"worst post-baseline CTCAE v5\.0 grade", r"descriptive", r"demonstration analyses")) \
         and "specified under P6" in sec["10"]
     p6["D11/G7"] = ok
     for i in ("D11", "G7"):
@@ -174,11 +181,15 @@ def main() -> int:
     n_est = len(sd.get("estimands", [])); n_pls = len(re.findall(r"Population-level Summary", sec["03"]))
     R.add("PASS" if n_est == 6 and n_pls >= 6 else "FAIL", "G1", "documents", f"USDM estimands {n_est}; §3 population-level summaries {n_pls}")
 
-    # G3 — EU CT correction on the title page
-    R.add("PASS" if "EU CT" in sec["00"] else "FAIL", "G3", "documents", "title page carries the EU CT number correction" if "EU CT" in sec["00"] else "no 'EU CT' on the title page")
+    # G3 — the EudraCT number is left unmapped because M11 has only EU CT (tightened 2026-09-20, 4a: the
+    # bare string 'EU CT' used to suffice)
+    ok = bool(re.search(r"left unmapped\s*\|[^|\n]*EudraCT", sec["00"])) and "EU CT" in sec["00"] \
+        and not re.search(r"\|\s*EU CT Number\s*\|[^|]*\|\s*9999", sec["00"])
+    R.add("PASS" if ok else "FAIL", "G3", "documents", "title page records EudraCT as unmapped against M11's EU CT Number" if ok else "title page lacks the EudraCT/EU CT statement, or maps the EudraCT value to EU CT Number")
 
-    # G4 — the seven lab BCs appear in §12.1
-    missing = [n for n, c in LAB_BC_CODES.items() if c != "SYSBP" and n in bcs and (c not in sec["12.1"] and n not in sec["12.1"])]
+    # G4 — the seven lab BCs appear in §12.1 by full name (tightened 2026-09-20, 4a: the three-letter code as
+    # a bare substring used to count, and "ALP" is inside "ALPHA")
+    missing = [n for n, c in LAB_BC_CODES.items() if c != "SYSBP" and n in bcs and not re.search(r"\b" + re.escape(n) + r"\b", sec["12.1"], re.I)]
     R.add("PASS" if not missing else "FAIL", "G4", "documents", "all lab BCs named in §12.1" if not missing else f"BCs not in §12.1: {missing}")
 
     # G8 — coverage of all 14 M11 sections
@@ -192,9 +203,10 @@ def main() -> int:
     norm = lambda s: re.sub(r"\s+", " ", re.sub(r"[*`_]", "", s)).strip().lower()
     S3, S8 = norm(sec["03"]), norm(sec["08.4.2"])
     for e in endpoints:
-        nm = e.get("name", ""); probe = norm(e.get("text", ""))[:70]
+        # whole text, not the first 70 characters (review-sheet 4b, 2026-09-20)
+        nm = e.get("name", ""); probe = norm(e.get("text", ""))
         ok = bool(probe) and (probe in S3 or probe in S8)
-        R.add("PASS" if ok else "FAIL", f"USDM↔protocol:{nm}", "documents", "endpoint text present in the M11 protocol" if ok else f"endpoint text not found in §3 / §8.4.2: {probe[:50]!r}")
+        R.add("PASS" if ok else "FAIL", f"USDM↔protocol:{nm}", "documents", f"endpoint text present in the M11 protocol, all {len(probe)} characters" if ok else f"endpoint text not found whole in §3 / §8.4.2: {probe[:50]!r}…")
     ok = any("section-08-04-02-vital-signs.md" in json.dumps(e) for e in endpoints if e.get("name") == "END-S5-VS")
     R.add("PASS" if ok else "FAIL", "USDM↔protocol:END-S5-VS cites §8.4.2", "documents", "yes" if ok else "no")
     ok = "tools/m11_to_usdm.py" in json.dumps(usdm) and sd.get("scheduleTimelines")
