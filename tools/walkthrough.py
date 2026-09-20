@@ -6,7 +6,11 @@
     python tools/walkthrough.py serve     # 'stage', then serve the app (threaded; not serve.py) until Ctrl-C, then 'clean'
     python tools/walkthrough.py clean     # remove everything staged; the submodule is clean at its pin again
 
-Option: --toriva <path> (default: a sibling checkout named torivumab-nsclc-301). The port is serve.py's, 8080.
+Option: --toriva <path> (default: a sibling checkout named torivumab-nsclc-301). The port is 8080.
+
+CDISC Library: set CDISC_API_KEY (a Library account's API key) before `serve`, and the app's concept
+*Reference* links open the SDTM dataset specialization through a proxy at /cdisc-library/ that adds
+the key. Without it the links point at the Library API directly and answer 401.
 
 What it does not do is the clicking: steps 1–8 of the walkthrough are yours. The Load button and
 alert() freeze browser automation, so nothing here drives the page either.
@@ -40,6 +44,9 @@ CHAINS = {
     "r_impl_mmrm.json": ROOT / "endpoints" / "04-vitals-cfb-mmrm" / "r_impl_mmrm.json",
 }
 INDUCTION = ["Baseline", "C1D15", "C2D1", "C3D1", "C4D1", "C5D1", "C6D1"]
+LIBRARY = "https://api.library.cdisc.org/api/cosmos/v2/"
+PROXY = "/cdisc-library/"  # served by `serve`: forwards to LIBRARY with the api-key header from CDISC_API_KEY
+API_KEY = os.environ.get("CDISC_API_KEY", "").strip()
 
 
 for _s in (sys.stdout, sys.stderr):
@@ -134,7 +141,20 @@ def stage(args: argparse.Namespace) -> None:
     to_xpt(tor)
     for dst, src in CHAINS.items():
         shutil.copy2(src, STAGED / dst)
-    shutil.copy2(USDM_SRC, USDM_DST)
+    if API_KEY:
+        # the app renders each concept's `reference` as a link; with a key, route it through the proxy so the
+        # link opens the specialization. The repository's fragment keeps the true Library URI — only the staged copy changes.
+        frag = json.loads(USDM_SRC.read_text(encoding="utf-8"))
+        n = 0
+        for b in frag["study"]["versions"][0].get("biomedicalConcepts", []):
+            r = b.get("reference") or ""
+            if r.startswith(LIBRARY):
+                b["reference"] = PROXY + r[len(LIBRARY):]; n += 1
+        USDM_DST.write_text(json.dumps(frag, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        say(f"CDISC_API_KEY set: {n} concept references routed through {PROXY} (the staged copy only)")
+    else:
+        shutil.copy2(USDM_SRC, USDM_DST)
+        say("CDISC_API_KEY not set: concept Reference links point at the Library API directly and will answer 401")
     manifest = json.loads(STUDIES.read_text(encoding="utf-8"))
     entries = manifest if isinstance(manifest, list) else manifest["studies"]
     if not any(e.get("file") == USDM_DST.name for e in entries):
@@ -199,6 +219,27 @@ def serve(args: argparse.Namespace) -> None:
 
         def log_message(self, fmt, *a):  # one line per request, like serve.py, without the date noise
             sys.stderr.write("%s %s\n" % (self.address_string(), fmt % a))
+
+        def do_GET(self):
+            if self.path.startswith(PROXY):
+                return self.proxy_library(self.path[len(PROXY):])
+            return super().do_GET()
+
+        def proxy_library(self, rest: str):
+            """GET LIBRARY + rest with the api-key header; relay status, content type and body."""
+            import urllib.request, urllib.error
+            if not API_KEY:
+                body = b'{"error": "CDISC_API_KEY is not set in the environment of walkthrough.py serve"}'
+                self.send_response(401); self.send_header("Content-Type", "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
+            req = urllib.request.Request(LIBRARY + rest, headers={"api-key": API_KEY, "Accept": "application/json", "User-Agent": "usdm-acdc-in-practice walkthrough"})
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    body = r.read(); status = r.status; ctype = r.headers.get("Content-Type", "application/json")
+            except urllib.error.HTTPError as e:
+                body = e.read(); status = e.code; ctype = e.headers.get("Content-Type", "application/json")
+            except (urllib.error.URLError, OSError) as e:
+                body = json.dumps({"error": f"could not reach the CDISC Library: {e}"}).encode("utf-8"); status = 502; ctype = "application/json"
+            self.send_response(status); self.send_header("Content-Type", ctype); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
 
     NoCache.extensions_map.update({".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".svg": "image/svg+xml"})
     http.server.ThreadingHTTPServer.request_queue_size = 64

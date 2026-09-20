@@ -95,8 +95,25 @@ Tabs across the top. Two to look at:
   the day before). The notes on each arm carry that history.
 - **Schedule of Activities** — *13 activities · 39 encounters*. This tab was empty for the
   whole of phase 1; the schedule was generated from the protocol's two assessment tables.
-  Clicking a concept opens its panel. **Its *Reference* link points at the CDISC Library API**,
-  which needs an account: expect a 401 answer in a new tab, not a page. (Until 2026-09-20 the
+  Clicking a concept opens its panel. **Its *Reference* link opens the concept's SDTM dataset
+  specialization in the CDISC Library — if you gave the server a key.** Without one, the link goes
+  to the Library API directly and answers 401 (`Access denied due to missing subscription key`).
+  To make it work:
+
+  1. Sign in at [library.cdisc.org](https://library.cdisc.org) (a free account) and copy your **API
+     key** from your account page.
+  2. Set it in the shell you start the server from, then start the server:
+
+     ```
+     # PowerShell                              # cmd                              # bash
+     $env:CDISC_API_KEY = "your-key"           set CDISC_API_KEY=your-key         export CDISC_API_KEY=your-key
+     python tools/walkthrough.py serve
+     ```
+
+     `stage` reports *CDISC_API_KEY set: 6 concept references routed through /cdisc-library/*.
+     The server forwards those requests to the Library with the key; the fragment in the
+     repository is not changed, only the staged copy.
+  3. Click **Reference** again: the specialization's JSON opens in the new tab. (Until 2026-09-20 the
   fragment carried a relative path copied from the pilot, which landed on this server's 404
   page — that is what "reviewing the BC" ran into. The pilot's own fragment still does the same
   for 32 of its 182 concepts.) The seven laboratory concepts and SYSBP link to their SDTM
