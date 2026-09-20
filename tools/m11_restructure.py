@@ -10,6 +10,14 @@ script adds is the per-section header, the source citation on each block, and
 the conformance notes at the foot of each section — all of which are ours and
 say so.
 
+Subsection numbers corrected 2026-09-20 (review-sheet item 2d): the labels had
+been numbered from memory and eight were wrong against the M11 element pages
+(e.g. Sample Size was 10.9, M11 says 10.11; Interim was 10.8, M11 10.9; Data
+Protection was 11.4, M11 11.8; Concomitant Therapy was 6.8, M11 6.10). Blocks
+that M11 places in a *different section* (randomisation and blinding 6.7,
+dose modification 6.4, stopping rules 4.3, safety committee 11.4) are left
+where they are and flagged in the notes, pending LG's 2b verdict.
+
 Source: OpenTrialReporting/torivumab-nsclc-301, protocol/synopsis.md, commit
 8534339d (study/source-refs.md). Referenced, never vendored: point --synopsis at
 a local checkout. The generated sections are a CC BY 4.0 derived work and carry
@@ -51,10 +59,10 @@ SECTIONS: list[dict] = [
     {
         "num": "1", "file": "section-01-protocol-summary.md",
         "title": "1 Protocol Summary",
-        "elements": "1.1 Primary and Secondary Objectives and Estimands; 1.1 Overall Design; 1.2 Trial Schema; 1.3 Schedule of Activities",
+        "elements": "1.1.1 Primary and Secondary Objectives and Estimands; 1.1.2 Overall Design; 1.2 Trial Schema; 1.3 Schedule of Activities",
         "blocks": [
-            ("1.1 Overall Design ← SYNOPSIS TABLE", 113, 141),
-            ("1.1 Objectives ← §2.1–2.3 STUDY OBJECTIVES", 185, 205),
+            ("1.1.2 Overall Design ← SYNOPSIS TABLE", 113, 141),
+            ("1.1.1 Primary and Secondary Objectives and Estimands ← §2.1–2.3 STUDY OBJECTIVES", 185, 205),
             ("1.2 Trial Schema ← §3.2 Design Schematic", 215, 268),
             ("1.3 Schedule of Activities — efficacy ← §6.1 Tumour Assessment Schedule", 444, 458),
             ("1.3 Schedule of Activities — safety ← §7.2 Safety Assessment Schedule", 498, 515),
@@ -68,10 +76,10 @@ SECTIONS: list[dict] = [
     {
         "num": "2", "file": "section-02-introduction.md",
         "title": "2 Introduction",
-        "elements": "2.1 Purpose of Trial; 2.2 Summary of Benefits and Risks (Benefit Summary, Risk Summary and Mitigation Strategy, Overall Risk-Benefit Assessment)",
+        "elements": "2.1 Purpose of Trial; 2.2 Summary of Benefits and Risks (2.2.1 Risk Summary and Mitigation Strategy, 2.2.2 Benefit Summary, 2.2.3 Overall Risk-Benefit Assessment)",
         "blocks": [
             ("2.1 Purpose of Trial ← §1 BACKGROUND AND RATIONALE", 145, 182),
-            ("2.2 Overall Risk-Benefit Assessment ← §9.5 Risk-Benefit Assessment", 779, 784),
+            ("2.2.3 Overall Risk-Benefit Assessment ← §9.5 Risk-Benefit Assessment", 779, 784),
         ],
         "notes": [
             "**Risk Summary and Mitigation Strategy** (2.2): the source carries the mitigation content under irAE management (§7.3, moved to section 9 here) rather than as a summary in the introduction. Not duplicated; recorded as located elsewhere.",
@@ -81,13 +89,13 @@ SECTIONS: list[dict] = [
     {
         "num": "4", "file": "section-04-trial-design.md",
         "title": "4 Trial Design",
-        "elements": "4.1 Description of Trial Design; 4.2 Rationale for Trial Design (control type, dose, endpoints); 4.3 Access to Trial Intervention After End of Trial; 4.4 Start and End of Trial Definition",
+        "elements": "4.1 Description of Trial Design; 4.2 Rationale for Trial Design; 4.3 Trial Stopping Rules; 4.4 Start of Trial and End of Trial; 4.5 Access to Trial Intervention After End of Trial",
         "blocks": [
             ("4.1 Description of Trial Design ← §3.1 Overview", 209, 213),
             ("4.1 Randomisation ← §3.3", 270, 274),
             ("4.1 Blinding ← §3.4", 276, 282),
             ("4.1 Treatment Arms ← §3.5", 284, 291),
-            ("4.4 End of Trial / follow-up ← §3.6 Post-Treatment Follow-Up", 293, 297),
+            ("4.4 Start of Trial and End of Trial ← §3.6 Post-Treatment Follow-Up", 293, 297),
         ],
         "notes": [
             "**D14 — treatment arms, the protocol corrected to the SAP (P6, 2026-09-20).** The source's arms are torivumab 200 mg IV Q3W versus placebo, monotherapy. TORIVA's SAP §13.2 describes both arms on a carboplatin/pemetrexed backbone, and a placebo-alone control does not exist in first-line NSCLC: the protocol is the document in error. The moved text above is the source's; the arms this derived protocol *means* — *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*, carried by the USDM's `arms` — are the combination. That the built data agrees is incidental. Disposition in `study/gap-register.md`: fix here. (Before P6 this note said the data was the ground truth; withdrawn by LG.)",
@@ -100,7 +108,7 @@ SECTIONS: list[dict] = [
     {
         "num": "5", "file": "section-05-trial-population.md",
         "title": "5 Trial Population",
-        "elements": "5.1 Description of Trial Population and Rationale; 5.2 Inclusion Criteria; 5.3 Exclusion Criteria; 5.4 Contraception Requirements; 5.5 Lifestyle Considerations; 5.6 Screen Failures",
+        "elements": "5.1 Description of Trial Population and Rationale; 5.2 Inclusion Criteria; 5.3 Exclusion Criteria; 5.4 Childbearing Potential and Contraception (5.4.1, 5.4.2); 5.5 Lifestyle Restrictions (5.5.1–5.5.4); 5.6 Screen Failure and Rescreening",
         "blocks": [
             ("5.2 Inclusion Criteria ← §4.1", 303, 335),
             ("5.3 Exclusion Criteria ← §4.2", 337, 369),
@@ -114,11 +122,11 @@ SECTIONS: list[dict] = [
     {
         "num": "6", "file": "section-06-trial-intervention.md",
         "title": "6 Trial Intervention And Concomitant Therapy",
-        "elements": "6.1 Description of Investigational Trial Intervention; 6.2 Rationale for Trial Intervention Dose and Regimen; 6.3 Investigational Trial Intervention Administration; 6.4 Preparation, Handling, Storage and Accountability; 6.5 Method of Assignment; 6.6 Blinding; 6.7 Adherence; 6.8 Concomitant Therapy",
+        "elements": "6.1 Description of Investigational Trial Intervention; 6.2 Rationale for Investigational Trial Intervention Dose and Regimen; 6.3 Investigational Trial Intervention Administration; 6.4 Investigational Trial Intervention Dose Modification; 6.5 Management of Overdose; 6.6 Preparation, Storage and Handling, Accountability (6.6.1–6.6.3); 6.7 Participant Assignment, Randomisation, Blinding, Emergency Unblinding (6.7.1–6.7.4); 6.8 Adherence; 6.9 Noninvestigational Trial Intervention (6.9.1 Background, 6.9.2 Rescue, 6.9.3 Other); 6.10 Concomitant Therapy (6.10.1 Prohibited, 6.10.2 Permitted)",
         "blocks": [
-            ("6.1 Investigational Medicinal Products ← §5.1", 375, 382),
-            ("6.3 Dosing and Administration ← §5.2", 384, 391),
-            ("6.8 Concomitant Medications ← §5.4", 422, 438),
+            ("6.1 Description of Investigational Trial Intervention ← §5.1", 375, 382),
+            ("6.3 Investigational Trial Intervention Administration ← §5.2", 384, 391),
+            ("6.10 Concomitant Therapy ← §5.4", 422, 438),
         ],
         "notes": [
             "**D14** again: the intervention table lists torivumab and placebo only. Corrected under P6: both arms also receive platinum-based chemotherapy (carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W, up to 6 induction cycles, then pemetrexed maintenance — SAP §13.2). Moved as written; the USDM's `studyInterventions` carry the backbone as a background intervention, per the corrected protocol.",
@@ -131,11 +139,11 @@ SECTIONS: list[dict] = [
     {
         "num": "7", "file": "section-07-discontinuation.md",
         "title": "7 Discontinuation of Trial Intervention and Participant Withdrawal from Trial",
-        "elements": "7.1 Discontinuation of Trial Intervention (permanent, temporary, rechallenge); 7.2 Participant Discontinuation or Withdrawal from the Trial; 7.3 Lost to Follow-Up; 7.4 Trial Stopping Rules",
+        "elements": "7.1 Discontinuation of Trial Intervention; 7.2 Participant Discontinuation or Withdrawal from the Trial; 7.3 Management of Loss to Follow-Up. (Trial Stopping Rules are M11 §4.3, not §7.)",
         "blocks": [
             ("7.1 Temporary Discontinuation and Rechallenge ← §5.3 Dose Modifications, §5.3.1 Treatment Delays", 393, 405),
             ("7.1 Permanent Discontinuation ← §5.3.2", 407, 420),
-            ("7.2 Withdrawal and follow-up ← §3.6", 293, 297),
+            ("7.2 Participant Discontinuation or Withdrawal from the Trial ← §3.6", 293, 297),
             ("7.4 Trial Stopping Rules ← §7.4 (myocarditis stopping rule) and §7.5 SMC", 599, 607),
         ],
         "notes": [
@@ -146,11 +154,11 @@ SECTIONS: list[dict] = [
     {
         "num": "8", "file": "section-08-assessments-and-procedures.md",
         "title": "8 Trial Assessments and Procedures",
-        "elements": "8.1 Considerations; 8.2 Screening/Baseline; 8.3 Efficacy Assessments and Procedures; 8.4 Safety Assessments and Procedures (8.4.1 Physical Examination, 8.4.2 Vital Signs, 8.4.3 ECG, 8.4.4 Clinical Laboratory Assessments, 8.4.5 Pregnancy Testing, 8.4.6 Suicidal Ideation); 8.5 PK; 8.6 Biomarkers; 8.7 Immunogenicity; 8.8 Medical Resource Utilisation; 8.9 Other",
+        "elements": "8.1 Trial Assessments and Procedures Considerations; 8.2 Screening/Baseline Assessments and Procedures; 8.3 Efficacy Assessments and Procedures; 8.4 Safety Assessments and Procedures (8.4.1 Physical Examination, 8.4.2 Vital Signs, 8.4.3 Electrocardiograms, 8.4.4 Clinical Laboratory Assessments, 8.4.5 Pregnancy Testing, 8.4.6 Suicidal Ideation and Behaviour Risk Monitoring); 8.5 Pharmacokinetics; 8.6 Genetics, Pharmacodynamic and Other Biomarkers (8.6.1–8.6.3); 8.7 Immunogenicity Assessments; 8.8 Medical Resource Utilisation and Health Economics",
         "blocks": [
-            ("8.3 Efficacy Assessments ← §6.1 Tumour Assessment Schedule", 444, 458),
+            ("8.3 Efficacy Assessments and Procedures ← §6.1 Tumour Assessment Schedule", 444, 458),
             ("8.3 Response Evaluation — RECIST 1.1 ← §6.2", 460, 483),
-            ("8.4 Safety Assessment Schedule ← §7.2", 498, 515),
+            ("8.4 Safety Assessments and Procedures ← §7.2", 498, 515),
         ],
         "notes": [
             "**8.4.2 Vital Signs**: [`section-08-04-02-vital-signs.md`](section-08-04-02-vital-signs.md), hand-made for endpoint 2 — supplied in part.",
@@ -164,11 +172,11 @@ SECTIONS: list[dict] = [
     {
         "num": "9", "file": "section-09-adverse-events.md",
         "title": "9 Adverse Events, Serious Adverse Events, Product Complaints, Pregnancy and Special Safety Situations",
-        "elements": "9.1 Definitions; 9.2 Timing and Mechanism for Collecting Events; 9.3 Follow-Up; 9.4 Regulatory Reporting; 9.5 Pregnancy; 9.6 Special Safety Situations (AESIs); 9.7 Safety Monitoring",
+        "elements": "9.1 Definitions (9.1.1 Adverse Events, 9.1.2 Serious Adverse Events, 9.1.3 Product Complaints); 9.2 Timing and Procedures for Collection and Reporting (9.2.1 Timing, 9.2.2 Collection Procedures, 9.2.3 Reporting, 9.2.4 Adverse Events of Special Interest, 9.2.5 Disease-Related Events); 9.3 Pregnancy (9.3.1, 9.3.2); 9.4 Special Safety Situations. (A safety monitoring committee is M11 §11.4 Committees.)",
         "blocks": [
-            ("9.1 Definitions and 9.2 Timing ← §7.1 Adverse Event Monitoring", 489, 496),
+            ("9.1 Definitions and 9.2 Timing and Procedures for Collection and Reporting ← §7.1 Adverse Event Monitoring", 489, 496),
             ("9.6 irAE Management ← §7.3", 517, 583),
-            ("9.6 Adverse Events of Special Interest ← §7.4", 585, 599),
+            ("9.2.4 Adverse Events of Special Interest ← §7.4", 585, 599),
             ("9.7 Safety Monitoring Committee ← §7.5", 601, 607),
         ],
         "notes": [
@@ -180,35 +188,35 @@ SECTIONS: list[dict] = [
     {
         "num": "10", "file": "section-10-statistical-considerations.md",
         "title": "10 Statistical Considerations",
-        "elements": "10.1 General Considerations; 10.2 Analysis Sets; 10.3 Analyses Supporting Primary Objective(s); 10.4 Secondary; 10.5 Exploratory; 10.6 Safety Analyses; 10.7 Other Analyses; 10.8 Interim Analyses; 10.9 Sample Size Determination; 10.10 Multiplicity",
+        "elements": "10.1 General Considerations; 10.2 Analysis Sets; 10.3 Analyses of Demographics and Other Baseline Variables; 10.4 Analyses Associated with the Primary Objective(s); 10.5 Analyses Associated with the Secondary Objective(s); 10.6 Analyses Associated with the Exploratory Objective(s); 10.7 Safety Analyses; 10.8 Other Analyses; 10.9 Interim Analyses; 10.10 Multiplicity Adjustments; 10.11 Sample Size Determination",
         "blocks": [
-            ("10.9 Sample Size Determination ← §8.1", 612, 685),
+            ("10.11 Sample Size Determination ← §8.1", 612, 685),
             ("10.2 Analysis Sets ← §8.2 Analysis Populations", 687, 694),
-            ("10.3 Primary Analysis — Overall Survival ← §8.3", 696, 702),
-            ("10.4 Secondary Analyses ← §8.4", 704, 709),
-            ("10.10 Multiplicity Control ← §8.5", 711, 720),
-            ("10.8 Interim Analyses ← §8.6", 722, 739),
+            ("10.4 Analyses Associated with the Primary Objective — Overall Survival ← §8.3", 696, 702),
+            ("10.5 Analyses Associated with the Secondary Objectives ← §8.4", 704, 709),
+            ("10.10 Multiplicity Adjustments ← §8.5", 711, 720),
+            ("10.9 Interim Analyses ← §8.6", 722, 739),
             ("10.1 General Considerations ← §11 KEY INFORMATION FOR STATISTICAL ANALYSIS PLAN", 823, 844),
         ],
         "notes": [
             "**D15** lands hardest here: the sample-size arithmetic (§8.1) is for 2:1 and *\"was not re-derived for 1:1\"* (source header). Moved as written; 2:1 stands (P6). **D14 leaves a rationale gap here**: §8.1 benchmarks against monotherapy trials (KEYNOTE-024); with the design corrected to combination, the benchmark no longer matches the design. Noted, not re-derived — a sponsor's task.",
             "**D13**: §8.4 gives ORR a CMH test and Clopper–Pearson CI — no population-level summary is named here; SAP §5.3/§13.6 names a stratified MH risk difference and reaches for an odds-ratio estimator. The estimand in section 3.2.2 says risk difference. P3 checks that.",
-            "**10.5 Exploratory** and **10.6 Safety**: one line each in §8.4 and the SAP-information table (§11); no methods beyond *\"descriptive\"*. Partial. **No laboratory or vital-signs analysis is specified anywhere** (D11, S1–S3): the analyses this project executed are its own and say so.",
-            "**10.7 Other Analyses** (subgroups, sensitivity): listed as SAP requirements in §11 (moved into 10.1); not specified in the protocol body.",
+            "**10.6 Exploratory** and **10.7 Safety**: one line each in §8.4 and the SAP-information table (§11); no methods beyond *\"descriptive\"*. Partial. **No laboratory or vital-signs analysis is specified anywhere** (D11, S1–S3): the analyses this project executed are its own and say so.",
+            "**10.8 Other Analyses** (subgroups, sensitivity): listed as SAP requirements in §11 (moved into 10.1); not specified in the protocol body.",
             "**Analyses added by this project, not by the sponsor** (gap register S1–S3) — **demonstration analyses**, under P6. The two endpoints this project carried through the AC/DC framework use analyses the source never specified, and they are recorded here so the eSAP's analyses have a stated origin: **S1** laboratory change from baseline (ALT) by ANCOVA at C2D1, safety population, baseline as covariate; **S2** systolic blood pressure change from baseline by MMRM over the induction visits C1D15–C6D1 (unstructured covariance, REML, Kenward–Roger) and by ANCOVA at C2D1; **S3** the induction-visit window for that MMRM. These are this project's choices for exercising the framework, marked as such, and are not part of TORIVA's statistical plan.",
-            "**10.6 Safety — laboratory and vital signs, specified under P6 (D11, G7; 2026-09-20).** Safety population, descriptive, no inferential testing. Laboratory: summary of values and change from baseline by parameter and analysis visit; shift from baseline to worst post-baseline reference-range category; worst post-baseline CTCAE v5.0 grade by parameter with a grade ≥3 listing. Vital signs: summary of values and change from baseline by parameter and visit. Stated in §3.2.5; this is what TORIVA's T-LB-01, T-LB-02 and L-LB-01 built without a specification.",
+            "**10.7 Safety Analyses — laboratory and vital signs, specified under P6 (D11, G7; 2026-09-20).** Safety population, descriptive, no inferential testing. Laboratory: summary of values and change from baseline by parameter and analysis visit; shift from baseline to worst post-baseline reference-range category; worst post-baseline CTCAE v5.0 grade by parameter with a grade ≥3 listing. Vital signs: summary of values and change from baseline by parameter and visit. Stated in §3.2.5; this is what TORIVA's T-LB-01, T-LB-02 and L-LB-01 built without a specification.",
         ],
     },
     {
         "num": "11", "file": "section-11-general-considerations.md",
         "title": "11 General Considerations: Regulatory, Ethical, Trial Oversight and Data Handling",
-        "elements": "11.1 Regulatory and Ethical Considerations; 11.2 Committees; 11.3 Informed Consent; 11.4 Data Protection; 11.5 Data Handling and Record Keeping; 11.6 Source Records; 11.7 Financial Disclosure; 11.8 Insurance; 11.9 Publication Policy; 11.10 Protocol Deviations; 11.11 Early Site Closure; 11.12 Data Dissemination; 11.13 Quality Assurance",
+        "elements": "11.1 Regulatory and Ethical Considerations; 11.2 Trial Oversight; 11.3 Informed Consent Process; 11.4 Committees; 11.5 Insurance and Indemnity; 11.6 Risk-Based Quality Management; 11.7 Data Governance; 11.8 Data Protection; 11.9 Source Records; 11.10 Protocol Deviations; 11.11 Early Site Closure; 11.12 Data Dissemination",
         "blocks": [
-            ("11.1 Regulatory and GCP Compliance ← §9.1", 745, 754),
-            ("11.1 IRB/IEC ← §9.2", 756, 760),
+            ("11.1 Regulatory and Ethical Considerations — GCP compliance ← §9.1", 745, 754),
+            ("11.1 Regulatory and Ethical Considerations — IRB/IEC ← §9.2", 756, 760),
             ("11.3 Informed Consent ← §9.3", 762, 773),
-            ("11.4 Data Privacy and Confidentiality ← §9.4", 775, 777),
-            ("11.5 Data Handling — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN", 789, 817),
+            ("11.8 Data Protection ← §9.4", 775, 777),
+            ("11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN", 789, 817),
         ],
         "notes": [
             "**11.2 Committees**: the Safety Monitoring Committee is described in §7.5, moved to section 9.7; not duplicated.",
@@ -218,7 +226,7 @@ SECTIONS: list[dict] = [
     {
         "num": "12", "file": "section-12-appendix-supporting-details.md",
         "title": "12 Appendix: Supporting Details",
-        "elements": "12.1 Clinical Laboratory Tests; 12.2 Country/Region-Specific Differences; 12.3 Prior Protocol Amendments",
+        "elements": "12.1 Clinical Laboratory Tests; 12.2 Country/Region-Specific Differences; 12.3 Prior Protocol Amendment(s); 12.4 Additional Appendices",
         "blocks": [
             ("12.3 Prior Protocol Amendments ← DOCUMENT HISTORY", 946, 951),
         ],

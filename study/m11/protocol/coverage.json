@@ -19,12 +19,12 @@
       "moved_lines": 137,
       "blocks": [
         [
-          "1.1 Overall Design ← SYNOPSIS TABLE",
+          "1.1.2 Overall Design ← SYNOPSIS TABLE",
           113,
           141
         ],
         [
-          "1.1 Objectives ← §2.1–2.3 STUDY OBJECTIVES",
+          "1.1.1 Primary and Secondary Objectives and Estimands ← §2.1–2.3 STUDY OBJECTIVES",
           185,
           205
         ],
@@ -59,7 +59,7 @@
           182
         ],
         [
-          "2.2 Overall Risk-Benefit Assessment ← §9.5 Risk-Benefit Assessment",
+          "2.2.3 Overall Risk-Benefit Assessment ← §9.5 Risk-Benefit Assessment",
           779,
           784
         ]
@@ -101,7 +101,7 @@
           291
         ],
         [
-          "4.4 End of Trial / follow-up ← §3.6 Post-Treatment Follow-Up",
+          "4.4 Start of Trial and End of Trial ← §3.6 Post-Treatment Follow-Up",
           293,
           297
         ]
@@ -136,17 +136,17 @@
       "moved_lines": 33,
       "blocks": [
         [
-          "6.1 Investigational Medicinal Products ← §5.1",
+          "6.1 Description of Investigational Trial Intervention ← §5.1",
           375,
           382
         ],
         [
-          "6.3 Dosing and Administration ← §5.2",
+          "6.3 Investigational Trial Intervention Administration ← §5.2",
           384,
           391
         ],
         [
-          "6.8 Concomitant Medications ← §5.4",
+          "6.10 Concomitant Therapy ← §5.4",
           422,
           438
         ]
@@ -171,7 +171,7 @@
           420
         ],
         [
-          "7.2 Withdrawal and follow-up ← §3.6",
+          "7.2 Participant Discontinuation or Withdrawal from the Trial ← §3.6",
           293,
           297
         ],
@@ -191,7 +191,7 @@
       "moved_lines": 57,
       "blocks": [
         [
-          "8.3 Efficacy Assessments ← §6.1 Tumour Assessment Schedule",
+          "8.3 Efficacy Assessments and Procedures ← §6.1 Tumour Assessment Schedule",
           444,
           458
         ],
@@ -201,7 +201,7 @@
           483
         ],
         [
-          "8.4 Safety Assessment Schedule ← §7.2",
+          "8.4 Safety Assessments and Procedures ← §7.2",
           498,
           515
         ]
@@ -223,7 +223,7 @@
       "moved_lines": 97,
       "blocks": [
         [
-          "9.1 Definitions and 9.2 Timing ← §7.1 Adverse Event Monitoring",
+          "9.1 Definitions and 9.2 Timing and Procedures for Collection and Reporting ← §7.1 Adverse Event Monitoring",
           489,
           496
         ],
@@ -233,7 +233,7 @@
           583
         ],
         [
-          "9.6 Adverse Events of Special Interest ← §7.4",
+          "9.2.4 Adverse Events of Special Interest ← §7.4",
           585,
           599
         ],
@@ -253,7 +253,7 @@
       "moved_lines": 145,
       "blocks": [
         [
-          "10.9 Sample Size Determination ← §8.1",
+          "10.11 Sample Size Determination ← §8.1",
           612,
           685
         ],
@@ -263,22 +263,22 @@
           694
         ],
         [
-          "10.3 Primary Analysis — Overall Survival ← §8.3",
+          "10.4 Analyses Associated with the Primary Objective — Overall Survival ← §8.3",
           696,
           702
         ],
         [
-          "10.4 Secondary Analyses ← §8.4",
+          "10.5 Analyses Associated with the Secondary Objectives ← §8.4",
           704,
           709
         ],
         [
-          "10.10 Multiplicity Control ← §8.5",
+          "10.10 Multiplicity Adjustments ← §8.5",
           711,
           720
         ],
         [
-          "10.8 Interim Analyses ← §8.6",
+          "10.9 Interim Analyses ← §8.6",
           722,
           739
         ],
@@ -298,12 +298,12 @@
       "moved_lines": 59,
       "blocks": [
         [
-          "11.1 Regulatory and GCP Compliance ← §9.1",
+          "11.1 Regulatory and Ethical Considerations — GCP compliance ← §9.1",
           745,
           754
         ],
         [
-          "11.1 IRB/IEC ← §9.2",
+          "11.1 Regulatory and Ethical Considerations — IRB/IEC ← §9.2",
           756,
           760
         ],
@@ -313,12 +313,12 @@
           773
         ],
         [
-          "11.4 Data Privacy and Confidentiality ← §9.4",
+          "11.8 Data Protection ← §9.4",
           775,
           777
         ],
         [
-          "11.5 Data Handling — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN",
+          "11.7 Data Governance — CRF design ← §10 KEY INFORMATION FOR CRF DESIGN",
           789,
           817
         ]
