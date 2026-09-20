@@ -62,7 +62,7 @@ SECTIONS: list[dict] = [
         "notes": [
             "**Estimands** in 1.1: the synopsis table names endpoints, not estimands; the estimands are in §3 of this derived protocol, moved there from SAP §13 under stage 0b. 1.1 here carries the source's summary table and objectives as written.",
             "**Schedule of Activities** (1.3): M11 wants one table; the source has two — tumour assessments (§6.1) and safety assessments (§7.2) — and says of the latter *\"Full Schedule of Assessments (SoA) to be presented as a formal table in the final protocol body.\"* Both are moved; they are not merged, because merging would be writing. P2's USDM generator builds `scheduleTimelines` from both.",
-            "**As-simulated deviation (D15).** The source's own header records that the synopsis states 2:1 randomisation (300:150) while the shipped data was generated 1:1 (225:225). The table above says 2:1. The data is the ground truth for alignment (P3); the text is left as the source wrote it, with this note.",
+            "**As-simulated deviation (D15).** The source's own header records that the synopsis states 2:1 randomisation (300:150) while the shipped data was generated 1:1 (225:225). The table above says 2:1, and **2:1 stands** (P6, 2026-09-20): the protocol is the specification, and §8.1's arithmetic was derived for it. The data's 1:1 is a divergence the alignment check reports, to be regenerated upstream.",
         ],
     },
     {
@@ -75,7 +75,7 @@ SECTIONS: list[dict] = [
         ],
         "notes": [
             "**Risk Summary and Mitigation Strategy** (2.2): the source carries the mitigation content under irAE management (§7.3, moved to section 9 here) rather than as a summary in the introduction. Not duplicated; recorded as located elsewhere.",
-            "**D14** surfaces here: §1.4 says *\"first-line monotherapy\"*. The SAP (§13.2) and the built data (`TRT01P` = *\"Torivumab + Chemotherapy\"*) say combination with carboplatin/pemetrexed. The text is moved as written; the correction is recorded in section 4 and applied in the USDM (P2).",
+            "**D14** surfaces here: §1.4 says *\"first-line monotherapy\"*. **Corrected under P6 (2026-09-20)**: the trial is torivumab or placebo *plus* platinum-based chemotherapy (carboplatin/pemetrexed), as SAP §13.2 states and as the double-blind, matched-infusion design requires — a placebo-alone first-line control does not exist. The text is moved as written; the correction is stated in section 4 and the title page, and the USDM follows the corrected protocol.",
         ],
     },
     {
@@ -90,8 +90,8 @@ SECTIONS: list[dict] = [
             ("4.4 End of Trial / follow-up ← §3.6 Post-Treatment Follow-Up", 293, 297),
         ],
         "notes": [
-            "**D14 — treatment arms, corrected in the derived work.** The source's arms are torivumab 200 mg IV Q3W versus placebo, monotherapy. TORIVA's SAP §13.2 and its built data (`TRT01P`: *Torivumab + Chemotherapy*, *Placebo + Chemotherapy*) describe both arms on a carboplatin/pemetrexed backbone. The moved text above is the source's; the arms this derived protocol *means* — and the USDM's `arms` carry (P2) — are the combination, because the data is the ground truth. Disposition in `study/gap-register.md`: fix here.",
-            "**D15 — randomisation ratio.** The source states 2:1 throughout (§3.1, §3.2, §8.1). Its own header records the shipped data as 1:1 (225:225). As D14: text moved as written; the USDM and the alignment check use 1:1.",
+            "**D14 — treatment arms, the protocol corrected to the SAP (P6, 2026-09-20).** The source's arms are torivumab 200 mg IV Q3W versus placebo, monotherapy. TORIVA's SAP §13.2 describes both arms on a carboplatin/pemetrexed backbone, and a placebo-alone control does not exist in first-line NSCLC: the protocol is the document in error. The moved text above is the source's; the arms this derived protocol *means* — *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*, carried by the USDM's `arms` — are the combination. That the built data agrees is incidental. Disposition in `study/gap-register.md`: fix here. (Before P6 this note said the data was the ground truth; withdrawn by LG.)",
+            "**D15 — randomisation ratio.** The source states 2:1 throughout (§3.1, §3.2, §8.1). Its own header records the shipped data as 1:1 (225:225). **2:1 stands** (P6): the USDM says 2:1 and the alignment check reports the data's 1:1 as a divergence.",
             "**4.2 Rationale for Trial Design**: the source gives a rationale for the dose (§1.4, PK/PD) and for the endpoints (§6.1 note on assessment frequency), not a rationale for the control type or for the design as a whole. Absent; not invented.",
             "**4.3 Access to Trial Intervention After End of Trial**: absent from the source.",
             "**4.4 Start and End of Trial Definition**: the source gives the follow-up rule (§3.6) and the timeline (schematic: 18 months accrual, 24 months minimum follow-up), not a definition of trial start and end. Recorded as partial.",
@@ -121,7 +121,7 @@ SECTIONS: list[dict] = [
             ("6.8 Concomitant Medications ← §5.4", 422, 438),
         ],
         "notes": [
-            "**D14** again: the intervention table lists torivumab and placebo only. The SAP and data have a chemotherapy backbone in both arms. Moved as written; corrected in the USDM's `studyInterventions` (P2) with the source's wording kept beside it.",
+            "**D14** again: the intervention table lists torivumab and placebo only. Corrected under P6: both arms also receive platinum-based chemotherapy (carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W, up to 6 induction cycles, then pemetrexed maintenance — SAP §13.2). Moved as written; the USDM's `studyInterventions` carry the backbone as a background intervention, per the corrected protocol.",
             "**6.2 Rationale for Dose and Regimen**: in the source at §1.4 (PK/PD, receptor occupancy), moved to section 2 here; not duplicated.",
             "**6.4 Preparation, Handling, Storage and Accountability**: storage and dilution are in §5.1 (moved); accountability is absent.",
             "**6.5 Method of Assignment** and **6.6 Blinding**: in §3.3 and §3.4, moved to section 4; not duplicated.",
@@ -191,11 +191,12 @@ SECTIONS: list[dict] = [
             ("10.1 General Considerations ← §11 KEY INFORMATION FOR STATISTICAL ANALYSIS PLAN", 823, 844),
         ],
         "notes": [
-            "**D15** lands hardest here: the sample-size arithmetic (§8.1) is for 2:1 and *\"was not re-derived for 1:1\"* (source header). Moved as written.",
+            "**D15** lands hardest here: the sample-size arithmetic (§8.1) is for 2:1 and *\"was not re-derived for 1:1\"* (source header). Moved as written; 2:1 stands (P6). **D14 leaves a rationale gap here**: §8.1 benchmarks against monotherapy trials (KEYNOTE-024); with the design corrected to combination, the benchmark no longer matches the design. Noted, not re-derived — a sponsor's task.",
             "**D13**: §8.4 gives ORR a CMH test and Clopper–Pearson CI — no population-level summary is named here; SAP §5.3/§13.6 names a stratified MH risk difference and reaches for an odds-ratio estimator. The estimand in section 3.2.2 says risk difference. P3 checks that.",
             "**10.5 Exploratory** and **10.6 Safety**: one line each in §8.4 and the SAP-information table (§11); no methods beyond *\"descriptive\"*. Partial. **No laboratory or vital-signs analysis is specified anywhere** (D11, S1–S3): the analyses this project executed are its own and say so.",
             "**10.7 Other Analyses** (subgroups, sensitivity): listed as SAP requirements in §11 (moved into 10.1); not specified in the protocol body.",
-            "**Analyses added by this project, not by the sponsor** (gap register S1–S3). The two endpoints this project carried through the AC/DC framework use analyses the source never specified, and they are recorded here so the eSAP's analyses have a stated origin: **S1** laboratory change from baseline (ALT) by ANCOVA at C2D1, safety population, baseline as covariate; **S2** systolic blood pressure change from baseline by MMRM over the induction visits C1D15–C6D1 (unstructured covariance, REML, Kenward–Roger) and by ANCOVA at C2D1; **S3** the induction-visit window for that MMRM. These are this project's choices for exercising the framework, marked as such, and are not part of TORIVA's statistical plan.",
+            "**Analyses added by this project, not by the sponsor** (gap register S1–S3) — **demonstration analyses**, under P6. The two endpoints this project carried through the AC/DC framework use analyses the source never specified, and they are recorded here so the eSAP's analyses have a stated origin: **S1** laboratory change from baseline (ALT) by ANCOVA at C2D1, safety population, baseline as covariate; **S2** systolic blood pressure change from baseline by MMRM over the induction visits C1D15–C6D1 (unstructured covariance, REML, Kenward–Roger) and by ANCOVA at C2D1; **S3** the induction-visit window for that MMRM. These are this project's choices for exercising the framework, marked as such, and are not part of TORIVA's statistical plan.",
+            "**10.6 Safety — laboratory and vital signs, specified under P6 (D11, G7; 2026-09-20).** Safety population, descriptive, no inferential testing. Laboratory: summary of values and change from baseline by parameter and analysis visit; shift from baseline to worst post-baseline reference-range category; worst post-baseline CTCAE v5.0 grade by parameter with a grade ≥3 listing. Vital signs: summary of values and change from baseline by parameter and visit. Stated in §3.2.5; this is what TORIVA's T-LB-01, T-LB-02 and L-LB-01 built without a specification.",
         ],
     },
     {

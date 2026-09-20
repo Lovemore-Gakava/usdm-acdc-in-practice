@@ -83,8 +83,24 @@ and `Proprietary Names` is left empty rather than duplicated.
 | | |
 |---|---|
 | Required elements applicable to a v1.0 protocol | 13 |
-| Supplied | **8** |
-| Absent in the source | **5** — Country, Site, and the three Sponsor Approval Date elements |
+| Supplied | **8** by the source; **3** more under P6 (Country, Site, Sponsor Approval Date) |
+| Absent in the source | **5** — Country, Site, and the three Sponsor Approval Date elements. Three supplied under P6; the two *Location* elements still absent |
 | Required but amendment-conditional, correctly absent | 11 |
 | Optional elements supplied | 7 |
 | Optional elements deliberately left unmapped | 1 — EudraCT, see note 1 |
+
+## Corrected and supplied under P6 (2026-09-20)
+
+Phase 2, stage P6: the documents made correct. The rule *not invented* above stands for anything
+that would be a design choice; what follows is either a correction to the SAP, a fact taken from
+the trial's own records, or a supplied element marked as this project's. Each row says which.
+
+| M11 element | Now | Source of the content |
+|---|---|---|
+| **Full Title** (corrected) | A Randomised, Double-Blind, Placebo-Controlled, Phase 3 Study of Torivumab (Anti-PD-L1 Monoclonal Antibody) plus Platinum-Based Chemotherapy versus Placebo plus Platinum-Based Chemotherapy as First-Line Treatment in Patients with Advanced or Metastatic Non-Small Cell Lung Cancer with PD-L1 Tumour Proportion Score ≥50% and No EGFR or ALK Genomic Tumour Aberrations | **D14 — the protocol corrected to the SAP.** The source title says torivumab versus placebo, monotherapy. A placebo-alone control does not exist in first-line NSCLC; SAP §13.2, the double-blind matched-infusion design and the trial's data all describe both arms on a carboplatin/pemetrexed backbone. The protocol is the document in error, so it is the one corrected |
+| **Country Identifier** | Australia, Brazil, Canada, France, Germany, Italy, Japan, Netherlands, Poland, Republic of Korea, Spain, United Kingdom, United States of America | the trial's records (ADSL `COUNTRY`: 13 countries) — a fact about where the trial ran, not a design decision. The source gives regions only |
+| **Site Identifier** | 15 sites (ADSL `SITEID`) | as above |
+| **Sponsor Approval Date** | 22 March 2026 | the version date of protocol v1.0, taken as the approval date in the absence of a separate one; v1.1 (30 March 2026) changed identifiers and legal notices only |
+| Sponsor Approval Date Location; State location where held | still absent | no source, and inventing one would be a design choice |
+
+*Supplied under P6 (2026-09-20, LG's decision), not by the source protocol.* Dispositions: [`../../gap-register.md`](../../gap-register.md) D14, G2.

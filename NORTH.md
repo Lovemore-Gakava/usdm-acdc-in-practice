@@ -102,7 +102,9 @@ destination from the one above, so it gets its own finish line and its own score
 > by a tool, and a hands-on walkthrough so the traverse can be driven, not watched.
 
 Two scoping decisions, LG's: the gaps are fixed **here, in the derived work** — TORIVA upstream
-stays as it is and nothing is filed; and the **walkthrough is a stage**, not an extra.
+stays as it is and nothing is filed; and the **walkthrough is a stage**, not an extra. A third,
+2026-09-20, revised the first: *fix here* had meant the derived documents follow the built data;
+it now means **the documents are made correct and the data is what diverges** (P6, below).
 
 <!-- north:status:phase2 -->
 
@@ -113,7 +115,8 @@ stays as it is and nothing is filed; and the **walkthrough is a stage**, not an 
 | P2 | USDM generated from it, with the schedule of activities | ✓ |
 | P3 | Alignment verified by a tool | ✓ |
 | P4 | Hands-on walkthrough written | ✓ |
-| P5 | Both endpoints re-run on the aligned study | ✓ |
+| P5 | Both endpoints re-run on the aligned study | ✗ |
+| P6 | The documents made correct — six decisions applied, sources marked | ✓ |
 
 <!-- /north:status:phase2 -->
 
@@ -122,9 +125,10 @@ every D-item in `source-refs.md` with a disposition; **P1** `study/m11/protocol/
 listing all fourteen M11 sections with a status; **P2** the USDM fragment carrying activities
 and a schedule of activities and naming `tools/m11_to_usdm.py` as its generator; **P3**
 `tools/check_alignment.py` existing and exiting 0; **P4** `docs/walkthrough.md`; **P5** every
-`endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256`.
+`endpoints/*/results.json` carrying the aligned fragment's `usdm_sha256`; **P6** the alignment
+tool reporting all six P6 decisions as PASS on its `P6 decisions: n/6` line.
 
-The test still applies, with the stage numbers now P0–P5. The two endpoint scoreboards stay as
+The test still applies, with the stage numbers now P0–P6. The two endpoint scoreboards stay as
 they are: green, and the record of the first phase.
 
 **Reached 2026-09-19, the day it was decided.** P0 the register (15 discrepancies — D15, the 2:1
@@ -138,6 +142,21 @@ data. P4 the walkthrough. P5 all three runs repeated on the generated fragment: 
 the last decimal** — the lab ANCOVA, the vitals MMRM at every visit, the vitals ANCOVA — which
 is what "aligned" has to mean for an execution: the study description changed, the number did
 not, and every results file now carries the fragment's hash.
+
+**P6, added 2026-09-20 — the documents made correct.** Reviewing item 1 of the phase-2 sheet, LG
+withdrew the rule phase 2 had run on: *"my assertion of let's follow what is in the data is
+flawed. We should ensure the documents are correct."* Protocol first, SAP after it, programs and
+data regenerated to follow — later, in TORIVA. Six decisions, each taken after a statement of
+standard practice: **D14** the design is the combination (torivumab or placebo *plus* platinum
+chemotherapy) — the protocol is corrected to the SAP, because a placebo-alone first-line control
+does not exist; **D15** 2:1 stands as the protocol says and the data's 1:1 is flagged; **D11/G7**
+the laboratory analysis is specified as descriptive (values and change by visit, reference-range
+shift, worst CTCAE grade) and this project's ANCOVA/MMRM become demonstration analyses, marked;
+**G2** countries and site count from the trial's records, approval date = the version date;
+**G6** a standard vital-signs procedure paragraph, marked; **G5** central laboratory, marked.
+Everything supplied is marked *supplied under P6*; nothing supplied is a design choice presented
+as the source's. Regenerating the fragment changes its hash, so P5 goes red until both endpoints
+are re-run on it — the scoreboard says so rather than the text.
 
 **Decided 2026-09-19, after phase 2 — two things.** (1) LG reviews phase 2:
 [`docs/review-sheet-phase2.md`](docs/review-sheet-phase2.md), claims with falsifiers, the

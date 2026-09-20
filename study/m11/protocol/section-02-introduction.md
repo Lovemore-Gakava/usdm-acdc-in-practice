@@ -69,6 +69,6 @@ The risk-benefit assessment is based on Phase 1/2 data (CTX-001, CTX-002) demons
 ## M11 conformance of this section
 
 - **Risk Summary and Mitigation Strategy** (2.2): the source carries the mitigation content under irAE management (§7.3, moved to section 9 here) rather than as a summary in the introduction. Not duplicated; recorded as located elsewhere.
-- **D14** surfaces here: §1.4 says *"first-line monotherapy"*. The SAP (§13.2) and the built data (`TRT01P` = *"Torivumab + Chemotherapy"*) say combination with carboplatin/pemetrexed. The text is moved as written; the correction is recorded in section 4 and applied in the USDM (P2).
+- **D14** surfaces here: §1.4 says *"first-line monotherapy"*. **Corrected under P6 (2026-09-20)**: the trial is torivumab or placebo *plus* platinum-based chemotherapy (carboplatin/pemetrexed), as SAP §13.2 states and as the double-blind, matched-infusion design requires — a placebo-alone first-line control does not exist. The text is moved as written; the correction is stated in section 4 and the title page, and the USDM follows the corrected protocol.
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

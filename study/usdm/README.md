@@ -166,7 +166,7 @@ hand-written fragment:
   imaging from §6.1, and one timeline of 39 instances with 334 activity-visits. The lab BCs hang on
   the Haematology and Chemistry activities, SYSBP on Vital signs. The app's Schedule of Activities
   tab, empty since stage 1, renders it.
-- **Arms and interventions are corrected and marked** — D14 (both arms on the chemotherapy backbone,
+- **Arms and interventions are corrected and marked** — *(as first generated; revised under P6, below)* D14 (both arms on the chemotherapy backbone,
   named as `TRT01P` names them; a third `StudyIntervention` for the backbone cites SAP §13.2) and
   D15 (1:1). The source's monotherapy and 2:1 wording is kept in `notes` on each object.
 - Objectives, endpoints, estimands, populations and BCs are carried over unchanged from stage 0b.
@@ -179,3 +179,19 @@ the protocol says "patients", the lab and vitals endpoints composed rather than 
 USDM disagreed with the M11 protocol on wording. The generator now lifts each endpoint's text
 verbatim from the `Endpoint` row of its §3 block, and the vitals endpoint's text is the source's
 own measurement list from §8.4.2. Each endpoint carries a note saying so.
+
+## Phase 2, stage P6 — regenerated on the corrected documents, 2026-09-20
+
+The rule the P2 generation ran on — *the built data is the ground truth* — was withdrawn by LG
+(review-sheet item 3a; `NORTH.md` P6). The fragment now follows the corrected protocol:
+
+- **D14** — the arms are still *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*, but
+  because the protocol was corrected to the SAP (a placebo-alone first-line control does not
+  exist), not because the data names them so. The notes on each arm and on the backbone
+  intervention say this; the phrase *ground truth* no longer appears in the fragment, and the
+  alignment tool checks that it does not.
+- **D15** — the design's randomisation is **2:1**, as the protocol states. The data's 1:1 is
+  reported by `tools/check_alignment.py` as a WARN: the data diverging from the documents, to be
+  regenerated upstream.
+- Nothing else in the fragment changed. The hash did, so both endpoints' `results.json` are stale
+  against it until re-run (P5).

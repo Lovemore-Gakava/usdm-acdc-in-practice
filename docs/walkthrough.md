@@ -58,8 +58,8 @@ the generator's own provenance note — it names `tools/m11_to_usdm.py`.
 
 Tabs across the top. Two to look at:
 
-- **Arms** — *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*. These are named as the
-  built data names them (D14); the source protocol said monotherapy.
+- **Arms** — *Torivumab + Chemotherapy* and *Placebo + Chemotherapy*, as the corrected
+  protocol names them (D14, P6); the source protocol said monotherapy, and the data agrees.
 - **Schedule of Activities** — *13 activities · 39 encounters*. This tab was empty for the
   whole of phase 1; the schedule was generated from the protocol's two assessment tables.
 

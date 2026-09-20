@@ -407,6 +407,9 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
       P4  docs/walkthrough.md exists.
       P5  every endpoints/*/results.json carries usdm_sha256 equal to the
           current fragment's hash — i.e. the runs are against the aligned study.
+      P6  (added 2026-09-20) the documents made correct: tools/check_alignment.py
+          reports all six P6 decisions (D14, D15, D11/G7, G2, G6, G5) as PASS,
+          on its "P6 decisions: n/6" line.
     """
     import subprocess as _sp
     src = root / "study" / "source-refs.md"
@@ -441,11 +444,15 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
 
     aln = root / "tools" / "check_alignment.py"
     p3 = False
+    p6 = False
     if aln.is_file():
         try:
-            p3 = _sp.run([sys.executable, str(aln), "--root", str(root)], capture_output=True, timeout=120).returncode == 0
+            run = _sp.run([sys.executable, str(aln), "--root", str(root)], capture_output=True, timeout=120)
+            p3 = run.returncode == 0
+            m = re.search(r"P6 decisions: (\d+)/(\d+) pass", run.stdout.decode("utf-8", errors="replace"))
+            p6 = bool(m) and int(m.group(1)) == int(m.group(2)) == 6
         except (OSError, _sp.SubprocessError):
-            p3 = False
+            p3 = p6 = False
 
     p4 = (root / "docs" / "walkthrough.md").is_file()
 
@@ -463,6 +470,7 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
         ("P3", "Alignment verified by a tool", p3),
         ("P4", "Hands-on walkthrough written", p4),
         ("P5", "Both endpoints re-run on the aligned study", p5),
+        ("P6", "The documents made correct — six decisions applied, sources marked", p6),
     ]
 
 

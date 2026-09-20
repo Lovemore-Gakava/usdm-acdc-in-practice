@@ -18,8 +18,8 @@ green that should not be. Nothing here asks whether the framework is adequate.
 > document conformant and untrue, *upstream only* where the defect is in TORIVA's programs or
 > data.
 
-**Yours by definition:** the seven **sponsor decision** rows (D11, G2, G5, G6, G7 and the two
-halves of D11). Each says the source does not contain the information. If you know that any of
+**Yours by definition:** the five **sponsor decision** rows (D11, G2, G5, G6, G7 — *"seven"*
+until 2026-09-20, a miscount corrected in place). Each says the source does not contain the information. If you know that any of
 it *does* exist somewhere in TORIVA's document set, the row is wrong and the P1 section that
 records it "absent" is wrong with it.
 
@@ -94,9 +94,9 @@ records it "absent" is wrong with it.
 
 | Item | Verdict | Date | Notes |
 |---|---|---|---|
-| 1 — dispositions (1a–1c) | | | |
+| 1 — dispositions (1a–1c) | **wrong, and the rule with it** | 2026-09-20 | LG: the gaps are corrected *here*, and *"the documents are what get corrected"* — the data follows, later, upstream. Six decisions → P6. 1c: X4 stays excluded; the baseline-selection rule belongs to the SAP |
 | 2 — the move (2a–2d) | | | |
-| 3 — the USDM (3a–3e) | | | |
+| 3 — the USDM (3a–3e) | 3a **wrong** — reversed; 3b–3e open | 2026-09-20 | the fragment regenerated under P6: arms per the corrected protocol, 2:1; data checks D14/D15 → WARN on divergence |
 | 4 — the alignment tool (4a–4c) | | | |
 | 5 — the MMRM rules (5a–5d) | | | |
 | 6 — P5's meaning (6a) | | | |

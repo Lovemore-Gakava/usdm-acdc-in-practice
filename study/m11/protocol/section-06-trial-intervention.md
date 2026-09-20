@@ -62,7 +62,7 @@ Pre-medication is not mandated at study start, consistent with the PD-L1 inhibit
 
 ## M11 conformance of this section
 
-- **D14** again: the intervention table lists torivumab and placebo only. The SAP and data have a chemotherapy backbone in both arms. Moved as written; corrected in the USDM's `studyInterventions` (P2) with the source's wording kept beside it.
+- **D14** again: the intervention table lists torivumab and placebo only. Corrected under P6: both arms also receive platinum-based chemotherapy (carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W, up to 6 induction cycles, then pemetrexed maintenance — SAP §13.2). Moved as written; the USDM's `studyInterventions` carry the backbone as a background intervention, per the corrected protocol.
 - **6.2 Rationale for Dose and Regimen**: in the source at §1.4 (PK/PD, receptor occupancy), moved to section 2 here; not duplicated.
 - **6.4 Preparation, Handling, Storage and Accountability**: storage and dilution are in §5.1 (moved); accountability is absent.
 - **6.5 Method of Assignment** and **6.6 Blinding**: in §3.3 and §3.4, moved to section 4; not duplicated.

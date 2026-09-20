@@ -17,6 +17,13 @@ Dispositions used:
 | **resolved** | already fixed by phase 1 (stage 0b), verified by the checker |
 | **not a study gap** | found on the way but belongs to the framework or to this project, not to TORIVA; excluded |
 
+## Rule change under P6 (2026-09-20)
+
+Phase 2's rule — *fix here means the derived work follows the built data* — was withdrawn by LG
+on 2026-09-20, reviewing item 1 of the phase-2 sheet: **the documents are what get corrected;
+programs and data are regenerated to follow them, later, in TORIVA.** The rows below were
+re-taken under that rule. A row that changed keeps its earlier disposition, struck through.
+
 ## A. The fifteen discrepancies (D1–D15)
 
 | ID | Area | Gap, in one line | Disposition | Action, and where |
@@ -31,31 +38,31 @@ Dispositions used:
 | D8 | Lab | `ADLB-spec` derives `ANRIND`/`BNRIND`; built ADLB renames `LBNRIND` | **upstream only** | spec/program divergence; P3 flags |
 | D9 | Lab | `ADLB-spec` lists `BTOXGR`; not built | **upstream only** | as D8 |
 | D10 | Lab | SAP §14 points at `tfl/TFL-SHELLS.md`, which does not exist | **upstream only** | documentation gap |
-| D11 | Lab | SAP specifies **no laboratory analysis**; two lab tables were built anyway | **sponsor decision** — and, for this project, **fix here as a stated choice** | The derived protocol §3.2.5 records the summary as absent for laboratory (done, stage 0b). This project's lab and vitals analyses are its own choices and say so. Whether TORIVA *should* have a lab estimand is the sponsor's |
+| D11 | Lab | SAP specifies **no laboratory analysis**; two lab tables were built anyway | **fix here — the analysis specified** (P6; ~~sponsor decision + fix here as a stated choice~~) | §3.2.5 now specifies the descriptive laboratory summary (values and change by visit; reference-range shift; worst CTCAE grade with a grade ≥3 listing), safety population, which is what T-LB-01/02 built without a specification. This project's change-from-baseline models are demonstration analyses, marked (S1–S3). Whether TORIVA's SAP adopts this is the sponsor's, later |
 | D12 | Lab | `ADLB-spec` header says v0.1 DRAFT; its change log says v0.3 | **upstream only** | minor |
 | D13 | ORR | SAP asks for a stratified MH **risk difference**; the named estimator returns an **odds ratio** | **fix here** | the derived SAP excerpt for E3 states the risk difference and notes the estimator mismatch; P3 checks §3.2.2's Population-level Summary says "risk difference" |
-| D14 | Design | Protocol: torivumab **monotherapy** vs placebo; SAP §13.2 and the built data (`TRT01P` = "Torivumab + Chemotherapy"): combination with carboplatin/pemetrexed | **fix here** | the built data is the ground truth. The derived title page, §3.0 Treatment and the USDM arms are corrected to the combination, each carrying a note that the source protocol says monotherapy. P3 checks arm names against `TRT01P` |
-| D15 | Design | Protocol says 2:1 randomisation (300:150); the shipped data is 1:1 (225:225), by TORIVA's own header note; the sample-size arithmetic was not re-derived | **fix here** | the derived §1, §4 and §10 carry the source text with the note; the USDM's arms and P3's alignment use 1:1 as the ground truth. Found reading the synopsis whole for P1 |
+| D14 | Design | Protocol: torivumab **monotherapy** vs placebo; SAP §13.2 and the built data (`TRT01P` = "Torivumab + Chemotherapy"): combination with carboplatin/pemetrexed | **fix here — the protocol corrected to the SAP** (P6; ~~the data as ground truth~~) | A placebo-alone control does not exist in first-line NSCLC; the SAP, the blinding design and the data all describe an add-on. Title page, §3.0, §1.4, §4 and §6 corrected; the USDM's arms follow the corrected protocol. That the data agrees is incidental, not the reason. Sample-size benchmarking against monotherapy trials becomes a rationale gap in §10, noted |
+| D15 | Design | Protocol says 2:1 randomisation (300:150); the shipped data is 1:1 (225:225), by TORIVA's own header note; the sample-size arithmetic was not re-derived | **the protocol stands; upstream only for the data** (P6; ~~fix here, 1:1 as ground truth~~) | 2:1 is what the protocol specifies and what §8.1's arithmetic was derived for. The USDM says 2:1; P3 reports the data's 1:1 as a divergence (WARN), to be regenerated in TORIVA |
 
 ## B. ICH M11 elements the source protocol does not supply
 
 | ID | M11 section | Gap | Disposition | Action |
 |---|---|---|---|---|
 | G1 | §3.1.1, §3.2.1 | 25 Required estimand elements (five per primary, four per secondary objective) held in SAP §13, not the protocol | **resolved** | moved by stage 0b into `protocol/section-03-objectives-endpoints.md`; the checker verifies the section and the USDM regenerated from it |
-| G2 | Title page | Country/Region, Site, and the three Sponsor Approval Date elements — absent | **sponsor decision** | recorded as absent in `section-00-title-page.md`; not invented |
+| G2 | Title page | Country/Region, Site, and the three Sponsor Approval Date elements — absent | **fix here, supplied and marked** (P6; ~~sponsor decision~~) | countries and site count from the trial's records (facts, not design); approval date = the v1.0 version date, stated as such; the two *Location* elements still absent. `section-00-title-page.md` |
 | G3 | Title page | EudraCT number where M11 expects the EU CT number | **fix here** | corrected in `section-00-title-page.md` with the source value kept beside it |
 | G4 | §12.1 | No analyte list in the protocol; the derived section sourced it from the ADaM programming spec | **fix here, marked** | already done and marked as backwards-sourced; stays marked. P3 checks the seven BCs in the USDM appear in §12.1 |
-| G5 | §12.1 | Reference-range source and central-vs-local laboratory — absent from protocol and SAP | **sponsor decision** | recorded as absent |
-| G6 | §8.4.2 | Vital-signs collection and interpretation procedures — absent | **sponsor decision** | recorded as absent in `section-08-04-02-vital-signs.md` |
-| G7 | §3.2.5 | No Population-level Summary for laboratory evaluations (the M11 side of D11) | **sponsor decision** | stated as absent in §3.2.5 |
+| G5 | §12.1 | Reference-range source and central-vs-local laboratory — absent from protocol and SAP | **fix here, supplied and marked** (P6; ~~sponsor decision~~) | central laboratory for analysed panels; local permitted for clinical management only. `section-12-01-clinical-laboratory-tests.md` |
+| G6 | §8.4.2 | Vital-signs collection and interpretation procedures — absent | **fix here, supplied and marked** (P6; ~~sponsor decision~~) | standard procedure paragraph in `section-08-04-02-vital-signs.md` |
+| G7 | §3.2.5 | No Population-level Summary for laboratory evaluations (the M11 side of D11) | **fix here, supplied and marked** (P6; ~~sponsor decision~~) | descriptive summary specified in §3.2.5; S1–S3 remain demonstration analyses |
 | G8 | all other sections | Eleven of fourteen M11 sections not yet restructured — eligibility, interventions, schedule of activities, statistics, and the rest | **fix here** | this is stage **P1**; `coverage.json` will carry the status of each |
 
 ## C. Things the SAP never specified, which this project supplied
 
 | ID | Gap | Disposition | Action |
 |---|---|---|---|
-| S1 | No laboratory analysis (D11): the lab endpoint's ANCOVA is this project's | **fix here as a stated choice** | the derived SAP excerpt gains a section "analyses added by this project", marked, so the eSAP's analysis has a stated source |
-| S2 | No vital-signs analysis: the MMRM and ANCOVA on SYSBP are this project's | **fix here as a stated choice** | as S1 |
+| S1 | No laboratory analysis (D11): the lab endpoint's ANCOVA is this project's | **demonstration analysis, marked** (P6; was *fix here as a stated choice*) | not the specified laboratory analysis (§3.2.5, descriptive); section 10 says so |
+| S2 | No vital-signs analysis: the MMRM and ANCOVA on SYSBP are this project's | **demonstration analyses, marked** (P6; was *fix here as a stated choice*) | the specified vital-signs analysis is descriptive by visit (§3.2.5, §8.4.2); section 10 says so |
 | S3 | The induction-visit window for the MMRM (V-D14) | **fix here as a stated choice** | stated in the same section |
 
 ## D. Found on the way, not TORIVA's — excluded

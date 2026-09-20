@@ -65,9 +65,17 @@ g/dL data, which graded every low haemoglobin as Grade 4, and that this was corr
 grading threshold whose unit was wrong is exactly the kind of thing a protocol §12.1 exists to
 pin down, and this protocol has no §12.1.
 
-## Reference ranges
+## Reference ranges and laboratory
 
-Not specified. The source's ADLB carries `ANRLO`/`ANRHI` taken from SDTM `LB.LBSTNRLO` /
+**Supplied under P6 (2026-09-20) — G5.** The haematology and chemistry panels analysed in this
+trial are performed by a **central laboratory**, and reference-range indicators use the central
+laboratory's ranges. Local laboratory testing is permitted where a result is needed for urgent
+clinical management, but local results are not used for analysis. Rationale: the source already
+mandates a central laboratory for PD-L1 (§5.1), and the trial's records carry one reference range
+per analyte, which is consistent only with one laboratory. Practice varies on this point; the
+decision is LG's and is marked as this project's.
+
+**As originally recorded.** Not specified. The source's ADLB carries `ANRLO`/`ANRHI` taken from SDTM `LB.LBSTNRLO` /
 `LBSTNRHI` — that is, from the **collecting laboratory**, per record. The protocol states no
 central-laboratory requirement for safety labs. Contrast §5.1, which does require a *"certified
 central laboratory"* for PD-L1 determination and states that the central result governs
@@ -82,4 +90,4 @@ silent where it matters for safety analysis.
 | Assembled | **partially, and from the wrong document** |
 | From the protocol | panel names and collection schedule (§7.2) |
 | From a programming spec | the seven analytes, their identities, and CTCAE grading |
-| Absent from both | reference-range source; central versus local laboratory for safety analytes |
+| Absent from both, supplied under P6 (G5) | reference-range source; central versus local laboratory for safety analytes |

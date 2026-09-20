@@ -29,6 +29,16 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 | Experimental | Torivumab 200 mg IV Q3W + chemotherapy backbone (carboplatin AUC5 + pemetrexed 500 mg/m² IV Q3W) for up to 6 induction cycles, then pemetrexed maintenance Q3W until PD/toxicity/withdrawal (max 35 cycles total) |
 | Control | Placebo IV Q3W + identical chemotherapy backbone, same duration rules |
 
+> **Corrected under P6 (2026-09-20) — D14.** The treatment condition for every estimand is
+> **torivumab 200 mg IV Q3W plus platinum-based chemotherapy versus placebo IV Q3W plus the same
+> chemotherapy**, as the table above (SAP §13.2) states. The source protocol's
+> monotherapy-versus-placebo wording is the document in error: a placebo-alone control does not
+> exist in first-line NSCLC, and the double-blind, matched-infusion design only makes sense as an
+> add-on. The protocol is corrected to the SAP — title page, §1.4, §4, §6 — with the source's
+> wording kept beside each correction. Short arm names, used by the USDM and by TORIVA's ADSL
+> `ARM`: *Torivumab + Chemotherapy*, *Placebo + Chemotherapy*. LG's decision; the earlier
+> statement follows, kept as the record.
+>
 > **Unresolved in the source.** SAP §13.2 specifies a chemotherapy backbone for both arms. The
 > protocol synopsis title and §2.1 describe torivumab **versus placebo** as first-line
 > monotherapy in PD-L1 TPS ≥50%, with no backbone. These are different trials. Carried forward
@@ -111,6 +121,17 @@ CC BY 4.0) by restructuring its protocol synopsis and SAP to **ICH M11** section
 | **Secondary Intercurrent Event Strategy** `C188857` | **Treatment policy** for TEAE incidence. **While-on-treatment** for exposure-adjusted rates (person-time = `TRTEDT − TRTSDT + 1`). *(SAP §13.7)* |
 | **Secondary Description of Intercurrent Event** | Treatment discontinuation; initiation of new anti-cancer therapy, after which AE collection ceases (90-day window or new therapy, whichever first, per protocol §7.1). *(SAP §13.7, protocol §7.1)* |
 
+> **Filled under P6 (2026-09-20) — G7 / D11.** The Population-level Summary for laboratory
+> evaluations is **descriptive, safety population, no inferential testing**: (i) summary statistics
+> of values and change from baseline by parameter and analysis visit; (ii) shift from baseline to
+> worst post-baseline reference-range category (low / normal / high); (iii) worst post-baseline
+> CTCAE v5.0 grade by parameter, with a listing of grade ≥3 abnormalities. The same descriptive
+> summary by visit applies to vital signs (§8.4.2). This is standard practice for safety
+> laboratory analyses in oncology phase 3, and (ii) and (iii) are what TORIVA's programs built
+> (T-LB-01, T-LB-02, L-LB-01) without a specification. The change-from-baseline models this
+> project executed (gap register S1–S3) are **demonstration analyses**, not part of this summary.
+> The statement of the gap follows, kept as the record.
+>
 > **The laboratory gap, stated rather than filled.** M11 requires a Population-level Summary for
 > every objective. The source study specifies **three safety estimands, all adverse-event
 > based** (SAP §13.7) and **none for laboratory data** — ADLB appears only in data-handling

@@ -178,6 +178,6 @@ The assessment frequency (Q6W for first year, Q12W thereafter) is aligned with P
 
 - **Estimands** in 1.1: the synopsis table names endpoints, not estimands; the estimands are in §3 of this derived protocol, moved there from SAP §13 under stage 0b. 1.1 here carries the source's summary table and objectives as written.
 - **Schedule of Activities** (1.3): M11 wants one table; the source has two — tumour assessments (§6.1) and safety assessments (§7.2) — and says of the latter *"Full Schedule of Assessments (SoA) to be presented as a formal table in the final protocol body."* Both are moved; they are not merged, because merging would be writing. P2's USDM generator builds `scheduleTimelines` from both.
-- **As-simulated deviation (D15).** The source's own header records that the synopsis states 2:1 randomisation (300:150) while the shipped data was generated 1:1 (225:225). The table above says 2:1. The data is the ground truth for alignment (P3); the text is left as the source wrote it, with this note.
+- **As-simulated deviation (D15).** The source's own header records that the synopsis states 2:1 randomisation (300:150) while the shipped data was generated 1:1 (225:225). The table above says 2:1, and **2:1 stands** (P6, 2026-09-20): the protocol is the specification, and §8.1's arithmetic was derived for it. The data's 1:1 is a divergence the alignment check reports, to be regenerated upstream.
 
 *Dispositions for the gaps named here are in [`../../gap-register.md`](../../gap-register.md).*

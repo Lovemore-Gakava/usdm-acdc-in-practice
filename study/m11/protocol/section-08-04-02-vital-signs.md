@@ -39,7 +39,19 @@ Its Biomedical Concept is `SYSBP` (`C25298`), attached to the scheduled assessme
 
 ## Instructions for collection and interpretation
 
-**Not supplied by the source protocol.** Nothing in §7 SAFETY ASSESSMENTS, the SoA or the
+**Supplied under P6 (2026-09-20) — G6.** Blood pressure and heart rate are measured after the
+participant has rested for at least five minutes in a seated (or, if necessary, supine) position,
+using the same arm and the same position throughout the trial. On infusion days, vital signs are
+taken within 60 minutes before the start of the infusion and 30 to 60 minutes after its end.
+Temperature and respiratory rate are recorded at the same times. Weight is recorded at each
+scheduled visit; height at screening only. Any abnormality the investigator judges clinically
+significant is recorded as an adverse event. The analysis is descriptive by visit (§3.2.5);
+this project's MMRM and ANCOVA on systolic blood pressure are demonstration analyses (gap
+register S2). This is standard first-line NSCLC trial text and matches the source's
+*"Pre/post-infusion"* schedule cells; it is this project's wording, marked as such, because the
+source gives the schedule only.
+
+**As originally recorded — not supplied by the source protocol.** Nothing in §7 SAFETY ASSESSMENTS, the SoA or the
 data-domain table describes how vital signs are to be measured or read. The SAP does not fill
 this either: it lists `ADVS` among the required datasets (synopsis line 841) and specifies no
 vital-signs analysis, which is the laboratory situation (D11) again.
@@ -50,6 +62,6 @@ vital-signs analysis, which is the laboratory situation (D11) again.
 |---|---|
 | Schedule of collection | ✅ moved from §7.2 |
 | Measurements collected | ✅ moved from the data-domain table |
-| Instructions for collection and interpretation | ❌ absent from the source; not invented |
+| Instructions for collection and interpretation | ✅ supplied under P6, marked (G6) |
 
-One Required element, supplied in part.
+One Required element: two parts from the source, one supplied under P6 and marked.
