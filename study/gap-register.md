@@ -17,6 +17,12 @@ Dispositions used:
 | **resolved** | already fixed by phase 1 (stage 0b), verified by the checker |
 | **not a study gap** | found on the way but belongs to the framework or to this project, not to TORIVA; excluded |
 
+## Filed upstream, 2026-09-20
+
+Every *upstream only* row below, and the documents-first rule, went to TORIVA as one issue by LG's
+decision: [https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27). D14's data needs no change; D15, D16, D17, D1, D3, D7, D8, D9 are the
+regeneration list. The alignment tool's WARNs are the acceptance test the issue names.
+
 ## Rule change under P6 (2026-09-20)
 
 Phase 2's rule — *fix here means the derived work follows the built data* — was withdrawn by LG

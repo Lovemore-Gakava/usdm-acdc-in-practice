@@ -144,6 +144,11 @@ the last decimal** — the lab ANCOVA, the vitals MMRM at every visit, the vital
 is what "aligned" has to mean for an execution: the study description changed, the number did
 not, and every results file now carries the fragment's hash.
 
+**Filed at TORIVA, 2026-09-20.** LG asked whether the gaps and the data regeneration could be raised on
+the TORIVA repository, saw the draft, and said yes: [issue #27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27), labelled qc/validation/sdtm/adam,
+following TORIVA's own #22. The first thing filed anywhere from this project, and LG's decision on the
+record. `cdisc-org/analysis-concepts` is untouched; the M.MMRM package stays prepared, not filed.
+
 **P6, added 2026-09-20 — the documents made correct.** Reviewing item 1 of the phase-2 sheet, LG
 withdrew the rule phase 2 had run on: *"my assertion of let's follow what is in the data is
 flawed. We should ensure the documents are correct."* Protocol first, SAP after it, programs and
