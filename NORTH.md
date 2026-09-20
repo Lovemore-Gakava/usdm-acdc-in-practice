@@ -115,9 +115,9 @@ it now means **the documents are made correct and the data is what diverges** (P
 | P2 | USDM generated from it, with the schedule of activities | ✓ |
 | P3 | Alignment verified by a tool | ✓ |
 | P4 | Hands-on walkthrough written | ✓ |
-| P5 | Both endpoints re-run on the aligned study | ✗ |
+| P5 | Both endpoints re-run on the aligned study | ✓ |
 | P6 | The documents made correct — six decisions applied, sources marked | ✓ |
-| P7 | Re-pinned to the corrected source after #27 — 0 warn, runs stamped with the pin | ✗ |
+| P7 | Re-pinned to the corrected source after #27 — 0 warn, runs stamped with the pin | ✓ |
 
 <!-- /north:status:phase2 -->
 
@@ -153,8 +153,9 @@ was filed: eighteen PRs, a signed decision memo, the data regenerated 2:1 throug
 map was remapped block by block (842 lines moved, verified verbatim), what P6 supplied and the source now
 carries (D14, D11/G7, G5, G6, G2's countries and sites) was retired in place with the P6 text kept as the
 record, the D1 check was rewritten to test the time origin and the spec's storage unit after TORIVA showed
-the units test was a false positive, and both endpoints are re-run on the regenerated data. One new
-discrepancy, D18: the synopsis was amended in place with no version bump. Green when the pin matches
+the units test was a false positive, and both endpoints were re-run on the regenerated data the same day — new numbers, each reproduced outside
+the engine by its own selection (lab −1.276 against a reference of −1.305; MMRM at C2D1 −4.44 against −1.80),
+the baseline-row divergence intact at 72% and 71%. One new discrepancy, D18: the synopsis was amended in place with no version bump. Green when the pin matches
 the checkout, the alignment tool reports 0 warn, and the results files carry the pin.
 
 **Filed at TORIVA, 2026-09-20.** LG asked whether the gaps and the data regeneration could be raised on

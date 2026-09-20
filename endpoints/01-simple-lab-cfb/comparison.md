@@ -138,3 +138,22 @@ python tools/check_baseline_ambiguity.py --adlb <toriva>/datasets/adam/adlb.parq
 
 The engine runs are reproduced by the refits described in Divergence 1; the console for each
 run, with the filter row counts, is in `results.json`.
+
+## At `a806630` — the regenerated data (P7, 2026-09-20)
+
+TORIVA issue #27 regenerated the data: 2:1 (300 : 150), no Cycle 1 Day 15 visit, time origin at
+randomisation, `ANRIND`/`BNRIND`/`BTOXGR` in ADLB. The chain was executed again on it (`p7_rerun_a806630`
+in `results.json`). New data, new numbers — and the same mechanism.
+
+| | n | Placebo − torivumab | SE |
+|---|---|---|---|
+| **Reference A** — TORIVA `CHG ~ BASE + TRT01P`, `AVISIT = C2D1`, `SAFFL = Y`, `ANL01FL = Y` | 427 | **1.305** | 1.607 |
+| **Engine** — the run-4 authoring, covariate `BASE` | 429 | **1.276** | 2.215 |
+| Replica of the engine's selection outside the engine (first Baseline row, first C2D1 row, `BASE`) | 427 | 1.276 | 2.215 |
+
+The engine is reproduced to four decimals by its own selection. The gap to the reference is the
+baseline row again: **293 of 427 subjects (68.6%)** carry an engine baseline that is not
+TORIVA's `BASE`, because the engine takes the first row in the Baseline window and TORIVA the
+`ABLFL` row. At `8534339d` it was 70.1%. The regeneration changed the sign and the size of the
+contrast (the data is simulated) and left the divergence untouched, which is the point: it is the
+selection rule, not the data.

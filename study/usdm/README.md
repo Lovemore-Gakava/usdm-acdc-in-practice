@@ -180,6 +180,14 @@ USDM disagreed with the M11 protocol on wording. The generator now lifts each en
 verbatim from the `Endpoint` row of its §3 block, and the vitals endpoint's text is the source's
 own measurement list from §8.4.2. Each endpoint carries a note saying so.
 
+## Phase 2, stage P7 — regenerated from the re-pinned source (`a806630`), 2026-09-20
+
+TORIVA issue #27 closed and the source was re-pinned. The generator now runs on the synopsis at
+`a806630`, which states the combination design itself; the D14 and D15 notes on the arms say
+*resolved upstream*, the backbone intervention cites the source's §3.5/§5.1, and the hand-carried
+design description no longer says the data is 1:1. Endpoint texts are unchanged. Hash
+`0fa49253…`; both endpoints re-run on it and on the regenerated data (`p7_rerun_a806630`).
+
 ## Phase 2, stage P6 — regenerated on the corrected documents, 2026-09-20
 
 The rule the P2 generation ran on — *the built data is the ground truth* — was withdrawn by LG

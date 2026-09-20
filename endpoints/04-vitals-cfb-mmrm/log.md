@@ -135,3 +135,10 @@ The chain was executed again on it, same data, same selection — MMRM identical
 `results.json`, stamped with the new `usdm_sha256`, with the design note the app loaded
 (*"Randomisation 2:1 (D15, the protocol stands)…"*) kept beside the run as evidence of which
 fragment it was. The study description's corrections do not enter the execution, as P5 found.
+
+## P7 re-run on the regenerated data, `a806630` (2026-09-20)
+
+TORIVA issue #27 regenerated the data (2:1, origin at randomisation, no C1D15, the ADLB flags), and the
+source was re-pinned. Executed again, same chain, same overrides — MMRM identical to the R replica at all five visits and in AIC (C2D1 4.4434, SE 1.9086); ANCOVA companion 4.4302 (SE 1.9086, n 448); C1D15 no longer exists in the data. Recorded as
+`p7_rerun_a806630` in `results.json`, stamped with the TORIVA commit and the fragment's hash. The
+comparison against the built ADaM is in `comparison.md`, section *At `a806630`*.

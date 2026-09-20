@@ -114,3 +114,22 @@ Rscript -e 'install.packages(c("mmrm","emmeans","arrow"))'
 `results.json` carries both engine consoles with their filter counts, and both references with
 their scripts' selection rules in `log.md` V5; the Python ANCOVA reference is the same refit as
 the lab tier's, on `advs.parquet`.
+
+## At `a806630` — the regenerated data (P7, 2026-09-20)
+
+TORIVA issue #27 regenerated the data; the induction window is now Baseline, C2D1 … C6D1 — **C1D15
+no longer exists** (D17 resolved upstream: the protocol never scheduled it). Both chains were executed
+again (`p7_rerun_a806630` in `results.json`). The induction-window file was rebuilt with the same
+filter list; the C1D15 label simply matches nothing now.
+
+**MMRM.** Engine at C2D1: **4.443 (SE 1.909)**, 2948 cube rows, AIC 18409.07. The R replica of the
+engine's selection (first row per subject × visit, first Baseline row, `BASE` covariate, `mmrm` with
+unstructured covariance, REML, Kenward–Roger) gives the same estimate and SE at all five visits and the
+same AIC to two decimals: **identical**. The reference fitted on TORIVA's own `CHG`, `BASE` and
+`ANL01FL` gives **1.796 (SE 1.450)** at C2D1, AIC 17777.15.
+
+**ANCOVA at C2D1.** Engine **4.430 (SE 1.909, n 448)**; Python replica of the same selection on every C2D1 row
+4.430 (SE 1.909, n 448) — identical; one subject has two rows in the C2D1 window and the engine's ANCOVA fits both, where the MMRM implementation dedupes; reference on TORIVA's `CHG`/`BASE`/`ANL01FL` **1.776 (SE 1.453)**.
+
+Baseline ambiguity at `a806630`: **322 of 447 subjects (72.0%)** have an engine baseline that is not
+TORIVA's `BASE` (74% at `8534339d`). Same mechanism, new data.

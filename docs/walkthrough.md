@@ -142,8 +142,9 @@ chain's dimension values, not by the USDM's estimand (L6).
    value is a contrast label, not a data value, and a blank means no filter.
 6. **Execute.** About a minute. The result: contrasts, LS means, type-3 tests, fit statistics.
 
-*What you should see:* Torivumab − Placebo on ALT change from baseline at C2D1 = **−1.830
-(SE 1.768, n = 432)**. Compare it with `endpoints/01-simple-lab-cfb/comparison.md`: the same
+*What you should see* (on TORIVA at `a806630`, the data regenerated under #27): Torivumab − Placebo on
+ALT change from baseline at C2D1 = **−1.276 (SE 2.215, n = 429)**. On the data before #27
+(`8534339d`) it was −1.830 (SE 1.768, n = 432). Compare it with `endpoints/01-simple-lab-cfb/comparison.md`: the same
 model on TORIVA's own `CHG` and `BASE` gives −0.893, and the whole difference is the baseline
 row the engine picks.
 
@@ -154,7 +155,7 @@ Same steps, with these differences:
 - Step 2: tick **END-S5-VS**. Step 3: Parameter `Systolic Blood Pressure`; tick **MMRM
   method**; leave AnalysisVisit's value **blank** — MMRM takes every visit. Step 4: **Change
   From Baseline MMRM Primary Analysis**. Step 6: link **SYSBP** on the three measure nodes.
-- Data: convert `advs.parquet`, restricted to `AVISIT` in Baseline, C1D15, C2D1 … C6D1 — an
+- Data: convert `advs.parquet`, restricted to `AVISIT` in Baseline, C2D1 … C6D1 (C1D15 existed only before #27) — an
   unstructured covariance over forty visits is not a fit anyone runs, and the cube's visit
   dimension cannot express a set.
 - Step 8 will say **`No R implementation available for M.MMRM`**. Upstream ships none. The
@@ -175,7 +176,7 @@ Same steps, with these differences:
   await eng.executeR('webr::install("mmrm")');   // about half a minute
   ```
 
-  Then Execute; the fit takes one to two minutes and the page freezes while it runs. Expect **+1.38 (SE 1.93)** at C2D1 against a reference of +1.95 — same mechanism.
+  Then Execute; the fit takes one to two minutes and the page freezes while it runs. Expect **−4.44 (SE 1.91)** at C2D1 (torivumab − placebo) against a reference of −1.80 on the data at `a806630`; it was +1.38 against +1.95 before #27 — same mechanism, new data. Five visits now: the C1D15 visit no longer exists (D17).
 
 ## What to notice
 

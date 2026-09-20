@@ -218,3 +218,10 @@ The chain was executed again on it, same data, same selection — lab ANCOVA: 1.
 `results.json`, stamped with the new `usdm_sha256`, with the design note the app loaded
 (*"Randomisation 2:1 (D15, the protocol stands)…"*) kept beside the run as evidence of which
 fragment it was. The study description's corrections do not enter the execution, as P5 found.
+
+## P7 re-run on the regenerated data, `a806630` (2026-09-20)
+
+TORIVA issue #27 regenerated the data (2:1, origin at randomisation, no C1D15, the ADLB flags), and the
+source was re-pinned. Executed again, same chain, same overrides — lab ANCOVA 1.2757 (SE 2.2149, n 429), reproduced by the Python replica of the engine's selection; reference A on TORIVA's CHG/BASE/ANL01FL 1.305 (SE 1.607). Recorded as
+`p7_rerun_a806630` in `results.json`, stamped with the TORIVA commit and the fragment's hash. The
+comparison against the built ADaM is in `comparison.md`, section *At `a806630`*.
