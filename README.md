@@ -170,7 +170,7 @@ by this project, because upstream ships none. Both endpoints diverge from TORIVA
 the same rule — the engine takes the first row in the Baseline window, TORIVA the `ABLFL` row —
 on 70% and 74% of subjects. What comes next is a decision, not a stage.
 
-Fifteen discrepancies inside TORIVA itself have surfaced from mapping (D1–D15), including one
+Seventeen discrepancies inside TORIVA itself have surfaced from mapping (D1–D17), including one
 that makes estimand E3 unimplementable as specified (`EFFFL` does not exist on ADRS) and one
 where the SAP specifies no laboratory analysis at all, so the only statement of what the two
 built lab tables compute is the R program that computes them. All are recorded in

@@ -170,7 +170,7 @@ unread indefinitely.
 | **Oncology / RECIST** | F07's `CR ≺ PR ≺ SD ≺ PD ≺ NE`; the shift table's `LOW = HIGH` collapse |
 | **Someone who has used `ac-dc-app`** | F05, F09, F12, F13 — everything of failure mode A |
 | **Careful reader, no domain needed** | F01, F02, F03, F06, F10, F11; all counts and reproduce blocks |
-| **You, as the author of TORIVA's specs** | D1–D15. You wrote the programming specs, which `study/README.md` flags as a bias risk |
+| **You, as the author of TORIVA's specs** | D1–D17. You wrote the programming specs, which `study/README.md` flags as a bias risk |
 
 ## 9. What not to review
 

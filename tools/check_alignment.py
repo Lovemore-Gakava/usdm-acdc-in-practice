@@ -231,12 +231,34 @@ def main() -> int:
             R.add("PASS" if not miss else "FAIL", "BC↔ADLB", "data", f"lab BC codes in ADLB PARAMCD: {sorted(lab_codes & lb)}" + (f"; missing {sorted(miss)}" if miss else ""))
             R.add("PASS" if "SYSBP" in vs else "FAIL", "BC↔ADVS", "data", "SYSBP in ADVS PARAMCD" if "SYSBP" in vs else "SYSBP not in ADVS")
             R.add("INFO", "ADLB parameters without a BC", "data", f"{sorted(lb - lab_codes)} — collected and analysed by TORIVA, not carried by this project's USDM")
-            # SoA ↔ data: encounter names vs AVISIT
+            # SoA ↔ data, after translating the SAP's visit labels to the protocol's: MAINT_CnD1 is cycle n+6
+            # (the SAP calls cycle 7+ "maintenance"), Baseline is the screening visit. Before 2026-09-20 this
+            # compared raw labels and could only say that nothing matched.
             enc = {e.get("name") for e in sd.get("encounters", [])}
-            av = set(col("advs", "AVISIT")) | set(col("adlb", "AVISIT"))
-            av = {a for a in av if a}
-            not_in_soa = sorted(av - enc)
-            R.add("INFO", "SoA↔AVISIT", "data", f"analysis visits not named as protocol encounters: {not_in_soa[:6]}{'…' if len(not_in_soa) > 6 else ''} — the SAP's windowed labels (Baseline, MAINT_CnD1, UNSCHEDULED) versus the protocol's cycle visits (Cycle 7+ are 'maintenance' in the SAP, 'Day 1 each subsequent cycle' in the protocol)")
+            av = {a for a in set(col("advs", "AVISIT")) | set(col("adlb", "AVISIT")) if a}
+            def to_protocol(v):
+                m = re.match(r"(MAINT_)?C(\d+)D(\d+)$", v)
+                if not m:
+                    return {"Baseline": "SCREENING"}.get(v, v)
+                return f"C{int(m.group(2)) + (6 if m.group(1) else 0)}D{int(m.group(3))}"
+            trans = {v: to_protocol(v) for v in av}
+            def cyc(p):
+                m = re.match(r"C(\d+)D1$", p); return int(m.group(1)) if m else 0
+            beyond = sorted({p for p in trans.values() if cyc(p) > 35}, key=cyc)
+            matched = sorted({p for p in trans.values() if p in enc}, key=cyc)
+            unmatched = sorted({p for p in trans.values() if p not in enc and p not in beyond})
+            R.add("INFO", "SoA↔AVISIT", "data", f"after translation, {len(matched)} of {len(set(trans.values()))} analysis-visit labels name a protocol encounter; unmatched: {unmatched}; beyond cycle 35: {len(beyond)}")
+            # D17 — a Cycle 1 Day 15 visit in the data; the protocol's schedule has none
+            R.add("WARN" if "C1D15" in av else "PASS", "D17", "data", "ADVS/ADLB carry a C1D15 visit for nearly every subject; the protocol §7.2 has no Day 15 visit — the data diverges from the documents" if "C1D15" in av else "no C1D15 in the data")
+            # visits beyond the 35-cycle maximum are windowing of post-treatment assessments, not extra treatment
+            sdt = col("adsl", "TRTSDT"); edt = col("adsl", "TRTEDT")
+            max_days = max(((e - s).days + 1) for s, e in zip(sdt, edt) if s and e)
+            R.add("INFO", "AVISIT beyond cycle 35", "data", f"{len(beyond)} analysis-visit labels lie beyond the protocol's 35-cycle maximum (up to {beyond[-1] if beyond else '-'}); the SAP's windowing assigns post-treatment assessments to cycle windows — treatment itself runs at most {max_days} days, {max_days / 21:.1f} cycles")
+            # D16 — imaging every 6 weeks throughout, where the protocol switches to every 12 weeks after month 12
+            wks = sorted(int(v.split("WK")[1]) for v in set(col("adtr", "AVISIT")) if v and v.startswith("TUMOR_ASSESS_WK"))
+            late = [w for w in wks if w > 54]
+            q6_late = len(late) >= 2 and all(b - a == 6 for a, b in zip(late, late[1:]))
+            R.add("WARN" if q6_late else "PASS", "D16", "data", f"ADTR imaging visits after month 12 are 6-weekly (weeks {late[0]}–{late[-1]}); protocol §6.1 says every 12 weeks from month 12 — the data diverges from the documents" if q6_late else "imaging after month 12 is 12-weekly, as the protocol states")
             # upstream-only known divergences, confirmed against the data
             adrs = cols("adrs"); adlb_c = cols("adlb"); adtte_u = set(col("adtte", "AVALU"))
             R.add("WARN" if "EFFFL" not in adrs else "PASS", "D7", "data", "EFFFL absent from ADRS, as recorded" if "EFFFL" not in adrs else "EFFFL now present in ADRS — register row D7 is stale")

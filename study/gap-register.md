@@ -1,7 +1,7 @@
 # Gap register — everything found wrong in TORIVA's documents, with a disposition
 
 Phase 2, stage **P0** (`NORTH.md`). Written 2026-09-19. One list of every gap this project
-found in TORIVA-LUNG 301's document set — the fifteen discrepancies in
+found in TORIVA-LUNG 301's document set — the seventeen discrepancies in
 [`source-refs.md`](source-refs.md), the ICH M11 elements the protocol does not supply, and the
 things the SAP never specified — each with a **disposition** that says where, if anywhere, it is
 fixed. The dispositions are LG's decision of 2026-09-19: fixes are made **here, in the derived
@@ -24,7 +24,7 @@ on 2026-09-20, reviewing item 1 of the phase-2 sheet: **the documents are what g
 programs and data are regenerated to follow them, later, in TORIVA.** The rows below were
 re-taken under that rule. A row that changed keeps its earlier disposition, struck through.
 
-## A. The fifteen discrepancies (D1–D15)
+## A. The seventeen discrepancies (D1–D17)
 
 | ID | Area | Gap, in one line | Disposition | Action, and where |
 |---|---|---|---|---|
@@ -43,6 +43,8 @@ re-taken under that rule. A row that changed keeps its earlier disposition, stru
 | D13 | ORR | SAP asks for a stratified MH **risk difference**; the named estimator returns an **odds ratio** | **fix here** | the derived SAP excerpt for E3 states the risk difference and notes the estimator mismatch; P3 checks §3.2.2's Population-level Summary says "risk difference" |
 | D14 | Design | Protocol: torivumab **monotherapy** vs placebo; SAP §13.2 and the built data (`TRT01P` = "Torivumab + Chemotherapy"): combination with carboplatin/pemetrexed | **fix here — the protocol corrected to the SAP** (P6; ~~the data as ground truth~~) | A placebo-alone control does not exist in first-line NSCLC; the SAP, the blinding design and the data all describe an add-on. Title page, §3.0, §1.4, §4 and §6 corrected; the USDM's arms follow the corrected protocol. That the data agrees is incidental, not the reason. Sample-size benchmarking against monotherapy trials becomes a rationale gap in §10, noted |
 | D15 | Design | Protocol says 2:1 randomisation (300:150); the shipped data is 1:1 (225:225), by TORIVA's own header note; the sample-size arithmetic was not re-derived | **the protocol stands; upstream only for the data** (P6; ~~fix here, 1:1 as ground truth~~) | 2:1 is what the protocol specifies and what §8.1's arithmetic was derived for. The USDM says 2:1; P3 reports the data's 1:1 as a divergence (WARN), to be regenerated in TORIVA |
+| D16 | Schedule | Protocol §6.1: imaging Q6W for 12 months then Q12W; the data images Q6W throughout, to week 120 | **upstream only** (P6 rule: the protocol stands, the data diverges) | `tools/check_alignment.py` reports it as WARN D16 from ADTR's `AVISIT` spacing after month 12. To be regenerated in TORIVA. Found 2026-09-20 during LG's review of item 3 |
+| D17 | Schedule | Protocol §7.2 has no Cycle 1 Day 15 visit; the data has `C1D15` for nearly every subject | **upstream only** (P6 rule) | WARN D17 in the alignment report. The USDM's schedule follows the protocol and has no C1D15 encounter; this project's MMRM (S2/S3) used the data's C1D15 as an induction visit, which is now recorded as a data-defined visit. Found 2026-09-20 |
 
 ## B. ICH M11 elements the source protocol does not supply
 

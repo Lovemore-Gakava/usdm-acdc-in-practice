@@ -96,7 +96,7 @@ two analyses, one mechanism.
 destination from the one above, so it gets its own finish line and its own scoreboard:
 
 > **Make TORIVA's study documents right and digital, and show that they agree** — the gaps found
-> on the way (D1–D15, the missing M11 estimand elements, the vital-signs procedures) fixed in
+> on the way (D1–D17, the missing M11 estimand elements, the vital-signs procedures) fixed in
 > this repository's derived M11 protocol, the whole protocol digitised to USDM *by generation*
 > rather than by hand, the protocol, SAP, USDM and ADaM specifications checked against each other
 > by a tool, and a hands-on walkthrough so the traverse can be driven, not watched.

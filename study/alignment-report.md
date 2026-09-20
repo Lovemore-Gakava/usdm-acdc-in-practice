@@ -5,18 +5,21 @@ as its checklist. Re-run it to regenerate this file. `PASS` — a fix-here promi
 kept; `WARN` — the data diverging from the corrected documents, or an upstream-only divergence, confirmed against the data; `INFO` — worth knowing; `SKIP` —
 data not present.
 
-**27 pass, 0 fail, 6 warn, 2 info, 0 skip.** P6 decisions: 6/6 pass — D14 PASS, D15 PASS, D11/G7 PASS, G2 PASS, G6 PASS, G5 PASS. Data layer: TORIVA ADaM checked.
+**27 pass, 0 fail, 8 warn, 3 info, 0 skip.** P6 decisions: 6/6 pass — D14 PASS, D15 PASS, D11/G7 PASS, G2 PASS, G6 PASS, G5 PASS. Data layer: TORIVA ADaM checked.
 
 | Verdict | Item | Layer | Detail |
 |---|---|---|---|
 | WARN | D1 | data | ADTTE AVALU = ['DAYS']; SAP says months |
 | WARN | D15 | data | ADSL arm counts {'Torivumab + Chemotherapy': 225, 'Placebo + Chemotherapy': 225} — 1:1; the protocol says 2:1 — the data diverges from the documents, to be regenerated upstream |
+| WARN | D16 | data | ADTR imaging visits after month 12 are 6-weekly (weeks 60–120); protocol §6.1 says every 12 weeks from month 12 — the data diverges from the documents |
+| WARN | D17 | data | ADVS/ADLB carry a C1D15 visit for nearly every subject; the protocol §7.2 has no Day 15 visit — the data diverges from the documents |
 | WARN | D3 | data | ADRS carries no RSEVAL column — reader cannot be told from the data; the SAP's BICR reader stands as recorded |
 | WARN | D7 | data | EFFFL absent from ADRS, as recorded |
 | WARN | D8 | data | ADLB carries NRIND, not ANRIND/BNRIND, as recorded |
 | WARN | D9 | data | BTOXGR absent from ADLB, as recorded |
 | INFO | ADLB parameters without a BC | data | ['ALB', 'K', 'PLAT', 'SODIUM', 'WBC'] — collected and analysed by TORIVA, not carried by this project's USDM |
-| INFO | SoA↔AVISIT | data | analysis visits not named as protocol encounters: ['Baseline', 'C1D15', 'MAINT_C10D1', 'MAINT_C11D1', 'MAINT_C12D1', 'MAINT_C13D1']… — the SAP's windowed labels (Baseline, MAINT_CnD1, UNSCHEDULED) versus the protocol's cycle visits (Cycle 7+ are 'maintenance' in the SAP, 'Day 1 each subsequent cycle' in the protocol) |
+| INFO | AVISIT beyond cycle 35 | data | 13 analysis-visit labels lie beyond the protocol's 35-cycle maximum (up to C48D1); the SAP's windowing assigns post-treatment assessments to cycle windows — treatment itself runs at most 738 days, 35.1 cycles |
+| INFO | SoA↔AVISIT | data | after translation, 37 of 51 analysis-visit labels name a protocol encounter; unmatched: ['C1D15']; beyond cycle 35: 13 |
 | PASS | BC↔ADLB | data | lab BC codes in ADLB PARAMCD: ['ALP', 'ALT', 'AST', 'BILI', 'CREAT', 'HGB', 'NEUT'] |
 | PASS | BC↔ADVS | data | SYSBP in ADVS PARAMCD |
 | PASS | D14 | data | ADSL TRT01P values ['Placebo + Chemotherapy', 'Torivumab + Chemotherapy'] == the corrected protocol's arms ['Placebo + Chemotherapy', 'Torivumab + Chemotherapy'] |

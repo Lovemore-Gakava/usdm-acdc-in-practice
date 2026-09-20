@@ -50,10 +50,10 @@ records it "absent" is wrong with it.
 | Falsifier | Status |
 |---|---|
 | 3a — "the data is the ground truth" is the wrong rule: a derived *protocol* should say what the protocol says, and the data should be the thing flagged | **judgement — yours, and the most consequential one on the sheet.** If you reverse it, the arms revert to monotherapy and 2:1 in the USDM, and P3's data checks become WARNs instead of PASSes |
-| 3b — the schedule rules are misread. My arithmetic: *C3, C5, then Q6 cycles* → cycles 3, 5, 11, 17, 23, 29, 35; *C3, C5, then Q12 weeks* → 3, 5, 9, 13 … (12 weeks = 4 cycles); *Q6 weeks (FOCBP)* → every second cycle from 3; imaging *Q6W for 12 months, Q12W after* → every second cycle to 17, every fourth from 21 | judgement — yours; the rules are `cycles_for_rule` and `tumour_cycles` in `tools/m11_to_usdm.py`, twenty lines |
-| 3c — "Cycle 7+ = maintenance" is a data convention the protocol never states; the generator names encounters `C7D1…C35D1` while the data says `MAINT_C1D1…` | mechanical: `check_alignment.py` reports it as **INFO** (SoA↔AVISIT); whether the *protocol* should adopt the SAP's names is yours |
-| 3d — the chemotherapy backbone as a third `StudyIntervention` invents a protocol element from a SAP sentence | judgement — yours; it is marked as SAP-sourced |
-| 3e — the fragment fails to load in the app | mechanical: loaded 2026-09-19, arms/BCs/endpoints/schedule rendered — **holds** |
+| 3b — the schedule rules are misread. My arithmetic: *C3, C5, then Q6 cycles* → cycles 3, 5, 11, 17, 23, 29, 35; *C3, C5, then Q12 weeks* → 3, 5, 9, 13 … (12 weeks = 4 cycles); *Q6 weeks (FOCBP)* → every second cycle from 3; imaging *Q6W for 12 months, Q12W after* → every second cycle to 17, every fourth from 21 | **Laid beside the source and the data, 2026-09-20.** The arithmetic follows the §6.1 and §7.2 cells as written — holds as a reading. The *data* reads two cells differently: imaging is 6-weekly throughout to week 120 (**D16**, new) and every subject has a Cycle 1 Day 15 visit the protocol never schedules (**D17**, new). Both are upstream-only under P6's rule and WARN in the alignment report. One judgement remains yours: whether *"Q6 cycles"* means every sixth cycle after C5 (11, 17…) or every six weeks, which would be every second cycle |
+| 3c — "Cycle 7+ = maintenance" is a data convention the protocol never states; the generator names encounters `C7D1…C35D1` while the data says `MAINT_C1D1…` | **Decided by P6's rule, 2026-09-20: the protocol's names stand.** The alignment tool now translates `MAINT_CnD1` to cycle n+6 before comparing, so the INFO row says what really fails to match instead of everything |
+| 3d — the chemotherapy backbone as a third `StudyIntervention` invents a protocol element from a SAP sentence | **Holds under P6, 2026-09-20.** The corrected protocol states the combination (title page, §3.0), so the backbone is the corrected protocol's background intervention (M11 6.9.1), no longer a SAP sentence; the intervention's description says so |
+| 3e — the fragment fails to load in the app | mechanical: loaded 2026-09-19 and again 2026-09-20 on the P6-regenerated fragment (the design note the app loaded is recorded in each `results.json`) — **holds** |
 
 ## 4. P3 — the alignment tool tests what it says it tests
 
@@ -96,7 +96,7 @@ records it "absent" is wrong with it.
 |---|---|---|---|
 | 1 — dispositions (1a–1c) | **wrong, and the rule with it** | 2026-09-20 | LG: the gaps are corrected *here*, and *"the documents are what get corrected"* — the data follows, later, upstream. Six decisions → P6. 1c: X4 stays excluded; the baseline-selection rule belongs to the SAP |
 | 2 — the move (2a–2d) | 2a holds; 2d **narrower than stated**, corrected; 2b **four blocks moved** on LG's verdict; 2c **run**: one note wrong, three narrower, corrected | 2026-09-20 | eight subsection numbers were wrong and the per-section element lists with them; M11's numbering then showed four blocks in the wrong section; the whole-checkout search then found one absent-note wrong and three narrower. **Item 2 closed** |
-| 3 — the USDM (3a–3e) | 3a **wrong** — reversed; 3b–3e open | 2026-09-20 | the fragment regenerated under P6: arms per the corrected protocol, 2:1; data checks D14/D15 → WARN on divergence |
+| 3 — the USDM (3a–3e) | 3a **wrong**, reversed; 3b holds as a reading, two data divergences found (D16, D17); 3c decided by P6; 3d, 3e hold | 2026-09-20 | one judgement left: the meaning of *"Q6 cycles"* (3b). **Item 3 closed** pending that word |
 | 4 — the alignment tool (4a–4c) | | | |
 | 5 — the MMRM rules (5a–5d) | | | |
 | 6 — P5's meaning (6a) | | | |
