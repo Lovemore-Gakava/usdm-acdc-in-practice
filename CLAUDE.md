@@ -102,8 +102,12 @@ disproved, so:
   *Failed to load data*), and cleans the submodule on Ctrl-C (`stage` / `clean` separately). It refuses
   to stage over foreign changes in the submodule and refuses to finish `clean` while `git status`
   there is not empty. It also serves `docs/walkthrough.md` as a page at `/walkthrough` (own renderer, no
-  Markdown package needed; `walkthrough.py html` writes the same page to a file), and proxies the CDISC
-  Library at `/cdisc-library/` with the key from `.cdisc-api-key` or `CDISC_API_KEY`.
+  Markdown package needed; `walkthrough.py html` writes the same page to a file), proxies the CDISC
+  Library at `/cdisc-library/` with the key from `.cdisc-api-key` or `CDISC_API_KEY`, and injects an
+  **overlay script** into the app's page at serve time — a *(no filter)* entry in every slice dropdown,
+  the M.MMRM implementation registered, `mmrm` installed once WebR is up — so the walkthrough needs no
+  console steps. The submodule's files are not changed; the guide says at each step what the overlay
+  supplied.
 
 ## Writing
 

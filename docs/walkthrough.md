@@ -27,7 +27,11 @@ page as a file you can open directly.
 It checks that your TORIVA checkout is at the pin, converts ADSL, ADLB and the induction-window
 ADVS to `.xpt`, stages the study, the three saved chains and the M.MMRM implementation into the
 app, serves it at `http://localhost:8080/ac-dc-app/index.html`, and on Ctrl-C removes everything it
-staged so the submodule is clean again. About a minute before the URL answers, most of it the
+staged so the submodule is clean again. The page it serves carries a small overlay of its own —
+a *(no filter)* entry in every slice dropdown, the M.MMRM implementation registered, the `mmrm`
+package installed once the engine is up — so every step below is done on the page, none in the
+browser console. The upstream app has none of that; the guide says at each point what the
+overlay supplied. About a minute before the URL answers, most of it the
 ADLB conversion. `stage` and `clean` are the two halves on their own; if the server was killed
 rather than stopped, run `clean`. The command refuses to start while something else holds port
 8080, and says which process.
@@ -209,22 +213,20 @@ chain's dimension values, not by the USDM's estimand (L6).
      answer is 1.585 (SE 2.194) on 434 rows instead of the number below. *Added 2026-09-22 after
      LG's run came out at 1.585: the guide had promised a number without naming the slice that
      produces it.*
-   - row **endpoint / Treatment**: this one **cannot be done from the page**. The value dropdown
-     offers only the two arms and the contrast label, and any of the three filters the data down
-     to one arm — the run then fails with *"contrasts can be applied only to factors with 2 or
-     more levels"*. The engine treats an empty value as *no filter*, and only the browser console
-     can set an empty value. Open the console (F12 → Console), paste this, press Enter:
+   - row **endpoint / Treatment**: variable → **`TRT01P`**, value → **`(no filter — keep all
+     values)`**, the first entry in the dropdown. The step-3 value is a contrast label, not a data
+     value; any of the app's own three entries keeps one arm and the run fails with *"contrasts
+     can be applied only to factors with 2 or more levels"*. The engine treats an empty value as
+     no filter, and that entry sets one.
 
-     ```js
-     const r = window.appState.endpointResults.Endpoint_SAFETY_LAB;
-     r.sliceOverrides = r.sliceOverrides || {};
-     r.sliceOverrides['endpoint|Treatment'] = { variable: 'TRT01P', value: '' };
-     ```
-
-     (For the vital-signs pass the endpoint is `Endpoint_SAFETY_VS`.) Nothing visible changes;
-     the filter is simply gone. *Corrected 2026-09-22: this guide said "leave the value blank",
-     which was written from an automated run that set the state directly. LG found on the page
-     that there is no blank to leave.*
+     > **That entry is not the app's.** The upstream page offers no way to clear a slice; the
+     > walkthrough server adds the option to every slice-value dropdown when it serves the page
+     > (an overlay script; the submodule is untouched). If you serve the app any other way, the
+     > equivalent is the browser console: `const r = window.appState.endpointResults.Endpoint_SAFETY_LAB;
+     > r.sliceOverrides = r.sliceOverrides || {}; r.sliceOverrides['endpoint|Treatment'] = { variable: 'TRT01P', value: '' };`
+     > *History: the guide first said "leave the value blank", written from an automated run that
+     > set the state directly; LG found on 2026-09-22 that there was no blank to leave, the console
+     > line was the fix for a day, and the overlay replaced it the same evening.*
 6. **Execute.** About twenty seconds. The console log in the result should show four `Filter:`
    lines — Parameter, `SAFFL == Y`, `Visit == C2D1`, `AnalysisVisit == C2D1` — and no Treatment
    line; 429 rows in the cube, 427 in the model. The result: contrasts, LS means, type-3 tests,
@@ -249,23 +251,15 @@ Same steps, with these differences:
 - Data: convert `advs.parquet`, restricted to `AVISIT` in Baseline, C2D1 … C6D1 (C1D15 existed only before #27) — an
   unstructured covariance over forty visits is not a fit anyone runs, and the cube's visit
   dimension cannot express a set.
-- Step 8 will say **`No R implementation available for M.MMRM`**. Upstream ships none. The
-  one this project wrote is `endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json`; to use it, open
-  the browser console on step 8 and run:
+- Upstream ships no R implementation for `M.MMRM`; the one this project wrote is
+  `endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json`. **Served by the walkthrough server, it is
+  registered for you**: a status box at the bottom right says *M.MMRM implementation registered*
+  when the app loads, and *mmrm package installed* about half a minute after you initialise the
+  WebR engine (the engine does not act on an implementation's `packages` list, so the overlay
+  runs `webr::install("mmrm")` for you). Wait for the second message before Execute.
 
-  ```js
-  const impl = await (await fetch('/ac-dc-app/data/toriva/r_impl_mmrm.json')).json();
-  window.appState.methodImplementationCatalog.implementations['M.MMRM'] = [impl];
-  ```
-
-  (after copying that file into `ac-dc-app/data/toriva/` so the page can fetch it). The `mmrm`
-  package must also be installed in the WebR session — once per page load — which the engine
-  does not do from the implementation's `packages` list. In the same console:
-
-  ```js
-  const eng = await import('/ac-dc-app/js/utils/webr-engine.js');
-  await eng.executeR('webr::install("mmrm")');   // about half a minute
-  ```
+  Served any other way, the two console lines are: `window.appState.methodImplementationCatalog.implementations['M.MMRM'] = [await (await fetch('/ac-dc-app/data/toriva/r_impl_mmrm.json')).json()]`
+  and, after the engine is initialised, `await (await import('/ac-dc-app/js/utils/webr-engine.js')).executeR('webr::install("mmrm")')`.
 
   Then Execute; the fit takes one to two minutes and the page freezes while it runs. Expect **−4.44 (SE 1.91)** at C2D1 (torivumab − placebo) against a reference of −1.80 on the data at `a806630`; it was +1.38 against +1.95 before #27 — same mechanism, new data. Five visits now: the C1D15 visit no longer exists (D17).
 

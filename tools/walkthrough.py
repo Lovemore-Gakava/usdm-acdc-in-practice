@@ -212,6 +212,68 @@ a{color:#0969da} .note{color:#57606a;font-size:.9em;margin-bottom:1.5em}
 """
 
 
+OVERLAY_JS = r"""
+// walkthrough overlay — served by tools/walkthrough.py, not part of the upstream app.
+// 1. '(no filter)' on every slice-value dropdown: the engine treats an empty value as no filter, but the app's
+//    dropdowns offer only the values it found, so a contrast label like 'Torivumab vs Placebo' can never be cleared.
+// 2. Register endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json as the M.MMRM implementation once the app has loaded.
+// 3. Install the mmrm package once the WebR engine is initialised (the engine does not act on 'packages').
+(function () {
+  const NOFILTER = '__nofilter__';
+  function status(msg, ms) {
+    let el = document.getElementById('wt-overlay-status');
+    if (!el) { el = document.createElement('div'); el.id = 'wt-overlay-status';
+      el.style.cssText = 'position:fixed;right:12px;bottom:12px;z-index:9999;background:#1f2937;color:#fff;padding:8px 12px;border-radius:6px;font:13px system-ui;max-width:420px;box-shadow:0 2px 8px rgba(0,0,0,.3)';
+      document.body.appendChild(el); }
+    el.textContent = 'walkthrough: ' + msg; el.style.display = 'block';
+    if (ms) setTimeout(() => { el.style.display = 'none'; }, ms);
+  }
+  function addNoFilter() {
+    for (const sel of document.querySelectorAll('select.exec-slice-val-override')) {
+      if (sel.querySelector('option[data-wt="' + NOFILTER + '"]')) continue;
+      const opt = document.createElement('option'); opt.value = ''; opt.textContent = '(no filter — keep all values)'; opt.dataset.wt = NOFILTER;
+      sel.insertBefore(opt, sel.firstChild);
+      // an existing override with an empty value should show as selected
+      const st = window.appState, dim = sel.dataset.dim, ov = st && st.endpointResults && st.currentEndpointId &&
+        st.endpointResults[st.currentEndpointId] && st.endpointResults[st.currentEndpointId].sliceOverrides;
+      if (ov && ov['endpoint|' + dim] && ov['endpoint|' + dim].value === '') sel.value = '';
+    }
+  }
+  new MutationObserver(addNoFilter).observe(document.documentElement, { childList: true, subtree: true });
+  addNoFilter();
+
+  async function registerMmrm() {
+    const st = window.appState; if (!st) return false;
+    if (!st.loaded) return false;
+    try {
+      st.methodImplementationCatalog = st.methodImplementationCatalog || { implementations: {} };
+      st.methodImplementationCatalog.implementations = st.methodImplementationCatalog.implementations || {};
+      if (!st.methodImplementationCatalog.implementations['M.MMRM']) {
+        const impl = await (await fetch('/ac-dc-app/data/toriva/r_impl_mmrm.json')).json();
+        st.methodImplementationCatalog.implementations['M.MMRM'] = [impl];
+        status('M.MMRM implementation registered (r_impl_mmrm.json)', 6000);
+      }
+      return true;
+    } catch (e) { status('could not register M.MMRM: ' + e, 8000); return true; }
+  }
+  let mmrmInstalled = false, installing = false;
+  async function installMmrm() {
+    if (mmrmInstalled || installing) return;
+    try {
+      const eng = await import('/ac-dc-app/js/utils/webr-engine.js');
+      if (!eng.isInitialized()) return;
+      installing = true; status('installing the mmrm package in WebR (about half a minute) …');
+      const out = await eng.executeR('webr::install("mmrm"); as.character(requireNamespace("mmrm", quietly = TRUE))');
+      const ok = JSON.stringify(out).includes('TRUE');
+      mmrmInstalled = ok; status(ok ? 'mmrm package installed — the MMRM pass can execute' : 'mmrm install did not confirm: ' + JSON.stringify(out).slice(0, 120), ok ? 8000 : 0);
+    } catch (e) { status('mmrm install failed: ' + e, 0); } finally { installing = false; }
+  }
+  let registered = false;
+  setInterval(async () => { if (!registered) registered = await registerMmrm(); if (!mmrmInstalled) installMmrm(); }, 2000);
+})();
+"""
+
+
 def walkthrough_page() -> bytes:
     md = WALKTHROUGH_MD.read_text(encoding="utf-8")
     body = render_markdown(md)
@@ -304,23 +366,13 @@ def stage(args: argparse.Namespace) -> None:
     say(f"staged: {USDM_DST.name} + manifest entry, {len(CHAINS)} chain/implementation files, 3 .xpt files under ac-dc-app/data/")
     say("""
 In the app (http://localhost:8080/ac-dc-app/index.html) the study card is TORIVA-LUNG 301.
-Load a saved chain from the browser console instead of the Load button (it opens a native picker):
+Step 8 data: upload from ac-dc-app/data/toriva/ (adsl.xpt, adlb.xpt; advs_induction.xpt for the vitals pass).
+Served by `serve`, the page carries an overlay: a '(no filter)' entry in every slice dropdown, the M.MMRM
+implementation registered on load, the mmrm package installed once the WebR engine is up (status box, bottom right).
+To load a saved chain without the Load button (it opens a native picker), in the browser console:
 
   const ser = await import('/ac-dc-app/js/utils/instance-serializer.js');
   ser.deserializeStudyInstance(await (await fetch('/ac-dc-app/data/toriva/lab-chain.json')).json(), window.appState);
-
-Step 8 data: upload from ac-dc-app/data/toriva/ (adsl.xpt, adlb.xpt; advs_induction.xpt for the vitals pass).
-Step 8 Treatment slice: the page cannot set 'no filter' (the dropdown has no blank) — in the console:
-
-  const r = window.appState.endpointResults.Endpoint_SAFETY_LAB;   // Endpoint_SAFETY_VS for the vitals pass
-  r.sliceOverrides = r.sliceOverrides || {}; r.sliceOverrides['endpoint|Treatment'] = { variable: 'TRT01P', value: '' };
-
-MMRM pass, once per page load, in the console on step 8:
-
-  const impl = await (await fetch('/ac-dc-app/data/toriva/r_impl_mmrm.json')).json();
-  window.appState.methodImplementationCatalog.implementations['M.MMRM'] = [impl];
-  const eng = await import('/ac-dc-app/js/utils/webr-engine.js');
-  await eng.executeR('webr::install("mmrm")');
 """)
 
 
@@ -370,6 +422,16 @@ def serve(args: argparse.Namespace) -> None:
         def do_GET(self):
             if self.path.startswith(PROXY):
                 return self.proxy_library(self.path[len(PROXY):])
+            if self.path == "/walkthrough-overlay.js":
+                body = OVERLAY_JS.encode("utf-8")
+                self.send_response(200); self.send_header("Content-Type", "application/javascript; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
+            if self.path.split("?")[0] in ("/ac-dc-app/index.html", "/ac-dc-app/"):
+                # the app's page with the overlay script appended — the file in the submodule is not changed
+                html = (SUB / "ac-dc-app" / "index.html").read_text(encoding="utf-8")
+                tag = '<script src="/walkthrough-overlay.js"></script>'
+                html = html.replace("</body>", tag + "\n</body>") if "</body>" in html else html + tag
+                body = html.encode("utf-8")
+                self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
             if self.path.rstrip("/") in ("/walkthrough", "/walkthrough.html"):
                 body = walkthrough_page()
                 self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
