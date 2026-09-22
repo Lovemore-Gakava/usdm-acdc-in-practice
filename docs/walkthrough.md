@@ -11,6 +11,15 @@ restructured from TORIVA's synopsis at the pinned commit — and on TORIVA's rea
 under #27. You will see the number the repository reports (`endpoints/01-simple-lab-cfb/results.json`,
 `p7_rerun_a806630`) come out of the browser.
 
+**A recording of the lab endpoint, start to finish:** [`media/walkthrough-lab-endpoint.gif`](media/walkthrough-lab-endpoint.gif)
+(50 frames, 10 MB, no sound; recorded 2026-09-22 on the data at `a806630`). It shows the study card,
+the Objectives tab and the endpoint tick, step 3 with the concept category and the four Smart Phrases
+ticked, then steps 3 to 7 as the saved chain fills them, and step 8 configured, executed, and its result:
+429 rows, contrast 1.2757. Two honest limits: the typing at step 3 and the node clicks at step 6 are not
+in it — the saved chain was loaded at that point, so those frames show the outcome rather than the
+keystrokes — and the browser window changed size part-way, so the later frames are smaller. Native
+dialogs (the xpt upload) cannot be recorded and were done behind the page.
+
 ## 0. Before you open the browser
 
 **The short way** (added 2026-09-20): one command does everything in this section except the two

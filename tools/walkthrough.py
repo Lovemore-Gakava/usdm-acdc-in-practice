@@ -230,13 +230,17 @@ OVERLAY_JS = r"""
   }
   function addNoFilter() {
     for (const sel of document.querySelectorAll('select.exec-slice-val-override')) {
-      if (sel.querySelector('option[data-wt="' + NOFILTER + '"]')) continue;
-      const opt = document.createElement('option'); opt.value = ''; opt.textContent = '(no filter — keep all values)'; opt.dataset.wt = NOFILTER;
-      sel.insertBefore(opt, sel.firstChild);
-      // an existing override with an empty value should show as selected
-      const st = window.appState, dim = sel.dataset.dim, ov = st && st.endpointResults && st.currentEndpointId &&
-        st.endpointResults[st.currentEndpointId] && st.endpointResults[st.currentEndpointId].sliceOverrides;
-      if (ov && ov['endpoint|' + dim] && ov['endpoint|' + dim].value === '') sel.value = '';
+      if (!sel.querySelector('option[data-wt="' + NOFILTER + '"]')) {
+        const opt = document.createElement('option'); opt.value = ''; opt.textContent = '(no filter — keep all values)'; opt.dataset.wt = NOFILTER;
+        sel.insertBefore(opt, sel.firstChild);
+      }
+      // whenever the override for this dimension is empty, the dropdown must show it — the app re-renders the select on
+      // every run and the browser would otherwise display the first app option while no filter is applied
+      const st = window.appState, dim = sel.dataset.dim, slice = sel.dataset.slice || 'endpoint';
+      const ep = st && (st.currentEndpointId || (st.selectedEndpoints || [])[0]);
+      const ov = ep && st.endpointResults && st.endpointResults[ep] && st.endpointResults[ep].sliceOverrides;
+      const o = ov && (ov[slice + '|' + dim] || ov['endpoint|' + dim]);
+      if (o && o.value === '' && sel.value !== '') sel.value = '';
     }
   }
   new MutationObserver(addNoFilter).observe(document.documentElement, { childList: true, subtree: true });

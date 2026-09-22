@@ -15,7 +15,8 @@ new numbers, the same divergence, each reproduced outside the engine.
 
 **New to USDM, M11 or AC/DC?** Read [`docs/vignette.md`](docs/vignette.md) first — the whole
 traverse in plain terms, with the three letters explained and every artefact linked. To **drive it
-yourself**, [`docs/walkthrough.md`](docs/walkthrough.md) is the click-by-click guide.
+yourself**, [`docs/walkthrough.md`](docs/walkthrough.md) is the click-by-click guide, with a
+[recording](docs/media/walkthrough-lab-endpoint.gif) of the lab endpoint start to finish.
 
 ## What this is
 
