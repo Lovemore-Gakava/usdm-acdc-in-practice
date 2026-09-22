@@ -63,8 +63,9 @@ disproved, so:
 - A claim about **history** uses `git log -S` — it distinguishes *removed* from *never present*.
 - A claim about the **application** is not established until the app has been **run**. Three
   findings went wrong by inferring behaviour from library JSON. Serve it:
-  `python ac-dc-app/serve.py` from `upstream/analysis-concepts`, then
-  `http://localhost:8080/ac-dc-app/index.html`.
+  `python tools/walkthrough.py serve` from the repository root, then
+  `http://localhost:8080/ac-dc-app/index.html` (not upstream's `serve.py` — see the repository facts:
+  it drops some of the app's parallel fetches on Windows and the page says *Failed to load data*).
 - A claim about **TORIVA's data** needs the parquet read, not its markdown specification.
 
 ## Repository facts
