@@ -310,6 +310,11 @@ Load a saved chain from the browser console instead of the Load button (it opens
   ser.deserializeStudyInstance(await (await fetch('/ac-dc-app/data/toriva/lab-chain.json')).json(), window.appState);
 
 Step 8 data: upload from ac-dc-app/data/toriva/ (adsl.xpt, adlb.xpt; advs_induction.xpt for the vitals pass).
+Step 8 Treatment slice: the page cannot set 'no filter' (the dropdown has no blank) — in the console:
+
+  const r = window.appState.endpointResults.Endpoint_SAFETY_LAB;   // Endpoint_SAFETY_VS for the vitals pass
+  r.sliceOverrides = r.sliceOverrides || {}; r.sliceOverrides['endpoint|Treatment'] = { variable: 'TRT01P', value: '' };
+
 MMRM pass, once per page load, in the console on step 8:
 
   const impl = await (await fetch('/ac-dc-app/data/toriva/r_impl_mmrm.json')).json();

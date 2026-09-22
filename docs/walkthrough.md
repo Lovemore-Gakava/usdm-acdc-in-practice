@@ -195,13 +195,33 @@ chain's dimension values, not by the USDM's estimand (L6).
 2. **Upload .xpt files** — `adsl.xpt` and `adlb.xpt`. The 45 MB file takes ten to twenty
    seconds and the page freezes again.
 3. **Source dataset:** `adlb`.
-4. In the resolved-bindings table: **Treatment → `TRT01P`**; **Measure (the covariate) →
-   `BASE`**. The default `AVAL` is the C2D1 value — the response's own minuend — and run 3 of
-   the first phase was fitted that way.
-5. In the resolved-slices table: **Population → variable `SAFFL`, value `Y`** (the default is
-   `ITTFL = SAF`, which matches nothing). **Treatment → leave the value blank** — the step 3
-   value is a contrast label, not a data value, and a blank means no filter.
-6. **Execute.** About a minute. The result: contrasts, LS means, type-3 tests, fit statistics.
+4. In the **Resolved bindings** table (the upper one), two dropdowns in the *Implementation
+   Variable* column:
+   - row **covariate / Measure**: change `AVAL` to **`BASE`**. The default `AVAL` is the C2D1
+     value — the response's own minuend — and run 3 of the first phase was fitted that way.
+   - row **fixed_effect / Treatment**: change `TRTP` to **`TRT01P`**.
+5. In the **Resolved slices** table (the lower one):
+   - row **endpoint / Population**: variable `ITTFL` → **`SAFFL`**, value `SAF` → **`Y`** (the
+     default matches nothing).
+   - row **endpoint / Treatment**: this one **cannot be done from the page**. The value dropdown
+     offers only the two arms and the contrast label, and any of the three filters the data down
+     to one arm — the run then fails with *"contrasts can be applied only to factors with 2 or
+     more levels"*. The engine treats an empty value as *no filter*, and only the browser console
+     can set an empty value. Open the console (F12 → Console), paste this, press Enter:
+
+     ```js
+     const r = window.appState.endpointResults.Endpoint_SAFETY_LAB;
+     r.sliceOverrides = r.sliceOverrides || {};
+     r.sliceOverrides['endpoint|Treatment'] = { variable: 'TRT01P', value: '' };
+     ```
+
+     (For the vital-signs pass the endpoint is `Endpoint_SAFETY_VS`.) Nothing visible changes;
+     the filter is simply gone. *Corrected 2026-09-22: this guide said "leave the value blank",
+     which was written from an automated run that set the state directly. LG found on the page
+     that there is no blank to leave.*
+6. **Execute.** About twenty seconds. The console log in the result should show four `Filter:`
+   lines — Parameter, `SAFFL == Y`, `Visit == C2D1`, `AnalysisVisit == C2D1` — and no Treatment
+   line; 429 rows. The result: contrasts, LS means, type-3 tests, fit statistics.
 
 *What you should see* (on the data regenerated under #27): Torivumab − Placebo on ALT change from
 baseline at C2D1 = **−1.276 (SE 2.215, n = 429)**. On the data before #27 (`8534339d`) it was −1.830
