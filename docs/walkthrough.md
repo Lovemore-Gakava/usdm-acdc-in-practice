@@ -203,6 +203,12 @@ chain's dimension values, not by the USDM's estimand (L6).
 5. In the **Resolved slices** table (the lower one):
    - row **endpoint / Population**: variable `ITTFL` → **`SAFFL`**, value `SAF` → **`Y`** (the
      default matches nothing).
+   - row **endpoint / Visit**: value → **`C2D1`**. This is the *collected* visit (`VISIT`) beside the
+     analysis visit (`AVISIT`) the endpoint already carries. The recorded run had both. Without it
+     the cube keeps seven unscheduled draws that the SAP's visit windows assign to C2D1, and the
+     answer is 1.585 (SE 2.194) on 434 rows instead of the number below. *Added 2026-09-22 after
+     LG's run came out at 1.585: the guide had promised a number without naming the slice that
+     produces it.*
    - row **endpoint / Treatment**: this one **cannot be done from the page**. The value dropdown
      offers only the two arms and the contrast label, and any of the three filters the data down
      to one arm — the run then fails with *"contrasts can be applied only to factors with 2 or
@@ -221,7 +227,10 @@ chain's dimension values, not by the USDM's estimand (L6).
      that there is no blank to leave.*
 6. **Execute.** About twenty seconds. The console log in the result should show four `Filter:`
    lines — Parameter, `SAFFL == Y`, `Visit == C2D1`, `AnalysisVisit == C2D1` — and no Treatment
-   line; 429 rows. The result: contrasts, LS means, type-3 tests, fit statistics.
+   line; 429 rows in the cube, 427 in the model. The result: contrasts, LS means, type-3 tests,
+   fit statistics. The engine reports the contrast as placebo minus torivumab, so it shows
+   **+1.276**; the guide's *torivumab minus placebo* below is the same number with the sign
+   reversed.
 
 *What you should see* (on the data regenerated under #27): Torivumab − Placebo on ALT change from
 baseline at C2D1 = **−1.276 (SE 2.215, n = 429)**. On the data before #27 (`8534339d`) it was −1.830
