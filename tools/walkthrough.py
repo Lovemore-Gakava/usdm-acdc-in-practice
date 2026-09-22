@@ -5,8 +5,9 @@
                                           # chains and the M.MMRM implementation into the app
     python tools/walkthrough.py serve     # 'stage', then serve the app (threaded; not serve.py) until Ctrl-C, then 'clean'
     python tools/walkthrough.py clean     # remove everything staged; the submodule is clean at its pin again
+    python tools/walkthrough.py html      # write docs/walkthrough.md as a standalone HTML page (also served at /walkthrough)
 
-Option: --toriva <path> (default: a sibling checkout named torivumab-nsclc-301). The port is 8080.
+Options: --toriva <path> (default: a sibling checkout named torivumab-nsclc-301); --port (default 8080).
 
 CDISC Library: put a Library account's API key in a file named .cdisc-api-key in the repository root
 (git-ignored) or in your home directory — one line, the key — or set CDISC_API_KEY. Then the app's
@@ -83,7 +84,10 @@ OWN = ("ac-dc-app/data/usdm/studies.json", "ac-dc-app/data/usdm/toriva-lung-301.
 def foreign_dirt() -> str:
     """Submodule status lines that are not this script's own staged files."""
     lines = [l for l in git("status", "--short").splitlines() if l.strip()]
-    return "\n".join(l for l in lines if not any(l[3:].strip().startswith(o) for o in OWN))
+    def path_of(l: str) -> str:  # 'XY path' — XY may begin with a space, and the first line may have lost it to strip()
+        parts = l.strip().split(None, 1)
+        return parts[1].strip() if len(parts) == 2 else ""
+    return "\n".join(l for l in lines if not any(path_of(l).startswith(o) for o in OWN))
 
 
 def git(*args: str, cwd: Path = SUB) -> str:
@@ -104,6 +108,125 @@ def port_owner(port: int = 8080) -> str | None:
     except (OSError, subprocess.SubprocessError):
         return None
     return None
+
+
+WALKTHROUGH_MD = ROOT / "docs" / "walkthrough.md"
+
+
+def render_markdown(md: str) -> str:
+    """The subset docs/walkthrough.md uses: #/## headings, paragraphs, - and 1. lists (nested by indent), ``` fences,
+    > quotes, **bold**, *italic*, `code`, [text](url). No Markdown library is assumed to be installed."""
+    import html as _h
+    import re as _re
+
+    def inline(s: str) -> str:
+        s = _h.escape(s, quote=False)
+        s = _re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+        s = _re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+        s = _re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", s)
+        s = _re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
+        return s
+
+    # pre-pass: absorb a list item's wrapped continuation lines (indented, not a fence, not another item, not blank)
+    raw = md.split("\n"); lines = []
+    for line in raw:
+        if lines and _re.match(r"^\s+\S", line) and not _re.match(r"^\s*(```|[-*]\s|\d+\.\s|>)", line) \
+                and _re.match(r"^\s*([-*]|\d+\.)\s", lines[-1]) and not lines[-1].rstrip().endswith("```"):
+            lines[-1] = lines[-1] + " " + line.strip()
+        else:
+            lines.append(line)
+    out, i = [], 0
+    list_stack: list[tuple[int, str]] = []  # (indent, tag)
+
+    def close_lists(to_indent: int = -1):
+        while list_stack and list_stack[-1][0] > to_indent:
+            out.append(f"</li></{list_stack.pop()[1]}>")
+
+    para: list[str] = []
+    def flush_para():
+        if para:
+            out.append("<p>" + inline(" ".join(x.strip() for x in para)) + "</p>"); para.clear()
+
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.strip()
+        m_fence = _re.match(r"^(\s*)```(\w*)\s*$", line)
+        if m_fence:
+            flush_para()
+            indent = len(m_fence.group(1)); code = []
+            i += 1
+            while i < len(lines) and not _re.match(r"^\s*```\s*$", lines[i]):
+                code.append(lines[i][indent:] if lines[i].startswith(" " * indent) else lines[i]); i += 1
+            i += 1
+            if indent == 0:
+                close_lists()
+            out.append("<pre><code>" + _h.escape("\n".join(code)) + "</code></pre>")
+            continue
+        m_h = _re.match(r"^(#{1,3})\s+(.*)$", line)
+        if m_h:
+            flush_para(); close_lists()
+            lvl = len(m_h.group(1)); text = m_h.group(2).strip()
+            anchor = _re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+            out.append(f'<h{lvl} id="{anchor}">{inline(text)}</h{lvl}>'); i += 1; continue
+        m_li = _re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", line)
+        if m_li:
+            flush_para()
+            indent = len(m_li.group(1)); tag = "ol" if m_li.group(2)[0].isdigit() else "ul"
+            if list_stack and list_stack[-1][0] == indent:
+                out.append("</li><li>" + inline(m_li.group(3)))
+            elif not list_stack or indent > list_stack[-1][0]:
+                list_stack.append((indent, tag)); out.append(f"<{tag}><li>" + inline(m_li.group(3)))
+            else:
+                close_lists(indent); out.append("</li><li>" + inline(m_li.group(3)))
+            i += 1; continue
+        if stripped.startswith(">"):
+            flush_para(); close_lists()
+            q = []
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                q.append(_re.sub(r"^\s*>\s?", "", lines[i])); i += 1
+            out.append("<blockquote>" + render_markdown("\n".join(q)) + "</blockquote>"); continue
+        if not stripped:
+            flush_para()
+            # a blank line ends a list only if the next non-blank line is not indented list content
+            j = i + 1
+            while j < len(lines) and not lines[j].strip(): j += 1
+            if j >= len(lines) or not (lines[j].startswith(" ") or _re.match(r"^\s*([-*]|\d+\.)\s", lines[j])):
+                close_lists()
+            i += 1; continue
+        if list_stack and line.startswith(" "):
+            out.append(" " + inline(stripped)); i += 1; continue  # continuation inside a list item
+        para.append(line); i += 1
+    flush_para(); close_lists()
+    return "\n".join(out)
+
+
+PAGE_CSS = """
+body{font:16px/1.55 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1f2328;background:#fff;margin:0;padding:24px 16px 64px}
+main{max-width:820px;margin:0 auto} h1{font-size:1.6em;margin:.2em 0 .6em} h2{font-size:1.25em;margin:1.6em 0 .5em;border-bottom:1px solid #d0d7de;padding-bottom:.2em}
+h3{font-size:1.05em;margin:1.2em 0 .4em} p,li{margin:.4em 0} ul,ol{padding-left:1.4em} li>ul,li>ol{margin:.2em 0}
+code{font:.92em ui-monospace,Consolas,'Courier New',monospace;background:#f6f8fa;padding:.1em .3em;border-radius:4px}
+pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:12px;overflow:auto} pre code{background:none;padding:0}
+blockquote{border-left:4px solid #d0d7de;margin:.8em 0;padding:.2em 1em;color:#57606a;background:#fafbfc}
+a{color:#0969da} .note{color:#57606a;font-size:.9em;margin-bottom:1.5em}
+@media (prefers-color-scheme:dark){body{color:#e6edf3;background:#0d1117} h2{border-color:#30363d} code,pre{background:#161b22;border-color:#30363d} blockquote{color:#8b949e;background:#0d1117;border-color:#30363d} a{color:#58a6ff} .note{color:#8b949e}}
+"""
+
+
+def walkthrough_page() -> bytes:
+    md = WALKTHROUGH_MD.read_text(encoding="utf-8")
+    body = render_markdown(md)
+    page = ("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+            "<title>Walkthrough</title><style>" + PAGE_CSS + "</style></head><body><main>"
+            "<p class=\"note\">Rendered from <code>docs/walkthrough.md</code> — open the app at "
+            "<a href=\"/ac-dc-app/index.html\" target=\"_blank\">/ac-dc-app/index.html</a> in another tab and keep this one beside it.</p>"
+            + body + "</main></body></html>")
+    return page.encode("utf-8")
+
+
+def html(args: argparse.Namespace) -> None:
+    out = Path(args.out) if args.out else Path(os.environ.get("TEMP", ".")) / "walkthrough.html"
+    out.write_bytes(walkthrough_page())
+    say(f"wrote {out} — open it in a browser (no server needed)")
 
 
 def find_toriva(arg: str | None) -> Path:
@@ -216,12 +339,13 @@ def clean(_: argparse.Namespace | None = None) -> None:
 
 
 def serve(args: argparse.Namespace) -> None:
-    owner = port_owner(8080)
+    port = getattr(args, "port", 8080)
+    owner = port_owner(port)
     if owner:
-        sys.exit(f"port 8080 is already in use (PID {owner}) — a previous serve.py is still running. Stop it first "
-                 f"(Windows: taskkill /PID {owner} /F), then run this again. Nothing was staged.")
+        sys.exit(f"port {port} is already in use (PID {owner}) — a previous serve is still running. Stop it first "
+                 f"(Windows: taskkill /PID {owner} /F) or pass --port, then run this again. Nothing was staged.")
     stage(args)
-    say("serving http://localhost:8080/ac-dc-app/index.html — Ctrl-C to stop and clean up")
+    say(f"serving http://localhost:{port}/ac-dc-app/index.html — the guide is at http://localhost:{port}/walkthrough — Ctrl-C to stop and clean up")
     # Not upstream's serve.py: that is the single-threaded HTTPServer with a listen backlog of 5, and the app
     # fires ~22 fetches at once on load — on Windows some are dropped and the page says "Failed to load data"
     # (seen 2026-09-20). Same root, same no-cache headers, threading server.
@@ -241,6 +365,9 @@ def serve(args: argparse.Namespace) -> None:
         def do_GET(self):
             if self.path.startswith(PROXY):
                 return self.proxy_library(self.path[len(PROXY):])
+            if self.path.rstrip("/") in ("/walkthrough", "/walkthrough.html"):
+                body = walkthrough_page()
+                self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
             return super().do_GET()
 
         def proxy_library(self, rest: str):
@@ -261,7 +388,7 @@ def serve(args: argparse.Namespace) -> None:
 
     NoCache.extensions_map.update({".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".svg": "image/svg+xml"})
     http.server.ThreadingHTTPServer.request_queue_size = 64
-    httpd = http.server.ThreadingHTTPServer(("", 8080), functools.partial(NoCache, directory=str(SUB)))
+    httpd = http.server.ThreadingHTTPServer(("", port), functools.partial(NoCache, directory=str(SUB)))
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -273,10 +400,12 @@ def serve(args: argparse.Namespace) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("command", choices=["stage", "serve", "clean"])
+    ap.add_argument("command", choices=["stage", "serve", "clean", "html"])
+    ap.add_argument("--out", default=None, help="html: where to write the standalone page (default: your temp directory)")
+    ap.add_argument("--port", type=int, default=8080, help="serve: port (default 8080)")
     ap.add_argument("--toriva", default=None, help="path to the TORIVA-LUNG 301 checkout")
     args = ap.parse_args()
-    {"stage": stage, "serve": serve, "clean": clean}[args.command](args)
+    {"stage": stage, "serve": serve, "clean": clean, "html": html}[args.command](args)
 
 
 if __name__ == "__main__":

@@ -20,6 +20,10 @@ once-per-clone git settings —
 python tools/walkthrough.py serve
 ```
 
+While it runs, **this guide is served as a page at `http://localhost:8080/walkthrough`** — open it in
+a second tab beside the app. Without the server, `python tools/walkthrough.py html` writes the same
+page as a file you can open directly.
+
 It checks that your TORIVA checkout is at the pin, converts ADSL, ADLB and the induction-window
 ADVS to `.xpt`, stages the study, the three saved chains and the M.MMRM implementation into the
 app, serves it at `http://localhost:8080/ac-dc-app/index.html`, and on Ctrl-C removes everything it

@@ -100,7 +100,9 @@ disproved, so:
   backlog of five and drops some of the app's ~22 parallel fetches on Windows — the page then says
   *Failed to load data*), and cleans the submodule on Ctrl-C (`stage` / `clean` separately). It refuses
   to stage over foreign changes in the submodule and refuses to finish `clean` while `git status`
-  there is not empty.
+  there is not empty. It also serves `docs/walkthrough.md` as a page at `/walkthrough` (own renderer, no
+  Markdown package needed; `walkthrough.py html` writes the same page to a file), and proxies the CDISC
+  Library at `/cdisc-library/` with the key from `.cdisc-api-key` or `CDISC_API_KEY`.
 
 ## Writing
 
