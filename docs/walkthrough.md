@@ -163,7 +163,15 @@ Click **Specify Endpoints →**.
 
 - **Dimension Values:** Parameter → type `Alanine Aminotransferase` (the label, not `ALT`);
   Population → *SAF*; Treatment → *Torivumab + Chemotherapy vs Placebo + Chemotherapy*;
-  AnalysisVisit → type `C2D1`.
+  AnalysisVisit → pick **Cycle 2 Day 1** from its dropdown.
+
+  > **Two names for one visit.** The AnalysisVisit dropdown lists the study's encounters by the
+  > label the protocol gives them, *Cycle 2 Day 1*, because the fragment's schedule was generated
+  > from the protocol. The data's analysis-visit code is the SAP's, `C2D1`. `C2D1` is not offered
+  > here, and *Cycle 2 Day 1* matches nothing in the data, so at step 8 you will re-pick the value
+  > from the data's own list (item 5 there). The recorded chain carries `C2D1` because it was
+  > authored in phase 1, when the fragment had no encounters and the value was typed. *Added
+  > 2026-09-23 after LG found the dropdown had no `C2D1`.*
 
 The composed phrase at the bottom should read *change from baseline in Alanine
 Aminotransferase in the SAF population comparing … at C2D1 using analysis of covariance …*.
@@ -224,6 +232,9 @@ chain's dimension values, not by the USDM's estimand (L6).
 5. In the **Resolved slices** table (the lower one):
    - row **endpoint / Population**: variable `ITTFL` → **`SAFFL`**, value `SAF` → **`Y`** (the
      default matches nothing).
+   - row **endpoint / AnalysisVisit**: value → **`C2D1`**, from the data's list. The step-3 value,
+     *Cycle 2 Day 1*, is the protocol's label and matches no row; the console log would show
+     `Filter: AnalysisVisit == Cycle 2 Day 1 → 0 rows`.
    - row **endpoint / Visit**: value → **`C2D1`**. This is the *collected* visit (`VISIT`) beside the
      analysis visit (`AVISIT`) the endpoint already carries. The recorded run had both. Without it
      the cube keeps seven unscheduled draws that the SAP's visit windows assign to C2D1, and the
