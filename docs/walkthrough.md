@@ -130,7 +130,11 @@ Tabs across the top. Two to look at:
      environment variable `CDISC_API_KEY` works too and takes precedence, if you prefer that.)
      The server forwards those requests to the Library with the key; the fragment in the
      repository is not changed, only the staged copy.
-  3. Click **Reference** again: the specialization's JSON opens in the new tab. (Until 2026-09-20 the
+  3. Click **Reference** again: the specialization opens in a new tab as a page — the domain,
+     source and package, the parent biomedical concept as a link, and a table of the variables
+     with their roles, codelists, assigned terms and relationships. A *raw JSON* link at the top
+     gives the document as the Library sent it. (Until 2026-09-23 the tab showed the raw JSON;
+     LG's verdict: *not pretty*. The page is the walkthrough server's rendering.) (Until 2026-09-20 the
   fragment carried a relative path copied from the pilot, which landed on this server's 404
   page — that is what "reviewing the BC" ran into. The pilot's own fragment still does the same
   for 32 of its 182 concepts.) The seven laboratory concepts and SYSBP link to their SDTM

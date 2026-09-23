@@ -278,6 +278,47 @@ OVERLAY_JS = r"""
 """
 
 
+def render_library_html(obj: dict, path: str) -> bytes:
+    """A CDISC Library dataset specialization or biomedical concept as a page: header facts, the variables table, raw link."""
+    import html as _h
+    e = lambda s: _h.escape("" if s is None else str(s), quote=False)
+    links = obj.get("_links", {}) or {}
+    title = obj.get("shortName") or obj.get("datasetSpecializationId") or obj.get("conceptId") or path
+    facts = []
+    for k in ("datasetSpecializationId", "domain", "source", "sdtmigStartVersion", "sdtmigEndVersion", "conceptId", "ncitCode", "definition", "categories", "synonyms"):
+        v = obj.get(k)
+        if v not in (None, "", []):
+            facts.append((k, ", ".join(map(str, v)) if isinstance(v, list) else str(v)))
+    for name, l in links.items():
+        if isinstance(l, dict) and l.get("href") and name != "self":
+            href = l["href"]; href = (PROXY + href.lstrip("/")) if href.startswith("/mdr/") else href
+            facts.append((name, f'<a href="{e(href)}">{e(l.get("title") or l["href"])}</a> <span class="dim">({e(l.get("type"))})</span>'))
+    rows = []
+    for v in obj.get("variables", []) or []:
+        cl = v.get("codelist") or {}; at = v.get("assignedTerm") or {}; rel = v.get("relationship") or {}
+        vals = v.get("valueList") or []
+        rows.append("<tr>" + "".join(f"<td>{x}</td>" for x in (
+            f"<code>{e(v.get('name'))}</code>", e(v.get("role")),
+            e(v.get("dataType")) + (f" ({v.get('length')})" if v.get("length") else ""),
+            (f'<a href="{e(cl.get("href"))}">{e(cl.get("submissionValue") or cl.get("conceptId"))}</a>' if cl.get("href") else e(cl.get("submissionValue") or "")) if cl else "",
+            (e(at.get("value")) + (f' <span class="dim">{e(at.get("conceptId"))}</span>' if at.get("conceptId") else "")) if at else (", ".join(map(e, vals)) if vals else ""),
+            ("required" if v.get("mandatoryVariable") else "") + (" · value required" if v.get("mandatoryValue") else ""),
+            e(" / ".join(x for x in (v.get("originType"), v.get("originSource")) if x)),
+            e(f"{rel.get('subject','')} {rel.get('linkingPhrase','')} {rel.get('object','')}".strip()) if rel else "",
+        )) + "</tr>")
+    table = ("<table><thead><tr><th>Variable</th><th>Role</th><th>Type</th><th>Codelist</th><th>Assigned term / values</th><th>Mandatory</th><th>Origin</th><th>Relationship</th></tr></thead>"
+             "<tbody>" + "".join(rows) + "</tbody></table>") if rows else "<p class=\"dim\">No variables in this document.</p>"
+    facts_html = "".join(f"<dt>{e(k)}</dt><dd>{v if v.startswith('<a ') else e(v)}</dd>" for k, v in facts)
+    page = ("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+            f"<title>{e(title)} — CDISC Library</title><style>{PAGE_CSS}"
+            "table{border-collapse:collapse;width:100%;font-size:.92em} th,td{border:1px solid #d0d7de;padding:5px 8px;text-align:left;vertical-align:top} th{background:#f6f8fa}"
+            "dl{display:grid;grid-template-columns:max-content 1fr;gap:.25em 1em} dt{font-weight:600} .dim{color:#57606a}"
+            "@media (prefers-color-scheme:dark){th{background:#161b22} th,td{border-color:#30363d} .dim{color:#8b949e}}</style></head><body><main>"
+            f"<p class=\"note\">CDISC Library, fetched through the walkthrough server with your key — <a href=\"?raw=1\">raw JSON</a></p>"
+            f"<h1>{e(title)}</h1><dl>{facts_html}</dl>{table}</main></body></html>")
+    return page.encode("utf-8")
+
+
 def walkthrough_page() -> bytes:
     md = WALKTHROUGH_MD.read_text(encoding="utf-8")
     body = render_markdown(md)
@@ -447,6 +488,7 @@ def serve(args: argparse.Namespace) -> None:
             if not API_KEY:
                 body = b'{"error": "CDISC_API_KEY is not set in the environment of walkthrough.py serve"}'
                 self.send_response(401); self.send_header("Content-Type", "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
+            rest = rest.split("?")[0]
             req = urllib.request.Request(LIBRARY + rest, headers={"api-key": API_KEY, "Accept": "application/json", "User-Agent": "usdm-acdc-in-practice walkthrough"})
             try:
                 with urllib.request.urlopen(req, timeout=30) as r:
@@ -455,6 +497,12 @@ def serve(args: argparse.Namespace) -> None:
                 body = e.read(); status = e.code; ctype = e.headers.get("Content-Type", "application/json")
             except (urllib.error.URLError, OSError) as e:
                 body = json.dumps({"error": f"could not reach the CDISC Library: {e}"}).encode("utf-8"); status = 502; ctype = "application/json"
+            wants_page = "text/html" in (self.headers.get("Accept") or "") and "raw=1" not in self.path
+            if status == 200 and wants_page:
+                try:
+                    body = render_library_html(json.loads(body.decode("utf-8")), rest); ctype = "text/html; charset=utf-8"
+                except (ValueError, TypeError):
+                    pass  # not JSON after all: relay as received
             self.send_response(status); self.send_header("Content-Type", ctype); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
 
     NoCache.extensions_map.update({".js": "application/javascript", ".json": "application/json", ".css": "text/css", ".svg": "image/svg+xml"})
