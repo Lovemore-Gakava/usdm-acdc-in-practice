@@ -163,7 +163,10 @@ Click **Specify Endpoints →**.
 
 - **Dimension Values:** Parameter → type `Alanine Aminotransferase` (the label, not `ALT`);
   Population → *SAF*; Treatment → *Torivumab + Chemotherapy vs Placebo + Chemotherapy*;
-  AnalysisVisit → pick **Cycle 2 Day 1** from its dropdown.
+  AnalysisVisit → pick **Cycle 2 Day 1** from its dropdown; **Visit** (the free-text box labelled
+  *VISIT/VISITNUM*) → type `C2D1`. A dimension left empty here gets no row in step 8's slices
+  table, so this is the only place the collected-visit slice can be created (LG's run, 2026-09-23:
+  no Visit box filled, no Visit row at step 8, 1.585 on 434 rows instead of the number below).
 
   > **Two names for one visit.** The AnalysisVisit dropdown lists the study's encounters by the
   > label the protocol gives them, *Cycle 2 Day 1*, because the fragment's schedule was generated
