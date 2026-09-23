@@ -149,8 +149,12 @@ Click **Specify Endpoints →**.
 - **Concept category:** *Change (Comparison)*. Data type stays *Quantity*.
 - The **Smart Phrases** panel appears on the right. Tick **Population**, **Treatment grouping**,
   **Timepoint**, and **ANCOVA method**.
-- Two small dropdowns inside the Parameter and Timepoint phrases choose the *form* of the
-  dimension. Set **Parameter (DC, label form)** and **AnalysisVisit (DC, analysis-derived visit)**.
+- Two small dropdowns inside the **Parameter** and **Timepoint** rows of the Smart Phrases panel
+  choose the *form* of the dimension. Set **Parameter (DC, label form — PARAM-equivalent)** and
+  **AnalysisVisit (DC, analysis-derived visit)**. **Do not tick the Parameter box** for this: it
+  stays unticked, its dropdown works anyway, and the Parameter dimension is in the endpoint's data
+  cube whether or not the box is ticked (checked on the page 2026-09-23, after LG asked). The
+  Timepoint box is one of the four you ticked above, so its dropdown is in a ticked row.
 
   > **Why this matters.** The engine filters on dimension names as literal columns of the
   > data. The OC forms (`Observation.Identification.Topic`, `Visit`) have no column in ADaM; the
