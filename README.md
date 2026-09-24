@@ -114,6 +114,8 @@ reasoning.
 ├── upstream/
 │   └── analysis-concepts/           submodule, pinned at 739344c, read-only
 ├── docs/
+│   ├── big-picture.md               the 5-layer architectural diagram & landscape breakdown
+│   ├── references.md                index of the 10 core open-source reference projects
 │   ├── specification.md             the original plan — §2 superseded by NORTH.md
 │   ├── method.md                    how claims are verified, and the two surfaces
 │   ├── vignette.md                  the whole traverse in plain terms — start here if new
