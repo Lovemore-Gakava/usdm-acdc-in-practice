@@ -1,0 +1,28 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: "Protocol to result"
+  subtitle: "ICH M11, USDM and CDISC AC/DC, one endpoint at a time"
+  author: "Lovemore Gakava"
+  search: true
+  chapters:
+    - index.qmd
+    - stage-0-protocol-to-m11.qmd
+    - stage-0b-restructure-and-regenerate.qmd
+    - stage-1-usdm.qmd
+    - stage-2-bc.qmd
+    - stage-3-dc.qmd
+    - stage-4-ac.qmd
+    - stage-5-esap.qmd
+    - stage-6-execute.qmd
+    - stage-7-compare.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true

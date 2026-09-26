@@ -42,6 +42,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -207,7 +208,14 @@ def check_terms(chapters: list[Path], terms: dict[str, str], R: Report) -> None:
 # ---------------------------------------------------------------- render
 
 def render(chapters: list[Path], facts: dict[str, object], aliases: dict[str, str], out_dir: Path) -> int:
+    """Write the chapters with every {{fact:}} substituted, plus the support files a
+    renderer needs. The build directory, not docs/guide/, is what Quarto is pointed
+    at — rendering the source directly would publish the placeholders."""
     out_dir.mkdir(parents=True, exist_ok=True)
+    src = chapters[0].parent
+    for extra in ("_quarto.yml", "index.qmd", "styles.css", "cover.png"):
+        if (src / extra).is_file():
+            shutil.copy2(src / extra, out_dir / extra)
     for ch in chapters:
         def sub(m: re.Match) -> str:
             key = aliases.get(m.group(1).strip(), m.group(1).strip())
