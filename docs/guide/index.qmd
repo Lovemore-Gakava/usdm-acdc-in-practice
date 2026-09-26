@@ -2,28 +2,28 @@
 title: "Protocol to result"
 ---
 
-A protocol says that laboratory values will be *analysed as change from baseline*. An analysis
-dataset has a column called `CHG`. Between those two facts, a person read the sentence and wrote
-a program.
+A trial's result begins as a sentence in a protocol and ends as a number in a table. Between
+them sit an analysis plan, a programming specification, several datasets and a succession of
+people, each interpreting the last one's work.
 
-That translation is the subject of this book. It is done thousands of times per study, it is
-where the meaning of an endpoint is actually decided, and almost nothing checks it. The
-programming specification describes it — in prose, which needs interpreting in its turn.
+Put together, the ambition of ICH M11, USDM and CDISC's Analysis and Derivation Concepts is a
+path from that sentence to that number where **every step is declared rather than implied** —
+and where the declaration, not a program, is the thing a reviewer reads.
 
-Here is what it costs, measured on one endpoint in these pages. The chain described here
-computed a treatment difference of **{{fact:lab.engine.diff|4}}**. The same model, fitted on the
-study's own derived variables by a programmer working from the same analysis plan, gives
-**{{fact:lab.reference.diff|4}}**.
+This book is a record of trying it: two endpoints of a public simulated oncology trial, taken
+the whole way, with what worked and what did not.
 
-Neither is a mistake. They differ because *baseline* can be resolved two ways — the first record
-in the baseline window, or the record a flag marks — and the plan never said which. On
-{{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects, the two choices pick
+Whether the ambition is worth the trouble comes down to what the undeclared steps cost. One
+example, which the last chapter takes apart: the chain described here computes a treatment
+difference of **{{fact:lab.engine.diff|4}}**; the same model, fitted by a programmer from the
+same plan on the study's own derived variables, computes **{{fact:lab.reference.diff|4}}**.
+
+Neither is wrong. They differ because *baseline* can be taken two ways — the first record in the
+baseline window, or the record a flag marks — and nothing in the plan said which. On
+{{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects the two choices land on
 different rows.
 
-A number that moves depending on who implemented it is the problem. ICH M11, USDM and CDISC's
-Analysis and Derivation Concepts are three attempts to make that step **declared** rather than
-interpreted — so the thing a reviewer reads is the specification itself, not a program written
-from a sentence.
+That is one undeclared step, in the simplest endpoint a trial has.
 
 ## Who this is for
 

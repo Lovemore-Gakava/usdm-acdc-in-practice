@@ -50,9 +50,10 @@ an analysis result. Three kinds of thing:
 A **biomedical concept** sits underneath, as the standard definition of the thing being
 measured: serum alanine aminotransferase, with its units, codes and permissible values.
 
-Put together, the ambition is a path from a sentence in a protocol to a number in a table, where
-every step is declared rather than implied — and where the declaration, not a program, is the
-thing a reviewer reads.
+Between them they cover the two ends and the join: M11 structures the sentence, USDM makes it
+addressable, AC/DC declares what happens to the measurement. That is the path described in the
+introduction — every step declared rather than implied — laid against the documents a trial
+actually produces.
 
 ## The join this book is about
 
