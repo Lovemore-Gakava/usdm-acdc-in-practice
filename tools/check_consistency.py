@@ -26,6 +26,8 @@ Checks:
   8. submodule     upstream is checked out, and at the commit the documents pin
   9. north         NORTH.md's nine-stage status table matches the filesystem, so
                    the compass cannot claim a stage that has not happened
+ 10. budgets      the entry documents are under their line budgets, so the
+                   repository cannot balloon back into one unreadable file
 
 Two kinds of line are exempt, because they are correct records of what was once
 believed rather than claims about the present:
@@ -690,6 +692,35 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
 # --------------------------------------------------------------------------
 
 
+# Entry documents are budgeted. The project's documents grew by accretion — NORTH.md
+# reached 352 lines carrying 27 dated markers, so the file that says where we are going
+# could only be read by wading through how we got here. Prose asking for restraint does
+# not survive contact with a busy session; a failing commit does. Raise a budget
+# deliberately, in the same commit as the text that needs it, or move the text to the
+# file whose genre it belongs to (docs/decisions.md, docs/troubleshooting.md).
+BUDGETS = {
+    "NORTH.md": 145,      # destination, three computed scoreboards, the test
+    "CLAUDE.md": 100,     # working rules and a router
+    "README.md": 140,     # what it is, how to run it, what was done
+}
+
+
+def check_budgets(root: Path) -> list[Problem]:
+    problems = []
+    for name, cap in sorted(BUDGETS.items()):
+        f = root / name
+        if not f.is_file():
+            continue
+        n = len(f.read_text(encoding="utf-8").splitlines())
+        if n > cap:
+            problems.append(Problem(name, 0,
+                                    f"{n} lines, over its budget of {cap}. Move the excess to "
+                                    f"docs/decisions.md (history), docs/troubleshooting.md "
+                                    f"(environment) or an appendix — or raise the budget in "
+                                    f"tools/check_consistency.py deliberately"))
+    return problems
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -778,6 +809,7 @@ def main() -> int:
     sub_problems, warnings = check_submodule(root, files, hist)
     problems += sub_problems
     problems += check_north(root, files)
+    problems += check_budgets(root)
 
     north_text = "\n".join(files.get("NORTH.md", []))
     for name in list(ENDPOINTS) + list(PHASES):
