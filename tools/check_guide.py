@@ -131,9 +131,21 @@ def load_facts(root: Path) -> dict[str, object]:
     return facts
 
 
-def resolve(ref: str, facts: dict[str, object], aliases: dict[str, str]) -> object | None:
-    ref = ref.strip()
-    return facts.get(aliases.get(ref, ref), None if aliases.get(ref, ref) not in facts else facts[aliases.get(ref, ref)])
+def split_ref(raw: str) -> tuple[str, int | None]:
+    """`key` or `key|4` — the trailing number rounds the value for display.
+
+    Rounding is explicit rather than automatic: a reference value carried to full
+    float precision reads badly in prose, but silently shortening a number the
+    repository stores in full would be its own small dishonesty.
+    """
+    ref, _, dp = raw.strip().partition("|")
+    return ref.strip(), (int(dp) if dp.strip().isdigit() else None)
+
+
+def format_fact(value: object, dp: int | None) -> str:
+    if dp is not None and isinstance(value, float):
+        return f"{round(value, dp):g}"
+    return str(value)
 
 
 # ---------------------------------------------------------------- the checks
@@ -158,9 +170,10 @@ def check_facts(chapters: list[Path], facts: dict[str, object], aliases: dict[st
         text = ch.read_text(encoding="utf-8")
         for m in FACT_RE.finditer(text):
             refs += 1
-            key = aliases.get(m.group(1).strip(), m.group(1).strip())
+            raw, _dp = split_ref(m.group(1))
+            key = aliases.get(raw, raw)
             if key not in facts:
-                bad.append(f"{ch.relative_to(root).as_posix()}: {m.group(1).strip()}")
+                bad.append(f"{ch.relative_to(root).as_posix()}: {raw}")
     for b in bad:
         R.add("FAIL", "facts", f"unresolved reference — {b}")
     if not bad:
@@ -306,8 +319,9 @@ def render(chapters: list[Path], facts: dict[str, object], aliases: dict[str, st
         shutil.copytree(src / "media", out_dir / "media", dirs_exist_ok=True)
     for ch in chapters:
         def sub(m: re.Match) -> str:
-            key = aliases.get(m.group(1).strip(), m.group(1).strip())
-            return str(facts.get(key, m.group(0)))
+            raw, dp = split_ref(m.group(1))
+            key = aliases.get(raw, raw)
+            return m.group(0) if key not in facts else format_fact(facts[key], dp)
 
         def sub_json(m: re.Match) -> str:
             body = resolve_json(ROOT, m.group(1), m.group(2))

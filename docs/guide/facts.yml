@@ -14,3 +14,10 @@ lab.contrast.p: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.re
 vitals.mmrm.c2d1.label: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.run_mmrm.results.contrasts[0].Contrast
 vitals.mmrm.c2d1.estimate: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.run_mmrm.results.contrasts[0].estimate
 vitals.mmrm.c2d1.se: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.run_mmrm.results.contrasts[0].SE
+
+# the baseline divergence — the book's worked example of why the join matters
+lab.engine.diff: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.estimate
+lab.reference.diff: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.reference_A_toriva_CHG_BASE_ANL01FL.diff_placebo_minus_torivumab
+lab.baseline.differ: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.baseline_ambiguity.first_row_differs_from_BASE
+lab.baseline.subjects: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.baseline_ambiguity.subjects_in_replica
+lab.baseline.pct: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.baseline_ambiguity.pct

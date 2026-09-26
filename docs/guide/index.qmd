@@ -2,13 +2,28 @@
 title: "Protocol to result"
 ---
 
-A clinical trial protocol is written for people. The datasets an analysis runs on are written
-for machines. Between the two sits a chain of standards — ICH M11, USDM, and CDISC's Analysis
-and Derivation Concepts — that is supposed to carry meaning from one end to the other without
-anyone retyping it.
+A protocol says that laboratory values will be *analysed as change from baseline*. An analysis
+dataset has a column called `CHG`. Between those two facts, a person read the sentence and wrote
+a program.
 
-This is a record of taking two real endpoints the whole way along that chain, on a public
-simulated oncology trial, and arriving at a number that a statistician could argue with.
+That translation is the subject of this book. It is done thousands of times per study, it is
+where the meaning of an endpoint is actually decided, and almost nothing checks it. The
+programming specification describes it — in prose, which needs interpreting in its turn.
+
+Here is what it costs, measured on one endpoint in these pages. The chain described here
+computed a treatment difference of **{{fact:lab.engine.diff|4}}**. The same model, fitted on the
+study's own derived variables by a programmer working from the same analysis plan, gives
+**{{fact:lab.reference.diff|4}}**.
+
+Neither is a mistake. They differ because *baseline* can be resolved two ways — the first record
+in the baseline window, or the record a flag marks — and the plan never said which. On
+{{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects, the two choices pick
+different rows.
+
+A number that moves depending on who implemented it is the problem. ICH M11, USDM and CDISC's
+Analysis and Derivation Concepts are three attempts to make that step **declared** rather than
+interpreted — so the thing a reviewer reads is the specification itself, not a program written
+from a sentence.
 
 ## Who this is for
 

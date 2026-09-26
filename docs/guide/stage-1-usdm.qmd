@@ -2,8 +2,9 @@
 title: "Stage 1 — the study as data"
 ---
 
-The protocol, expressed as JSON against a defined model, so that something other than a person
-can read it.
+The protocol's content — objectives, endpoints, estimands, arms, populations — expressed as
+JSON against a defined model, so that it can be queried, linked to and generated from rather
+than only read.
 
 ## What this is
 

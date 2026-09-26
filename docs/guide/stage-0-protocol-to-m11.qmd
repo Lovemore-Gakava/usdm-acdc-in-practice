@@ -2,8 +2,9 @@
 title: "Stage 0 — map the protocol to ICH M11"
 ---
 
-A protocol written for people, read against a structure written for machines. Nothing is
-changed yet; this stage only finds out what the protocol does and does not say.
+Reading an existing protocol against a fixed list of the things a protocol is supposed to
+contain. Nothing is changed yet: this stage only establishes what the document does and does not
+say, and where it says it.
 
 ## What this is
 
