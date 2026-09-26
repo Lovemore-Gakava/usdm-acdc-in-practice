@@ -20,6 +20,7 @@ book:
     - stage-5-esap.qmd
     - stage-6-execute.qmd
     - stage-7-compare.qmd
+    - feedback-loop.qmd
 
 format:
   html:

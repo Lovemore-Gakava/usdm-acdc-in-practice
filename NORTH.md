@@ -99,7 +99,7 @@ the material was produced can step through. Scoring is `phase3_stages` in
 | G3 | Terms glossed or linked, never assumed | ✓ |
 | G4 | Every endpoint with a result has a chapter | ✓ |
 | G5 | check_guide.py at 0 fail — no figure typed by hand | ✓ |
-| G6 | The feedback-loop chapter — structuring a protocol is itself a quality process | ✗ |
+| G6 | The feedback-loop chapter — structuring a protocol is itself a quality process | ✓ |
 | G7 | Published as a site, linked from the README | ✗ |
 
 <!-- /north:status:phase3 -->

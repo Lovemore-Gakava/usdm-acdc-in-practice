@@ -1,0 +1,82 @@
+---
+title: "The conversion is a quality process"
+---
+
+The stages before this one treat the study's documents as input. This chapter is about what
+happens to those documents on the way through — which turned out to be the most useful thing
+the exercise produced, and the part that transfers to any study.
+
+## What this is
+
+A person reading a protocol can pass over an ambiguity without noticing. They fill the gap from
+experience, and often fill it correctly. A generator cannot. Asked to produce a structured
+estimand, it must be told the population; asked to bind a derivation, it must be told which
+record is the baseline. There is no option to proceed on the assumption that everybody knows.
+
+**That is why the conversion finds things: not because the tool is clever, but because it cannot
+skip.** Structuring a document is a reading of unusual severity, and the questions it raises
+were available to anyone reading carefully — they were simply never forced.
+
+The kinds of thing that surface are consistent across studies:
+
+- **The same fact, stated differently in two documents.** A synopsis and a body section that
+  disagree on a ratio or a population, where neither is obviously the authority.
+- **Something the analysis needs that no document defines.** A variable the analysis plan names
+  that no specification produces, or a flag nothing derives.
+- **A convention assumed but never written.** Which record is the baseline is the example this
+  whole book turns on: universally understood, rarely stated, and resolvable two ways.
+- **A change made in place.** A document amended without a version, so two readers holding
+  what they believe is the same document hold different text.
+
+None of these is a mistake in the ordinary sense. They are decisions that were never recorded as
+decisions, and they survive because prose tolerates them.
+
+## What you do
+
+The loop has four steps, and the third is the one people skip.
+
+1. **Record the question when it arises**, rather than resolving it silently. The temptation at
+   stage 1 or stage 3 is to pick the sensible reading and carry on, because you are trying to
+   get an endpoint authored. Write it down instead.
+2. **Decide where the fix belongs.** Almost always the source, not your copy.
+3. **Take it to whoever owns the document**, as a draft they can read — not as a defect report
+   and not as a patch already applied. What you have is a question that structuring the
+   document raised; they have the context to answer it.
+4. **When the source changes, re-run everything against it.** A loop that stops before this is
+   an opinion, not a correction.
+
+In this project that meant two issues raised on the study's own repository —
+[#27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27) and
+[#53](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/53) — each shown as a
+draft before it was filed, and each closed by the study's owner. The register of what was raised
+lives with the study, where it belongs, and not in this book.
+
+## What you should see
+
+Numbers that move.
+
+When the source was corrected and the analysis re-run, every figure in this book changed.
+That is uncomfortable and it is the point: if correcting the documents had left the results
+identical, the corrections would have been cosmetic. The chain is only worth building if it is
+connected at both ends, and a moving number is the evidence that it is.
+
+## What to look out for
+
+**Fix the source, not your copy.** Patching your own derived version is faster, and it is the
+decision that quietly ends the loop: from then on your copy and the source disagree, the
+disagreement grows with every correction, and nobody downstream of the source ever benefits.
+This project went the other way, and the cost was re-pinning and re-running twice in one day.
+
+**They are questions, not findings.** The framing decides whether you get an answer. *"Which
+record is baseline — the plan is consistent with two readings"* is a question the author can
+answer. *"The plan is ambiguous"* is a verdict on their work, and invites a defence rather than
+a decision.
+
+**Draft, show, wait.** Nothing here was filed without the owner seeing it first and saying yes.
+That is slower than filing directly and it is the difference between a collaboration and an
+audit.
+
+**Beware the easy version of this argument.** In this project the person who found the questions
+and the person who owned the study were the same person, which made the loop fast and
+frictionless. Across an organisation it is neither. The mechanism is real; the speed here is
+not representative, and anyone planning on it should assume the conversation is the slow part.
