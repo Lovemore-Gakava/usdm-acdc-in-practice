@@ -57,14 +57,48 @@ actually produces.
 
 ## The join this book is about
 
+The study definition drives two things, not one. It says what will be *measured* — which becomes
+a case report form, and through it the collected data — and it says what will be *concluded*,
+which becomes the analysis. The two meet again at the end.
+
 ```
-protocol  ──M11──▶  structured protocol  ──USDM──▶  study as data
-                                                          │
-                                                          ▼
-collected data  ──SDTM──▶  ADaM  ──AC/DC──▶  a declared analysis  ──▶  a result
+            protocol ──M11──▶ structured protocol ──USDM──▶ study as data
+                                                                  │
+              ┌───────────────────────────────────────────────────┴──────────────┐
+              │ schedule of activities:                objectives, endpoints,    │
+              │ what is measured, and when             estimands: what is asked  │
+              ▼                                                                  │
+             CRF ──collection──▶ SDTM ──derivation──▶ ADaM                        │
+                                                       │                         │
+                                                       └──── AC/DC ◀─────────────┘
+                                                                │
+                                                                ▼
+                                                            a result
 ```
 
-The stages that follow walk that path once, on one endpoint, and stop at the point where the
+The **CRF** sits on the left-hand branch: the schedule of activities says a subject has
+chemistry taken at a given visit, and the case report form is where that becomes a field
+somebody fills in. In the study definition, that link is already present — an activity names the
+concepts it collects:
+
+{{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].studyDesigns[0].activities[5].biomedicalConceptIds}}
+
+That is the *Chemistry (LFTs, creatinine)* activity, naming five biomedical concepts.
+
+This is where the biomedical concept earns its keep, and why it is worth understanding early:
+**the same definition is supposed to govern both branches.** The concept that says what serum
+alanine aminotransferase is — its units, its code, its permissible values — should determine the
+field on the form, the variable in the collected data, and the thing the derivation binds to at
+the far end. One definition, used at both ends, rather than a chain of people agreeing to mean
+the same thing.
+
+**This book walks the right-hand branch only.** It starts from analysis datasets that already
+exist, and takes them to a result. The collection side — CRF design, and the path from a
+completed form to standardised data — is a substantial subject in its own right and is not
+exercised here. It is drawn because leaving it out makes the study definition look like an input
+to analysis alone, which is the smaller half of what it is for.
+
+The stages that follow walk the right-hand branch once, on one endpoint, and stop where the
 declared analysis produces a number — then compare that number against what a programmer built
 from the same plan by hand.
 
