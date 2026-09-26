@@ -60,7 +60,7 @@ specification's ladder expected to be the settled half.
 
 ## Disposition
 
-Drafted as Issue 4 in [upstream-issues.md](upstream-issues.md), and recommended as the **first**
+Drafted as Issue 4 in [upstream-issues.md](../archive/upstream-issues.md), and recommended as the **first**
 to file: it is the smallest of the five, verifiable in a single file, and the fix is obvious.
 
 ## Related

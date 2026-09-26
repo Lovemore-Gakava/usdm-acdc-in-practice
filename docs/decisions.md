@@ -146,7 +146,7 @@ corrected fragment the same day and every number was identical (`p6_rerun` in ea
 `results.json`, with the design note the app loaded recorded beside the run). P5 is green again.
 
 **Decided 2026-09-19, after phase 2 — two things.** (1) LG reviews phase 2:
-[`docs/review-sheet-phase2.md`](review-sheet-phase2.md), claims with falsifiers, the
+[`docs/archive/review-sheet-phase2.md`](archive/review-sheet-phase2.md), claims with falsifiers, the
 mechanical ones already run; the one that changes the most if disagreed is whether the built
 data is the right ground truth for D14/D15. (2) The `M.MMRM` implementation is **offered to
 `cdisc-org/analysis-concepts`** — prepared as [`docs/contribution-mmrm.md`](contribution-mmrm.md),

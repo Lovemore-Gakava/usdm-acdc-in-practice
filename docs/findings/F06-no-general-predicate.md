@@ -91,4 +91,4 @@ expected, on paper, before any authoring. See
 [endpoints/03-complex-pfs/mapping.md](../../endpoints/03-complex-pfs/mapping.md).
 
 Proposed upstream as an issue, with the PFS chain as the motivating case. See
-[upstream-issues.md](upstream-issues.md).
+[upstream-issues.md](../archive/upstream-issues.md).

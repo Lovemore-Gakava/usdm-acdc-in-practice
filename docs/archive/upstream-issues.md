@@ -21,7 +21,7 @@ Against `739344c` (2026-06-17). Not yet filed.
 Originally two issues were planned (specification §12): the unused `censoring` role, and the
 missing time-to-event transformations. There are now five, three of them from mapping endpoints
 on paper rather than from inspecting the libraries. **The first does not survive verification** — see
-[F02](F02-time-event-role-collision.md); there is no `censoring` role. It is replaced below
+[F02](../findings/F02-time-event-role-collision.md); there is no `censoring` role. It is replaced below
 by the role-collision issue, which is the defensible part of the same concern.
 
 **All five issues were restructured on 2026-09-16 to lead with the requirement**, after reading
@@ -38,9 +38,9 @@ infer.
 **Issues 3 and 5 were both rewritten on 2026-09-16**, after the lab tier disproved a premise in
 each. Issue 3 previously asserted that every derivation method declares exactly one output
 class, which is false — `M.UnitConversion` and `M.WindowedVisitAssignment` declare two and
-three ([F01](F01-no-tte-derivation-transformations.md)). Issue 5 previously proposed
+three ([F01](../findings/F01-no-tte-derivation-transformations.md)). Issue 5 previously proposed
 concept-level ordering as the fix, which one of the study's own tables contradicts
-([F07](F07-ordering-is-unstated.md)). Both would have been filed telling the maintainers
+([F07](../findings/F07-ordering-is-unstated.md)). Both would have been filed telling the maintainers
 something untrue about their own library.
 
 ## The state of the upstream repository, checked 2026-09-16
@@ -416,11 +416,11 @@ the count above stays at five. Each needs a decision before drafting:
 
 | Finding | Why not drafted yet |
 |---|---|
-| [F09](F09-record-selection-has-no-tiebreak.md) — no tie-break, and `time_order` unbound by every transformation | Probably belongs *inside* Issue 5 rather than beside it: same method, and both are "the ordering is unstated". It also carries a separable conformance defect — three transformations omit a role their method marks `required: true` — which may be worth reporting on its own, since it suggests nothing validates transformations against their methods |
-| [F10](F10-visit-windows-are-enumerated-not-generated.md) — windows enumerated not generated; nothing escapes windowing; `windows` has no item schema and `tieBreak` no enum | Four fixes of very different sizes bundled in one finding. Needs splitting before filing — the `tieBreak` enum is a one-line fix and the generated-windows question is a design discussion |
-| [F11](F11-analysis-record-flag-has-no-transformation.md) — `ANL01FL` is named in `M.RecordSelection`'s output description and produced by nothing | Overlaps Issue 2: the rule TORIVA needs is conditional on another derivation's output, which is the predicate gap again. The missing `T.` entry is ordinary library work and could be contributed rather than filed |
-| [F13](F13-authoring-surface-is-narrower-than-the-model.md) — 65% of methods have no transformation; templates cannot be created or reconfigured | **Probably should not be filed as an issue at all.** For a reference implementation, six generic derivation entries plus one worked example is a reasonable scope, and saying so as a defect would read as criticising the project for not being a product. The filable part is narrow and concrete: specific missing entries (`M.Categorization`, `M.Proportion`, `M.CMH`, `M.DateDifference`, `M.PercentChange`), which this project could contribute rather than request. The builder limits are worth raising as a **question about intended scope**, not a bug |
-| [F12](F12-baseline-flag-and-baseline-value-are-disconnected.md) — the baseline flag and the baseline value are disconnected | The **strongest candidate after Issue 4**, and the only finding here produced by running their own application. It is concrete, reproducible in four clicks, and lands on change from baseline — the simplest derivation they ship. Not drafted yet because it bundles three things: the flag/value disconnect, the visit-based vs date-based mismatch, and the fact that concept-string matching makes every `Flag` interchangeable (so the builder offers a baseline flag to resolve a log-rank event indicator). The last of those may deserve to be the issue |
+| [F09](../findings/F09-record-selection-has-no-tiebreak.md) — no tie-break, and `time_order` unbound by every transformation | Probably belongs *inside* Issue 5 rather than beside it: same method, and both are "the ordering is unstated". It also carries a separable conformance defect — three transformations omit a role their method marks `required: true` — which may be worth reporting on its own, since it suggests nothing validates transformations against their methods |
+| [F10](../findings/F10-visit-windows-are-enumerated-not-generated.md) — windows enumerated not generated; nothing escapes windowing; `windows` has no item schema and `tieBreak` no enum | Four fixes of very different sizes bundled in one finding. Needs splitting before filing — the `tieBreak` enum is a one-line fix and the generated-windows question is a design discussion |
+| [F11](../findings/F11-analysis-record-flag-has-no-transformation.md) — `ANL01FL` is named in `M.RecordSelection`'s output description and produced by nothing | Overlaps Issue 2: the rule TORIVA needs is conditional on another derivation's output, which is the predicate gap again. The missing `T.` entry is ordinary library work and could be contributed rather than filed |
+| [F13](../findings/F13-authoring-surface-is-narrower-than-the-model.md) — 65% of methods have no transformation; templates cannot be created or reconfigured | **Probably should not be filed as an issue at all.** For a reference implementation, six generic derivation entries plus one worked example is a reasonable scope, and saying so as a defect would read as criticising the project for not being a product. The filable part is narrow and concrete: specific missing entries (`M.Categorization`, `M.Proportion`, `M.CMH`, `M.DateDifference`, `M.PercentChange`), which this project could contribute rather than request. The builder limits are worth raising as a **question about intended scope**, not a bug |
+| [F12](../findings/F12-baseline-flag-and-baseline-value-are-disconnected.md) — the baseline flag and the baseline value are disconnected | The **strongest candidate after Issue 4**, and the only finding here produced by running their own application. It is concrete, reproducible in four clicks, and lands on change from baseline — the simplest derivation they ship. Not drafted yet because it bundles three things: the flag/value disconnect, the visit-based vs date-based mismatch, and the fact that concept-string matching makes every `Flag` interchangeable (so the builder offers a baseline flag to resolve a log-rank event indicator). The last of those may deserve to be the issue |
 
 ## Suggested filing order
 
@@ -440,10 +440,10 @@ applies only if and when that one is well received.
 
 ## Not filed
 
-**The BC joint** ([F04](F04-bc-joint.md)) — originally thought unresolved. It is resolved;
+**The BC joint** ([F04](../findings/F04-bc-joint.md)) — originally thought unresolved. It is resolved;
 `linkedBCIds` is populated on every measure terminal of the worked derivation scenario.
 Withdrawn.
 
-**`offset` is declared and unused** ([F02](F02-time-event-role-collision.md)) — true, but an
+**`offset` is declared and unused** ([F02](../findings/F02-time-event-role-collision.md)) — true, but an
 unused enum value with no consumer is not worth an issue on its own. Mentioned in Issue 1 as
 precedent instead.

@@ -764,7 +764,7 @@ def main() -> int:
     problems += check_findings_index(root, files)
 
     n_issues = sum(
-        1 for line in files.get("docs/findings/upstream-issues.md", [])
+        1 for line in files.get("docs/archive/upstream-issues.md", [])
         if re.match(r"^## Issue \d", line)
     )
     p, c = check_counted(files, ISSUE_PATTERNS, n_issues,

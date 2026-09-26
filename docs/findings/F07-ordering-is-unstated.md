@@ -110,7 +110,7 @@ the parameter … RECIST response ordering is a property of the response scale, 
 analysis, which argues for carrying it with the concept."* The first half stands. The second
 half is right for RECIST and wrong as a general rule, for the reason above.
 
-Drafted as Issue 5 in [upstream-issues.md](upstream-issues.md), third in the suggested filing
+Drafted as Issue 5 in [upstream-issues.md](../archive/upstream-issues.md), third in the suggested filing
 order — real and demonstrable, but the fix involves a design choice, unlike
 [F08](F08-no-risk-difference.md). The amendment above makes that design choice larger, and the
 issue text was updated to match: **it must not be filed proposing concept-level ordering as a

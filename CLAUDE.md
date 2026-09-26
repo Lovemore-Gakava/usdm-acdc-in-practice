@@ -12,6 +12,7 @@ Where to look, so you load what the task needs and nothing else:
 | Why is it like this? | [`docs/decisions.md`](docs/decisions.md) |
 | How claims are verified | [`docs/method.md`](docs/method.md) |
 | Who wrote what, and what is unreviewed | [`PROVENANCE.md`](PROVENANCE.md) |
+| Parked work — do not pick it up | [`docs/archive/`](docs/archive/README.md) |
 
 ## The test
 
@@ -33,9 +34,9 @@ Findings about what the framework *cannot* do are cheap to produce, feel like pr
 advance no stage. There are already thirteen. **Do not add another unless it blocks a stage you
 are actively trying to complete**, and when one does, record it in two paragraphs and move on.
 
-**The upstream issues and the review plan are parked** — `docs/findings/upstream-issues.md`,
-`docs/review-plan.md`. Do not polish them, do not propose filing them, do not treat the review
-backlog as a blocker. Nothing is filed against `cdisc-org/analysis-concepts`, with one decided
+**The parked work lives in [`docs/archive/`](docs/archive/README.md)** — the five drafted
+upstream issues, the review plan and the two consumed review sheets. Do not polish them, do not
+propose filing them, do not treat the review backlog as a blocker. Nothing is filed against `cdisc-org/analysis-concepts`, with one decided
 exception: the `M.MMRM` implementation is *prepared* in `docs/contribution-mmrm.md` (LG,
 2026-09-19) and only LG files it. Preparing it is not a licence to prepare anything else.
 

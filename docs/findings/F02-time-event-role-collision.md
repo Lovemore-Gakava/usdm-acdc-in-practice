@@ -79,4 +79,4 @@ unused enum value with no consumer is unremarkable.
 
 The issue as originally drafted asserted a declared-but-unused `censoring` role. Filing it
 would have been incorrect. The issue worth filing is the role collision between `time` and
-`event`. See [upstream-issues.md](upstream-issues.md).
+`event`. See [upstream-issues.md](../archive/upstream-issues.md).
