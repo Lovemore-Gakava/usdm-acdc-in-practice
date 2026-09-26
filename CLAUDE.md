@@ -85,12 +85,14 @@ disproved, so:
 - `tools/check_baseline_ambiguity.py` needs `pyarrow`, declared with the other data dependencies
   in `requirements.txt`. Note `pyarrow.dataset` is blocked by Application Control on **LG's
   Windows machine** — use `pq.ParquetFile(...).read()`, not `pq.read_table`.
-- **Set-up is `python tools/bootstrap.py`** — submodule, hook, `.venv`, TORIVA at the pin, then
-  it runs `check_alignment.py` to prove P3. Idempotent; `--check` reports without changing.
-  Anything that reads parquet needs the virtual environment's interpreter
-  (`.venv/bin/python`, `.venv\Scripts\python.exe` on Windows), not the system one.
-- The interpreter's name is **machine-specific**: `python` on LG's Windows machine, `python3` on
-  macOS (there is no `python` there at all). `bootstrap.py` runs under either.
+- **Set-up is `tools/bootstrap.py`, run with whatever Python the machine has** — `python` or
+  `py -3` on LG's Windows machine, `python3` on macOS, where there is no `python` at all. Never
+  assume the name; any 3.9+ interpreter runs it. It does the submodule, the hook, `.venv`, and
+  TORIVA at the pin, then runs `check_alignment.py` to prove P3. Idempotent; `--check` reports
+  without changing anything.
+- **Afterwards, anything that reads parquet needs `.venv`'s interpreter** — `.venv/bin/python`,
+  `.venv\Scripts\python.exe` on Windows — not the system one. The pre-commit hook prefers it
+  automatically; without that it scores P3, P6 and P7 red on a clone that has everything.
 - **Step 8 (WebR) will not parse the engine with CRLF endings.** `core.autocrlf=true` checks
   `ac-dc-app/r/acdc_engine.R` out as CRLF and R reports `unexpected invalid token`. Fix once per
   clone: `git -C upstream/analysis-concepts config core.autocrlf false`, then re-checkout the file.
