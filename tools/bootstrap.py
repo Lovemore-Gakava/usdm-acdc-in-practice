@@ -160,6 +160,29 @@ def do_venv(check_only: bool) -> Path | None:
     return py
 
 
+def link_default(tor: Path, check_only: bool) -> None:
+    """Make a checkout found via --toriva or TORIVA_DIR durable.
+
+    Both find_toriva() implementations look at three places, and only one of them
+    survives the process: the sibling directory. Without this, `bootstrap --toriva X`
+    reports a green P3 and then the pre-commit hook — a separate process, with no
+    argument and no environment — scores P3, P6 and P7 red on the same clone.
+    A symlink at the default location costs nothing and makes the green durable.
+    """
+    if tor == TORIVA_DEFAULT.resolve() or TORIVA_DEFAULT.exists():
+        return
+    if check_only:
+        say(f"  note: nothing at {TORIVA_DEFAULT}, so other tools will not find this checkout")
+        return
+    try:
+        TORIVA_DEFAULT.symlink_to(tor, target_is_directory=True)
+        say(f"  linked {TORIVA_DEFAULT.name} -> {tor} so the other tools find it too")
+    except (OSError, NotImplementedError):
+        # Windows needs Developer Mode or an elevated shell for symlinks.
+        say(f"  could not link {TORIVA_DEFAULT} — set TORIVA_DIR in your environment instead,")
+        say(f"  or the pre-commit hook will score P3, P6 and P7 red: TORIVA_DIR={tor}")
+
+
 def do_toriva(arg: str | None, check_only: bool, no_clone: bool) -> Path | None:
     step("4/5", "TORIVA-LUNG 301 checkout")
     pin = pinned_commit()
@@ -177,6 +200,7 @@ def do_toriva(arg: str | None, check_only: bool, no_clone: bool) -> Path | None:
             else:
                 say(f"  WARNING: {tor} is at {head[:8]} but the pin is {pin[:8]}")
                 say("  the numbers in the walkthrough are for the pin; check it out or re-pin deliberately (CLAUDE.md)")
+            link_default(tor, check_only)
             return tor
 
     if check_only or no_clone:
