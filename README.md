@@ -9,14 +9,18 @@ computed from the filesystem on every commit, so they cannot claim a stage that 
 
 ## Where to start
 
-**The guide is published at
-[lovemore-gakava.github.io/usdm-acdc-in-practice](https://lovemore-gakava.github.io/usdm-acdc-in-practice/)**
-— the traverse as a book, for a reader with no CDISC background. Built from `docs/guide/` by
-`.github/workflows/guide.yml`, with every figure resolved from the recorded runs at build time.
+The guide — the traverse as a book, for a reader with no CDISC background — is in
+`docs/guide/`. **It is not published.** The build is ready and `.github/workflows/guide.yml`
+will deploy it to Pages when Pages is enabled; until then, read it locally:
+
+```
+.venv/bin/python tools/check_guide.py --render docs/guide/_build
+cd docs/guide/_build && quarto render && open _book/index.html
+```
 
 | You want to | Read |
 |---|---|
-| Follow the whole traverse as a book | [the published guide](https://lovemore-gakava.github.io/usdm-acdc-in-practice/) |
+| Follow the whole traverse as a book | `docs/guide/`, rendered as above |
 | Understand the traverse, with no CDISC background | [`docs/vignette.md`](docs/vignette.md) |
 | Drive it yourself, click by click | [`docs/walkthrough.md`](docs/walkthrough.md), and the [recording](docs/media/walkthrough-lab-endpoint.gif) |
 | Know what "done" means | [`NORTH.md`](NORTH.md) |

@@ -347,3 +347,33 @@ read as absence, the urge to fix while mapping, the same element disagreeing acr
 body, and selective reading. G6 becomes the feedback loop rather than the defect list: attempting
 the conversion surfaces what prose hides, raising it improves the source. The two closed issues
 stay as its evidence, since a closed issue is a permanent fact and cannot go stale.
+
+---
+
+## The guide is not published yet (2026-09-26, LG)
+
+The book was published to GitHub Pages on 2026-09-26 and taken down within minutes, on LG's
+*"I do not want the site to be public"* — then *"yet"*, so this is a pause and not a reversal.
+
+Sequence, for the record: Pages was enabled at LG's instruction to publish, the site went live,
+G7 was marked green after the URL was verified to serve, and the site was deleted on LG's next
+message. The Pages site is gone at the API; GitHub's CDN served cached copies for some minutes
+after, which is expected behaviour and was watched rather than assumed.
+
+The exposure was a matter of minutes, on a URL with no inbound links. A new URL is unlikely to
+have been crawled in that window, but it cannot be ruled out.
+
+**What was kept.** The workflow, the colophon, the checks that gate a publish. Republishing is
+enabling Pages and re-running the workflow — one step, whenever LG wants it. Nothing about the
+book changed.
+
+**What was corrected.** The README no longer advertises a published site and explains how to
+render locally instead; the colophon no longer says "before publication"; G7 is red again. The
+checker would have caught the first of those on the next commit, and the scoreboard is the
+reason the row could not quietly stay green.
+
+**The lesson, which is mine rather than LG's.** "Publish the site" was an explicit instruction
+and I flagged the private-repository implication before acting — but I flagged it and then acted
+in the same breath, having already been told that LG's review was the gate. An instruction to
+publish and a standing gate should have been reconciled with LG, not by me. Enabling Pages is
+not reversible in the way a commit is: the content was public, however briefly.

@@ -26,7 +26,7 @@ none of it is suitable for regulatory use or for any clinical conclusion.
 ## Status
 
 This book was drafted with an AI model under the author's direction, and read and approved by
-the author before publication.
+the author.
 
 That is a review of the writing. It is not independent verification of every claim in it: the
 lessons in these chapters are drawn from the working record of one traverse, and the repository
