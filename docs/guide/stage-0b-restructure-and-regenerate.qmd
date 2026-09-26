@@ -2,8 +2,12 @@
 title: "Stage 0b — restructure, then regenerate"
 ---
 
-Moving the misplaced elements into the M11 structure, and then making something read the
-result.
+Moving the misplaced elements into the M11 structure, and then making something read the result.
+
+**This stage exists only on the retrofit path.** If the protocol was authored to M11 there is
+nothing to restructure, and you go straight from confirmation to generating the study
+definition. Everything below is about closing a gap that a protocol authored to the template
+never opens.
 
 ## What this is
 

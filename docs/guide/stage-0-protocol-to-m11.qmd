@@ -2,30 +2,64 @@
 title: "Stage 0 — map the protocol to ICH M11"
 ---
 
-Reading an existing protocol against a fixed list of the things a protocol is supposed to
-contain. Nothing is changed yet: this stage only establishes what the document does and does not
-say, and where it says it.
+Establishing what the protocol says, against a fixed list of what a protocol is supposed to
+contain — and where it says it.
 
 ## What this is
 
 ICH M11 is a template for the clinical trial protocol: fourteen sections, and in the merged
 electronic version 303 data elements, 216 of them Required, each carrying a CDISC code.
-Mapping means deciding, element by element, which piece of the existing protocol answers it —
-and recording the ones nothing answers.
+
+**Where you start depends on where the protocol came from, and the two cases are different
+pieces of work.**
+
+*If the protocol was authored to M11* — the case M11 exists for — the structure is already
+there. This stage is a **confirmation**: which elements does the endpoint you are carrying
+depend on, and does the protocol actually supply them? Authoring to a template does not
+guarantee completeness, and a section can be present and empty. Expect this to take an hour,
+not a week.
+
+*If the protocol predates M11, or was written to a sponsor's own template* — the common case
+today, and the one this book walks — it is a **mapping**: deciding, element by element, which
+piece of the existing document answers it, and recording the ones nothing answers.
+
+The two produce different things. Confirmation produces a checklist. Mapping produces a
+diagnosis, because the elements nothing answers tell you something about the document that no
+amount of reading it end to end will.
+
+This book takes the mapping path because the study it uses predates M11. If you are starting a
+new protocol, read this stage for what the elements *are* and then skip to the confirmation
+version of the steps below.
 
 ## What you do
 
-Read the source protocol against the element list and write the mapping down. The output is a
-table, not an edit: element, where it is satisfied, or *absent*.
+**Mapping an existing protocol**
 
-The absences are the interesting half, so record them with the same care as the matches.
+1. List the M11 elements the endpoint you are carrying depends on. Not all 216 — the ones in
+   scope.
+2. For each, find where the existing document answers it, and write down the location.
+3. Where nothing answers it, record *absent*, and where you believe the content lives instead.
+4. Produce a table, not an edit. The output of this stage is a description of the document as it
+   stands.
+
+**Confirming a protocol authored to M11**
+
+1. List the same in-scope elements.
+2. Check each is present *and populated* — a heading with nothing under it satisfies a template
+   and not a reader.
+3. Record the gaps. There will be fewer, and they will be genuine omissions rather than
+   misplacements.
+
+Either way, the absences are the interesting half, so record them with the same care as the
+matches.
 
 ## What you should see
 
 A mapping document, and a count of required elements the protocol does not supply.
 
-Expect that count to be substantial on any protocol not written to M11 in the first place. It
-is a measure of the distance between two conventions, not of how good the protocol is.
+On a protocol not written to M11, expect that count to be substantial: it measures the distance
+between two conventions, not how good the protocol is. On one authored to M11 it should be
+close to zero, and anything that is not zero is worth understanding before you go further.
 
 ## What to look out for
 

@@ -49,6 +49,19 @@ Every chapter answers the same four questions:
 That last section is the reason this exists. The standards documents describe the destination;
 almost nothing describes the potholes.
 
+## Two ways in
+
+Where you join depends on where your protocol came from, and it changes which chapters apply.
+
+| | Stage 0 | Stage 0b | From stage 1 |
+|---|---|---|---|
+| **Protocol authored to ICH M11** | Confirm the elements your endpoint needs are present and populated | *Does not apply* — nothing to restructure | Identical |
+| **Protocol predates M11, or follows a sponsor template** | Map it, element by element, and record what is absent | Move the misplaced content, then regenerate | Identical |
+
+This book walks the second, because the study it uses predates M11 — and because that is the
+more common position today. The two converge at stage 1, and everything after it is the same
+work either way.
+
 ## Two things to know before you start
 
 **The numbers here are read from the runs, not typed.** Every figure is resolved from the
