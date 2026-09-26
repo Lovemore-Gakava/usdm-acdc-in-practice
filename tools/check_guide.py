@@ -205,6 +205,53 @@ def check_terms(chapters: list[Path], terms: dict[str, str], R: Report) -> None:
         R.add("PASS", "terms", f"{len(terms)} term(s) glossed or linked; every high-risk term used is covered")
 
 
+def check_shots(chapters: list[Path], root: Path, R: Report) -> None:
+    """A screenshot is not "the app" — it is the app at one commit.
+
+    LG, 2026-09-26: the standards and the tool are both in flux, so a screenshot
+    anchors the book and makes it fragile. The answer is to treat the pin as part
+    of the image's identity: every shot is named `name@<short-sha>.jpg`, the book
+    says which commit it shows, and this check fails when that stops matching the
+    submodule the repository pins. Fragility does not disappear; it stops being
+    silent, which is the only part that hurt.
+    """
+    import subprocess as _sp
+    media = root / "docs" / "guide" / "media"
+    try:
+        pinned = _sp.run(["git", "-C", str(root / "upstream" / "analysis-concepts"),
+                          "rev-parse", "--short", "HEAD"],
+                         capture_output=True, text=True, timeout=30).stdout.strip()
+    except (OSError, _sp.SubprocessError):
+        pinned = ""
+    if not pinned:
+        R.add("FAIL", "screenshots", "cannot read the pinned submodule commit to check shots against")
+        return
+
+    used = set()
+    for ch in chapters:
+        used |= set(re.findall(r"!\[[^\]]*\]\(([^)]+)\)", ch.read_text(encoding="utf-8")))
+
+    missing = [u for u in used if not (ch.parent / u).is_file()]
+    for m in missing:
+        R.add("FAIL", "screenshots", f"referenced but not on disk — {m}")
+
+    shots = sorted(media.glob("*@*.jpg")) + sorted(media.glob("*@*.png")) if media.is_dir() else []
+    stale = [f.name for f in shots if f.name.rsplit("@", 1)[1].split(".")[0] != pinned]
+    for f in stale:
+        R.add("FAIL", "screenshots",
+              f"{f} was taken at a different commit from the pin ({pinned}) — recapture, or re-pin deliberately")
+
+    unstamped = [f.name for f in (media.glob("*.jpg") if media.is_dir() else []) if "@" not in f.name]
+    for f in unstamped:
+        R.add("FAIL", "screenshots", f"{f} carries no @<commit> stamp, so it cannot be checked for staleness")
+
+    if not (missing or stale or unstamped):
+        R.add("PASS", "screenshots",
+              f"{len(shots)} shot(s), all stamped at the pinned commit {pinned}"
+              if shots else "no screenshots yet")
+
+
+
 # ---------------------------------------------------------------- render
 
 def render(chapters: list[Path], facts: dict[str, object], aliases: dict[str, str], out_dir: Path) -> int:
@@ -262,6 +309,7 @@ def main() -> int:
     check_facts(chapters, facts, aliases, R, root)
     check_literals(chapters, allowed, R, root)
     check_terms(chapters, terms, R)
+    check_shots(chapters, root, R)
     R.print()
     return 1 if R.failed else 0
 
