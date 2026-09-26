@@ -9,6 +9,7 @@ book:
   search: true
   chapters:
     - index.qmd
+    - documents.qmd
     - stage-0-protocol-to-m11.qmd
     - stage-0b-restructure-and-regenerate.qmd
     - stage-1-usdm.qmd

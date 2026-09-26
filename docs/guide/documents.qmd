@@ -1,0 +1,80 @@
+---
+title: "The documents"
+---
+
+Before any of the stages make sense, it helps to have the cast in one place. A trial produces a
+chain of documents and datasets, each written by different people, for different readers, at
+different times. Most of the difficulty in what follows comes from the joins between them.
+
+If you already work in one part of this chain, the useful thing here is probably the part you
+don't touch.
+
+## What a trial produces
+
+| | What it is | Who writes it | What it fixes |
+|---|---|---|---|
+| **Protocol** | The plan of the trial in prose: why, who, what happens to them, what is measured, what will be concluded | Clinical, medical, with statistical input | What the trial *is* |
+| **SAP** | Statistical analysis plan. How the data will be analysed — populations, models, handling of missing data, the exact tables | Statistics | What "analysed" means |
+| **CRF** | Case report form. The screens or pages a site fills in for each subject | Data management | What gets collected |
+| **SDTM** | Study Data Tabulation Model. The collected data, standardised — one domain per kind of observation, close to what was recorded | Programming | What was observed |
+| **ADaM** | Analysis Data Model. Datasets built *for* the analysis: one row per subject per parameter per visit, with derived values like change from baseline already computed | Programming | What is analysed |
+| **TFL** | Tables, figures and listings — the output a reader of the study actually sees | Programming | What is reported |
+
+The important thing about **SDTM and ADaM** being separate: SDTM is meant to faithfully record
+what happened, and ADaM is meant to be analysis-ready. Change from baseline does not exist in
+SDTM — someone has to decide which record *is* the baseline and subtract it. That decision is
+made in a programming specification, written in prose, and it is exactly the kind of decision
+this whole chain is trying to make explicit.
+
+## Where the standards in this book sit
+
+Three things are being applied on top of that chain, and they address different joins in it.
+
+**ICH M11** is a template for the protocol itself. Fourteen sections, and in its electronic form
+a list of data elements, each with a code — so a protocol stops being free prose and starts
+being a structure that can be read by something other than a person. It addresses the protocol
+alone.
+
+**USDM** — the Unified Study Definition Model — is the protocol *as data*. Objectives,
+endpoints, estimands, arms, populations, the schedule of activities, expressed as JSON against a
+defined model. If M11 says what a protocol must contain, USDM is a shape that content can live
+in and be queried from.
+
+**AC/DC** — Analysis and Derivation Concepts — covers the other end: how a measurement becomes
+an analysis result. Three kinds of thing:
+
+- an **observation concept**, the atomic measured thing
+- a **derivation concept**, a step that computes — select a baseline, subtract it, window a visit
+- an **analysis concept**, the aggregated result — a comparison, a model, a summary
+
+A **biomedical concept** sits underneath, as the standard definition of the thing being
+measured: serum alanine aminotransferase, with its units, codes and permissible values.
+
+Put together, the ambition is a path from a sentence in a protocol to a number in a table, where
+every step is declared rather than implied — and where the declaration, not a program, is the
+thing a reviewer reads.
+
+## The join this book is about
+
+```
+protocol  ──M11──▶  structured protocol  ──USDM──▶  study as data
+                                                          │
+                                                          ▼
+collected data  ──SDTM──▶  ADaM  ──AC/DC──▶  a declared analysis  ──▶  a result
+```
+
+The stages that follow walk that path once, on one endpoint, and stop at the point where the
+declared analysis produces a number — then compare that number against what a programmer built
+from the same plan by hand.
+
+## A note on versions
+
+All three standards are moving, and so is the tooling. This book describes:
+
+- **ICH M11** in its merged electronic form, as mapped in the factory's `study/m11/`
+- **USDM v4.0**
+- CDISC's **analysis-concepts** repository at the commit this repository pins, which every
+  screenshot here is stamped with
+
+That is deliberate. A guide that claims to be current is wrong within a release; one that says
+which version it describes stays useful, because you can tell what has moved since.

@@ -1,30 +1,51 @@
 ---
-title: "Stage 1 — the USDM fragment"
+title: "Stage 1 — the study as data"
 ---
 
-The study as data: objectives, endpoints, estimands, arms, population, and the concepts the
-endpoints are measured by.
+The protocol, expressed as JSON against a defined model, so that something other than a person
+can read it.
 
 ## What this is
 
-USDM is CDISC's Unified Study Definition Model — a JSON representation of what a protocol
-says. A *fragment* is the part needed for the endpoints being carried, not a whole digitised
-protocol.
+A USDM fragment is the part of the study definition the endpoints in scope actually need —
+objectives, endpoints, estimands, arms, population, and the biomedical concepts the endpoints
+are measured by. Not a whole digitised protocol, which is a separate and much larger job.
+
+Loaded into the builder, the study looks like this:
+
+![The study as the builder reads it. Note the rationale: this fragment was *generated* from the
+M11-restructured protocol, and says by what and from which sections.](media/study-overview@739344c.jpg)
+
+The fragment itself declares where it came from:
+
+{{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].studyDesigns[0].arms[0]}}
+
+That is one arm, exactly as stored. Every other element — objective, endpoint, estimand — has
+the same character: a named thing with an identifier that something downstream can point at.
 
 ## What you do
 
-Author or generate the fragment, then load it in the builder and look at it. A fragment that
-does not render is not finished, whatever the schema says.
+1. Generate the fragment from the structured protocol, or hand-author it for a first pass.
+2. Put it where the application looks for studies, and add it to the study manifest.
+3. Open the application, and check the study card appears.
+4. Open **Study Overview** and read each tab — Summary, Arms, Objectives & Endpoints, Schedule
+   of Activities. These are your fragment, rendered.
 
 ## What you should see
 
-A study that appears in the application's study list, with its objectives and endpoints
-showing.
+A study card, and behind it the objectives and endpoints you put in, each with its text from the
+protocol. If a tab is empty, that part of the fragment is missing or is not shaped the way the
+reader expects.
 
 ## What to look out for
 
-**Authoring it by hand teaches you the model; regenerating it is what makes it true.** This
-project did stage 1 before stage 0, in the wrong order, and the fragment then had to be
-regenerated once the protocol was restructured.
+**Rendering is the real test, not schema validation.** A fragment can satisfy the schema and
+still show an empty Arms tab, because the application reads a particular path and yours put the
+content somewhere else that is equally valid. Load it and look before believing it.
 
-If you are learning, hand-author once — the shape sticks. Then throw it away and generate.
+**Hand-author once, then generate.** Writing a fragment by hand teaches the shape faster than
+reading the model does, and it is worth doing once for that reason alone. But a hand-authored
+fragment is a transcription of prose, and it inherits every ambiguity in the prose silently.
+Generating it from a structured protocol makes the transcription step reviewable — and this
+project's fragment went from one estimand to six when it was regenerated, because the structured
+protocol carried what the prose had left to the analysis plan.

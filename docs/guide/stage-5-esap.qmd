@@ -2,29 +2,41 @@
 title: "Stage 5 — generate the eSAP"
 ---
 
-Putting the chain into a study-level document bound to the protocol's objectives, endpoints
-and estimands.
+Putting the chain into a study-level document, bound to the protocol's objectives, endpoints and
+estimands.
 
 ## What this is
 
-The eSAP is the electronic statistical analysis plan: the container the chain goes into, and
-the input to execution. It is not a fourth concept beside BC, DC and AC.
+The eSAP is the container the chain goes into, and the input to execution. It is not a fourth
+concept beside the other three — it is where a specification stops being about one endpoint and
+starts being about a study.
+
+It declares its own provenance:
+
+{{json:endpoints/01-simple-lab-cfb/esap.json#$provenance}}
 
 ## What you do
 
-Run the generation step with the study loaded. The same state renders several ways — a
-sectioned document, dataset and specification views, the JSON instance, and a Define-XML.
+1. Open **eSAP Builder** (step 7) with the study loaded and the chain complete.
+2. Generate. The same state renders several ways — a sectioned document, dataset and
+   specification views, the JSON instance, and a Define-XML.
+3. Read the estimand section before anything else.
 
 ## What you should see
 
-An eSAP instance whose estimand is populated rather than showing unknown placeholders.
+An eSAP whose estimand is populated: a named analysis population, named treatments, the
+intercurrent event strategy, the summary measure. Not placeholders.
 
 ## What to look out for
 
 **The estimand is assembled from two places, and the chain supplies half of it.** The
-population-level summary and the intercurrent events come from USDM; the analysis population
-and the treatment come from the chain's own dimension values.
+population-level summary and the intercurrent events come from the study definition; the
+analysis population and the treatment come from the chain's own dimension values.
 
-A chain that reaches this stage without those dimensions set produces an eSAP with
-`AnalysisPopulation_unknown` and an unspecified intervention — valid output, useless content.
-USDM's own analysis-population reference is *not* what this step reads.
+A chain that reaches this stage without those dimensions set produces an eSAP carrying
+`AnalysisPopulation_unknown` and an unspecified intervention — structurally valid, semantically
+empty. The study definition's own analysis-population reference is *not* what this step reads.
+
+That is the same shape as the lesson in stage 2: there are two joins that look like one, and the
+chain's is the one that carries. It is worth expecting the pattern rather than being surprised
+by it twice.

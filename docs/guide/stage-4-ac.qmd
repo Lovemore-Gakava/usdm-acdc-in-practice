@@ -2,29 +2,47 @@
 title: "Stage 4 — bind the analysis"
 ---
 
-Saying which statistical method operates on the derived value, and what plays each role in
-it.
+Saying which statistical method operates on the derived value, and what fills each of its roles.
 
 ## What this is
 
-An Analysis Concept is the aggregated, non-subject-level result: a comparison, a summary, a
-model. Binding it means mapping the chain's outputs onto the method's roles — response, fixed
-effect, covariate, strata.
+An analysis concept is the aggregated result — a comparison, a model, a summary. It is not
+subject-level: by the time you are here, rows have become an estimate.
+
+A method declares *roles*. ANCOVA needs a response, a covariate, a fixed effect; it needs to
+know what a subject is and which slice of the data it applies to. Binding is filling those in.
+The upper half of the pipeline picture in the previous chapter is exactly this: `M.ANCOVA` at
+the top, and beneath it `response`, `covariate`, `fixed_effect`, `partition`, `constraint`, each
+pointing at something.
+
+The chain records which library entry was used, so the binding can be read back later:
+
+{{json:endpoints/01-simple-lab-cfb/chain.json#$references.acConceptModel}}
 
 ## What you do
 
-Choose the analysis transformation and bind each role.
+1. Open **Analysis** (step 4) and choose the analysis for the endpoint.
+2. Bind each role the method declares.
+3. Set the dimension values — which population, which treatments. These matter more than they
+   look; see stage 5.
 
 ## What you should see
 
-A complete specification of the analysis, ready to be put into a study-level document.
+Every role bound, and the analysis appearing as the top node of the derivation pipeline with no
+unresolved inputs beneath it.
 
 ## What to look out for
 
-**You author from templates, not from methods, and there are far fewer templates.** The
-method library is much larger than the set of things the builder can actually author — in the
-pinned version, 39 of 60 methods have no template at all.
+**You author from templates, not from methods, and there are far fewer templates.** The method
+library is much larger than the set of things the builder can actually author — at the pinned
+version, most methods have no transformation to select.
 
-So "the method exists" does not mean "the analysis can be authored". Check for a
-transformation before planning an endpoint around a method, or you will reach this stage and
-find nothing to select.
+So "the method exists" does not mean "the analysis can be authored". Check for a transformation
+before planning an endpoint around a method, or you will arrive at this stage with nothing to
+pick. This is the single most common way an endpoint that looks feasible on paper turns out not
+to be.
+
+**A method's roles are its contract, and they are narrower than statistical intuition.** Two
+inputs that a statistician would describe the same way may be distinct roles here, and roles
+that look interchangeable are distinguished only by position in the model's formula. Read the
+method before assuming what it will accept.

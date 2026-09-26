@@ -58,6 +58,10 @@ HIGH_RISK_TERMS = [
 ]
 
 FACT_RE = re.compile(r"\{\{fact:([^}]+)\}\}")
+# {{json:path/to/file.json#dotted.path}} — lift a real subtree out of a real artefact.
+# The same argument as facts: a JSON excerpt pasted into prose is a copy that can go
+# stale, and fenced code is invisible to the literals check, so nothing would catch it.
+JSON_RE = re.compile(r"\{\{json:([^}#]+)(?:#([^}]+))?\}\}")
 # A number somebody typed: a decimal, or a percentage. Integers are not flagged.
 LITERAL_RE = re.compile(r"(?<![\w.])[-−+]?\d+\.\d+%?|(?<![\w.])\d+%")
 FENCE_RE = re.compile(r"^\s*(```|:::)")
@@ -205,6 +209,41 @@ def check_terms(chapters: list[Path], terms: dict[str, str], R: Report) -> None:
         R.add("PASS", "terms", f"{len(terms)} term(s) glossed or linked; every high-risk term used is covered")
 
 
+def _dig(data: object, path: str) -> object:
+    """Walk a dotted path with [i] indexing, the same addressing facts use."""
+    cur = data
+    for part in re.findall(r"[^.\[\]]+|\[\d+\]", path or ""):
+        if part.startswith("["):
+            cur = cur[int(part[1:-1])]
+        else:
+            cur = cur[part]
+    return cur
+
+
+def resolve_json(root: Path, spec: str, path: str | None) -> str | None:
+    f = root / spec.strip()
+    if not f.is_file():
+        return None
+    try:
+        return json.dumps(_dig(json.loads(f.read_text(encoding="utf-8")), path or ""),
+                          indent=2, ensure_ascii=False)
+    except (OSError, json.JSONDecodeError, KeyError, IndexError, TypeError, ValueError):
+        return None
+
+
+def check_json(chapters: list[Path], root: Path, R: Report) -> None:
+    refs, bad = 0, []
+    for ch in chapters:
+        for m in JSON_RE.finditer(ch.read_text(encoding="utf-8")):
+            refs += 1
+            if resolve_json(root, m.group(1), m.group(2)) is None:
+                bad.append(f"{ch.relative_to(root).as_posix()}: {m.group(0)}")
+    for b in bad:
+        R.add("FAIL", "artefacts", f"unresolved excerpt — {b}")
+    if not bad:
+        R.add("PASS", "artefacts", f"{refs} artefact excerpt(s), all lifted from a file in the repository")
+
+
 def check_shots(chapters: list[Path], root: Path, R: Report) -> None:
     """A screenshot is not "the app" — it is the app at one commit.
 
@@ -260,14 +299,22 @@ def render(chapters: list[Path], facts: dict[str, object], aliases: dict[str, st
     at — rendering the source directly would publish the placeholders."""
     out_dir.mkdir(parents=True, exist_ok=True)
     src = chapters[0].parent
-    for extra in ("_quarto.yml", "index.qmd", "styles.css", "cover.png"):
+    for extra in ("_quarto.yml", "styles.css", "cover.png"):
         if (src / extra).is_file():
             shutil.copy2(src / extra, out_dir / extra)
+    if (src / "media").is_dir():
+        shutil.copytree(src / "media", out_dir / "media", dirs_exist_ok=True)
     for ch in chapters:
         def sub(m: re.Match) -> str:
             key = aliases.get(m.group(1).strip(), m.group(1).strip())
             return str(facts.get(key, m.group(0)))
-        (out_dir / ch.name).write_text(FACT_RE.sub(sub, ch.read_text(encoding="utf-8")), encoding="utf-8")
+
+        def sub_json(m: re.Match) -> str:
+            body = resolve_json(ROOT, m.group(1), m.group(2))
+            return m.group(0) if body is None else f"```json\n{body}\n```"
+
+        text = FACT_RE.sub(sub, ch.read_text(encoding="utf-8"))
+        (out_dir / ch.name).write_text(JSON_RE.sub(sub_json, text), encoding="utf-8")
     print(f"rendered {len(chapters)} chapter(s) into {out_dir}")
     return 0
 
@@ -309,6 +356,7 @@ def main() -> int:
     check_facts(chapters, facts, aliases, R, root)
     check_literals(chapters, allowed, R, root)
     check_terms(chapters, terms, R)
+    check_json(chapters, root, R)
     check_shots(chapters, root, R)
     R.print()
     return 1 if R.failed else 0

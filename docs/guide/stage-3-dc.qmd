@@ -1,28 +1,59 @@
 ---
-title: "Stage 3 — author the derivation"
+title: "Stage 3 — the derivation"
 ---
 
-Turning collected measurements into the analysis value the endpoint is about.
+Turning what was collected into the value the endpoint is actually about.
 
 ## What this is
 
-A Derivation Concept is a step that computes: select a baseline, subtract it, impute, window
-a visit. Chains of them turn what was collected into what is analysed.
+A derivation concept is a step that computes. Change from baseline is the simplest useful
+example: take the measurement, take the subject's baseline measurement, subtract.
+
+Authored, that step is stored like this — a transformation, the method it uses, and a binding
+for each role the method takes:
+
+{{json:endpoints/01-simple-lab-cfb/chain.json#$references.transformationLibrary}}
+
+The chain names the library and version it was authored against, so a chain and the library that
+gave it meaning cannot be separated later.
+
+The pipeline view shows the whole endpoint at once:
+
+![Stage 3 and stage 4 in one picture. The analysis sits at the top; below it, each role it needs
+— response, covariate, fixed effect, partition, constraint — is filled by something the chain
+produces or the data supplies.](media/derivation-pipeline@739344c.jpg)
+
+Reading it upward is the clearest way to understand the model: `M.ANCOVA` needs a response, and
+the response is `CHG (Change)`, which is produced by a `Change From Baseline` step using
+`M.Subtraction`, which in turn needs a minuend and a subtrahend — the measurement and the
+baseline measurement.
 
 ## What you do
 
-Pick the transformation, bind its roles to concepts, and set its configuration.
+1. Open **Derivations** (step 6). The endpoint's chain is shown as a graph.
+2. Click a node to configure it.
+3. For each role the method declares, bind the thing that fills it — a concept from the study, a
+   dimension, or the output of an earlier step.
+4. Watch the **Execution Order** panel. It lists the steps in the order they will run, and it is
+   the quickest check that the chain is a chain and not a set of disconnected nodes.
 
 ## What you should see
 
-A chain whose output is the analysis value — here, change from baseline.
+**Pipeline Complete — all dependencies resolved for this endpoint**, and an execution order with
+one entry per step. Anything else means a role is unbound or is bound to something that cannot
+satisfy it.
 
 ## What to look out for
 
-**Dependencies resolve by output concept and exact string equality.** A step that emits a
-`Flag` can never satisfy a step that wants a `Measure`, however obviously related they are to
-a human reader. This is the mechanism behind one of the sharper findings in the factory: the
-baseline *flag* and the baseline *value* are disconnected, and no amount of naming fixes it.
+**Dependencies resolve by output concept, with exact string equality.** A step that emits a
+`Flag` can never satisfy a step that wants a `Measure`, however obviously related they are to a
+human reader. This is the mechanism behind one of the sharper findings in the factory: the
+baseline *flag* and the baseline *value* are disconnected, and no amount of sensible naming
+bridges them.
 
-When a step refuses to accept an input that looks right, check the output concept before you
-check anything else.
+When a node refuses an input that looks right, check the output concept of the thing you are
+feeding it before you check anything else.
+
+**The graph is the specification.** It is tempting to treat the picture as a summary of
+something written elsewhere. It is not — it *is* the thing, and `chain.json` is its serialised
+form. If the picture is wrong, the analysis is wrong.
