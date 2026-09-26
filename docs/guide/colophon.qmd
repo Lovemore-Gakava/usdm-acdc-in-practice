@@ -25,13 +25,19 @@ none of it is suitable for regulatory use or for any clinical conclusion.
 
 ## Status
 
-**This book has not been reviewed line by line.** It was drafted with an AI model under the
-author's direction, and the repository behind it records which claims were verified by running
-something and which are argument — see its `PROVENANCE.md`.
+This book was drafted with an AI model under the author's direction, and read and approved by
+the author before publication.
 
-That repository also records its own errors: several findings made during the work had a premise
-or a proposed fix disproved. The lessons in these chapters come from the same source, and should
-be treated as a careful account of one traverse rather than as a specification.
+That is a review of the writing. It is not independent verification of every claim in it: the
+lessons in these chapters are drawn from the working record of one traverse, and the repository
+behind this book distinguishes what was established by running something from what is argument —
+see its `PROVENANCE.md`.
+
+The same repository records its own errors, which is the more useful disclosure. Several
+findings made during the work had a premise or a proposed fix disproved, and most of those
+failed the same way: by inferring what an application does from reading its files rather than
+running it. Treat what follows as a careful account of one traverse rather than as a
+specification.
 
 ## The repository behind this
 
