@@ -1,0 +1,16 @@
+# Short names for facts, so the prose stays readable.
+# Right-hand side is file#dotted.path into a results.json; tools/check_guide.py
+# resolves it and --render substitutes the value. Nothing here is a number: if a
+# figure moves, the guide moves with it.
+#
+# List everything addressable with:  python tools/check_guide.py --list-facts
+
+lab.contrast.label: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.Contrast
+lab.contrast.estimate: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.estimate
+lab.contrast.se: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.SE
+lab.contrast.df: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.df
+lab.contrast.p: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.p_value
+
+vitals.mmrm.c2d1.label: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.run_mmrm.results.contrasts[0].Contrast
+vitals.mmrm.c2d1.estimate: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.run_mmrm.results.contrasts[0].estimate
+vitals.mmrm.c2d1.se: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.run_mmrm.results.contrasts[0].SE

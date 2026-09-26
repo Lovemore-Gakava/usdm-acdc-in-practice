@@ -1,0 +1,30 @@
+---
+title: "Stage 7 — compare against what was built"
+---
+
+The stage that tells you whether any of it was right.
+
+## What this is
+
+The study already has analysis datasets built by a programmer from the same plan. Comparing
+the executed result against them is the only external check the traverse has.
+
+## What you do
+
+Fit the same model on the study's own derived variables and compare. Where the two disagree,
+reproduce the engine's number outside the engine, using the engine's own selection.
+
+## What you should see
+
+Two numbers that do not match, and an explanation of every part of the gap — with each
+engine result reproduced to four decimals once its selection is known.
+
+## What to look out for
+
+**A divergence is a result, not a failure, but only if you can explain all of it.** The
+mechanism here is a baseline-row disagreement: the engine takes the first row in the baseline
+window, the study's datasets take the row its baseline flag marks. It affects most subjects in
+both endpoints, and under a repeated-measures model it enters every visit rather than one.
+
+Reproduce before you conclude. A gap you cannot reproduce outside the engine is not yet
+understood, and the temptation to call it a rounding difference is strong and usually wrong.

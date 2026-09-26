@@ -1,0 +1,30 @@
+---
+title: "Stage 0b — restructure, then regenerate"
+---
+
+Moving the misplaced elements into the M11 structure, and then making something read the
+result.
+
+## What this is
+
+Stage 0 found the estimands in the SAP rather than the protocol. Stage 0b moves them, section
+by section, and regenerates the downstream artefact from the restructured protocol instead of
+from the original prose.
+
+## What you do
+
+Move the sections. Then re-run the generator so the USDM fragment is a *product* of the M11
+protocol rather than a transcription of the original.
+
+## What you should see
+
+A restructured protocol, and a regenerated fragment that is visibly richer than the
+hand-authored one — because the structure now supplies what prose had left implicit.
+
+## What to look out for
+
+**Done means both halves.** A restructured section that nothing consumes leaves the next
+stage still transcribing from prose, and looks like progress while changing nothing.
+
+The payoff is concrete and worth expecting: regenerating took this study's fragment from one
+estimand to six, because M11 §3 supplies what the SAP had been holding.

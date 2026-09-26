@@ -1,0 +1,13 @@
+# One line each: a gloss, or a link to the authoritative source. No glossary chapter
+# (LG, 2026-09-26 — too heavy); explain only what is needed to follow the flow.
+# tools/check_guide.py fails on a high-risk term used here without an entry, and on
+# an entry never used — a definition nobody reads is not tested by anything.
+
+CDISC: the standards body whose models this repository uses — https://www.cdisc.org
+USDM: Unified Study Definition Model — a protocol expressed as data rather than prose — https://www.cdisc.org/ddf
+M11: the ICH template for the protocol itself — fourteen sections, and in its electronic form a list of required data elements — https://www.ich.org/page/multidisciplinary-guidelines
+estimand: a precise statement of what a trial is trying to estimate — population, variable, how intercurrent events are handled, and the summary measure — ICH E9(R1)
+eSAP: electronic statistical analysis plan — the study-level document a chain is placed into, and the input to execution
+ADaM: the analysis-ready datasets a study is analysed from — https://www.cdisc.org/standards/foundational/adam
+WebR: R compiled to WebAssembly, so the analysis runs in the browser with nothing installed
+MMRM: mixed model for repeated measures — one model across all visits, rather than a separate model per visit

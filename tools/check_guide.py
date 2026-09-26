@@ -171,6 +171,14 @@ def check_literals(chapters: list[Path], allowed: dict[str, str], R: Report, roo
                 lit = m.group(0)
                 if lit in allowed or lit.lstrip("+-−") in allowed:
                     continue
+                # A section reference is not a figure. "M11 §3.1.1" and "v0.3" are
+                # structure, not results, and flagging them would teach the reader to
+                # ignore this check — which is the only way a check like this fails.
+                before, after = line[:m.start()], line[m.end():]
+                if before.rstrip().endswith(("§", "section", "Section")) or before.endswith(("v", "V")):
+                    continue
+                if re.match(r"\.\d", after) or re.search(r"\d\.$", before):
+                    continue
                 offenders.append(f"{ch.relative_to(root).as_posix()}:{lineno}: {lit}")
     for o in offenders[:20]:
         R.add("FAIL", "literals", f"figure typed in prose — {o}")

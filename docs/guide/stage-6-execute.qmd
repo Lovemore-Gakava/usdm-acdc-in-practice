@@ -1,0 +1,51 @@
+---
+title: "Stage 6 — execute, and get a number"
+---
+
+Running the specification against real data, in the browser.
+
+## What this is
+
+The analysis runs under WebR — R compiled to WebAssembly — so nothing needs installing. The
+data goes in as ADaM in transport format.
+
+## What you do
+
+Load the datasets, start the engine, and execute the chain.
+
+## What you should see
+
+A real result. For the laboratory endpoint at the current pin:
+
+| | |
+|---|---|
+| Contrast | {{fact:lab.contrast.label}} |
+| Estimate | {{fact:lab.contrast.estimate}} |
+| SE | {{fact:lab.contrast.se}} |
+| df | {{fact:lab.contrast.df}} |
+| p | {{fact:lab.contrast.p}} |
+
+and for the vital-signs endpoint under MMRM, at the first post-baseline visit:
+
+| | |
+|---|---|
+| Contrast | {{fact:vitals.mmrm.c2d1.label}} |
+| Estimate | {{fact:vitals.mmrm.c2d1.estimate}} |
+| SE | {{fact:vitals.mmrm.c2d1.se}} |
+
+### Step into the factory
+
+Every figure above is read live from the run it came from. The runs, the chain that produced
+them, and the eleven decisions taken while executing are in
+`endpoints/01-simple-lab-cfb/` and `endpoints/04-vitals-cfb-mmrm/`.
+
+## What to look out for
+
+**Read the contrast label, never assume the direction.** The stored contrast here is placebo
+minus treatment, which is the opposite of how a report would usually phrase it. Quote the
+label alongside the estimate and the sign cannot be got wrong — which is exactly why this
+guide prints both from the data rather than typing either.
+
+**The engine filters on dimension names as literal columns.** Dimensions must be in their
+derived forms, because the collected forms have no column in the analysis dataset. A chain
+can reach stage 5 without this and fail only here.

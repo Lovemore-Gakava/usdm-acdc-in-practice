@@ -1,0 +1,30 @@
+---
+title: "Stage 4 — bind the analysis"
+---
+
+Saying which statistical method operates on the derived value, and what plays each role in
+it.
+
+## What this is
+
+An Analysis Concept is the aggregated, non-subject-level result: a comparison, a summary, a
+model. Binding it means mapping the chain's outputs onto the method's roles — response, fixed
+effect, covariate, strata.
+
+## What you do
+
+Choose the analysis transformation and bind each role.
+
+## What you should see
+
+A complete specification of the analysis, ready to be put into a study-level document.
+
+## What to look out for
+
+**You author from templates, not from methods, and there are far fewer templates.** The
+method library is much larger than the set of things the builder can actually author — in the
+pinned version, 39 of 60 methods have no template at all.
+
+So "the method exists" does not mean "the analysis can be authored". Check for a
+transformation before planning an endpoint around a method, or you will reach this stage and
+find nothing to select.

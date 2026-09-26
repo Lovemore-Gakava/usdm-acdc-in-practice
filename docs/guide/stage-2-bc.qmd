@@ -1,0 +1,31 @@
+---
+title: "Stage 2 — link the Biomedical Concepts"
+---
+
+Attaching the standard definition of what is measured to the points in the chain where a
+measurement enters.
+
+## What this is
+
+A Biomedical Concept is the standard definition of a thing you measure — serum alanine
+aminotransferase, say — with its units, its codes and its permissible values. Linking means
+saying *this terminal of the chain is fed by that concept*.
+
+## What you do
+
+In the derivation pipeline, select each measure terminal and attach the study's concepts.
+
+## What you should see
+
+Every measure terminal showing its concepts. Dimensions — subject, visit, treatment,
+parameter — carry none, correctly: they are structural, not measured.
+
+## What to look out for
+
+**The builder ignores the USDM endpoint-to-concept link.** This was found by experiment, not
+by reading: inject a study concept deliberately *not* linked to the endpoint and it is still
+offered in the terminal picker.
+
+So the join authored in stage 1 is not the join the chain uses. Terminal-level linking is an
+independent, second join, and it is the one that matters downstream. Expect to do it twice
+and do not assume the first one carried.

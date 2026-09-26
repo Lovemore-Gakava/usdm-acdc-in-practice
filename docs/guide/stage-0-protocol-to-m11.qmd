@@ -1,0 +1,36 @@
+---
+title: "Stage 0 — map the protocol to ICH M11"
+---
+
+A protocol written for people, read against a structure written for machines. Nothing is
+changed yet; this stage only finds out what the protocol does and does not say.
+
+## What this is
+
+ICH M11 is a template for the clinical trial protocol: fourteen sections, and in the merged
+electronic version 303 data elements, 216 of them Required, each carrying a CDISC code.
+Mapping means deciding, element by element, which piece of the existing protocol answers it —
+and recording the ones nothing answers.
+
+## What you do
+
+Read the source protocol against the element list and write the mapping down. The output is a
+table, not an edit: element, where it is satisfied, or *absent*.
+
+The absences are the interesting half, so record them with the same care as the matches.
+
+## What you should see
+
+A mapping document, and a count of required elements the protocol does not supply.
+
+For TORIVA that count is 25, across six objectives.
+
+## What to look out for
+
+**Everything M11 wants usually exists somewhere — it is just in the wrong document.** M11
+§3.1.1 requires the estimand *in the protocol*, and five of its seven required elements are
+ICH E9(R1) estimand attributes. TORIVA defers all five to the SAP. Nothing was missing from
+the study; it was misplaced, and only a structured reading made that countable.
+
+Resist fixing anything here. The temptation to correct the protocol while mapping it is
+strong, and it destroys the measurement — you can no longer say what the protocol did say.

@@ -94,11 +94,11 @@ the material was produced can step through. Scoring is `phase3_stages` in
 | # | Stage | Status |
 |---|---|---|
 | G0 | Anti-drift checker exists — every figure traced to a results file | ✓ |
-| G1 | A chapter per stage, each with its four sections filled | ✗ |
+| G1 | A chapter per stage, each with its four sections filled | ✓ |
 | G2 | Setup chapter names entry points that exist | ✗ |
-| G3 | Terms glossed or linked, never assumed | ✗ |
-| G4 | Every endpoint with a result has a chapter | ✗ |
-| G5 | check_guide.py at 0 fail — no figure typed by hand | ✗ |
+| G3 | Terms glossed or linked, never assumed | ✓ |
+| G4 | Every endpoint with a result has a chapter | ✓ |
+| G5 | check_guide.py at 0 fail — no figure typed by hand | ✓ |
 | G6 | The TORIVA loop chapter — the conversion is what found the errors | ✗ |
 | G7 | Published as a site, linked from the README | ✗ |
 

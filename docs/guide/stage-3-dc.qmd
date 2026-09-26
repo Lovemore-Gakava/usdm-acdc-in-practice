@@ -1,0 +1,28 @@
+---
+title: "Stage 3 — author the derivation"
+---
+
+Turning collected measurements into the analysis value the endpoint is about.
+
+## What this is
+
+A Derivation Concept is a step that computes: select a baseline, subtract it, impute, window
+a visit. Chains of them turn what was collected into what is analysed.
+
+## What you do
+
+Pick the transformation, bind its roles to concepts, and set its configuration.
+
+## What you should see
+
+A chain whose output is the analysis value — here, change from baseline.
+
+## What to look out for
+
+**Dependencies resolve by output concept and exact string equality.** A step that emits a
+`Flag` can never satisfy a step that wants a `Measure`, however obviously related they are to
+a human reader. This is the mechanism behind one of the sharper findings in the factory: the
+baseline *flag* and the baseline *value* are disconnected, and no amount of naming fixes it.
+
+When a step refuses to accept an input that looks right, check the output concept before you
+check anything else.

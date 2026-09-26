@@ -1,0 +1,30 @@
+---
+title: "Stage 1 — the USDM fragment"
+---
+
+The study as data: objectives, endpoints, estimands, arms, population, and the concepts the
+endpoints are measured by.
+
+## What this is
+
+USDM is CDISC's Unified Study Definition Model — a JSON representation of what a protocol
+says. A *fragment* is the part needed for the endpoints being carried, not a whole digitised
+protocol.
+
+## What you do
+
+Author or generate the fragment, then load it in the builder and look at it. A fragment that
+does not render is not finished, whatever the schema says.
+
+## What you should see
+
+A study that appears in the application's study list, with its objectives and endpoints
+showing.
+
+## What to look out for
+
+**Authoring it by hand teaches you the model; regenerating it is what makes it true.** This
+project did stage 1 before stage 0, in the wrong order, and the fragment then had to be
+regenerated once the protocol was restructured.
+
+If you are learning, hand-author once — the shape sticks. Then throw it away and generate.
