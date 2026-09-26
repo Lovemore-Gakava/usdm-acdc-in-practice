@@ -6,8 +6,8 @@ __pycache__/
 cache/
 *.cache.json
 
-# Quarto render output — generated, not source
-README.html
-README_files/
+# Quarto render output — generated, not source (regenerate from the .md/.qmd files)
+*.html
+*_files/
 # CDISC Library API key read by tools/walkthrough.py — never committed
 .cdisc-api-key
