@@ -39,7 +39,7 @@ One chapter per stage, in the order the work happens — from reading the protoc
 structured template, through the concept model, to executing an analysis in the browser and
 comparing the result against the datasets a programmer built from the same plan.
 
-Every chapter answers the same four questions:
+Every **stage** chapter answers the same four questions:
 
 - **What this is** — the concept, in plain terms
 - **What you do** — the actions, in order

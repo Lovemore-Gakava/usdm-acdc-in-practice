@@ -1,0 +1,8 @@
+# Numbers typed in prose rather than resolved from a results file, each with a reason.
+#
+# tools/check_guide.py fails on any decimal or percentage in the guide that is not
+# either a {{fact:}} reference or listed here. The point is not to forbid typing a
+# number — it is to make doing so a deliberate act somebody can review, so that a
+# figure from a run can never arrive by hand.
+
+3.9: minimum Python version the tooling supports — a property of the tools, not a result

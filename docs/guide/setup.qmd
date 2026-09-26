@@ -1,0 +1,81 @@
+---
+title: "Setting up, if you want to drive it"
+---
+
+Everything in this book can be read without installing anything. This chapter is for the other
+case: running the tool yourself, on the same study, and seeing the numbers appear rather than
+taking them on trust.
+
+## What this is
+
+One command builds the environment. It fetches the framework's source at the commit this book
+describes, creates an isolated Python environment, fetches the study's data, and then proves the
+result by running a check rather than announcing success.
+
+You need: **git**, **any Python 3.9 or newer**, and a browser. Not R — the analysis runs in the
+browser.
+
+## What you do
+
+```bash
+git clone --recurse-submodules https://github.com/Lovemore-Gakava/usdm-acdc-in-practice.git
+cd usdm-acdc-in-practice
+python tools/bootstrap.py
+```
+
+If `python` is not found, use `python3` — on macOS and most Linux systems there is no `python`
+at all, and on Windows it is often `py -3`. **Do not assume the name**; any 3.9+ interpreter runs
+the bootstrap. It is safe to re-run, and `--check` reports what is missing without changing
+anything.
+
+Then start the application:
+
+```bash
+.venv/bin/python tools/walkthrough.py serve
+```
+
+and open **http://localhost:8080/ac-dc-app/index.html**. Press Ctrl-C to stop it; it cleans up
+after itself.
+
+## What you should see
+
+The bootstrap ends by running an alignment check and printing its result — pass counts, and no
+failures or skips. A skip means the study data was not found, which means the check ran on the
+documents alone.
+
+In the browser, a study list with **TORIVA-LUNG 301** on it. That card is the study definition
+from stage 1, read by the application.
+
+## What to look out for
+
+**After the bootstrap, use the environment's interpreter, not the system one.** Anything that
+reads the study's data needs it:
+
+```bash
+.venv/bin/python tools/check_alignment.py
+```
+
+On Windows that is `.venv\Scripts\python.exe`. A plain `python3` will fail on the import, and
+the tools now tell you which interpreter would have worked — but it is easier to expect it. This
+is the single most common way a correctly set-up copy looks broken.
+
+**The version you get is pinned, deliberately.** The framework is fetched at one commit, and the
+study at another, both recorded. The application you see is the one this book describes, not the
+latest — which is the point: the standards and the tooling are both moving, and a book that
+described a moving target would be wrong within a release. Every screenshot here names the
+commit it was taken at.
+
+**Concept reference links will not resolve** unless you supply a CDISC Library key, as
+`.cdisc-api-key` in the repository root or the `CDISC_API_KEY` environment variable. Without one
+those links answer 401. Nothing else needs it.
+
+**To rebuild this book** from source, with its figures re-read from the runs:
+
+```bash
+.venv/bin/python tools/check_guide.py --render docs/guide/_build
+cd docs/guide/_build && quarto render
+```
+
+That needs [Quarto](https://quarto.org). Rendering from the source directory rather than the
+build directory publishes the unresolved placeholders instead of the numbers, which is why the
+render step exists at all.
