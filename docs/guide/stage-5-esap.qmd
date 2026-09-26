@@ -17,10 +17,15 @@ It declares its own provenance:
 
 ## What you do
 
-1. Open **eSAP Builder** (step 7) with the study loaded and the chain complete.
-2. Generate. The same state renders several ways — a sectioned document, dataset and
-   specification views, the JSON instance, and a Define-XML.
-3. Read the estimand section before anything else.
+**The work:** assemble the completed chain into a study-level plan bound to the protocol's
+objectives, endpoints and estimands — then read the estimand back before anything else, because
+that is where an incomplete chain shows up.
+
+1. Generate the plan from the study and the completed chain.
+2. Read the estimand section first.
+
+*In the application used here:* step 7, which renders the same state several ways — a sectioned
+document, dataset and specification views, the JSON instance, and a Define-XML.
 
 ## What you should see
 
@@ -40,3 +45,7 @@ empty. The study definition's own analysis-population reference is *not* what th
 That is the same shape as the lesson in stage 2: there are two joins that look like one, and the
 chain's is the one that carries. It is worth expecting the pattern rather than being surprised
 by it twice.
+
+*Check this on whatever tool you use: it is true of the application described here, at the
+pinned commit, and is not a property of the concept model.*
+

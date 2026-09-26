@@ -49,6 +49,16 @@ Every **stage** chapter answers the same four questions:
 That last section is the reason this exists. The standards documents describe the destination;
 almost nothing describes the potholes.
 
+**This is a book about the concepts, not about the tool.** One reference application is used
+throughout, because concepts you cannot see working are hard to believe and impossible to check
+— but it is the instrument, not the subject. So each chapter states the work first and then how
+this particular application happens to do it, under *in the application used here*.
+
+The same distinction applies to the potholes. Some are properties of the model and will be true
+of any tool; others are true of this one, at the commit pinned here, and may already have been
+fixed. The second kind carry a note saying so. It is worth knowing which is which before you
+carry a lesson from this book to a tool that is not this one.
+
 ## Two ways in
 
 Where you join depends on where your protocol came from, and it changes which chapters apply.

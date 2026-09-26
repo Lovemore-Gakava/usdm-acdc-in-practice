@@ -26,11 +26,16 @@ the same character: a named thing with an identifier that something downstream c
 
 ## What you do
 
+**The work:** produce the study definition, then make something read it back. A fragment nothing
+consumes has not been tested.
+
 1. Generate the fragment from the structured protocol, or hand-author it for a first pass.
-2. Put it where the application looks for studies, and add it to the study manifest.
-3. Open the application, and check the study card appears.
-4. Open **Study Overview** and read each tab — Summary, Arms, Objectives & Endpoints, Schedule
-   of Activities. These are your fragment, rendered.
+2. Make it available to whatever will consume it.
+3. Open it there, and read every part of it back.
+
+*In the application used here:* put the fragment where it looks for studies and add it to the
+study manifest; the study then appears as a card, and **Study Overview** renders it tab by tab —
+Summary, Arms, Objectives & Endpoints, Schedule of Activities.
 
 ## What you should see
 

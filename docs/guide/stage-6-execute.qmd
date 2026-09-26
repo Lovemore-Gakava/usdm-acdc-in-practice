@@ -24,12 +24,16 @@ covered here.
 
 ## What you do
 
-1. Open **Execute** (step 8).
-2. Load the analysis datasets. Start the engine — the first start downloads the R runtime, so
-   it takes a moment.
-3. Execute the chain.
-4. Read the console output as well as the result. It lists every filter and join the engine
-   applied, and that list is what you will need at the next stage.
+**The work:** run the declared specification against real subject-level data, and keep the
+record of *how* it was run — every filter and join applied — because that record, not the
+number, is what the next stage needs.
+
+1. Make the analysis data available to the engine.
+2. Execute the chain.
+3. Keep the execution log, not just the result.
+
+*In the application used here:* step 8, where the datasets are loaded into the browser and the
+engine starts by downloading the R runtime on first use, so it takes a moment.
 
 ## What you should see
 
@@ -67,3 +71,7 @@ guide prints both from the data rather than typing either.
 **The engine filters on dimension names as literal columns.** Dimensions must be in their
 derived forms, because the collected forms have no column in the analysis dataset. A chain
 can reach stage 5 without this and fail only here.
+
+*Check this on whatever tool you use: it is true of the application described here, at the
+pinned commit, and is not a property of the concept model.*
+

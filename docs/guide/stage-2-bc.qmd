@@ -18,12 +18,16 @@ says "a measure goes here". After it, it says which measure, in whose terminolog
 
 ## What you do
 
-1. Open the endpoint (step 3). The **Endpoint Data Cube** shows what the endpoint is made of —
-   a measure and a set of dimensions.
-2. Select each **measure** terminal.
-3. Attach the study's concepts to it.
-4. Leave the dimensions alone. Subject, visit, treatment and parameter are structural: there is
-   nothing measured about them and no concept to attach.
+**The work:** decide which terminals of the chain are *measurements*, and attach to each the
+concept that defines what is measured. Dimensions are left alone — subject, visit, treatment and
+parameter are structural, and there is nothing measured about them to define.
+
+1. Identify the measure terminals of the endpoint.
+2. Attach the study's concepts to each.
+3. Leave the dimensions bare.
+
+*In the application used here:* step 3 shows the **Endpoint Data Cube** — a measure and a set of
+dimensions — and the concepts are attached from the terminal picker.
 
 ## What you should see
 
@@ -43,6 +47,10 @@ and it is still offered in the terminal picker.
 So the join you authored in stage 1 is not the join the chain uses. Terminal-level linking is a
 second, independent join, and it is the one that carries downstream. Expect to do it twice, and
 do not assume the first one carried.
+
+*Check this on whatever tool you use: it is true of the application described here, at the
+pinned commit, and is not a property of the concept model.*
+
 
 **Dimensions with no concept are correct, not incomplete.** It is tempting to keep attaching
 things until nothing is bare. Resist it: a subject identifier has no biomedical concept because

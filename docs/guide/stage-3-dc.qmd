@@ -30,12 +30,17 @@ baseline measurement.
 
 ## What you do
 
-1. Open **Derivations** (step 6). The endpoint's chain is shown as a graph.
-2. Click a node to configure it.
-3. For each role the method declares, bind the thing that fills it — a concept from the study, a
-   dimension, or the output of an earlier step.
-4. Watch the **Execution Order** panel. It lists the steps in the order they will run, and it is
-   the quickest check that the chain is a chain and not a set of disconnected nodes.
+**The work:** express the computation as steps. Each names a method and binds every role that
+method declares to something — a concept from the study, a dimension, or the output of an
+earlier step. Then check the order the steps will run in, which is the quickest way to tell a
+chain from a set of disconnected nodes.
+
+1. Lay out the steps the derivation needs.
+2. Bind every role of every step.
+3. Read the execution order back.
+
+*In the application used here:* step 6 shows the chain as a graph, a node is clicked to
+configure it, and an **Execution Order** panel lists the steps in sequence.
 
 ## What you should see
 
@@ -54,6 +59,14 @@ bridges them.
 When a node refuses an input that looks right, check the output concept of the thing you are
 feeding it before you check anything else.
 
+*The strictness is this application's resolver; the typing it enforces is the model's. Expect
+some rule of this kind on any tool, but not necessarily this one.*
+
 **The graph is the specification.** It is tempting to treat the picture as a summary of
 something written elsewhere. It is not — it *is* the thing, and `chain.json` is its serialised
 form. If the picture is wrong, the analysis is wrong.
+
+**Know which artefacts outlive the tool.** `chain.json` names a schema that is not published
+with the concept model — it is this application's save format, and a different tool would store
+the same chain differently. The eSAP of the next stage is the opposite: its schema *is* part of
+the model. Both are worth reading; only one of them is a standard.
