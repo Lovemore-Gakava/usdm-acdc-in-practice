@@ -5,7 +5,16 @@
 # The tools that only read this repository's own documents need none of these
 # and run on the system Python.
 #
-# Install with tools/bootstrap.py, which builds .venv with a 3.10+ interpreter.
+# Install with tools/bootstrap.py, which builds .venv with a 3.10+ interpreter,
+# using the standard library's venv and pip and nothing else.
+#
+# uv was considered on 2026-09-26 and declined (LG). Measured on this dependency
+# set: a first install on a new machine is 5.10 s with uv against 4.62 s with pip
+# — the wheel download dominates — so it buys nothing for portability, which is a
+# first-run-on-a-new-machine problem. Its 94x (0.05 s against 4.72 s) is on warm
+# repeat installs, which is iteration comfort. Against that it would make uv a
+# required tool to install before the bootstrap can run, which is the class of
+# problem the bootstrap exists to remove.
 # The floor is 3.10 because pyreadstat requires it; the repository's own code
 # runs on 3.9.
 #
