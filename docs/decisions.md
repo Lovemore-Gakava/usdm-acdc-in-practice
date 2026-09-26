@@ -279,3 +279,46 @@ the destination above, and no document in the repository said so. Twenty commits
 the written objective faithfully: thirteen findings, five issue drafts, a review plan, and
 **1,985 lines of critique against 1,185 lines of framework work**, with stages 1, 2, 5 and 6
 never started. Nothing was individually wrong. The compass was.
+
+---
+
+## Phase 3 — the guide
+
+**Decided 2026-09-26 by LG**, after a discussion of why the repository is hard to onboard to:
+it bundles decisions, workarounds and the iterative nature of the process. The conclusion was
+two audiences, one repository — *"users can see the clean product in the showroom, but can also
+step into the factory"* — with the guide published as a site.
+
+Three scoping decisions, LG's: **published as a site from this repository**, not a second repo,
+so how the material was produced stays attached to it; **the audience is anyone in pharma, with
+or without CDISC knowledge**; and **more endpoints over time**, starting with the two that are
+green.
+
+Two decisions taken in the same conversation about how to write it:
+
+**No glossary chapter.** The first draft of the finish line had one. LG: it would be too heavy —
+link to the sources and explain only what is needed to follow the flow. G3 became *no term used
+without a one-line gloss or a link*, enforced from `docs/guide/terms.yml`, which is minutes per
+term rather than a chapter.
+
+**Quarto, not the repository's own renderer.** The first recommendation was to extend
+`walkthrough.py`'s renderer, which owes nothing to any dependency. LG: *"people pay attention to
+nice layout and presentation."* That changes the answer — hand-writing CSS and navigation is not
+the work. The earlier objection to Quarto was the 888 KB of vendored Bootstrap it produced when
+it rendered the README; that is answered by never committing the build, and publishing from an
+Action instead.
+
+**G0 is first deliberately.** The anti-drift checker is the mechanism, not the polish: written
+before the prose, the prose can never get ahead of the facts. Written last it would mean
+retro-fitting every figure in the guide, which is how F02 came to assert a premise that had
+never been true. A guide that says *"you get −1.276"* is wrong the next time TORIVA is re-pinned,
+and TORIVA was re-pinned twice in one day on 2026-09-20.
+
+**G4 is written to extend.** It scores from whatever is in `endpoints/` with a result, so adding
+a third endpoint turns the row red on its own and says what is owed — rather than depending on
+someone remembering.
+
+**What stays in.** The guide shows the divergences, not just the successes. Stage 7 for the lab
+tier is *"we got −1.276, TORIVA's own `CHG` gives −1.305, and 72% of subjects have a different
+baseline row."* A teaching guide that hides that is a sales document; one that explains it is the
+best lesson in the project.

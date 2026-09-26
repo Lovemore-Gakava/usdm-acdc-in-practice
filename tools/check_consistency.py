@@ -533,7 +533,93 @@ def phase2_stages(root: Path) -> list[tuple[str, str, bool]]:
     ]
 
 
-PHASES: dict[str, object] = {"phase2": phase2_stages}
+
+
+def phase3_stages(root: Path) -> list[tuple[str, str, bool]]:
+    """Phase 3 — the guide. Scored the same way as everything else: from the
+    filesystem, and from a checker that has to run.
+
+    G0 comes first on purpose. tools/check_guide.py is the mechanism, not the
+    polish: written before the prose, the prose can never get ahead of the facts.
+    Written last, it would mean retro-fitting hundreds of figures, which is how
+    F02 came to assert a premise that had never been true.
+    """
+    import subprocess as _sp
+    guide = root / "docs" / "guide"
+    checker = root / "tools" / "check_guide.py"
+
+    g0 = checker.is_file()
+
+    # A chapter is a .qmd in docs/guide/. Every one carries the same four headings,
+    # and the fourth must not be empty: the factory's hard-won lessons are the point
+    # of the guide, and an optional section is the one that gets skipped.
+    REQUIRED = ("what this is", "what you do", "what you should see", "what to look out for")
+    chapters = sorted(guide.glob("*.qmd")) if guide.is_dir() else []
+
+    def _headings_ok(f: Path) -> bool:
+        try:
+            text = f.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            return False
+        low = text.lower()
+        if not all(h in low for h in REQUIRED):
+            return False
+        # "what to look out for" must have prose under it, not just a heading
+        tail = low.split("what to look out for", 1)[1]
+        body = tail.split("\n#", 1)[0]
+        return len(body.strip()) > 80
+
+    stage_chapters = [f for f in chapters if re.match(r"stage-\d", f.name)]
+    g1 = len(stage_chapters) >= 8 and all(_headings_ok(f) for f in stage_chapters)
+
+    # The setup chapter must name entry points that exist, or chapter 0 sends a
+    # reader to a command this repository does not have.
+    setup = guide / "setup.qmd"
+    g2 = False
+    if setup.is_file():
+        text = setup.read_text(encoding="utf-8", errors="replace")
+        named = set(re.findall(r"tools/[A-Za-z_]+\.py", text))
+        g2 = bool(named) and all((root / n).is_file() for n in named)
+
+    # Terms are glossed or linked, never assumed: the audience may have no CDISC
+    # background. Enforcement of *usage* is check_guide.py's (G5); this is the file.
+    terms = guide / "terms.yml"
+    g3 = terms.is_file() and len(terms.read_text(encoding="utf-8", errors="replace").strip()) > 0
+
+    # Written to extend: adding a third endpoint turns this red until it is written.
+    results = sorted((root / "endpoints").glob("*/results.json")) if (root / "endpoints").is_dir() else []
+    joined = "\n".join(f.read_text(encoding="utf-8", errors="replace") for f in chapters) if chapters else ""
+    g4 = bool(results) and all(r.parent.name in joined for r in results)
+
+    g5 = False
+    if g0:
+        try:
+            g5 = _sp.run([sys.executable, str(checker), "--root", str(root)],
+                         capture_output=True, timeout=120).returncode == 0
+        except (OSError, _sp.SubprocessError):
+            g5 = False
+
+    g6 = any("issues/27" in f.read_text(encoding="utf-8", errors="replace")
+             and "issues/53" in f.read_text(encoding="utf-8", errors="replace")
+             for f in chapters) if chapters else False
+
+    workflows = list((root / ".github" / "workflows").glob("*.yml")) if (root / ".github" / "workflows").is_dir() else []
+    readme = (root / "README.md").read_text(encoding="utf-8", errors="replace") if (root / "README.md").is_file() else ""
+    g7 = (guide / "_quarto.yml").is_file() and bool(workflows) and "github.io" in readme
+
+    return [
+        ("G0", "Anti-drift checker exists — every figure traced to a results file", g0),
+        ("G1", "A chapter per stage, each with its four sections filled", g1),
+        ("G2", "Setup chapter names entry points that exist", g2),
+        ("G3", "Terms glossed or linked, never assumed", g3),
+        ("G4", "Every endpoint with a result has a chapter", g4),
+        ("G5", "check_guide.py at 0 fail — no figure typed by hand", g5),
+        ("G6", "The TORIVA loop chapter — the conversion is what found the errors", g6),
+        ("G7", "Published as a site, linked from the README", g7),
+    ]
+
+
+PHASES: dict[str, object] = {"phase2": phase2_stages, "phase3": phase3_stages}
 
 
 def north_stages(root: Path, name: str = "") -> list[tuple[str, str, bool]]:
@@ -638,7 +724,9 @@ def check_north(root: Path, files: dict[str, list[str]]) -> list[Problem]:
     # endpoint, <!-- north:status:NAME --> for a named one. Two tables with the
     # same stage numbers would otherwise overwrite each other.
     stated: dict[str, dict[str, tuple[int, bool]]] = {}
-    row = re.compile(r"^\|\s*([0-9P][0-9a-z]?)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
+    # [0-9A-Z] so a phase can number its stages with a letter (P0-P7, G0-G7);
+    # rows are only read inside a north:status block, so this cannot catch a stray table.
+    row = re.compile(r"^\|\s*([0-9A-Z][0-9a-z]?)\s*\|([^|]*)\|\s*(\S*)\s*\|\s*$")
     open_mark = re.compile(r"<!--\s*north:status(?::([A-Za-z0-9_-]+))?\s*-->")
     close_mark = re.compile(r"<!--\s*/north:status")
     block: str | None = None
