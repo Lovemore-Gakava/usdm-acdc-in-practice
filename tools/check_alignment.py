@@ -258,7 +258,12 @@ def main() -> int:
             import pyarrow.parquet as pq
         except ImportError:
             pq = None
-            R.add("SKIP", "data", "data", "pyarrow not installed")
+            # SKIP, not exit: P3 is scored from whether the data layer ran, so a
+            # clone without pyarrow must show P3 red rather than fail outright.
+            import _deps
+            R.add("SKIP", "data", "data", "pyarrow not installed" + (
+                f" for this interpreter — it is in .venv, run: {_deps.venv_cmd()}"
+                if _deps.venv_python().is_file() else "; run tools/bootstrap.py"))
         if pq:
             adam = tor / "datasets" / "adam"
             def cols(n):

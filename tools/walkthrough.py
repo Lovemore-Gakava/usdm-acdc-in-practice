@@ -358,8 +358,12 @@ def check_pin(tor: Path) -> None:
 
 
 def to_xpt(tor: Path) -> None:
-    import pyarrow.parquet as pq  # noqa: WPS433 — optional dependency, only for stage
-    import pyreadstat
+    try:
+        import pyarrow.parquet as pq  # noqa: WPS433 — optional dependency, only for stage
+        import pyreadstat
+    except ImportError as exc:
+        import _deps
+        sys.exit(f"{_deps.hint(exc.name or 'pyarrow')}")
 
     adam = tor / "datasets" / "adam"
     STAGED.mkdir(parents=True, exist_ok=True)

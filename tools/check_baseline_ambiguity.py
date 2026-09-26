@@ -53,8 +53,8 @@ def main() -> int:
     try:
         import pyarrow.parquet as pq
     except ImportError:
-        print("error: pyarrow is required for this check (pip install pyarrow)",
-              file=sys.stderr)
+        import _deps
+        print(f"error: {_deps.hint('pyarrow')}", file=sys.stderr)
         return 2
 
     try:
