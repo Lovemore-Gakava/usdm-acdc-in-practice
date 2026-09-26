@@ -322,3 +322,28 @@ someone remembering.
 tier is *"we got −1.276, TORIVA's own `CHG` gives −1.305, and 72% of subjects have a different
 baseline row."* A teaching guide that hides that is a sales document; one that explains it is the
 best lesson in the project.
+
+**The guide does not audit the study (2026-09-26, LG).** The stage 0 chapter named the source
+study's missing required elements, and G6 was scoped as a chapter about what the conversion
+found wrong with it. Both are withdrawn.
+
+LG's reason is a maintenance one and better than the editorial one: *"this is likely to cause a
+drift when I update TORIVA."* A guide that pins the study's current state goes stale every time
+the study improves — and it has improved twice already, through issues #27 and #53. Beyond that,
+a chapter cataloguing a study's defects is the same drift `CLAUDE.md` names, aimed at a new
+target, in the one artefact meant to teach rather than assess.
+
+Two classes were separated in the process, because they look alike and are not:
+
+- **Document-quality findings** — a required element absent, a variable the SAP names that the
+  data does not carry — belong to the study. They are already in `study/gap-register.md` and
+  were filed upstream. The guide links to the factory; it does not recite it.
+- **Methodological divergences** — the stage 7 baseline-row disagreement, where the engine and a
+  programmer's datasets disagree about what "baseline" means — stay in, prominently. That is not
+  an audit finding; it would happen on any study, and it is the strongest lesson in the book.
+
+Stage 0 is now generic: what typically goes wrong when digitising *a* protocol — misplacement
+read as absence, the urge to fix while mapping, the same element disagreeing across synopsis and
+body, and selective reading. G6 becomes the feedback loop rather than the defect list: attempting
+the conversion surfaces what prose hides, raising it improves the source. The two closed issues
+stay as its evidence, since a closed issue is a permanent fact and cannot go stale.

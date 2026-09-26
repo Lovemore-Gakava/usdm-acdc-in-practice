@@ -599,6 +599,12 @@ def phase3_stages(root: Path) -> list[tuple[str, str, bool]]:
         except (OSError, _sp.SubprocessError):
             g5 = False
 
+    # The loop, not the defects (LG, 2026-09-26). The chapter's subject is that
+    # attempting the conversion surfaces what prose hides, and that raising it
+    # improves the source — evidenced by the two closed issues, which are permanent
+    # historical facts and so cannot go stale when the study is improved again.
+    # It is deliberately NOT a catalogue of what any study was missing: that is the
+    # study's own business, and the factory already holds the register.
     g6 = any("issues/27" in f.read_text(encoding="utf-8", errors="replace")
              and "issues/53" in f.read_text(encoding="utf-8", errors="replace")
              for f in chapters) if chapters else False
@@ -614,7 +620,7 @@ def phase3_stages(root: Path) -> list[tuple[str, str, bool]]:
         ("G3", "Terms glossed or linked, never assumed", g3),
         ("G4", "Every endpoint with a result has a chapter", g4),
         ("G5", "check_guide.py at 0 fail — no figure typed by hand", g5),
-        ("G6", "The TORIVA loop chapter — the conversion is what found the errors", g6),
+        ("G6", "The feedback-loop chapter — structuring a protocol is itself a quality process", g6),
         ("G7", "Published as a site, linked from the README", g7),
     ]
 

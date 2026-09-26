@@ -23,14 +23,25 @@ The absences are the interesting half, so record them with the same care as the 
 
 A mapping document, and a count of required elements the protocol does not supply.
 
-For TORIVA that count is 25, across six objectives.
+Expect that count to be substantial on any protocol not written to M11 in the first place. It
+is a measure of the distance between two conventions, not of how good the protocol is.
 
 ## What to look out for
 
-**Everything M11 wants usually exists somewhere — it is just in the wrong document.** M11
-§3.1.1 requires the estimand *in the protocol*, and five of its seven required elements are
-ICH E9(R1) estimand attributes. TORIVA defers all five to the SAP. Nothing was missing from
-the study; it was misplaced, and only a structured reading made that countable.
+**Most of what looks missing is misplaced.** The commonest case: M11 §3.1.1 wants the estimand
+*in the protocol*, and five of its seven required elements are ICH E9(R1) estimand attributes —
+but the long-standing convention is to define estimands in the statistical analysis plan
+instead. A protocol written that way fails a stack of required elements while the study itself
+is perfectly well specified. Record such an element as *absent here, held in that document*
+rather than as missing, or the mapping reads as an indictment when it is a translation.
 
-Resist fixing anything here. The temptation to correct the protocol while mapping it is
-strong, and it destroys the measurement — you can no longer say what the protocol did say.
+**Resist fixing anything at this stage.** The urge to correct the protocol while mapping it is
+strong, and it destroys the measurement: once you have edited, you can no longer say what the
+protocol did say, and the count becomes a count of your own edits.
+
+**Expect the same element in several places, disagreeing.** A synopsis, a body section and an
+appendix will each carry a version of the population, or the randomisation ratio, and they will
+not always agree. Which one is authoritative is a decision, and it should be a recorded one.
+
+**Map the whole of a section, not the part that feeds your endpoint.** Reading selectively
+means the first thing you learn about the rest is that it does not fit, usually much later.
