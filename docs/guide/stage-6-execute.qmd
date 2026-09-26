@@ -9,9 +9,27 @@ Running the specification against real data, in the browser.
 The analysis runs under WebR — R compiled to WebAssembly — so nothing needs installing. The
 data goes in as ADaM in transport format.
 
+**This stage assumes you have analysis datasets.** That is worth saying, because the previous
+five do not. Stages 0 to 5 need a protocol and a set of definitions; this one needs subject-level
+data, in the browser, in a format the engine reads.
+
+If you have none, the chain is not wasted — the output of stage 5 is a specification complete
+enough for a programmer to implement, and that is arguably the deliverable. **Executing it
+proves the specification is complete; it is not what the specification is for.** A reader with a
+protocol and no data can follow every stage up to here and have something real at the end of it.
+
+If you have data but not in this shape, the work is conversion rather than authoring: collected
+data standardised to SDTM, derived to ADaM, and converted to transport format. That path is not
+covered here.
+
 ## What you do
 
-Load the datasets, start the engine, and execute the chain.
+1. Open **Execute** (step 8).
+2. Load the analysis datasets. Start the engine — the first start downloads the R runtime, so
+   it takes a moment.
+3. Execute the chain.
+4. Read the console output as well as the result. It lists every filter and join the engine
+   applied, and that list is what you will need at the next stage.
 
 ## What you should see
 

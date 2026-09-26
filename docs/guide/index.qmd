@@ -62,6 +62,12 @@ This book walks the second, because the study it uses predates M11 — and becau
 more common position today. The two converge at stage 1, and everything after it is the same
 work either way.
 
+Two later chapters assume something else again. **Stage 6 needs analysis datasets** to run
+against; **stage 7 needs a second, independently built implementation** to compare with, which
+exists when a study is being re-examined and not when one is being specified for the first time.
+Each of those chapters says what to do without it. Stages 0 to 5 need only a protocol and a set
+of definitions, and produce a specification whether or not any data exists.
+
 ## Two things to know before you start
 
 **The numbers here are read from the runs, not typed.** Every figure is resolved from the

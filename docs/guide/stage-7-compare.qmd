@@ -6,8 +6,25 @@ The stage that tells you whether any of it was right.
 
 ## What this is
 
-The study already has analysis datasets built by a programmer from the same plan. Comparing
-the executed result against them is the only external check the traverse has.
+Here, the study already had analysis datasets built by a programmer working from the same plan.
+Comparing the executed result against them is the strongest external check available, because
+the two implementations are genuinely independent.
+
+**Most readers will not have that, and it is worth being clear about why.** An independently
+built implementation exists when someone has already done the work by hand — which is true of a
+study being re-examined, and false of one being specified for the first time. On a new study
+there is nothing to compare against, and in the world these standards are aiming at there is
+nothing to compare against *by design*: the point of a declared specification is to stop having
+two implementations that must be reconciled.
+
+So this stage is partly transitional. It is most useful now, while both worlds exist.
+
+**What to do instead, when there is nothing to compare against.** Reproduce the engine's number
+outside the engine, using the engine's own selection — the filters and joins its console
+reported at stage 6. That is a weaker check than an independent implementation, because it
+shares the engine's assumptions, but it is the one that actually found the mechanism described
+below: not by disagreeing with the answer, but by making the engine's choices explicit enough to
+see.
 
 ## What you do
 
