@@ -6,3 +6,4 @@
 # figure from a run can never arrive by hand.
 
 3.9: minimum Python version the tooling supports — a property of the tools, not a result
+4.0: licence version (CC BY 4.0) and USDM version — identifiers, not results

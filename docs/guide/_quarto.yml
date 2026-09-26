@@ -21,6 +21,7 @@ book:
     - stage-6-execute.qmd
     - stage-7-compare.qmd
     - feedback-loop.qmd
+    - colophon.qmd
 
 format:
   html:

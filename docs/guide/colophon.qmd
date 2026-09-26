@@ -1,0 +1,40 @@
+---
+title: "Colophon"
+---
+
+## What this book describes
+
+| | |
+|---|---|
+| Concept model and reference application | [`cdisc-org/analysis-concepts`](https://github.com/cdisc-org/analysis-concepts), at the commit pinned by the repository behind this book |
+| Study | [TORIVA-LUNG 301](https://github.com/OpenTrialReporting/torivumab-nsclc-301) — fully synthetic, fictional sponsor and drug, educational use only |
+| Protocol template | ICH M11, in its merged electronic form |
+| Study definition model | USDM v4.0 |
+
+Every screenshot names the commit it was taken at. The figures are read from the recorded runs
+at build time rather than typed, so a figure here and the run that produced it cannot disagree.
+
+## Attribution
+
+Content based on [CDISC Analysis Concepts (GitHub)](https://github.com/cdisc-org/analysis-concepts)
+used under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) license.
+
+TORIVA-LUNG 301 is used under CC BY 4.0. It is a **fully synthetic** study: all identifiers,
+patient data, drug names and results are invented, the sponsor and the drug do not exist, and
+none of it is suitable for regulatory use or for any clinical conclusion.
+
+## Status
+
+**This book has not been reviewed line by line.** It was drafted with an AI model under the
+author's direction, and the repository behind it records which claims were verified by running
+something and which are argument — see its `PROVENANCE.md`.
+
+That repository also records its own errors: several findings made during the work had a premise
+or a proposed fix disproved. The lessons in these chapters come from the same source, and should
+be treated as a careful account of one traverse rather than as a specification.
+
+## The repository behind this
+
+Everything here is generated from a repository that carries the working record — the authored
+chains, the executed runs, the comparisons, and the decisions taken along the way, including the
+ones that were reversed.

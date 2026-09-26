@@ -1,0 +1,71 @@
+# Build the guide and publish it to GitHub Pages.
+#
+# The book is rendered from docs/guide/_build, never from docs/guide itself:
+# tools/check_guide.py --render resolves every {{fact:}} and {{json:}} reference
+# from the recorded runs and the authored artefacts first. Rendering the source
+# directly would publish the placeholders instead of the numbers.
+#
+# The checks run before the build and the job fails on them, so a figure that has
+# drifted from its run, a screenshot stamped at a commit that is no longer pinned,
+# or a term used without a gloss stops the publish rather than reaching a reader.
+
+name: guide
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/guide/**'
+      - 'endpoints/*/results.json'
+      - 'tools/check_guide.py'
+      - '.github/workflows/guide.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive   # the screenshot check reads the pinned commit
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # check_guide.py is standard library only and reads this repository's own
+      # files, so the data dependencies in requirements.txt are not needed here.
+      - name: Check the guide
+        run: python tools/check_guide.py
+
+      - name: Resolve figures and artefacts into the build directory
+        run: python tools/check_guide.py --render docs/guide/_build
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render
+        run: quarto render
+        working-directory: docs/guide/_build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/guide/_build/_book
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
