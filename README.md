@@ -100,6 +100,34 @@ browser produces a wall-clock that is not a statistician's and does not scale li
 reporting it as the cost figure would look like evidence and be none. PROVENANCE §7.9 has the
 reasoning.
 
+## Running it
+
+Any machine, from a fresh clone:
+
+```
+git clone --recurse-submodules https://github.com/Lovemore-Gakava/usdm-acdc-in-practice.git
+cd usdm-acdc-in-practice
+python tools/bootstrap.py          # python3 on macOS/Linux; py -3 on Windows
+```
+
+`bootstrap.py` initialises the submodule, enables the pre-commit hook, builds `.venv` with a
+Python 3.10+ interpreter, clones TORIVA-LUNG 301 at the pinned commit (sparse — 10 MB of 81),
+and then runs `tools/check_alignment.py` to prove the result. It is idempotent, and `--check`
+reports what is missing without changing anything.
+
+Then, using the virtual environment's interpreter for anything that reads parquet:
+
+```
+.venv/bin/python tools/walkthrough.py serve     # app on :8080, guide at /walkthrough
+.venv/bin/python tools/check_alignment.py       # P3 — 0 fail, 0 warn, 0 skip
+```
+
+On Windows that is `.venv\Scripts\python.exe`. Two things the bootstrap cannot do for you: a
+CDISC Library key (`.cdisc-api-key` in the repository root, or `CDISC_API_KEY`) if you want the
+app's concept Reference links to resolve rather than answer 401; and R, if you want to reproduce
+stage 7's reference fits outside the engine — step 8 itself runs R in the browser under WebR and
+needs nothing installed.
+
 ## Repository structure
 
 ```
@@ -109,6 +137,7 @@ reasoning.
 ├── README.md
 ├── LICENSE                          MIT
 ├── .gitmodules
+├── requirements.txt                 data dependencies — see Running it
 ├── .githooks/
 │   └── pre-commit                   runs the consistency check on every commit
 ├── upstream/

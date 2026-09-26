@@ -82,9 +82,15 @@ disproved, so:
 - `tools/check_consistency.py` runs on every commit via `.githooks/pre-commit`. It verifies that
   documents match the filesystem **and** that `NORTH.md`'s status table is true. Enable the hook
   once per clone: `git config core.hooksPath .githooks`.
-- `tools/check_baseline_ambiguity.py` needs `pyarrow`. Note `pyarrow.dataset` is blocked by
-  Application Control on this machine — use `pq.ParquetFile(...).read()`, not `pq.read_table`.
-- Python is `python`, not `python3`.
+- `tools/check_baseline_ambiguity.py` needs `pyarrow`, declared with the other data dependencies
+  in `requirements.txt`. Note `pyarrow.dataset` is blocked by Application Control on **LG's
+  Windows machine** — use `pq.ParquetFile(...).read()`, not `pq.read_table`.
+- **Set-up is `python tools/bootstrap.py`** — submodule, hook, `.venv`, TORIVA at the pin, then
+  it runs `check_alignment.py` to prove P3. Idempotent; `--check` reports without changing.
+  Anything that reads parquet needs the virtual environment's interpreter
+  (`.venv/bin/python`, `.venv\Scripts\python.exe` on Windows), not the system one.
+- The interpreter's name is **machine-specific**: `python` on LG's Windows machine, `python3` on
+  macOS (there is no `python` there at all). `bootstrap.py` runs under either.
 - **Step 8 (WebR) will not parse the engine with CRLF endings.** `core.autocrlf=true` checks
   `ac-dc-app/r/acdc_engine.R` out as CRLF and R reports `unexpected invalid token`. Fix once per
   clone: `git -C upstream/analysis-concepts config core.autocrlf false`, then re-checkout the file.

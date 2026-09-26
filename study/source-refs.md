@@ -9,18 +9,30 @@ TORIVA-LUNG 301 is **referenced by commit, not vendored**. It is ~81 MB and read
 | Date | 2026-07-29 |
 | Branch | `main` |
 
-To work with it without a full clone:
+`tools/bootstrap.py` does this for you, at the pin, and is the supported route. What it runs:
 
 ```
 git clone --filter=blob:none --no-checkout \
-    https://github.com/OpenTrialReporting/torivumab-nsclc-301.git toriva
-cd toriva
+    https://github.com/OpenTrialReporting/torivumab-nsclc-301.git torivumab-nsclc-301
+cd torivumab-nsclc-301
 git sparse-checkout init --no-cone
-git sparse-checkout set /sap/SAP.md /protocol/synopsis.md \
-    /programming-specs/ADTTE-spec.md /programming-specs/ADRS-spec.md \
-    /programming-specs/ADLB-spec.md
-git checkout main
+git sparse-checkout set /datasets/adam/ /protocol/ /programming-specs/ /sap/ /define/
+git checkout <the commit pinned above>
 ```
+
+About 10 MB of the 81. Three details matter, each of which has cost time:
+
+**`/datasets/adam/` is required, not optional.** `find_toriva()` in both
+`tools/walkthrough.py` and `tools/check_alignment.py` tests for
+`datasets/adam/adsl.parquet` and refuses the checkout without it. An earlier version of this
+recipe listed only the five markdown files, which produces a checkout both tools reject —
+and P3 is scored *with the data layer run*, so it stays red.
+
+**Check out the pinned commit, not `main`.** `walkthrough.py` warns when the checkout and the
+pin disagree, because the numbers in the walkthrough are the pin's.
+
+**A sibling directory named `torivumab-nsclc-301`** is what both tools look for by default;
+otherwise pass `--toriva` or set `TORIVA_DIR`.
 
 **On Git Bash for Windows**, prefix the `sparse-checkout set` with `MSYS_NO_PATHCONV=1`. MSYS
 rewrites each leading-slash pattern into a Windows path — `/sap/SAP.md` becomes
