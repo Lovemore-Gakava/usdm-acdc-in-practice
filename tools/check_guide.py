@@ -342,6 +342,11 @@ def main() -> int:
     ap.add_argument("--list-facts", action="store_true", help="print every addressable fact and exit")
     args = ap.parse_args()
 
+    try:  # the summary line uses → and the Windows console defaults to cp1252
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
     root = Path(args.root).resolve()
     guide = root / "docs" / "guide"
     facts = load_facts(root)

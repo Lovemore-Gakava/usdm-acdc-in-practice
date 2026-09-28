@@ -12,8 +12,14 @@ One command builds the environment. It fetches the framework's source at the com
 describes, creates an isolated Python environment, fetches the study's data, and then proves the
 result by running a check rather than announcing success.
 
-You need: **git**, **any Python 3.9 or newer**, and a browser. Not R — the analysis runs in the
-browser.
+Two of its steps reach outside the clone, and you should know that before running it. The
+study's data is cloned as a sparse checkout into a **sibling directory** beside the repository,
+named `torivumab-nsclc-301` — about 10 MB of an 81 MB repository. And the clone's own git
+configuration is pointed at the repository's hooks, so the consistency checks run on every
+commit. `--check` shows what either step would do without doing it.
+
+You need: **git**, **a Python 3.10 or newer somewhere on the machine**, and a browser. Not R —
+the analysis runs in the browser.
 
 ## What you do
 
@@ -24,9 +30,11 @@ python tools/bootstrap.py
 ```
 
 If `python` is not found, use `python3` — on macOS and most Linux systems there is no `python`
-at all, and on Windows it is often `py -3`. **Do not assume the name**; any 3.9+ interpreter runs
-the bootstrap. It is safe to re-run, and `--check` reports what is missing without changing
-anything.
+at all, and on Windows it is often `py -3`. **Do not assume the name.** The script itself runs
+on any Python from 3.9, but it builds the environment with the newest 3.10 or later it can find,
+because one of the data-reading dependencies needs it — so 3.10 has to exist, not necessarily
+be the one you type. It is safe to re-run, and `--check` reports what is missing without
+changing anything.
 
 Then start the application:
 
@@ -65,9 +73,11 @@ latest — which is the point: the standards and the tooling are both moving, an
 described a moving target would be wrong within a release. Every screenshot here names the
 commit it was taken at.
 
-**Concept reference links will not resolve** unless you supply a CDISC Library key, as
-`.cdisc-api-key` in the repository root or the `CDISC_API_KEY` environment variable. Without one
-those links answer 401. Nothing else needs it.
+**Concept reference links will not resolve** unless you supply a CDISC Library key: one line in
+a file named `.cdisc-api-key`, in your home directory or the repository root, or the
+`CDISC_API_KEY` environment variable. The home directory is the better place, since it keeps the
+key out of the working tree altogether. Without one those links answer 401. Nothing else needs
+it.
 
 **To rebuild this book** from source, with its figures re-read from the runs:
 

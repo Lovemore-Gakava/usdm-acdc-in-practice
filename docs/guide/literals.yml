@@ -5,5 +5,6 @@
 # number — it is to make doing so a deliberate act somebody can review, so that a
 # figure from a run can never arrive by hand.
 
-3.9: minimum Python version the tooling supports — a property of the tools, not a result
+3.9: minimum Python version the bootstrap script itself runs on — a property of the tools, not a result
+3.10: minimum Python version for the environment it builds — pyreadstat's floor, not a result
 4.0: licence version (CC BY 4.0) and USDM version — identifiers, not results

@@ -17,7 +17,7 @@ don't touch.
 | **SAP** | Statistical analysis plan. How the data will be analysed — populations, models, handling of missing data, the exact tables | Statistics | What "analysed" means |
 | **CRF** | Case report form. The screens or pages a site fills in for each subject | Data management | What gets collected |
 | **SDTM** | Study Data Tabulation Model. The collected data, standardised — one domain per kind of observation, close to what was recorded | Programming | What was observed |
-| **ADaM** | Analysis Data Model. Datasets built *for* the analysis: one row per subject per parameter per visit, with derived values like change from baseline already computed | Programming | What is analysed |
+| **ADaM** | Analysis Data Model. Datasets built *for* the analysis, with derived values like change from baseline already computed. The ones this book uses have one row per subject per parameter per visit | Programming | What is analysed |
 | **TFL** | Tables, figures and listings — the output a reader of the study actually sees | Programming | What is reported |
 
 The important thing about **SDTM and ADaM** being separate: SDTM is meant to faithfully record
@@ -78,12 +78,15 @@ which becomes the analysis. The two meet again at the end.
 
 The **CRF** sits on the left-hand branch: the schedule of activities says a subject has
 chemistry taken at a given visit, and the case report form is where that becomes a field
-somebody fills in. In the study definition, that link is already present — an activity names the
-concepts it collects:
+somebody fills in. In the study definition, that link is made by an activity naming the concepts
+it collects:
 
 {{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].studyDesigns[0].activities[5].biomedicalConceptIds}}
 
-That is the *Chemistry (LFTs, creatinine)* activity, naming five biomedical concepts.
+That is the *Chemistry (LFTs, creatinine)* activity, naming five biomedical concepts. In this
+study the link is present on the activities the two chains end in and not on the rest of the
+schedule — it is made deliberately, one terminal at a time, and
+[stage 2](stage-2-bc.qmd) is where.
 
 This is where the biomedical concept earns its keep, and why it is worth understanding early:
 **the same definition is supposed to govern both branches.** The concept that says what serum
@@ -98,9 +101,11 @@ completed form to standardised data — is a substantial subject in its own righ
 exercised here. It is drawn because leaving it out makes the study definition look like an input
 to analysis alone, which is the smaller half of what it is for.
 
-The stages that follow walk the right-hand branch once, on one endpoint, and stop where the
-declared analysis produces a number — then compare that number against what a programmer built
-from the same plan by hand.
+The stages that follow walk the right-hand branch on the laboratory endpoint, stage by stage,
+and stop where the declared analysis produces a number — then compare that number against what
+a programmer built from the same plan by hand. The second endpoint, blood pressure under a
+repeated-measures model, joins at stages 6 and 7, where its result and its divergence are shown
+beside the first.
 
 ## A note on versions
 
