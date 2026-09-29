@@ -55,7 +55,7 @@ def step(n: str, msg: str) -> None:
 
 def run(*args: str, cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess:
     return subprocess.run(args, cwd=str(cwd) if cwd else None, check=check,
-                          capture_output=True, text=True)
+                          capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 
 def git(*args: str, cwd: Path | None = None) -> str:
@@ -230,7 +230,8 @@ def do_verify(py: Path | None, tor: Path | None) -> None:
     cmd = [str(py), str(ROOT / "tools" / "check_alignment.py")]
     if tor:
         cmd += ["--toriva", str(tor)]
-    p = subprocess.run(cmd, capture_output=True, text=True)
+    # The checker prints UTF-8 (its arrows and dashes); a Windows pipe would decode it as cp1252.
+    p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     tail = [ln for ln in p.stdout.splitlines() if ln.strip()][-2:]
     for ln in tail:
         say("  " + ln)
@@ -246,6 +247,12 @@ def main() -> int:
     ap.add_argument("--no-clone", action="store_true", help="never fetch TORIVA; report and continue")
     ap.add_argument("--check", action="store_true", help="report what is missing, change nothing")
     args = ap.parse_args()
+    # The tools this runs print UTF-8 (arrows, dashes); a Windows console defaults to cp1252.
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, OSError):
+            pass
 
     say(f"bootstrap — {ROOT}")
     if args.check:

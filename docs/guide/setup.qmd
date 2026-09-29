@@ -36,10 +36,11 @@ because one of the data-reading dependencies needs it — so 3.10 has to exist, 
 be the one you type. It is safe to re-run, and `--check` reports what is missing without
 changing anything.
 
-Then start the application:
+Then start the application, with the environment's interpreter — its path differs by system:
 
 ```bash
-.venv/bin/python tools/walkthrough.py serve
+.venv/bin/python tools/walkthrough.py serve            # macOS, Linux
+.venv\Scripts\python.exe tools/walkthrough.py serve    # Windows
 ```
 
 and open **http://localhost:8080/ac-dc-app/index.html**. Press Ctrl-C to stop it; it cleans up
@@ -60,12 +61,14 @@ from stage 1, read by the application.
 reads the study's data needs it:
 
 ```bash
-.venv/bin/python tools/check_alignment.py
+.venv/bin/python tools/check_alignment.py            # macOS, Linux
+.venv\Scripts\python.exe tools/check_alignment.py    # Windows
 ```
 
-On Windows that is `.venv\Scripts\python.exe`. A plain `python3` will fail on the import, and
-the tools now tell you which interpreter would have worked — but it is easier to expect it. This
-is the single most common way a correctly set-up copy looks broken.
+A plain `python3` will fail on the import, and the tools now tell you which interpreter would
+have worked — but it is easier to expect it. This is the single most common way a correctly
+set-up copy looks broken, and copying the other system's path is the second: the bootstrap's
+closing lines print the right one for the machine it ran on.
 
 **On Windows, the engine may refuse to parse until the submodule's line endings are fixed.**
 A clone with `core.autocrlf=true` checks the engine's R source out with CRLF endings and R
@@ -94,7 +97,7 @@ it.
 **To rebuild this book** from source, with its figures re-read from the runs:
 
 ```bash
-.venv/bin/python tools/check_guide.py --render docs/guide/_build
+.venv/bin/python tools/check_guide.py --render docs/guide/_build      # .venv\Scripts\python.exe on Windows
 cd docs/guide/_build && quarto render
 ```
 

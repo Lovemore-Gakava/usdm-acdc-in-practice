@@ -15,7 +15,7 @@ book on every push; its deploy job is switched off until Pages is enabled. Until
 locally:
 
 ```
-.venv/bin/python tools/check_guide.py --render docs/guide/_build
+.venv/bin/python tools/check_guide.py --render docs/guide/_build   # .venv\Scripts\python.exe on Windows
 cd docs/guide/_build && quarto render && open _book/index.html
 ```
 
@@ -51,7 +51,7 @@ Then, using the virtual environment's interpreter for anything that reads parque
 .venv/bin/python tools/check_alignment.py       # P3 — 0 fail, 0 warn, 0 skip
 ```
 
-On Windows that is `.venv\Scripts\python.exe`. Two things the bootstrap cannot do for you: a
+On Windows the interpreter is `.venv\Scripts\python.exe` in each. Two things the bootstrap cannot do for you: a
 CDISC Library key (`.cdisc-api-key` in the repository root, or `CDISC_API_KEY`) if you want the
 app's concept Reference links to resolve rather than answer 401; and R, if you want to reproduce
 stage 7's reference fits outside the engine — step 8 itself runs R in the browser under WebR and
