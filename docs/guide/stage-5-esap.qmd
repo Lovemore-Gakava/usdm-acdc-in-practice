@@ -11,7 +11,10 @@ The eSAP is the container the chain goes into, and the input to execution. It is
 concept beside the other three — it is where a specification stops being about one endpoint and
 starts being about a study.
 
-It declares its own provenance:
+It declares its own provenance, and the declaration is worth reading because it says what an
+eSAP *is*: a join of three models — the study definition, the transformation model of the
+previous two stages, and CDISC's Analysis Results Standard — naming which entities of each it
+uses:
 
 {{json:endpoints/01-simple-lab-cfb/esap.json#$provenance}}
 
@@ -32,6 +35,21 @@ document, dataset and specification views, the JSON instance, and a Define-XML.
 An eSAP whose estimand is populated: a named analysis population, named treatments, the
 intercurrent event strategy, the summary measure. Not placeholders.
 
+**On the two endpoints in this book you will see less than that, and it is not your mistake.**
+Both estimands carry the population and both treatments. Both have an empty intercurrent-event
+list, and both carry the population's name — `SAF` — in the summary-measure slot. The study
+defines no estimand for either of its safety endpoints, which is ordinary; when nothing in the
+study definition targets the endpoint, this application fills the summary from the chain's
+population dimension and leaves the events empty, and nothing marks that it did. The eSAPs here
+are left as emitted, so that what the tool does is on the record rather than tidied.
+
+### Step into the factory
+
+The generated plans are `endpoints/01-simple-lab-cfb/esap.json` and the two in
+`endpoints/04-vitals-cfb-mmrm/`. The lesson below is item L6 in the lab endpoint's `log.md`,
+with the two decisions it forced, D12 and D13; the fallback described above is item V2 in the
+vitals endpoint's.
+
 ## What to look out for
 
 **The estimand is assembled from two places, and the chain supplies half of it.** The
@@ -41,6 +59,10 @@ analysis population and the treatment come from the chain's own dimension values
 A chain that reaches this stage without those dimensions set produces an eSAP carrying
 `AnalysisPopulation_unknown` and an unspecified intervention — structurally valid, semantically
 empty. The study definition's own analysis-population reference is *not* what this step reads.
+
+And when the study definition has no estimand for the endpoint at all, the half it was to
+supply is not left blank: the summary-measure slot takes the chain's population name and the
+event list is empty. Read the estimand knowing which of its fields came from where.
 
 That is the same shape as the lesson in stage 2: there are two joins that look like one, and the
 chain's is the one that carries. It is worth expecting the pattern rather than being surprised
