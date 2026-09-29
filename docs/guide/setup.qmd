@@ -67,6 +67,18 @@ On Windows that is `.venv\Scripts\python.exe`. A plain `python3` will fail on th
 the tools now tell you which interpreter would have worked — but it is easier to expect it. This
 is the single most common way a correctly set-up copy looks broken.
 
+**On Windows, the engine may refuse to parse until the submodule's line endings are fixed.**
+A clone with `core.autocrlf=true` checks the engine's R source out with CRLF endings and R
+reports *unexpected invalid token* at the first execution. Once per clone:
+
+```bash
+git -C upstream/analysis-concepts config core.autocrlf false
+```
+
+then check the file out again. The pinned commit does not change and the submodule stays
+clean. This bites at stage 6, and it is the second most common way a correct copy looks
+broken.
+
 **The version you get is pinned, deliberately.** The framework is fetched at one commit, and the
 study at another, both recorded. The application you see is the one this book describes, not the
 latest — which is the point: the standards and the tooling are both moving, and a book that
