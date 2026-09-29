@@ -48,8 +48,15 @@ The loop has four steps, and the third is the one people skip.
 In this project that meant two issues raised on the study's own repository —
 [#27](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/27) and
 [#53](https://github.com/OpenTrialReporting/torivumab-nsclc-301/issues/53) — each shown as a
-draft before it was filed, and each closed by the study's owner. The register of what was raised
-lives with the study, where it belongs, and not in this book.
+draft before it was filed, and each closed by the study's owner. The issues live with the
+study, where they belong. The register behind them — every discrepancy the conversion raised,
+with its disposition and the source commit that closed it — lives with the factory, and this
+book links to it rather than reciting it.
+
+### Step into the factory
+
+The register is `study/gap-register.md`. Each row is one question, what was decided about it,
+and where it was resolved — in the source, or here with the reason.
 
 ## What you should see
 
@@ -59,6 +66,20 @@ When the source was corrected and the analysis re-run, every figure in this book
 That is uncomfortable and it is the point: if correcting the documents had left the results
 identical, the corrections would have been cosmetic. The chain is only worth building if it is
 connected at both ends, and a moving number is the evidence that it is.
+
+Here is one, read from both runs. The laboratory treatment difference, placebo minus
+torivumab, at the pin before the source was corrected and at the pin after:
+
+| | |
+|---|---|
+| Before | {{fact:lab.engine.diff.previous|4}} |
+| After | {{fact:lab.engine.diff|4}} |
+
+And one that did not move but vanished. At the earlier pin the blood-pressure model's first
+post-baseline contrast was labelled *{{fact:vitals.mmrm.first.previous.label}}*. The protocol
+had never scheduled that visit; the correction removed it from the data, and the first contrast
+is now *{{fact:vitals.mmrm.c2d1.label}}*. A figure that disappears is the same evidence as one
+that changes: the chain reached the source.
 
 ## What to look out for
 
@@ -77,6 +98,7 @@ That is slower than filing directly and it is the difference between a collabora
 audit.
 
 **Beware the easy version of this argument.** In this project the person who found the questions
-and the person who owned the study were the same person, which made the loop fast and
-frictionless. Across an organisation it is neither. The mechanism is real; the speed here is
-not representative, and anyone planning on it should assume the conversation is the slow part.
+and the person who owned the study were the same person. The first issue was opened and closed
+within the day; the second within minutes of being opened. Across an organisation the loop is
+neither that fast nor that frictionless. The mechanism is real; the speed here is not
+representative, and anyone planning on it should assume the conversation is the slow part.

@@ -21,6 +21,10 @@ vitals.mmrm.c2d1.reference.se: endpoints/04-vitals-cfb-mmrm/results.json#p7_reru
 vitals.baseline.differ: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.reference_ancova_python.baseline_ambiguity.first_row_differs_from_BASE
 vitals.baseline.subjects: endpoints/04-vitals-cfb-mmrm/results.json#p7_rerun_a806630.reference_ancova_python.baseline_ambiguity.subjects_in_replica
 
+# the feedback loop — the same figures at the pin before the source was corrected
+lab.engine.diff.previous: endpoints/01-simple-lab-cfb/results.json#p6_rerun.run.results.contrasts.estimate
+vitals.mmrm.first.previous.label: endpoints/04-vitals-cfb-mmrm/results.json#p6_rerun.run_mmrm.results.contrasts[0].Contrast
+
 # the baseline divergence — the book's worked example of why the join matters
 lab.engine.diff: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.run.results.contrasts.estimate
 lab.reference.diff: endpoints/01-simple-lab-cfb/results.json#p7_rerun_a806630.reference_A_toriva_CHG_BASE_ANL01FL.diff_placebo_minus_torivumab
