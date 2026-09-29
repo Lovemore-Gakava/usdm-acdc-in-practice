@@ -8,7 +8,9 @@ contain — and where it says it.
 ## What this is
 
 ICH M11 is a template for the clinical trial protocol: fourteen sections, and in the merged
-electronic version 303 data elements, 216 of them Required, each carrying a CDISC code.
+electronic version 303 data elements, 216 of them Required, nearly all carrying a CDISC code.
+Those counts are properties of one release — v0.17.0 of the electronic specification, which is
+what this book was mapped against — and the next release will move them.
 
 **Where you start depends on where the protocol came from, and the two cases are different
 pieces of work.**
@@ -60,6 +62,13 @@ A mapping document, and a count of required elements the protocol does not suppl
 On a protocol not written to M11, expect that count to be substantial: it measures the distance
 between two conventions, not how good the protocol is. On one authored to M11 it should be
 close to zero, and anything that is not zero is worth understanding before you go further.
+
+### Step into the factory
+
+The mapping this book was written from is `study/m11/protocol-to-m11.md`: element by element,
+for the sections the two endpoints depend on, with the location in the source protocol or the
+word *absent* against each. Where the element counts above came from, and the command that
+reproduces them, is the ICH M11 entry in `study/source-refs.md`.
 
 ## What to look out for
 

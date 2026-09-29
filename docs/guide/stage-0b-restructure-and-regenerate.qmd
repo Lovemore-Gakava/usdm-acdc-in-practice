@@ -12,23 +12,52 @@ never opens.
 ## What this is
 
 Stage 0 found the estimands in the SAP rather than the protocol. Stage 0b moves them, section
-by section, and regenerates the downstream artefact from the restructured protocol instead of
-from the original prose.
+by section, into the M11 structure, so that the study definition produced at the next stage is
+a *product* of the structured protocol rather than a transcription of the original prose.
+
+One word of history, because the stage's name carries it. In this project the fragment was
+hand-authored first, at stage 1, and the restructuring came after — so here the fragment was
+*re*generated, and the two versions can be compared. The book presents the stages in the order
+that makes sense, which is this one: restructure, then generate once.
 
 ## What you do
 
-Move the sections. Then re-run the generator so the USDM fragment is a *product* of the M11
-protocol rather than a transcription of the original.
+**Move, do not write.** Every block of text in a restructured section is a verbatim range of the
+source document, cited to where it came from. Where the source has nothing for an element, the
+restructured section says *absent* and cites nothing, rather than composing something to fill
+the slot. An M11-conformant protocol could be produced by writing the missing pieces; it would
+be a fiction about what the sponsor specified, and the gaps are the interesting part.
+
+Then generate the study definition from the restructured protocol. That is stage 1's work, and
+the reason for doing this stage first is what the generation finds when the structure is there.
 
 ## What you should see
 
-A restructured protocol, and a regenerated fragment that is visibly richer than the
-hand-authored one — because the structure now supplies what prose had left implicit.
+A restructured protocol in which every block carries its source citation, every M11 element the
+source does not supply is recorded as absent, and nothing has been composed. Then, at stage 1,
+a fragment that is richer than prose could have given — because the structure supplies what the
+prose had left implicit.
+
+### Step into the factory
+
+The restructured protocol is `study/m11/protocol/`, one file per M11 section, each carrying
+its source's licence and its *fictional study* banner. `tools/m11_restructure.py` produces the
+generated sections from the source synopsis as verbatim line ranges, and its `--check` mode
+verifies that what is committed still matches — the rule above, enforced rather than
+remembered. `tools/m11_to_usdm.py` generates the study definition from those sections, with a
+`--check` of its own.
 
 ## What to look out for
 
 **Done means both halves.** A restructured section that nothing consumes leaves the next
 stage still transcribing from prose, and looks like progress while changing nothing.
 
-The payoff is concrete and worth expecting: regenerating took this study's fragment from one
-estimand to six, because M11 §3 supplies what the SAP had been holding.
+**The payoff is concrete, and worth expecting.** Regenerating took this study's fragment from
+one estimand to six, because M11 §3 supplies what the analysis plan had been holding: a
+population, a treatment, a summary measure and an intercurrent-event strategy per objective,
+which prose had never been asked for.
+
+**The urge to write is strongest here.** Stage 0 said not to fix while mapping; this stage is
+where the fix would be easy, because the empty slot is in front of you and the content is
+obvious. Record the absence. A slot you filled cannot later be told apart from one the sponsor
+did.

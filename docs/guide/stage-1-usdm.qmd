@@ -52,6 +52,5 @@ content somewhere else that is equally valid. Load it and look before believing 
 **Hand-author once, then generate.** Writing a fragment by hand teaches the shape faster than
 reading the model does, and it is worth doing once for that reason alone. But a hand-authored
 fragment is a transcription of prose, and it inherits every ambiguity in the prose silently.
-Generating it from a structured protocol makes the transcription step reviewable — and this
-project's fragment went from one estimand to six when it was regenerated, because the structured
-protocol carried what the prose had left to the analysis plan.
+Generating it from a structured protocol makes the transcription step reviewable. What that
+bought here is at the end of [stage 0b](stage-0b-restructure-and-regenerate.qmd).
