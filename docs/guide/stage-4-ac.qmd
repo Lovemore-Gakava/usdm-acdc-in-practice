@@ -15,9 +15,15 @@ The upper half of the pipeline picture in the previous chapter is exactly this: 
 the top, and beneath it `response`, `covariate`, `fixed_effect`, `partition`, `constraint`, each
 pointing at something.
 
-The chain records which library entry was used, so the binding can be read back later:
+The chain stores the binding itself, one entry per role. This is the response, exactly as
+saved — the role the method declares, the concept that fills it, and what kind of value the
+method requires there:
 
-{{json:endpoints/01-simple-lab-cfb/chain.json#$references.acConceptModel}}
+{{json:endpoints/01-simple-lab-cfb/chain.json#endpointSpecs.Endpoint_SAFETY_LAB.selectedAnalyses[0].resolvedBindings[0]}}
+
+There are six of these for this analysis: response, covariate, fixed effect, partition, and two
+constraints. They are what the eSAP of the next stage is generated from, and what a reader
+later can check the model against.
 
 ## What you do
 
@@ -37,21 +43,41 @@ derivation pipeline.
 Every role bound, and the analysis appearing as the top node of the derivation pipeline with no
 unresolved inputs beneath it.
 
+### Step into the factory
+
+The stored analysis is `selectedAnalyses` in `endpoints/01-simple-lab-cfb/chain.json`. The
+first lesson below is finding F13 in `docs/findings/`, with the counts and how they were taken;
+the second is F02, a finding whose premise was corrected and whose consequence held, which is
+why it is worth reading; the third is item V1 in `endpoints/04-vitals-cfb-mmrm/log.md`.
+
 ## What to look out for
 
 **You author from templates, not from methods, and there are far fewer templates.** The method
-library is much larger than the set of things the builder can actually author — at the pinned
-version, most methods have no transformation to select.
+library is much larger than the set of things the builder can actually author. At the pinned
+commit the transformation library carries eleven analysis templates, and the method library
+thirty-nine analysis methods; the eleven cover eleven of them, one each.
 
-So "the method exists" does not mean "the analysis can be authored". Check for a transformation
+So "the method exists" does not mean "the analysis can be authored". Check for a template
 before planning an endpoint around a method, or you will arrive at this stage with nothing to
 pick. This is the single most common way an endpoint that looks feasible on paper turns out not
-to be.
+to be. And a template is not the last rung either: the second endpoint here had its template,
+authored cleanly, and reached stage 6 to find there was no implementation to run it with.
 
 *This is about the state of the published libraries rather than the model: the gap closes as
-transformations are added, so count them yourself rather than trusting this number.*
+templates are added, so count them yourself rather than trusting these numbers.*
 
 **A method's roles are its contract, and they are narrower than statistical intuition.** Two
-inputs that a statistician would describe the same way may be distinct roles here, and roles
-that look interchangeable are distinguished only by position in the model's formula. Read the
-method before assuming what it will accept.
+inputs that a statistician would describe differently may share a role here, and be told apart
+only by their order in the model's formula: in the survival method, time and event are both
+bound to *response*. Read the method before assuming what it will accept.
+
+**A template can arrive with a role that names a category rather than a concept.** The MMRM
+template declares its repeated factor and its constraint by the *kind* of dimension they take —
+a visit dimension, a parameter dimension — not by which one. In this application, selecting it
+copied both into the analysis unresolved, and the next render failed, so step 4 could not be
+used from that state at all. The fix was to resolve each to the dimension already picked at
+stage 3, and it was done by hand — the only point on either endpoint where the chain needed a
+hand outside the interface.
+
+*True of the application described here, at the pinned commit; the rule that resolves such a
+binding exists in it and was simply not applied on that path.*
