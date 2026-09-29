@@ -60,7 +60,12 @@ jobs:
         with:
           path: docs/guide/_build/_book
 
+  # Switched off while the guide is unpublished (docs/decisions.md, 2026-09-26):
+  # with Pages disabled this job fails on every push and the red run means
+  # nothing. The build job above still runs the checks and the render. To
+  # publish, enable Pages and delete the `if:` line — G7 is LG's gate.
   deploy:
+    if: false
     needs: build
     runs-on: ubuntu-latest
     environment:

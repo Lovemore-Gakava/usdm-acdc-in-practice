@@ -10,8 +10,9 @@ computed from the filesystem on every commit, so they cannot claim a stage that 
 ## Where to start
 
 The guide — the traverse as a book, for a reader with no CDISC background — is in
-`docs/guide/`. **It is not published.** The build is ready and `.github/workflows/guide.yml`
-will deploy it to Pages when Pages is enabled; until then, read it locally:
+`docs/guide/`. **It is not published.** `.github/workflows/guide.yml` checks and renders the
+book on every push; its deploy job is switched off until Pages is enabled. Until then, read it
+locally:
 
 ```
 .venv/bin/python tools/check_guide.py --render docs/guide/_build
