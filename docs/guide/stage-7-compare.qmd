@@ -36,12 +36,54 @@ reproduce the engine's number outside the engine, using the engine's own selecti
 Two numbers that do not match, and an explanation of every part of the gap — with each
 engine result reproduced to four decimals once its selection is known.
 
+Here they are, for both endpoints, at the current pin. The reference in each case is the same
+model fitted on the study's own derived variables — its change, its baseline, its
+analysis-record flag — and the count is the subjects on which the engine's baseline row is not
+the row the study's flag marks. Every figure is read from the runs.
+
+| Laboratory, ANCOVA at C2D1 | |
+|---|---|
+| Engine, placebo minus torivumab | {{fact:lab.engine.diff|4}} (SE {{fact:lab.contrast.se|3}}) |
+| Reference, same model on the study's variables | {{fact:lab.reference.diff|4}} (SE {{fact:lab.reference.se|3}}) |
+| Subjects whose baseline row differs | {{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} |
+
+| Blood pressure, MMRM at C2D1 | |
+|---|---|
+| Engine, placebo minus torivumab | {{fact:vitals.mmrm.c2d1.estimate|4}} (SE {{fact:vitals.mmrm.c2d1.se|3}}) |
+| Reference, same model on the study's variables | {{fact:vitals.mmrm.c2d1.reference|4}} (SE {{fact:vitals.mmrm.c2d1.reference.se|3}}) |
+| Subjects whose baseline row differs | {{fact:vitals.baseline.differ}} of {{fact:vitals.baseline.subjects}} |
+
+The second gap is the larger, and for a reason the model makes plain: under a repeated-measures
+model the baseline enters every visit's change, not one.
+
+### Step into the factory
+
+The comparisons are `comparison.md` in `endpoints/01-simple-lab-cfb/` and
+`endpoints/04-vitals-cfb-mmrm/`, each with the reference fit, the replica of the engine's
+selection outside the engine, and the classification of every cause. The subject counts come
+from `tools/check_baseline_ambiguity.py`, run against the study's data. The three classes a
+divergence is sorted into are set in `docs/specification.md`.
+
 ## What to look out for
 
 **A divergence is a result, not a failure, but only if you can explain all of it.** The
-mechanism here is a baseline-row disagreement: the engine takes the first row in the baseline
-window, the study's datasets take the row its baseline flag marks. It affects most subjects in
-both endpoints, and under a repeated-measures model it enters every visit rather than one.
+mechanism here is a baseline-row disagreement, and it is worth stating as a rule rather than a
+symptom. The plan defines baseline *by date*: the last value on or before the first dose. The
+chain declared it *by visit*: the record at the Baseline visit. A subject with a screening draw
+and a pre-dose draw on day one has two records at that visit, and the two rules pick different
+ones — the study's flag marks the later, the engine takes the first it finds. It affects most
+subjects in both endpoints.
+
+Explaining all of it means sorting every cause. The comparison record does so into three
+classes: an **authoring error**, which the builder could have been made to get right — the
+covariate defaulting to the analysis value, the cube on the collected visit rather than the
+analysis visit — and was, in the later runs; a **model limitation**, which no authoring fixes —
+the chain can state the visit but not which record in it, and nothing produces the
+analysis-record flag; and a **specification ambiguity**, of which this endpoint had none, since
+the plan was precise. On the data as first pinned, the record substituted the flag's row for
+the first row, changed nothing else, and most of the gap closed; what remained was the
+analysis-record flag and the visit column, both in the second class. The study's data has been
+regenerated since and every number moved — the mechanism did not, which is the point.
 
 Reproduce before you conclude. A gap you cannot reproduce outside the engine is not yet
 understood, and the temptation to call it a rounding difference is strong and usually wrong.
