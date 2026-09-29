@@ -6,8 +6,9 @@ title: "Colophon"
 
 | | |
 |---|---|
-| Concept model and reference application | [`cdisc-org/analysis-concepts`](https://github.com/cdisc-org/analysis-concepts), at the commit pinned by the repository behind this book |
-| Study | [TORIVA-LUNG 301](https://github.com/OpenTrialReporting/torivumab-nsclc-301) — fully synthetic, fictional sponsor and drug, educational use only |
+| Concept model and reference application | [`cdisc-org/analysis-concepts`](https://github.com/cdisc-org/analysis-concepts) at `739344c`, the commit every screenshot is stamped with |
+| Study | [TORIVA-LUNG 301](https://github.com/OpenTrialReporting/torivumab-nsclc-301) — fully synthetic, fictional sponsor and drug, educational use only. Documents at `0f78331`; the runs are stamped `a806630`, the commit before it, whose datasets the later one does not change |
+| Not upstream's | The R implementation of the mixed model for repeated measures that the second endpoint runs on. At `739344c` the library defines the method and ships a template for it and no implementation; the one used here was written for this book and is injected into the application when the walkthrough serves it. Stage 6 says so where the figure appears |
 | Protocol template | ICH M11, in its merged electronic form |
 | Study definition model | USDM v4.0 |
 
@@ -25,8 +26,9 @@ none of it is suitable for regulatory use or for any clinical conclusion.
 
 ## Status
 
-This book was drafted with an AI model under the author's direction, and read and approved by
-the author.
+This book was drafted with an AI model under the author's direction. The author read it
+chapter by chapter on 2026-09-28 and 2026-09-29, with corrections applied and committed as each
+chapter was read; the repository's `PROVENANCE.md` records the pass.
 
 That is a review of the writing. It is not independent verification of every claim in it: the
 lessons in these chapters are drawn from the working record of one traverse, and the repository
@@ -41,6 +43,9 @@ specification.
 
 ## The repository behind this
 
-Everything here is generated from a repository that carries the working record — the authored
-chains, the executed runs, the comparisons, and the decisions taken along the way, including the
-ones that were reversed.
+Everything here is generated from
+[`Lovemore-Gakava/usdm-acdc-in-practice`](https://github.com/Lovemore-Gakava/usdm-acdc-in-practice),
+which carries the working record — the authored chains, the executed runs, the comparisons, and
+the decisions taken along the way, including the ones that were reversed. The book, like the
+repository, is under the MIT licence; the upstream content it reproduces stays under CC-BY-4.0,
+and the study under its own CC BY 4.0, as stated above.
