@@ -8,9 +8,13 @@ than only read.
 
 ## What this is
 
-A USDM fragment is the part of the study definition the endpoints in scope actually need —
-objectives, endpoints, estimands, arms, population, and the biomedical concepts the endpoints
-are measured by. Not a whole digitised protocol, which is a separate and much larger job.
+The minimum a study definition needs, for the endpoints in scope, is objectives, endpoints,
+estimands, arms, population, and the biomedical concepts the endpoints are measured by. That is
+a *fragment*, and it is what this study's definition was for its first week. It has since been
+generated from the whole restructured protocol, and carries epochs, encounters and a schedule of
+activities as well — which is what the schedule tab below is showing. The fragment is the
+starting point, and enough for everything from stage 2 onward; the whole is what a protocol
+authored to M11 gives you without asking.
 
 Loaded into the builder, the study looks like this:
 
@@ -35,7 +39,8 @@ consumes has not been tested.
 
 *In the application used here:* put the fragment where it looks for studies and add it to the
 study manifest; the study then appears as a card, and **Study Overview** renders it tab by tab —
-Summary, Arms, Objectives & Endpoints, Schedule of Activities.
+Summary, Arms, Objectives & Endpoints, Schedule of Activities, and two more for the narrative
+and the configuration.
 
 ## What you should see
 
@@ -43,11 +48,20 @@ A study card, and behind it the objectives and endpoints you put in, each with i
 protocol. If a tab is empty, that part of the fragment is missing or is not shaped the way the
 reader expects.
 
+### Step into the factory
+
+The definition is `study/usdm/toriva-lung-301.usdm.json`, and beside it `study/usdm/README.md`
+records what was learned about the shape USDM v4 has to take for this application to read it —
+established from the application's own parser and confirmed by loading, with a tree of where
+each thing has to sit.
+
 ## What to look out for
 
-**Rendering is the real test, not schema validation.** A fragment can satisfy the schema and
-still show an empty Arms tab, because the application reads a particular path and yours put the
-content somewhere else that is equally valid. Load it and look before believing it.
+**Rendering is the real test, not schema validation.** An application reads particular paths,
+and a fragment can satisfy the schema with its content somewhere else that is equally valid.
+Here the shape was established by reading the application's parser before writing a line: the
+biomedical concepts, for instance, have to sit on the study *version*, not on the design, because
+that is where this application looks for them. Load it and look before believing it.
 
 **Hand-author once, then generate.** Writing a fragment by hand teaches the shape faster than
 reading the model does, and it is worth doing once for that reason alone. But a hand-authored

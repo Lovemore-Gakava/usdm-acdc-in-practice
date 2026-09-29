@@ -32,13 +32,36 @@ dimensions — and the concepts are attached from the terminal picker.
 ## What you should see
 
 Every measure terminal showing its concepts, and the Smart Phrase at the top of the endpoint
-resolving into a readable sentence — *change from baseline in Alanine Aminotransferase at C2D1
-in the SAF population* — where the underlined parts are the things you have just bound.
+resolving into a readable sentence, where the underlined parts are the things you have just
+bound. The sentence is not quoted here from memory; this is it as the application later wrote
+it into the eSAP, as the label of the endpoint's estimand:
+
+{{json:endpoints/01-simple-lab-cfb/esap.json#study.estimands[0].label}}
+
+The doubled word at the front is the application's: it writes the concept category and then
+the phrase, and the phrase begins with the same word. Read past it. The parameter, the visit
+and the population are the bindings; that they read correctly is the check.
 
 That sentence is a useful check on its own. If it reads oddly, something is bound to the wrong
 slot.
 
+### Step into the factory
+
+The links are in `endpoints/01-simple-lab-cfb/chain.json`, one `linkedBCIds` list per
+terminal — three carrying the study's seven laboratory concepts, one deliberately empty. The
+two lessons below are item L5 in `endpoints/01-simple-lab-cfb/log.md`, with how each was
+established.
+
 ## What to look out for
+
+**Nothing will tell you that you skipped this stage.** The pipeline reported complete with no
+concepts linked at all; after linking seven to each measure terminal it was no more complete
+than before, and nothing in the builder distinguishes the two states. Linking is not demanded
+to reach a finished-looking chain, so it has to be a deliberate act, and the check that it
+happened is yours.
+
+*As with the next lesson: true of the application described here, at the pinned commit. Whether
+another tool demands the link is worth finding out before relying on it.*
 
 **The builder ignores the endpoint-to-concept link in the study definition.** This was found by
 experiment rather than by reading: inject a concept deliberately *not* linked to the endpoint,

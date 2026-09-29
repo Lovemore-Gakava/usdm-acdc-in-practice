@@ -9,7 +9,9 @@ Loaded successfully in `ac-dc-app` both times.
 USDM can source them. See [`../m11/protocol/README.md`](../m11/protocol/README.md).
 
 `toriva-lung-301.usdm.json` — TORIVA-LUNG 301's objective and endpoint hierarchy, arms,
-population, one estimand, and the seven laboratory biomedical concepts.
+population, six estimands (one, until the 0b regeneration; this line said "one" until
+2026-09-29), the seven laboratory biomedical concepts, and — since P2 — the schedule of
+activities.
 
 ## What was learned about USDM v4
 

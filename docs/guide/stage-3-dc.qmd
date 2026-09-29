@@ -9,13 +9,19 @@ Turning what was collected into the value the endpoint is actually about.
 A derivation concept is a step that computes. Change from baseline is the simplest useful
 example: take the measurement, take the subject's baseline measurement, subtract.
 
-Authored, that step is stored like this — a transformation, the method it uses, and a binding
-for each role the method takes:
+Authored, that step is stored as less than you might expect. This is the whole of it in the
+chain file — the slot it fills, the concept it produces, and the identifier of a transformation:
+
+{{json:endpoints/01-simple-lab-cfb/chain.json#endpointSpecs.Endpoint_SAFETY_LAB.derivationChain[0]}}
+
+The method, and the roles it takes — minuend, subtrahend, the partition they are subtracted
+within — are not here. They are the library's definition of that transformation, and the chain
+stores only which one was chosen. So the chain also records which library gave the identifier
+its meaning:
 
 {{json:endpoints/01-simple-lab-cfb/chain.json#$references.transformationLibrary}}
 
-The chain names the library and version it was authored against, so a chain and the library that
-gave it meaning cannot be separated later.
+A pointer and the thing it points into. Separate them and the chain says nothing.
 
 The pipeline view shows the whole endpoint at once:
 
@@ -48,7 +54,35 @@ configure it, and an **Execution Order** panel lists the steps in sequence.
 one entry per step. Anything else means a role is unbound or is bound to something that cannot
 satisfy it.
 
+Read the word *complete* narrowly. It means every role is bound to something that can satisfy
+it. It does not mean the derivation is determined — see the first lesson below.
+
+### Step into the factory
+
+The chain is `endpoints/01-simple-lab-cfb/chain.json`. The lessons below are items L2 to L4 of
+`endpoints/01-simple-lab-cfb/log.md`, each with how it was established, and the mechanism
+behind the resolver lesson is finding F12 in `docs/findings/`.
+
 ## What to look out for
+
+**A complete chain and a correct chain look the same.** This chain reported no unresolved
+slots and saved cleanly, while the baseline it would subtract was ambiguous on
+{{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects in the data it would
+run against — the divergence the introduction opened with, already present here and invisible.
+Nothing in the builder or the saved chain records it. Completeness is a property of the
+bindings; correctness is a property of what they select from the data, and only running
+against data, or reading the selection rule as a statistician would, tells you the second.
+
+*The record here is this application's. Whether another tool can tell the two apart is the
+first thing to find out about it.*
+
+**The right answer may be the last option.** When a slot wants a measure from collected data,
+the answer is to use the source data directly, with no derivation. In this application that
+choice is rendered after nine derivation templates, every one of them wrong for the case, and
+nothing says that source data is the usual answer or that the option is there without
+scrolling. Expect to meet this at the second slot you fill.
+
+*True of the application described here, at the pinned commit.*
 
 **Dependencies resolve by output concept, with exact string equality.** A step that emits a
 `Flag` can never satisfy a step that wants a `Measure`, however obviously related they are to a
