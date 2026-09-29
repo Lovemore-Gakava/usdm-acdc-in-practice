@@ -147,9 +147,33 @@ def render_markdown(md: str) -> str:
         if para:
             out.append("<p>" + inline(" ".join(x.strip() for x in para)) + "</p>"); para.clear()
 
+    CALLOUT_LABELS = {"why": "Why this matters", "note": "Note", "history": "History", "result": "What you should see",
+                      "warn": "Watch out", "details": "Details"}
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
+        m_c = _re.match(r"^:::\s*(\w+)(?:\s+(.*?))?\s*$", stripped)
+        if m_c and m_c.group(1) in CALLOUT_LABELS:
+            flush_para(); close_lists()
+            kind, title = m_c.group(1), (m_c.group(2) or CALLOUT_LABELS[m_c.group(1)]).strip()
+            inner, depth = [], 1
+            i += 1
+            while i < len(lines):
+                t = lines[i].strip()
+                m_open = _re.match(r"^:::\s*(\w+)", t)
+                if m_open and m_open.group(1) in CALLOUT_LABELS:
+                    depth += 1
+                elif t == ":::":
+                    depth -= 1
+                    if depth == 0:
+                        i += 1; break
+                inner.append(lines[i]); i += 1
+            body = render_markdown("\n".join(inner))
+            if kind == "details":
+                out.append(f'<details class="callout details"><summary>{inline(title)}</summary><div class="callout-body">{body}</div></details>')
+            else:
+                out.append(f'<aside class="callout {kind}"><p class="callout-label">{inline(title)}</p>{body}</aside>')
+            continue
         m_fence = _re.match(r"^(\s*)```(\w*)\s*$", line)
         if m_fence:
             flush_para()
@@ -167,7 +191,12 @@ def render_markdown(md: str) -> str:
             flush_para(); close_lists()
             lvl = len(m_h.group(1)); text = m_h.group(2).strip()
             anchor = _re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
-            out.append(f'<h{lvl} id="{anchor}">{inline(text)}</h{lvl}>'); i += 1; continue
+            m_step = _re.match(r"^(\d+)\.\s+(.*)$", text) if lvl == 2 else None
+            if m_step:
+                out.append(f'<h2 id="{anchor}" class="step"><span class="step-no">{m_step.group(1)}</span>{inline(m_step.group(2))}</h2>')
+            else:
+                out.append(f'<h{lvl} id="{anchor}">{inline(text)}</h{lvl}>')
+            i += 1; continue
         m_li = _re.match(r"^(\s*)([-*]|\d+\.)\s+(.*)$", line)
         if m_li:
             flush_para()
@@ -209,6 +238,55 @@ pre{background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:12px;o
 blockquote{border-left:4px solid #d0d7de;margin:.8em 0;padding:.2em 1em;color:#57606a;background:#fafbfc}
 a{color:#0969da} .note{color:#57606a;font-size:.9em;margin-bottom:1.5em}
 @media (prefers-color-scheme:dark){body{color:#e6edf3;background:#0d1117} h2{border-color:#30363d} code,pre{background:#161b22;border-color:#30363d} blockquote{color:#8b949e;background:#0d1117;border-color:#30363d} a{color:#58a6ff} .note{color:#8b949e}}
+"""
+
+# The walkthrough page's own layout: a sticky step navigator beside the text, typed
+# callouts, a header with the pins, copy buttons on commands. Additive to PAGE_CSS.
+WALKTHROUGH_CSS = """
+:root{--ink:#1f2328;--muted:#57606a;--line:#d0d7de;--panel:#f6f8fa;--accent:#0969da;--why:#7a4f01;--why-bg:#fff8e6;--hist:#57606a;--hist-bg:#f6f8fa;--res:#116329;--res-bg:#eefaf1;--warn:#a40e26;--warn-bg:#fff0f2}
+body{padding:0}
+.top{border-bottom:1px solid var(--line);background:var(--panel)}
+.top-in{max-width:1180px;margin:0 auto;padding:22px 24px 18px}
+.kicker{font-size:.8em;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .3em}
+.top h1{font-size:1.75em;line-height:1.2;margin:0 0 .5em}
+.lead{max-width:760px;color:var(--ink);margin:0 0 .9em;font-size:1.02em}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:0;padding:0;list-style:none;font-size:.9em;color:var(--muted)}
+.facts strong{color:var(--ink);font-weight:600} .facts code{font-size:.95em}
+.layout{max-width:1180px;margin:0 auto;padding:24px 24px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px;align-items:start}
+nav.steps{position:sticky;top:18px;font-size:.9em}
+nav.steps .nav-title{font-size:.78em;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .6em}
+nav.steps ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+nav.steps li a{display:block;padding:.3em .8em;color:var(--muted);text-decoration:none;border-left:2px solid transparent;margin-left:-2px;line-height:1.3}
+nav.steps li a:hover{color:var(--ink)} nav.steps li a.current{color:var(--accent);border-left-color:var(--accent);font-weight:600}
+nav.steps .n{display:inline-block;min-width:1.4em;color:var(--muted);font-variant-numeric:tabular-nums}
+main{max-width:none;min-width:0}
+h2.step{display:flex;align-items:center;gap:.6em;border:0;padding:0;margin:2.2em 0 .6em;font-size:1.35em}
+h2,h3{scroll-margin-top:16px}
+.step-no{display:inline-flex;align-items:center;justify-content:center;width:1.7em;height:1.7em;border-radius:50%;background:var(--accent);color:#fff;font-size:.72em;font-weight:700;flex:none}
+.callout{border:1px solid var(--line);border-left-width:4px;border-radius:6px;padding:.7em 1em .5em;margin:1em 0;background:var(--panel)}
+.callout-label{margin:0 0 .3em!important;font-size:.78em;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.callout.why{border-left-color:var(--why);background:var(--why-bg)} .callout.why .callout-label{color:var(--why)}
+.callout.history{border-left-color:var(--line);background:var(--hist-bg);color:var(--hist);font-size:.93em} .callout.history .callout-label{color:var(--hist)}
+.callout.result{border-left-color:var(--res);background:var(--res-bg)} .callout.result .callout-label{color:var(--res)}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-bg)} .callout.warn .callout-label{color:var(--warn)}
+.callout.note{border-left-color:var(--accent)}
+details.callout summary{cursor:pointer;font-weight:600;list-style:none} details.callout summary::before{content:"\\25B8  ";color:var(--muted)} details[open].callout summary::before{content:"\\25BE  "}
+details.callout summary::-webkit-details-marker{display:none} .callout-body{margin-top:.6em}
+pre{position:relative;padding-right:64px} .copy{position:absolute;top:8px;right:8px;font:12px system-ui;padding:3px 8px;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--muted);cursor:pointer} .copy:hover{color:var(--ink)}
+@media (max-width:900px){.layout{grid-template-columns:1fr;gap:16px} nav.steps{position:static;border-bottom:1px solid var(--line);padding-bottom:12px} nav.steps ol{border:0;display:flex;flex-wrap:wrap;gap:2px 10px} nav.steps li a{border:0;padding:.2em .3em}}
+@media (prefers-color-scheme:dark){:root{--ink:#e6edf3;--muted:#8b949e;--line:#30363d;--panel:#161b22;--accent:#58a6ff;--why:#e3b341;--why-bg:#2a2210;--hist:#8b949e;--hist-bg:#161b22;--res:#3fb950;--res-bg:#12261a;--warn:#ff7b72;--warn-bg:#2d1418} .copy{background:#0d1117}}
+"""
+
+WALKTHROUGH_JS = """
+document.querySelectorAll('pre').forEach(function(pre){
+  var b=document.createElement('button');b.className='copy';b.type='button';b.textContent='Copy';
+  b.addEventListener('click',function(){navigator.clipboard.writeText(pre.querySelector('code').innerText).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1200)})});
+  pre.appendChild(b)});
+var links=[].slice.call(document.querySelectorAll('nav.steps a'));
+var heads=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))}).filter(Boolean);
+function mark(){var y=window.scrollY+80,cur=heads[0];heads.forEach(function(h){if(h.offsetTop<=y)cur=h});
+  links.forEach(function(a){a.classList.toggle('current',cur&&a.getAttribute('href')==='#'+cur.id})}
+window.addEventListener('scroll',mark,{passive:true});mark();
 """
 
 
@@ -319,20 +397,52 @@ def render_library_html(obj: dict, path: str) -> bytes:
     return page.encode("utf-8")
 
 
-def walkthrough_page() -> bytes:
+def walkthrough_page(port: int = 8080) -> bytes:
+    """docs/walkthrough.md as a page. Everything above the first '---' rule is the header: the H1
+    is the title, plain paragraphs the lead, '- **Label**' bullets the at-a-glance facts. The H2s
+    below the rule become the step navigator; '## N. Title' headings get their number as a badge."""
+    import html as _h
     md = WALKTHROUGH_MD.read_text(encoding="utf-8")
-    body = render_markdown(md)
+    head, _, rest = md.partition("\n---\n")
+    if not rest:
+        head, rest = "", md
+    title, lead_lines, facts = "Walkthrough", [], []
+    for line in head.splitlines():
+        if line.startswith("# "):
+            title = line[2:].strip()
+        elif re.match(r"^- \*\*.+?\*\*", line):
+            facts.append(line[2:].strip())
+        elif line.strip():
+            lead_lines.append(line.strip())
+    steps = []
+    for m in re.finditer(r"^## (.*)$", rest, re.M):
+        text = m.group(1).strip()
+        anchor = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
+        m_step = re.match(r"^(\d+)\.\s+(.*)$", text)
+        steps.append((anchor, m_step.group(1) if m_step else "", m_step.group(2) if m_step else text))
+
+    def inline(t: str) -> str:
+        return render_markdown(t).replace("<p>", "").replace("</p>", "")
+
+    nav = "".join(f'<li><a href="#{a}"><span class="n">{n}</span>{_h.escape(t)}</a></li>' for a, n, t in steps)
+    facts_html = "".join(f"<li>{inline(f)}</li>" for f in facts)
     page = ("<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-            "<title>Walkthrough</title><style>" + PAGE_CSS + "</style></head><body><main>"
-            "<p class=\"note\">Rendered from <code>docs/walkthrough.md</code> — open the app at "
-            "<a href=\"/ac-dc-app/index.html\" target=\"_blank\">/ac-dc-app/index.html</a> in another tab and keep this one beside it.</p>"
-            + body + "</main></body></html>")
+            f"<title>{_h.escape(title)}</title><style>{PAGE_CSS}{WALKTHROUGH_CSS}</style></head><body>"
+            "<header class=\"top\"><div class=\"top-in\"><p class=\"kicker\">Hands-on walkthrough · rendered from <code>docs/walkthrough.md</code></p>"
+            f"<h1>{_h.escape(title)}</h1>"
+            + (f"<p class=\"lead\">{inline(' '.join(lead_lines))}</p>" if lead_lines else "")
+            + (f"<ul class=\"facts\">{facts_html}</ul>" if facts else "")
+            + "</div></header><div class=\"layout\">"
+            f"<nav class=\"steps\"><p class=\"nav-title\">Steps</p><ol>{nav}</ol>"
+            f"<p style=\"margin-top:1em\"><a href=\"http://localhost:{port}/ac-dc-app/index.html\" target=\"_blank\">Open the app ↗</a>"
+            f"<br><small>served by <code>walkthrough.py serve</code> on port {port}</small></p></nav>"
+            f"<main>{render_markdown(rest)}</main></div><script>{WALKTHROUGH_JS}</script></body></html>")
     return page.encode("utf-8")
 
 
 def html(args: argparse.Namespace) -> None:
     out = Path(args.out) if args.out else Path(os.environ.get("TEMP", ".")) / "walkthrough.html"
-    out.write_bytes(walkthrough_page())
+    out.write_bytes(walkthrough_page(getattr(args, "port", 8080)))
     say(f"wrote {out} — open it in a browser (no server needed)")
 
 
@@ -482,7 +592,7 @@ def serve(args: argparse.Namespace) -> None:
                 body = html.encode("utf-8")
                 self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
             if self.path.rstrip("/") in ("/walkthrough", "/walkthrough.html"):
-                body = walkthrough_page()
+                body = walkthrough_page(port)
                 self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
             return super().do_GET()
 
