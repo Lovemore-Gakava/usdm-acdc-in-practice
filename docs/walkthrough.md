@@ -198,8 +198,19 @@ the number at step 8. The *two names for one visit* note was added the same day,
 the dropdown had no `C2D1`.
 :::
 
-The composed phrase at the bottom should read *change from baseline in Alanine
-Aminotransferase in the SAF population comparing … at C2D1 using analysis of covariance …*.
+The composed phrase at the bottom should read:
+
+*change from baseline in Alanine Aminotransferase in the SAF population at Cycle 2 Day 1
+comparing Torivumab + Chemotherapy vs Placebo + Chemotherapy groups using analysis of covariance*
+
+It says *Cycle 2 Day 1*, the protocol's label, because that is what the dropdown offered; the
+data's `C2D1` comes at step 8.
+
+::: history
+Until 2026-10-01 this line quoted the phrase from memory — *… in the SAF population comparing …
+at C2D1 using analysis of covariance …* — with the visit as the data's code and after the
+comparison. The phrase above is the one the page composed on LG's run that day, pasted from it.
+:::
 
 ## 4. Analysis — how it is analysed
 
@@ -245,6 +256,16 @@ estimand's `analysisPopulation` is `SAF` and `interventions` are both arms — s
 chain's dimension values, not by the USDM's estimand (L6).
 
 ## 8. Execute
+
+::: warn The one setting that fails the run if you miss it
+Before you press Execute, the **Treatment** row of the *Resolved slices* table must have its
+value set to **(no filter — keep all values)** — item 5 below, last row. Left at the step-3
+label, the engine partially matches it to one arm and the run stops with *"contrasts can be
+applied only to factors with 2 or more levels"*. The console shows it before the error does:
+a `Filter: TRT01P ~ …  (partial match)` line that drops 429 rows to 287, and then
+`factor(): TRT01P → 1 levels`. Everything else can be right and this alone fails it — as it did
+on LG's run, 2026-10-01.
+:::
 
 1. **Initialize WebR Engine.** About thirty seconds; the page may freeze while it installs
    `haven`.

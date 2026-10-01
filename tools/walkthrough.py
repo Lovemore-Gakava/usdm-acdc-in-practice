@@ -437,6 +437,9 @@ def walkthrough_page(port: int = 8080) -> bytes:
             f"<p style=\"margin-top:1em\"><a href=\"http://localhost:{port}/ac-dc-app/index.html\" target=\"_blank\">Open the app ↗</a>"
             f"<br><small>served by <code>walkthrough.py serve</code> on port {port}</small></p></nav>"
             f"<main>{render_markdown(rest)}</main></div><script>{WALKTHROUGH_JS}</script></body></html>")
+    # The markdown links docs/media/ relatively, which is right on GitHub and wrong here: absolute to the
+    # server's /media/ route, so the link works on the served page and from the standalone file alike.
+    page = page.replace('href="media/', f'href="http://localhost:{port}/media/')
     return page.encode("utf-8")
 
 
@@ -594,6 +597,18 @@ def serve(args: argparse.Namespace) -> None:
             if self.path.rstrip("/") in ("/walkthrough", "/walkthrough.html"):
                 body = walkthrough_page(port)
                 self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
+            if self.path.startswith("/media/"):
+                # docs/walkthrough.md links its recording as media/<file>, relative to docs/. The server's root is
+                # the submodule, which has no media/, so the link answered 404 (LG's run, 2026-10-01). Served from
+                # docs/media and nowhere else: a path that resolves outside that directory is refused.
+                import mimetypes
+                import urllib.parse
+                media = (ROOT / "docs" / "media").resolve()
+                f = (media / urllib.parse.unquote(self.path.split("?")[0][len("/media/"):])).resolve()
+                if f.parent != media or not f.is_file():
+                    return self.send_error(404, "File not found")
+                body = f.read_bytes()
+                self.send_response(200); self.send_header("Content-Type", mimetypes.guess_type(f.name)[0] or "application/octet-stream"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
             return super().do_GET()
 
         def proxy_library(self, rest: str):
