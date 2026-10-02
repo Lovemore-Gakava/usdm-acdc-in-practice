@@ -72,6 +72,13 @@ the serializer's fallback is `dimValues.Population` when no USDM estimand suppli
 That is a population name in a summary-measure slot. Left as emitted, because it is what the
 tool does; noted so the eSAP is read with it in mind.
 
+> **Both plans regenerated 2026-10-02**, the same way as the lab endpoint's (lab log L6): study
+> selected at step 1, saved chain loaded, step 7's JSON tab taken as the file. Five leaves changed
+> in each, all because the study definition had moved on since 2026-09-19 — the arm names after
+> #27, the generator's rationale, the design description and the endpoint text. The estimand is
+> as this item describes: still no USDM estimand targets `END-S5-VS`, and the summary slot still
+> carries `SAF`. Unlike the lab file, these had been generated against the right study.
+
 ### V3 — the BC picker
 
 The terminal picker listed all eight study BCs for every measure terminal, the new SYSBP entry
