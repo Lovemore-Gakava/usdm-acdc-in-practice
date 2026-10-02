@@ -6,13 +6,15 @@ A trial's result begins as a sentence in a protocol and ends as a number in a ta
 them sit an analysis plan, a programming specification, several datasets and a succession of
 people, each interpreting the last one's work.
 
-Put together, the ambition of ICH M11, USDM and CDISC's Analysis and Derivation Concepts is a
-path from that sentence to that number where **every step is declared rather than implied** —
-and where the declaration, not a program, is the thing a reviewer reads.
+Three standards aim to change that. ICH M11 gives the protocol a fixed structure, USDM turns it
+into data, and CDISC's Analysis and Derivation Concepts describe how a measurement becomes a
+result. Together they aim at a path from that sentence to that number in which **every step is
+declared rather than implied**, so that a reviewer reads the declaration instead of a program.
 
-This book teaches that path by walking it: one analysis of a public simulated oncology trial,
-taken from the protocol's sentence to an executed result, with every choice shown — what is
-chosen, from which published list, and which sentence in the study's documents decides it.
+This book teaches that path by walking it. It takes one analysis of a public, simulated
+oncology trial from the protocol's sentence to an executed result, and shows every choice on
+the way: what is chosen, from which published list, and which sentence in the study's documents
+decides it.
 
 ## What is declared
 
@@ -35,15 +37,15 @@ nobody writes analysis code for the study.
 
 ## One estimate, reached two ways
 
-Whether the ambition is worth the trouble comes down to what a loosely declared step costs.
-The book's worked example shows it. One question — the change from baseline in alanine
-aminotransferase at Cycle 2 Day 1, compared between arms — is answered by two routes over the
-same analysis dataset:
+Is the ambition worth the trouble? That depends on what a loosely declared step costs, and the
+book's worked example shows one. The question is the change from baseline in alanine
+aminotransferase at Cycle 2 Day 1, compared between the two arms. It is answered by two routes,
+both starting from the same analysis dataset:
 
-| | Declared: the chain, run by an engine | Programmed: the study's own derived variables |
+| | Declared route: the chain, run by the engine | Programmed route: the study's own derived variables |
 |---|---|---|
 | What is measured | Alanine aminotransferase, named by the biomedical concept | The same |
-| Which record is baseline | The record at the Baseline visit, as the derivation declares it | The last value on or before the first dose, as the plan defines it — applied by a programmer and marked in the dataset by a flag |
+| Which record is baseline | The record at the Baseline visit, as the derivation declares it | The last value on or before the first dose, as the plan defines it. A programmer applied that rule and flagged the record in the dataset |
 | The change | Computed by the engine: the value minus that baseline | Read from the dataset, where the programmer computed it |
 | The model | ANCOVA, as the analysis concept declares it | The same ANCOVA |
 | Treatment difference, placebo minus torivumab | **{{fact:lab.engine.diff|4}}** | **{{fact:lab.reference.diff|4}}** |
@@ -51,21 +53,23 @@ same analysis dataset:
 The measurement is the same and the model is the same. The two routes part at the derivation,
 over which record is a subject's *baseline*.
 
-The plan chooses by date. The chain chooses by visit, and that is not the same rule, because a
-subject can have two records at the Baseline visit: a screening draw and a pre-dose draw on the
-first day of treatment. The plan's rule says which of the two. The declaration says only "the
-Baseline visit", so the engine has nothing to choose with and takes the first record it finds.
-On {{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects the two rules land on
-different rows.
+The plan chooses by date. The chain chooses by visit. These are different rules, because a
+subject can have two records at the Baseline visit: a screening draw, and a pre-dose draw on
+the first day of treatment. The plan's rule says which of the two counts. The declaration says
+only "the Baseline visit", so the engine has nothing to choose with and takes the first record
+it finds. For {{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects, the two
+rules pick different records.
 
-Nobody chose the visit rule over the plan's. It is how the library's change-from-baseline
-template takes its baseline at the commit pinned here: by the visit a record is labelled with,
-not by its date. The template leaves the question open, the data makes it matter, and the
-engine answers it without saying so.
+Nobody chose the visit rule over the plan's. It comes from the published template for change
+from baseline, which the chain uses: in the version of the library this book describes, the
+template takes its baseline by the visit a record is labelled with, not by its date. The
+template leaves the question open, the data makes it matter, and the engine answers it without
+saying so.
 
-Both numbers are computed correctly. Only the programmed one follows the plan — and nothing
-about the chain showed that: it was complete, and it ran. The plan had said which record. The
-declaration lost it on the way — one step, in the simplest analysis a trial has.
+Both numbers are computed correctly, but only the programmed one follows the plan. Nothing
+about the chain showed this: it was complete, and it ran. The plan said which record is
+baseline, and the declaration lost that on the way — in one step of the simplest analysis a
+trial has.
 
 [Stage 3](stage-3-dc.qmd) is where that declaration is made, and
 [stage 7](stage-7-compare.qmd) takes the difference apart.
@@ -75,14 +79,21 @@ declaration lost it on the way — one step, in the simplest analysis a trial ha
 Anyone in pharma. No CDISC background is assumed: terms are explained where they first matter,
 and linked to their source rather than collected into a glossary you would have to read first.
 
-You do not need to install anything to read it. If you want to *drive* it, one command sets up
-everything, and the setup chapter covers it.
+## Reading it, or running it
+
+**To read this book you do not need to install anything.** Every figure, excerpt and screenshot
+is already on the page.
+
+**To run the worked example yourself, set up first.**
+[Appendix A — Setting up](setup.qmd) builds everything with one command: the application, the
+study and its data. Do it before stage 1, which is where the application first appears. Stages
+0 and 0b are about the documents and need nothing installed.
 
 ## How it is organised
 
-One chapter per stage, in the order the work happens — from reading the protocol against a
-structured template, through the concept model, to executing an analysis in the browser and
-comparing the result against the datasets a programmer built from the same plan.
+One chapter per stage: from reading the protocol against a structured template, through the
+three kinds of concept, to executing the analysis in the browser and comparing the result with
+the datasets a programmer built from the same plan.
 
 Every **stage** chapter answers the same four questions:
 
@@ -91,21 +102,22 @@ Every **stage** chapter answers the same four questions:
 - **What you should see** — the expected outcome
 - **What to look out for** — the checks worth making before moving on
 
-**This is a book about the concepts, not about the tool.** One application is used throughout —
+**This is a book about the concepts, not about the tool.** One application is used throughout:
 the eSAP Builder that CDISC publishes alongside the concepts, described in
-[the documents chapter](documents.qmd#the-application-used-here) — because concepts you cannot
-see working are hard to believe and impossible to check. It is the instrument, not the subject. So each chapter states the work first and then how
-this particular application happens to do it, under *in the application used here*.
+[the documents chapter](documents.qmd#the-application-used-here). It is there because concepts
+you cannot see working are hard to believe and impossible to check, but it is the instrument,
+not the subject. So each chapter states the work first, and then how this particular
+application does it, under *in the application used here*.
 
 The same distinction applies to the checks. Some are properties of the model and will be true
-of any tool; others are true of this one, at the commit pinned here, and may already have been
-fixed. The second kind say so. It is worth knowing which is which before you carry a lesson
-from this book to a tool that is not this one.
+of any tool. Others are true of this application, in the version this book describes, and may
+already have been fixed; those say so. It is worth knowing which is which before you carry a
+lesson from this book to a different tool.
 
 **The working record is elsewhere.** How each stage actually went — the false starts, the
 workarounds, the decisions taken about this particular study — is kept in the repository behind
-the book, and each chapter's *Step into the factory* says where. The chapters themselves stay
-with what transfers.
+the book, and each chapter's *Step into the factory* says where. The chapters keep to what
+applies beyond this study.
 
 ## Two ways in
 
@@ -120,11 +132,11 @@ This book walks the second, because the study it uses predates M11 — and becau
 more common position today. The two converge at stage 1, and everything after it is the same
 work either way.
 
-Two later chapters assume something else again. **Stage 6 needs analysis datasets** to run
-against; **stage 7 needs a second, independently built implementation** to compare with, which
-exists when a study is being re-examined and not when one is being specified for the first time.
-Each of those chapters says what to do without it. Stages 0 to 5 need only a protocol and a set
-of definitions, and produce a specification whether or not any data exists.
+Two later chapters need more than a protocol. **Stage 6 needs analysis datasets** to run
+against. **Stage 7 needs a second, independently built implementation** to compare with, which
+exists when a study is being re-examined and not when one is being specified for the first
+time. Each of those chapters says what to do without it. Stages 0 to 5 need only a protocol and
+a set of definitions, and produce a specification whether or not any data exists.
 
 ## Two things to know before you start
 
@@ -133,5 +145,5 @@ results files at build time, so a figure in this book and the run that produced 
 disagree. When the underlying study was regenerated and every number moved, the book moved
 with it.
 
-**It does not end in agreement.** The divergence this chapter opened with is where the stages
-finish, taken apart rather than smoothed over.
+**It does not end in agreement.** The difference between the two estimates above is where the
+stages finish, and stage 7 takes it apart rather than smoothing it over.

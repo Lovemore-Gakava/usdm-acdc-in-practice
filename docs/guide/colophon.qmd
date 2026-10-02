@@ -40,7 +40,7 @@ see its `PROVENANCE.md`.
 The same repository records its own errors, which is the more useful disclosure. Several
 findings made during the work had a premise or a proposed fix disproved, and most of those
 failed the same way: by inferring what an application does from reading its files rather than
-running it. Treat what follows as a careful account of one traverse rather than as a
+running it. Treat this book as a careful account of one traverse rather than as a
 specification.
 
 ## The repository behind this

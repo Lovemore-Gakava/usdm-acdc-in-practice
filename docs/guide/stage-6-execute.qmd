@@ -7,16 +7,17 @@ Running the specification against real data, in the browser.
 ## What this is
 
 The analysis runs under WebR — R compiled to WebAssembly — so nothing needs installing. The
-data goes in as ADaM in transport format.
+data goes in as ADaM datasets in SAS transport format (`.xpt` files).
 
-**This stage assumes you have analysis datasets.** That is worth saying, because the previous
-five do not. Stages 0 to 5 need a protocol and a set of definitions; this one needs subject-level
-data, in the browser, in a format the engine reads.
+**This stage assumes you have analysis datasets.** That is worth saying, because the earlier
+stages do not. Stages 0 to 5 need a protocol and a set of definitions. This one needs
+subject-level data, in the browser, in a format the engine reads.
 
-If you have none, the chain is not wasted — the output of stage 5 is a specification complete
+If you have none, the chain is not wasted. The output of stage 5 is a specification complete
 enough for a programmer to implement, and that is arguably the deliverable. **Executing it
-proves the specification is complete; it is not what the specification is for.** A reader with a
-protocol and no data can follow every stage up to here and have something real at the end of it.
+shows the specification is complete enough to run; it is not what the specification is for.** A
+reader with a protocol and no data can follow every stage up to here and have something real at
+the end of it.
 
 If you have data but not in this shape, the work is conversion rather than authoring: collected
 data standardised to SDTM, derived to ADaM, and converted to transport format. That path is not
@@ -25,19 +26,19 @@ covered here.
 ## What you do
 
 **The work:** run the declared specification against real subject-level data, and keep the
-record of *how* it was run — every filter and join applied — because that record, not the
-number, is what the next stage needs.
+record of *how* it was run: every filter and join applied. That record, not the number, is what
+the next stage needs.
 
 1. Make the analysis data available to the engine.
 2. Execute the chain.
 3. Keep the execution log, not just the result.
 
-*In the application used here:* step 8, where the datasets are loaded into the browser and the
-engine starts by downloading the R runtime on first use, so it takes a moment.
+*In the application used here:* step 8. The datasets are loaded into the browser, and on first
+use the engine downloads the R runtime, which takes a moment.
 
 ## What you should see
 
-A real result. For the laboratory endpoint at the current pin:
+A real result. For the laboratory analysis, on the data this book is fixed to:
 
 | | |
 |---|---|
@@ -47,7 +48,7 @@ A real result. For the laboratory endpoint at the current pin:
 | df | {{fact:lab.contrast.df}} |
 | p | {{fact:lab.contrast.p}} |
 
-and for the vital-signs endpoint under MMRM, at the first post-baseline visit:
+And for the blood-pressure analysis under MMRM, at the first post-baseline visit:
 
 | | |
 |---|---|
@@ -55,9 +56,10 @@ and for the vital-signs endpoint under MMRM, at the first post-baseline visit:
 | Estimate | {{fact:vitals.mmrm.c2d1.estimate}} |
 | SE | {{fact:vitals.mmrm.c2d1.se}} |
 
-**A method needs an implementation to run.** At the pinned commit the library defines the
-repeated-measures method and ships its template, and no implementation of it. The second figure
-comes from one written for this book, which the walkthrough loads; the colophon says so.
+**A method needs an implementation to run.** In the version described here, the library
+defines the repeated-measures method and ships its template, but no implementation of it. The
+second figure comes from an implementation written for this book, which the set-up loads into
+the application; the colophon says so.
 
 ### Step into the factory
 
@@ -69,18 +71,18 @@ endpoint's.
 
 ## What to look out for
 
-**Execution takes choices of its own, and none of them is statistical.** Which dataset, which
-treatment variable, which population flag, which value of each dimension as the data spells it,
-which covariate column. Every one is about a column or a label, and several exist only because
-the study definition and the data name the same thing differently. Keep the record of them with
-the result, because the next stage is about the choices, not the number.
+**Execution takes choices of its own, and none of them is statistical.** They are: which
+dataset, which treatment variable, which population flag, which value of each dimension as the
+data spells it, and which covariate column. Every one is about a column or a label, and several
+exist only because the study definition and the data name the same thing differently. Keep the
+record of them with the result, because the next stage is about the choices, not the number.
 
 **Read the model back before reading the result.** A change-from-baseline model wants the
-baseline value as its covariate. A tool's default may be something else — in the application
-used here it is the analysis value — and the run completes without complaint either way.
+baseline value as its covariate. A tool's default may be something else. In the application
+used here it is the analysis value, and the run completes without complaint either way.
 
-**One choice may never be offered.** Which record is the baseline — the first in the window or
-the one a flag marks — is not put to you by the engine used here; it takes the first. That is
+**One choice may never be offered.** Which record is the baseline — the first in the window, or
+the one a flag marks — is not put to you by the engine used here. It takes the first. That is
 why the divergence of the next chapter is a matter of declaration rather than of care.
 
 **Read the contrast label, never assume the direction.** The stored contrast here is placebo
@@ -90,4 +92,3 @@ label alongside the estimate and the sign cannot be got wrong.
 **Dimensions must be in the form the data holds.** An engine that filters on dimension names
 needs the derived forms, because the collected forms have no column in an analysis dataset. A
 chain can reach stage 5 without this and fail only here.
-

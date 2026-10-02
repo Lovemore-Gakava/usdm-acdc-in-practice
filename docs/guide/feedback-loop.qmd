@@ -3,8 +3,8 @@ title: "The conversion is a quality process"
 ---
 
 The stages before this one treat the study's documents as input. This chapter is about what
-happens to those documents on the way through — which turned out to be the most useful thing
-the exercise produced, and the part that transfers to any study.
+happens to those documents on the way through. It turned out to be the most useful thing the
+exercise produced, and the part that transfers to any study.
 
 ## What this is
 
@@ -53,11 +53,6 @@ study, where they belong. The register behind them — every discrepancy the con
 with its disposition and the source commit that closed it — lives with the factory, and this
 book links to it rather than reciting it.
 
-### Step into the factory
-
-The register is `study/gap-register.md`. Each row is one question, what was decided about it,
-and where it was resolved — in the source, or here with the reason.
-
 ## What you should see
 
 Numbers that move.
@@ -81,12 +76,17 @@ had never scheduled that visit; the correction removed it from the data, and the
 is now *{{fact:vitals.mmrm.c2d1.label}}*. A figure that disappears is the same evidence as one
 that changes: the chain reached the source.
 
+### Step into the factory
+
+The register is `study/gap-register.md`. Each row is one question, what was decided about it,
+and where it was resolved: in the source, or here, with the reason.
+
 ## What to look out for
 
 **Fix the source, not your copy.** Patching your own derived version is faster, and it is the
 decision that quietly ends the loop: from then on your copy and the source disagree, the
 disagreement grows with every correction, and nobody downstream of the source ever benefits.
-This project went the other way, and the cost was re-pinning and re-running twice in one day.
+This project fixed the source, and the cost was re-pinning and re-running twice in one day.
 
 **They are questions, not findings.** The framing decides whether you get an answer. *"Which
 record is baseline — the plan is consistent with two readings"* is a question the author can

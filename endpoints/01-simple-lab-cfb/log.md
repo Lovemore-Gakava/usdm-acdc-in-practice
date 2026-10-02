@@ -163,6 +163,18 @@ them to `SAF` and `Torivumab vs Placebo` resolved both.
 in the USDM (`E6.analysisPopulationId`, the two arms), which is not where step 7 reads them
 from. So the chain has to carry them itself. Same shape as L5.
 
+> **`esap.json` is stale against this item (noted 2026-10-02).** The plan generated at stage 5
+> (commit `ee9dace`) carried E6's population-level summary and its intercurrent event, as this
+> item describes. Commit `d0ceef3` (stages 6 and 7) replaced the file with one carrying `SAF` in
+> the summary slot and `intercurrentEvents: []`, against the same USDM, in which `Estimand_E6`
+> targets `Endpoint_SAFETY_LAB` throughout. Why the regeneration fell back is not established —
+> the application has not been re-run on it. The numbers are unaffected: the summary text does
+> not enter the computation.
+>
+> The guide's stage 5 chapter had explained the thin estimand by saying the study defines no
+> estimand for either safety endpoint — true of vitals (V2), false of this one. Corrected in the
+> chapter the same day. **Owed:** regenerate `esap.json` through step 7 with the study loaded.
+
 ### L7 — execution took eleven more decisions, none of them statistical *(stage 6, 2026-09-17)*
 
 Step 8 needs `.xpt` files; TORIVA ships parquet (converted with `pyreadstat`, 44.8 MB for ADLB).

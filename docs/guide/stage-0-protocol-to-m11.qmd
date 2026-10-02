@@ -7,10 +7,10 @@ contain — and where it says it.
 
 ## What this is
 
-ICH M11 is a template for the clinical trial protocol: fourteen sections, and in the merged
-electronic version 303 data elements, 216 of them Required, nearly all carrying a CDISC code.
-Those counts are properties of one release — v0.17.0 of the electronic specification, which is
-what this book was mapped against — and the next release will move them.
+ICH M11 is a template for the clinical trial protocol. It has fourteen sections and, in the
+merged electronic version, 303 data elements, 216 of them required and nearly all carrying a
+CDISC code. Those counts belong to one release, v0.17.0 of the electronic specification, which
+is what this book was mapped against; the next release will move them.
 
 **Where you start depends on where the protocol came from, and the two cases are different
 pieces of work.**
@@ -37,8 +37,8 @@ version of the steps below.
 
 **Mapping an existing protocol**
 
-1. List the M11 elements the endpoint you are carrying depends on. Not all 216 — the ones in
-   scope.
+1. List the M11 elements the endpoint you are carrying depends on. Not all 216; only the ones
+   in scope.
 2. For each, find where the existing document answers it, and write down the location.
 3. Where nothing answers it, record *absent*, and where you believe the content lives instead.
 4. Produce a table, not an edit. The output of this stage is a description of the document as it
@@ -72,11 +72,11 @@ reproduces them, is the ICH M11 entry in `study/source-refs.md`.
 
 ## What to look out for
 
-**Most of what looks missing is misplaced.** The commonest case: M11 §3.1.1 wants the estimand
-*in the protocol*, and five of its seven required elements are ICH E9(R1) estimand attributes —
-but the long-standing convention is to define estimands in the statistical analysis plan
-instead. A protocol written that way fails a stack of required elements while the study itself
-is perfectly well specified. Record such an element as *absent here, held in that document*
+**Most of what looks missing is misplaced.** The commonest case is the estimand. M11 §3.1.1
+wants it *in the protocol*, and five of that section's seven required elements are ICH E9(R1)
+estimand attributes, but the long-standing convention is to define estimands in the
+statistical analysis plan. A protocol written that way fails a stack of required elements while
+the study itself is perfectly well specified. Record such an element as *absent here, held in that document*
 rather than as missing, or the mapping reads as an indictment when it is a translation.
 
 **Resist fixing anything at this stage.** The urge to correct the protocol while mapping it is

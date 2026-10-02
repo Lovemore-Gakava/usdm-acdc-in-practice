@@ -8,25 +8,26 @@ than only read.
 
 ## What this is
 
-The minimum a study definition needs, for the endpoints in scope, is objectives, endpoints,
-estimands, arms, population, and the biomedical concepts the endpoints are measured by — copied
-from the CDISC Library, as [the documents chapter](documents.qmd) describes. That is a
-*fragment*, and it is enough for everything from stage 2 onward. Generated from a whole
-structured protocol, the definition carries epochs, encounters and a schedule of activities as
-well — which is what the schedule tab below is showing, and what a protocol authored to M11
-gives you without asking.
+The minimum a study definition needs for the endpoints in scope is objectives, endpoints,
+estimands, arms, population, and the biomedical concepts the endpoints are measured by, copied
+from the CDISC Library as [the documents chapter](documents.qmd) describes. That is a
+*fragment*, and it is enough for everything from stage 2 onward. A definition generated from a
+whole structured protocol carries epochs, encounters and a schedule of activities as well. That
+is what the schedule tab below is showing, and what a protocol authored to M11 gives you
+without asking.
 
 Loaded into the builder, the study looks like this:
 
 ![The study as the builder reads it. Note the rationale: this fragment was *generated* from the
 M11-restructured protocol, and says by what and from which sections.](media/study-overview@739344c.jpg)
 
-The fragment itself declares where it came from:
+The fragment itself says where each element came from. This is one arm, exactly as stored; its
+description cites the source section, and its notes carry the history of a correction:
 
 {{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].studyDesigns[0].arms[0]}}
 
-That is one arm, exactly as stored. Every other element — objective, endpoint, estimand — has
-the same character: a named thing with an identifier that something downstream can point at.
+Every other element — objective, endpoint, estimand — has the same character: a named thing
+with an identifier that something downstream can point at.
 
 ## What you do
 
@@ -38,9 +39,9 @@ consumes has not been tested.
 3. Open it there, and read every part of it back.
 
 *In the application used here:* put the fragment where it looks for studies and add it to the
-study manifest; the study then appears as a card, and **Study Overview** renders it tab by tab —
-Summary, Arms, Objectives & Endpoints, Schedule of Activities, and two more for the narrative
-and the configuration.
+study manifest. The study then appears as a card at step 1, and step 2, **Study Overview**,
+renders it tab by tab: Summary, Arms, Objectives & Endpoints, Schedule of Activities, and two
+more for the narrative and the configuration.
 
 ## What you should see
 

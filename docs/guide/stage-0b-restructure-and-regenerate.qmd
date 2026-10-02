@@ -11,20 +11,26 @@ never opens.
 
 ## What this is
 
-Stage 0 found the estimands in the SAP rather than the protocol. Stage 0b moves them, section
-by section, into the M11 structure, so that the study definition produced at the next stage is
-a *product* of the structured protocol rather than a transcription of the original prose.
+Stage 0 found this study's estimands in the analysis plan rather than the protocol. Stage 0b
+moves them, section by section, into the M11 structure, so that the study definition produced
+at the next stage is a *product* of the structured protocol rather than a transcription of the
+original prose.
 
 ## What you do
 
-**Move, do not write.** Every block of text in a restructured section is a verbatim range of the
-source document, cited to where it came from. Where the source has nothing for an element, the
-restructured section says *absent* and cites nothing, rather than composing something to fill
-the slot. An M11-conformant protocol could be produced by writing the missing pieces; it would
-be a fiction about what the sponsor specified, and the gaps are the interesting part.
+**The work: move, do not write.** Every block of text in a restructured section is a verbatim
+range of the source document, cited to where it came from. Where the source has nothing for an
+element, the restructured section says *absent* and cites nothing, rather than composing
+something to fill the slot. An M11-conformant protocol could be produced by writing the missing
+pieces, but it would be a fiction about what the sponsor specified, and the gaps are the
+interesting part.
 
-Then generate the study definition from the restructured protocol. That is stage 1's work, and
-the reason for doing this stage first is what the generation finds when the structure is there.
+1. Move each misplaced block into its M11 section, citing the source range it came from.
+2. Where the source has nothing for an element, record *absent*.
+3. Generate the study definition from the result.
+
+The third step is stage 1's work. The reason for doing this stage first is what the generation
+finds once the structure is there.
 
 ## What you should see
 

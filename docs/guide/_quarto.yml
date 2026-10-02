@@ -10,7 +10,6 @@ book:
   chapters:
     - index.qmd
     - documents.qmd
-    - setup.qmd
     - stage-0-protocol-to-m11.qmd
     - stage-0b-restructure-and-regenerate.qmd
     - stage-1-usdm.qmd
@@ -22,6 +21,8 @@ book:
     - stage-7-compare.qmd
     - feedback-loop.qmd
     - colophon.qmd
+  appendices:
+    - setup.qmd
 
 format:
   html:

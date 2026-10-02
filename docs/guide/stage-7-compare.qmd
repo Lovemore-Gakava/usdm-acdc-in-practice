@@ -11,50 +11,59 @@ Comparing the executed result against them is the strongest external check avail
 the two implementations are genuinely independent.
 
 **Most readers will not have that, and it is worth being clear about why.** An independently
-built implementation exists when someone has already done the work by hand — which is true of a
+built implementation exists when someone has already done the work by hand. That is true of a
 study being re-examined, and false of one being specified for the first time. On a new study
-there is nothing to compare against, and in the world these standards are aiming at there is
-nothing to compare against *by design*: the point of a declared specification is to stop having
-two implementations that must be reconciled.
+there is nothing to compare against, and in the world these standards aim at there is nothing
+to compare against *by design*: the point of a declared specification is to stop having two
+implementations that must be reconciled.
 
 So this stage is partly transitional. It is most useful now, while both worlds exist.
 
 **What to do instead, when there is nothing to compare against.** Reproduce the engine's number
-outside the engine, using the engine's own selection — the filters and joins its console
+outside the engine, using the engine's own selection: the filters and joins its console
 reported at stage 6. That is a weaker check than an independent implementation, because it
-shares the engine's assumptions, but it is the one that actually found the mechanism described
-below: not by disagreeing with the answer, but by making the engine's choices explicit enough to
-see.
+shares the engine's assumptions. But it is the check that actually found the mechanism
+described below — not by disagreeing with the answer, but by making the engine's choices
+explicit enough to see.
 
 ## What you do
 
-Fit the same model on the study's own derived variables and compare. Where the two disagree,
-reproduce the engine's number outside the engine, using the engine's own selection.
+**The work:** fit the same model on the study's own derived variables, and explain every part
+of any difference.
+
+1. Fit the same model on the study's own derived variables.
+2. Compare the two results.
+3. Where they disagree, reproduce the engine's number outside the engine, using the engine's
+   own selection.
+4. Sort each cause of the difference into a class.
 
 ## What you should see
 
-Two numbers that do not match, and an explanation of every part of the gap — with each
-engine result reproduced to four decimals once its selection is known.
+Two numbers that do not match, and an explanation for every part of the gap. Each engine result
+should be reproducible to four decimals once its selection is known.
 
-Here they are, for both endpoints, at the current pin. The reference in each case is the same
-model fitted on the study's own derived variables — its change, its baseline, its
-analysis-record flag — and the count is the subjects on which the engine's baseline row is not
-the row the study's flag marks. Every figure is read from the runs.
+Here they are for both analyses, at Cycle 2 Day 1 (`C2D1` in the data), on the data this book
+is fixed to. The reference in each case is the same model fitted on the study's own derived
+variables: its change, its baseline, its analysis-record flag. The count is the number of
+subjects for whom the engine's baseline record is not the one the study's flag marks. Every
+figure is read from the runs.
 
 | Laboratory, ANCOVA at C2D1 | |
 |---|---|
 | Engine, placebo minus torivumab | {{fact:lab.engine.diff|4}} (SE {{fact:lab.contrast.se|3}}) |
 | Reference, same model on the study's variables | {{fact:lab.reference.diff|4}} (SE {{fact:lab.reference.se|3}}) |
-| Subjects whose baseline row differs | {{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} |
+| Subjects whose baseline record differs | {{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} |
 
 | Blood pressure, MMRM at C2D1 | |
 |---|---|
 | Engine, placebo minus torivumab | {{fact:vitals.mmrm.c2d1.estimate|4}} (SE {{fact:vitals.mmrm.c2d1.se|3}}) |
 | Reference, same model on the study's variables | {{fact:vitals.mmrm.c2d1.reference|4}} (SE {{fact:vitals.mmrm.c2d1.reference.se|3}}) |
-| Subjects whose baseline row differs | {{fact:vitals.baseline.differ}} of {{fact:vitals.baseline.subjects}} |
+| Subjects whose baseline record differs | {{fact:vitals.baseline.differ}} of {{fact:vitals.baseline.subjects}} |
 
-The second gap is the larger, and for a reason the model makes plain: under a repeated-measures
-model the baseline enters every visit's change, not one.
+The second gap is the larger. The repeated-measures model is not what makes it so: the same
+endpoint under an ANCOVA at that one visit shows a gap of the same size, and the vitals
+comparison record has both. What the repeated-measures model changes is how far the baseline
+reaches. It enters the change at every visit, so every visit's contrast moves, not one.
 
 ### Step into the factory
 
@@ -67,18 +76,18 @@ divergence is sorted into are set in `docs/specification.md`.
 ## What to look out for
 
 **A divergence is a result, not a failure, but only if you can explain all of it.** The
-mechanism here is a baseline-row disagreement, and it is worth stating as a rule rather than a
-symptom. The plan defines baseline *by date*: the last value on or before the first dose. The
-chain declared it *by visit*: the record at the Baseline visit. A subject with a screening draw
-and a pre-dose draw on day one has two records at that visit, and the two rules pick different
-ones — the study's flag marks the later, the engine takes the first it finds. It affects most
-subjects in both endpoints.
+mechanism here is a disagreement over the baseline record, and it is worth stating as a rule
+rather than a symptom. The plan defines baseline *by date*: the last value on or before the
+first dose. The chain declares it *by visit*: the record at the Baseline visit. A subject with a
+screening draw and a pre-dose draw on day one has two records at that visit, and the two rules
+pick different ones. The study's flag marks the later; the engine takes the first it finds. It
+affects most subjects in both analyses.
 
-Explaining all of it means sorting every cause into one of three classes: an **authoring
-error**, which the chain could have been authored to get right — a wrong covariate, a dimension
-in the wrong form; a **model limitation**, which no authoring fixes — here the chain can state
-the visit but not which record in it; and a **specification ambiguity**, where the plan itself
-admits two readings. This analysis had none of the third, since the plan was precise.
+Explaining all of it means sorting every cause into one of three classes. An **authoring
+error** is one the chain could have been authored to get right: a wrong covariate, a dimension
+in the wrong form. A **model limitation** is one no authoring fixes: here, the chain can state
+the visit but not which record in it. A **specification ambiguity** is one where the plan
+itself admits two readings. This analysis had none of the third, since the plan was precise.
 
-Reproduce before you conclude. A gap you cannot reproduce outside the engine is not yet
+**Reproduce before you conclude.** A gap you cannot reproduce outside the engine is not yet
 understood, and the temptation to call it a rounding difference is strong and usually wrong.

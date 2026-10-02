@@ -8,55 +8,58 @@ estimands.
 ## What this is
 
 The eSAP is the container the chain goes into, and the input to execution. It is not a fourth
-concept beside the other three — it is where a specification stops being about one endpoint and
+concept beside the other three. It is where a specification stops being about one endpoint and
 starts being about a study.
 
 It declares its own provenance, and the declaration is worth reading because it says what an
-eSAP *is*: a join of three models — the study definition, the transformation model of the
-previous two stages, and CDISC's Analysis Results Standard — naming which entities of each it
-uses:
+eSAP *is*: a join of three models. They are the study definition, the transformation model of
+the previous two stages, and CDISC's Analysis Results Standard, and the declaration names which
+entities of each the eSAP uses:
 
 {{json:endpoints/01-simple-lab-cfb/esap.json#$provenance}}
 
 ## What you do
 
-**The work:** assemble the completed chain into a study-level plan bound to the protocol's
-objectives, endpoints and estimands — then read the estimand back before anything else, because
+**The work:** assemble the completed chain into a study-level plan, bound to the protocol's
+objectives, endpoints and estimands. Then read the estimand back before anything else, because
 that is where an incomplete chain shows up.
 
 1. Generate the plan from the study and the completed chain.
 2. Read the estimand section first.
 
-*In the application used here:* step 7, which renders the same state several ways — a sectioned
+*In the application used here:* step 7, which shows the same plan several ways: a sectioned
 document, dataset and specification views, the JSON instance, and a Define-XML.
 
 ## What you should see
 
 An eSAP whose estimand is populated: a named analysis population, named treatments, the
-intercurrent event strategy, the summary measure. Not placeholders.
+intercurrent-event strategy and the summary measure. Not placeholders.
 
-**The two analyses in this book show less than that.** Both estimands carry the population and
-both treatments, an empty intercurrent-event list, and the population's name — `SAF` — in the
-summary-measure slot. The study defines no estimand for either safety endpoint, so the study
-definition had nothing to supply for those two fields. The second check below says what a tool
-may do then.
+**An endpoint with no estimand in the study definition shows less.** The blood-pressure
+endpoint is one: nothing in the study definition targets it. Its plan carries the population
+and both treatments, an empty intercurrent-event list, and the population's name — `SAF` — in
+the summary-measure slot. The second check below says why.
+
+The laboratory endpoint does have an estimand in the study definition, a descriptive safety
+one, and the plan generated at this stage took its summary measure and its intercurrent event
+from there.
 
 ### Step into the factory
 
 The generated plans are `endpoints/01-simple-lab-cfb/esap.json` and the two in
 `endpoints/04-vitals-cfb-mmrm/`. The working record of this stage is item L6 in the lab
-endpoint's `log.md` and item V2 in the vitals endpoint's.
+endpoint's `log.md` and item V2 in the vitals endpoint's. The lab file as committed is a later
+regeneration that carries the thinner values, and L6 says so; it is due to be regenerated.
 
 ## What to look out for
 
 **The estimand is assembled from two places, and the chain supplies half of it.** The
-population-level summary and the intercurrent events come from the study definition; the
+population-level summary and the intercurrent events come from the study definition. The
 analysis population and the treatments come from the slice set at stage 4. A chain that reaches
 this stage without the slice set produces an estimand with an unknown population and an
-unspecified intervention — structurally valid, semantically empty.
+unspecified intervention: structurally valid, and empty of meaning.
 
 **An endpoint with no estimand in the study definition still gets one here.** The half the
-study definition was to supply is not necessarily left blank: the application used here puts
-the chain's population name in the summary-measure slot and leaves the events empty. Read the
-estimand knowing which of its fields came from where.
-
+study definition was to supply is not necessarily left blank. The application used here puts
+the chain's population name in the summary-measure slot and leaves the events empty. So read
+the estimand knowing which of its fields came from where.

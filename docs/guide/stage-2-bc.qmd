@@ -9,7 +9,7 @@ measurement enters.
 
 A biomedical concept is the definition of a measured thing, held once and reused: its name, its
 code in a controlled terminology, its units, its permissible values. Here is one as the study
-carries it — trimmed to its identity:
+carries it, cut down to what identifies it:
 
 {{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].biomedicalConcepts[0].code}}
 
@@ -17,18 +17,19 @@ The study did not write that. Biomedical concepts are published in the CDISC Lib
 study definition carries a copy of the ones its schedule collects — eight here, settled at
 stage 1. That is the list this stage chooses from.
 
-A chain has two kinds of input. A **measure** is a value: the measurement, its baseline. A
-**dimension** is what a value is indexed by: subject, visit, treatment, parameter. A **terminal**
-is a point where the chain stops computing and reads one of these from the data.
+A chain has two kinds of input. A **measure** is a value, such as the measurement or its
+baseline. A **dimension** is what a value is indexed by: subject, visit, treatment, parameter.
+A **terminal** is a point where the chain stops computing and reads one of these from the data.
 
-Linking means saying *this measure terminal is fed by that concept*. Before it, a chain says "a
-measurement goes here". After it, it says which measurement, in whose terminology.
+Linking means saying *this measure terminal is fed by that concept*. Before linking, the chain
+says "a measurement goes here". After it, the chain says which measurement, and in whose
+terminology.
 
 ## What you do
 
-**The work:** decide which terminals of the chain are *measurements*, and attach to each the
-concept that defines what is measured. Dimensions are left alone — there is nothing measured
-about them to define.
+**The work:** decide which terminals of the chain are measures, and attach to each the concept
+that defines what is measured. Dimensions are left alone, because nothing about them is
+measured.
 
 1. Identify the measure terminals of the endpoint.
 2. Attach the study's concepts to each.
@@ -39,22 +40,22 @@ What was chosen for the worked example, and why:
 | Choice | From | Why |
 |---|---|---|
 | Three terminals take concepts: the value, its baseline, and the covariate | The chain's terminals | They are the measures. Subject, treatment, parameter and visit are dimensions |
-| The seven laboratory concepts on each | The study definition's eight biomedical concepts | The endpoint is laboratory evaluations. The eighth, systolic blood pressure, belongs to the other analysis |
+| The seven laboratory concepts on each | The study definition's eight biomedical concepts | The endpoint is laboratory evaluations, and these are the study's laboratory concepts. Which one is analysed is set by the slice at stage 4. The eighth, systolic blood pressure, belongs to the second analysis |
 
 *In the application used here:* the terminals appear in the derivation pipeline at step 6, and
 clicking a measure terminal offers the study's concepts to tick.
 
 ## What you should see
 
-Every measure terminal showing its concepts, and the endpoint's sentence resolving into
-something readable. This is it as the application later wrote it into the eSAP, as the label of
-the endpoint's estimand:
+Every measure terminal shows its concepts, and the endpoint's sentence reads sensibly. This is
+that sentence as the application later wrote it into the eSAP, as the label of the endpoint's
+estimand:
 
 {{json:endpoints/01-simple-lab-cfb/esap.json#study.estimands[0].label}}
 
-The doubled first word is the application's: it writes the concept and then the phrase. The
-parameter, the visit and the population are the bindings, and that they read correctly is the
-check. If the sentence reads oddly, something is bound to the wrong slot.
+The first word is doubled because the application writes the concept's name and then the
+phrase. The parts to check are the parameter, the visit and the population: if any of them
+reads oddly, something is bound to the wrong slot.
 
 ### Step into the factory
 
@@ -64,12 +65,13 @@ terminal. The working record of this stage is item L5 in `log.md` beside it.
 ## What to look out for
 
 **Linking is a deliberate act.** A chain can be complete in every other respect with no concept
-linked, and a tool may not demand it — the one used here does not. Open each measure terminal
-and read its concepts back.
+linked, and a tool may not ask for one; the application used here does not. Open each measure
+terminal and read its concepts back.
 
 **Know which link your tool reads.** The study definition already ties each endpoint to its
-concepts. A tool may not use that link and rely only on the one made at the terminal, as the
-one used here does. Make the terminal link, and do not assume the study's carried.
+concepts. A tool may ignore that link and use only the one made at the terminal, as the
+application used here does. So make the terminal link yourself, and do not assume the study's
+link carried over.
 
 **Dimensions with no concept are correct, not incomplete.** A subject identifier has no
 biomedical concept because it is not a measurement.

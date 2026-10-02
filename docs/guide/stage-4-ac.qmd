@@ -6,8 +6,8 @@ Saying which statistical method operates on the derived value, and what fills ea
 
 ## What this is
 
-An analysis concept is a result computed across subjects — a comparison, a model's estimates, a
-summary. It is not subject-level: by the time you are here, rows have become an estimate. The
+An analysis concept is a result computed across subjects: a comparison, a model's estimates, a
+summary. It is not subject-level. By the time you are here, rows have become an estimate. The
 concept model defines each kind of result by what it consists of. This is the one the worked
 example ends in, as published:
 
@@ -19,26 +19,28 @@ which analysis concept each of the method's outputs is:
 
 {{json:upstream/analysis-concepts/lib/transformations/ACDC_Transformation_Library_v06.json#analysisTransformations[1].methodOutputSlotMapping}}
 
-A method declares *roles*. ANCOVA needs a response, a covariate, a fixed effect; it needs to
-know what a subject is and which slice of the data it applies to. The template arrives with
-those bound at the level of concepts — the response is a `Change`, the covariate a measurement
-at baseline. Your part is the study's: which parameter, which visit, which population, which
-arms.
+So the method's pairwise differences are the `Contrasts` shown above.
 
-The chain stores the binding itself, one entry per role. This is the response, exactly as
-saved — the role the method declares, the concept that fills it, and what kind of value the
-method requires there:
+A method declares *roles*. ANCOVA needs a response, a covariate and a fixed effect. It also
+needs to know what a subject is, and which slice of the data it applies to. The template
+arrives with those roles already bound to concepts: the response is a `Change`, the covariate
+is a measurement at baseline. What is left to you is the study's part: which parameter, which
+visit, which population, which arms.
+
+The chain stores each binding, one entry per role. This is the response exactly as saved: the
+role the method declares, the concept that fills it, and the kind of value the method requires
+there.
 
 {{json:endpoints/01-simple-lab-cfb/chain.json#endpointSpecs.Endpoint_SAFETY_LAB.selectedAnalyses[0].resolvedBindings[0]}}
 
 There are six of these for this analysis: response, covariate, fixed effect, partition, and two
-constraints. They are what the eSAP of the next stage is generated from, and what a reader
-later can check the model against.
+constraints. They are what the eSAP of the next stage is generated from, and what a reader can
+later check the model against.
 
 ## What you do
 
 **The work:** choose the template, and fill each role it declares with something the chain
-produces or the data supplies. Then say which slice of the study the analysis is about — these
+produces or the data supplies. Then say which slice of the study the analysis is about. Those
 values matter more than they look, for the reason stage 5 gives.
 
 1. Choose the analysis template for the endpoint.
@@ -53,13 +55,13 @@ What was chosen for the worked example, and why:
 | The response: the `Change` of stage 3 | What the chain produces | The template binds its response to a `Change`, which is why stage 3 had to produce one |
 | The slice: alanine aminotransferase, Cycle 2 Day 1, the safety population, the two arms | The study definition — its concepts, schedule, populations and arms | The worked example. These four are also what the estimand at stage 5 is built from |
 
-*In the application used here:* step 4 for the template, step 3 for the slice, with the result
-appearing as the top node of the derivation pipeline.
+*In the application used here:* the template is chosen at step 4 and the slice is set at
+step 3. The analysis then appears as the top node of the derivation pipeline.
 
 ## What you should see
 
-Every role bound, and the analysis appearing as the top node of the derivation pipeline with no
-unresolved inputs beneath it.
+Every role is bound, and the analysis appears as the top node of the derivation pipeline with
+no unresolved inputs beneath it.
 
 ### Step into the factory
 
@@ -69,16 +71,18 @@ template counts below are finding F13 in `docs/findings/`, with how they were ta
 ## What to look out for
 
 **A method is not a template, and a template is not an implementation.** The method library is
-larger than the set of analyses you can author: at the pinned commit there are eleven analysis
-templates for thirty-nine analysis methods. Check for a template before planning an endpoint
-around a method, and for an implementation before planning to run it. The gap closes as the
-library grows, so count for yourself.
+larger than the set of analyses you can author: in the version described here there are eleven
+analysis templates for thirty-nine analysis methods. Check for a template before planning an
+endpoint around a method, and for an implementation before planning to run it. The gap closes
+as the library grows, so count for yourself.
 
 **A method's roles are its contract, and they are narrower than statistical intuition.** Two
-inputs a statistician would describe differently may share a role and be told apart only by
-their order in the model's formula: in the survival method, time and event are both bound to
-*response*. Read the method before assuming what it will accept.
+inputs a statistician would describe differently may be classed the same way. In the survival
+methods, time and event are separate inputs that share one statistical role, *response*, and
+are told apart only by their position in the formula. Read the method before assuming what it
+will accept.
 
 **A binding may name a kind of dimension rather than a dimension.** A template can bind a role
-to "a visit dimension" or "a parameter dimension" and leave which one to you. Resolve each to
-the form chosen at stage 3, and check that your tool has done so before moving on.
+to "a visit dimension" or "a parameter dimension" and leave which one to you. Both constraints
+in the worked example are of this kind. Resolve each to the form chosen at stage 3, and check
+that your tool has done so before moving on.

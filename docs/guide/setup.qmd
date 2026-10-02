@@ -2,7 +2,7 @@
 title: "Setting up, if you want to drive it"
 ---
 
-Everything in this book can be read without installing anything. This chapter is for the other
+Everything in this book can be read without installing anything. This appendix is for the other
 case: running the tool yourself, on the same study, and seeing the numbers appear rather than
 taking them on trust.
 
@@ -65,10 +65,10 @@ reads the study's data needs it:
 .venv\Scripts\python.exe tools/check_alignment.py    # Windows
 ```
 
-A plain `python3` will fail on the import, and the tools now tell you which interpreter would
-have worked — but it is easier to expect it. This is the single most common way a correctly
-set-up copy looks broken, and copying the other system's path is the second: the bootstrap's
-closing lines print the right one for the machine it ran on.
+A plain `python3` will fail on the import. The tools tell you which interpreter would have
+worked, but it is easier to expect it. This is the single most common way a correctly set-up
+copy looks broken, and copying the other system's path is the second: the bootstrap's closing
+lines print the right one for the machine it ran on.
 
 **On Windows, the engine may refuse to parse until the submodule's line endings are fixed.**
 A clone with `core.autocrlf=true` checks the engine's R source out with CRLF endings and R
