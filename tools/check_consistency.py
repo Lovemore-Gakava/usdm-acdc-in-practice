@@ -351,6 +351,36 @@ def check_submodule(root: Path, files: dict[str, list[str]],
     return problems, []
 
 
+def upstream_moved(root: Path) -> str:
+    """One line on whether cdisc-org/analysis-concepts has moved past the pin.
+
+    Information, never a failure: the pin is deliberate and moving it is a
+    decision (docs/troubleshooting.md), but nobody should have to remember to
+    look. Asks the remote for its default branch with `git ls-remote`, which
+    fetches nothing and touches no checkout; eight seconds and silence if the
+    network is not there. The weekly watch in .github/workflows/upstream-watch.yml
+    does the same and opens an issue, with the commits listed, when it differs.
+    """
+    sub = root / "upstream" / "analysis-concepts"
+    try:
+        url = subprocess.run(["git", "-C", str(root), "config", "-f", ".gitmodules",
+                              "submodule.upstream/analysis-concepts.url"],
+                             capture_output=True, text=True, check=True, timeout=8).stdout.strip()
+        head = subprocess.run(["git", "-C", str(sub), "rev-parse", "HEAD"],
+                              capture_output=True, text=True, check=True, timeout=8).stdout.strip()
+        remote = subprocess.run(["git", "ls-remote", "--heads", url, "main"],
+                                capture_output=True, text=True, check=True, timeout=8).stdout.split()
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError, OSError):
+        return "upstream: not checked (no network, or no submodule)"
+    if not remote or not head:
+        return "upstream: not checked (remote answered without a main branch)"
+    main = remote[0]
+    if main == head:
+        return f"upstream: main is at the pin, {head[:7]} — nothing has moved"
+    return (f"upstream: MOVED — main is at {main[:7]}, the pin is {head[:7]}. Re-pin deliberately "
+            f"(docs/troubleshooting.md) or leave it; the screenshots and figures are stamped with the pin")
+
+
 # --------------------------------------------------------------------------
 # NORTH.md — the finish line
 # --------------------------------------------------------------------------
@@ -922,6 +952,7 @@ def main() -> int:
 
     print(f"truth:   {n_findings} findings, {n_issues} drafted issues, "
           f"{n_disc} discrepancies, {len(mapped)}/{len(tiers)} endpoints mapped")
+    print(upstream_moved(root))
 
     if args.verbose and all_claims:
         print("\nClaims checked")

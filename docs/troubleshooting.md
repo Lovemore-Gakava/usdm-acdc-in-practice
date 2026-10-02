@@ -37,7 +37,11 @@ if a local change is unavoidable, `git -C upstream/analysis-concepts checkout <p
 It shows `HEAD detached at 739344c` **by design** — a submodule is a pinned commit, not a
 branch. Do not put it on a branch. `739344c` was the tip of upstream `main` as of 2026-09-20.
 When upstream moves, re-pin deliberately: update the hash in the parent, re-run
-`tools/check_consistency.py`, and record what changed (LG, 2026-09-20).
+`tools/check_consistency.py`, and record what changed (LG, 2026-09-20). You will know it has
+moved without looking: `check_consistency.py` prints an `upstream:` line comparing the pin with
+upstream `main` on every run (silent offline), and the `upstream watch` workflow asks weekly
+and opens an issue labelled `upstream`, with the commits listed, when they differ. Neither
+re-pins; a re-pin also means retaking the guide's screenshots, which are stamped with the pin.
 
 ## TORIVA
 

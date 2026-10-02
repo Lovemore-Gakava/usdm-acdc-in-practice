@@ -1,0 +1,85 @@
+# Watch cdisc-org/analysis-concepts for movement past the pin.
+#
+# The library is pinned as a submodule and re-pinned only deliberately
+# (docs/troubleshooting.md): the guide's screenshots and figures are stamped
+# with the pin, and tools/check_guide.py fails if the stamps and the pin ever
+# disagree. What nothing did until now was say when upstream had moved at all.
+# This asks once a week, and when upstream's main is no longer the pinned
+# commit it opens one issue, labelled `upstream`, listing the commits in
+# between — or updates that issue if it is already open. It never re-pins.
+#
+# tools/check_consistency.py prints the same comparison as one line on every
+# run, without the commit list; this is the version that does not depend on
+# anyone running the checker.
+
+name: upstream watch
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false   # the pin is read from the gitlink; the library itself is not needed
+
+      - name: Compare the pin with upstream main
+        id: cmp
+        run: |
+          url=$(git config -f .gitmodules submodule.upstream/analysis-concepts.url)
+          pin=$(git ls-tree HEAD upstream/analysis-concepts | awk '{print $3}')
+          main=$(git ls-remote --heads "$url" main | awk '{print $1}')
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "pin=$pin"  >> "$GITHUB_OUTPUT"
+          echo "main=$main" >> "$GITHUB_OUTPUT"
+          if [ -z "$main" ]; then echo "could not read upstream main"; exit 1; fi
+          if [ "$pin" = "$main" ]; then
+            echo "moved=false" >> "$GITHUB_OUTPUT"
+            echo "upstream main is at the pin, ${pin:0:7} — nothing has moved"
+          else
+            echo "moved=true" >> "$GITHUB_OUTPUT"
+            echo "upstream main is at ${main:0:7}; the pin is ${pin:0:7}"
+          fi
+
+      - name: List the commits since the pin
+        if: steps.cmp.outputs.moved == 'true'
+        id: log
+        run: |
+          git clone --quiet --bare --filter=blob:none "${{ steps.cmp.outputs.url }}" up.git
+          n=$(git -C up.git rev-list --count "${{ steps.cmp.outputs.pin }}..${{ steps.cmp.outputs.main }}" 2>/dev/null || echo "?")
+          {
+            echo "body<<EOF"
+            echo "Upstream \`main\` is at \`${{ steps.cmp.outputs.main }}\`; this repository pins \`${{ steps.cmp.outputs.pin }}\`. Commits since the pin: $n."
+            echo
+            echo "Re-pinning is a decision, not an update (\`docs/troubleshooting.md\`): every screenshot in the guide and every figure in the runs is stamped with the pin, and \`tools/check_guide.py\` fails until they agree again."
+            echo
+            echo '```'
+            git -C up.git log --date=short --format='%h %ad %s' "${{ steps.cmp.outputs.pin }}..${{ steps.cmp.outputs.main }}" 2>/dev/null || echo "(the pinned commit is not on upstream main; compare by hand)"
+            echo '```'
+            echo
+            echo "Checked by the \`upstream watch\` workflow on $(date -u +%Y-%m-%d)."
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open or update the issue
+        if: steps.cmp.outputs.moved == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "Upstream analysis-concepts has moved past the pin"
+          BODY: ${{ steps.log.outputs.body }}
+        run: |
+          existing=$(gh issue list --state open --label upstream --search "\"$TITLE\" in:title" --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --body "$BODY"
+            echo "updated #$existing"
+          else
+            gh issue create --title "$TITLE" --label upstream --body "$BODY"
+          fi
