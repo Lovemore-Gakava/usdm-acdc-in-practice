@@ -167,13 +167,23 @@ from. So the chain has to carry them itself. Same shape as L5.
 > (commit `ee9dace`) carried E6's population-level summary and its intercurrent event, as this
 > item describes. Commit `d0ceef3` (stages 6 and 7) replaced the file with one carrying `SAF` in
 > the summary slot and `intercurrentEvents: []`, against the same USDM, in which `Estimand_E6`
-> targets `Endpoint_SAFETY_LAB` throughout. Why the regeneration fell back is not established —
-> the application has not been re-run on it. The numbers are unaffected: the summary text does
+> targets `Endpoint_SAFETY_LAB` throughout. The numbers are unaffected: the summary text does
 > not enter the computation.
 >
-> The guide's stage 5 chapter had explained the thin estimand by saying the study defines no
-> estimand for either safety endpoint — true of vitals (V2), false of this one. Corrected in the
-> chapter the same day. **Owed:** regenerate `esap.json` through step 7 with the study loaded.
+> **Cause established by running the app, and the file regenerated, 2026-10-02.** Loading a
+> saved chain (`deserializeStudyInstance`) switches `selectedStudy` to the chain's study but
+> leaves `appState.rawUsdm` at whatever study was active — on a fresh page, the first file, the
+> CDISC Pilot. The eSAP's estimand lookup and its `study` block both read `rawUsdm`, so a plan
+> built in that state carries the Pilot's study block and, finding no Pilot estimand for
+> `Endpoint_SAFETY_LAB`, the fallback summary. The committed file had exactly that: its
+> `study.name` was *CDISC PILOT - LZZT - USDM aligned* and its titles were Xanomeline's. Selecting
+> the study at step 1 (`setActiveStudy`) before loading the chain is what sets `rawUsdm`, and
+> after it the same chain yields E6's summary and intercurrent event. `esap.json` is now the step
+> 7 JSON tab's text from that state, at `739344c`, carried out of the page by an HTTP POST to a
+> local receiver rather than retyped. The guide's stage 5 chapter had explained the thin estimand
+> by saying the study defines no estimand for either safety endpoint — true of vitals (V2), false
+> of this one — and was corrected the same day. The two vitals plans were generated against the
+> right study but before #27 renamed the arms; they still read *Torivumab* / *Placebo*.
 
 ### L7 — execution took eleven more decisions, none of them statistical *(stage 6, 2026-09-17)*
 

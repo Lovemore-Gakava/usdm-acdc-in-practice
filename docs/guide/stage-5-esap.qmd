@@ -48,8 +48,7 @@ from there.
 
 The generated plans are `endpoints/01-simple-lab-cfb/esap.json` and the two in
 `endpoints/04-vitals-cfb-mmrm/`. The working record of this stage is item L6 in the lab
-endpoint's `log.md` and item V2 in the vitals endpoint's. The lab file as committed is a later
-regeneration that carries the thinner values, and L6 says so; it is due to be regenerated.
+endpoint's `log.md` and item V2 in the vitals endpoint's.
 
 ## What to look out for
 
@@ -63,3 +62,8 @@ unspecified intervention: structurally valid, and empty of meaning.
 study definition was to supply is not necessarily left blank. The application used here puts
 the chain's population name in the summary-measure slot and leaves the events empty. So read
 the estimand knowing which of its fields came from where.
+
+**Check that the plan's study block names your study.** A tool may build the plan from
+whichever study definition is active, which need not be the one the chain was authored on. The
+application used here does: a chain loaded before its study is selected produces a plan that
+carries another study's details and the fallback estimand, with nothing to say so.
