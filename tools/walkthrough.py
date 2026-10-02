@@ -124,6 +124,11 @@ def render_markdown(md: str) -> str:
         s = _re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
         s = _re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
         s = _re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<em>\1</em>", s)
+        # ![caption](media/...) — a screenshot of the app, with its caption beneath. Before the link
+        # rule, which would otherwise eat the same brackets (LG, 2026-10-02: the page should show
+        # which menu to pick, not only name it).
+        s = _re.sub(r"!\[([^\]]*)\]\(([^)]+)\)",
+                    r'<figure class="shot"><img src="\2" alt="\1" loading="lazy"><figcaption>\1</figcaption></figure>', s)
         s = _re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
         return s
 
@@ -272,6 +277,7 @@ h2,h3{scroll-margin-top:16px}
 .callout.note{border-left-color:var(--accent)}
 details.callout summary{cursor:pointer;font-weight:600;list-style:none} details.callout summary::before{content:"\\25B8  ";color:var(--muted)} details[open].callout summary::before{content:"\\25BE  "}
 details.callout summary::-webkit-details-marker{display:none} .callout-body{margin-top:.6em}
+figure.shot{margin:.9em 0 1.2em} figure.shot img{display:block;max-width:100%;border:1px solid var(--line);border-radius:6px;box-shadow:0 1px 3px rgba(0,0,0,.08)} figure.shot figcaption{font-size:.86em;color:var(--muted);margin-top:.45em}
 pre{position:relative;padding-right:64px} .copy{position:absolute;top:8px;right:8px;font:12px system-ui;padding:3px 8px;border:1px solid var(--line);border-radius:4px;background:#fff;color:var(--muted);cursor:pointer} .copy:hover{color:var(--ink)}
 @media (max-width:900px){.layout{grid-template-columns:1fr;gap:16px} nav.steps{position:static;border-bottom:1px solid var(--line);padding-bottom:12px} nav.steps ol{border:0;display:flex;flex-wrap:wrap;gap:2px 10px} nav.steps li a{border:0;padding:.2em .3em}}
 @media (prefers-color-scheme:dark){:root{--ink:#e6edf3;--muted:#8b949e;--line:#30363d;--panel:#161b22;--accent:#58a6ff;--why:#e3b341;--why-bg:#2a2210;--hist:#8b949e;--hist-bg:#161b22;--res:#3fb950;--res-bg:#12261a;--warn:#ff7b72;--warn-bg:#2d1418} .copy{background:#0d1117}}
@@ -397,7 +403,7 @@ def render_library_html(obj: dict, path: str) -> bytes:
     return page.encode("utf-8")
 
 
-def walkthrough_page(port: int = 8080) -> bytes:
+def walkthrough_page(port: int = 8080, media_base: str | None = None) -> bytes:
     """docs/walkthrough.md as a page. Everything above the first '---' rule is the header: the H1
     is the title, plain paragraphs the lead, '- **Label**' bullets the at-a-glance facts. The H2s
     below the rule become the step navigator; '## N. Title' headings get their number as a badge."""
@@ -437,15 +443,18 @@ def walkthrough_page(port: int = 8080) -> bytes:
             f"<p style=\"margin-top:1em\"><a href=\"http://localhost:{port}/ac-dc-app/index.html\" target=\"_blank\">Open the app ↗</a>"
             f"<br><small>served by <code>walkthrough.py serve</code> on port {port}</small></p></nav>"
             f"<main>{render_markdown(rest)}</main></div><script>{WALKTHROUGH_JS}</script></body></html>")
-    # The markdown links docs/media/ relatively, which is right on GitHub and wrong here: absolute to the
-    # server's /media/ route, so the link works on the served page and from the standalone file alike.
-    page = page.replace('href="media/', f'href="http://localhost:{port}/media/')
+    # The markdown links docs/media/ relatively, which is right on GitHub and wrong here. Served, the
+    # links go to the server's /media/ route; written as a file, to docs/media on disk, so the
+    # screenshots show with no server running (the "no server needed" promise of `html`).
+    base = media_base if media_base is not None else f"http://localhost:{port}/media/"
+    page = page.replace('href="media/', f'href="{base}')
+    page = page.replace('src="media/', f'src="{base}')
     return page.encode("utf-8")
 
 
 def html(args: argparse.Namespace) -> None:
     out = Path(args.out) if args.out else Path(os.environ.get("TEMP", ".")) / "walkthrough.html"
-    out.write_bytes(walkthrough_page(getattr(args, "port", 8080)))
+    out.write_bytes(walkthrough_page(getattr(args, "port", 8080), media_base=(ROOT / "docs" / "media").as_uri() + "/"))
     say(f"wrote {out} — open it in a browser (no server needed)")
 
 
