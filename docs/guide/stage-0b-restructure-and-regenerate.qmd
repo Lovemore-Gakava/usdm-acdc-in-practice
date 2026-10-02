@@ -15,11 +15,6 @@ Stage 0 found the estimands in the SAP rather than the protocol. Stage 0b moves 
 by section, into the M11 structure, so that the study definition produced at the next stage is
 a *product* of the structured protocol rather than a transcription of the original prose.
 
-One word of history, because the stage's name carries it. In this project the fragment was
-hand-authored first, at stage 1, and the restructuring came after — so here the fragment was
-*re*generated, and the two versions can be compared. The book presents the stages in the order
-that makes sense, which is this one: restructure, then generate once.
-
 ## What you do
 
 **Move, do not write.** Every block of text in a restructured section is a verbatim range of the

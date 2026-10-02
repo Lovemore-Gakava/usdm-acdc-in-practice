@@ -13,68 +13,63 @@ carries it — trimmed to its identity:
 
 {{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].biomedicalConcepts[0].code}}
 
-Linking means saying *this terminal of the chain is fed by that concept*. Before it, a chain
-says "a measure goes here". After it, it says which measure, in whose terminology.
+The study did not write that. Biomedical concepts are published in the CDISC Library, and the
+study definition carries a copy of the ones its schedule collects — eight here, settled at
+stage 1. That is the list this stage chooses from.
+
+A chain has two kinds of input. A **measure** is a value: the measurement, its baseline. A
+**dimension** is what a value is indexed by: subject, visit, treatment, parameter. A **terminal**
+is a point where the chain stops computing and reads one of these from the data.
+
+Linking means saying *this measure terminal is fed by that concept*. Before it, a chain says "a
+measurement goes here". After it, it says which measurement, in whose terminology.
 
 ## What you do
 
 **The work:** decide which terminals of the chain are *measurements*, and attach to each the
-concept that defines what is measured. Dimensions are left alone — subject, visit, treatment and
-parameter are structural, and there is nothing measured about them to define.
+concept that defines what is measured. Dimensions are left alone — there is nothing measured
+about them to define.
 
 1. Identify the measure terminals of the endpoint.
 2. Attach the study's concepts to each.
 3. Leave the dimensions bare.
 
-*In the application used here:* step 3 shows the **Endpoint Data Cube** — a measure and a set of
-dimensions — and the concepts are attached from the terminal picker.
+What was chosen for the worked example, and why:
+
+| Choice | From | Why |
+|---|---|---|
+| Three terminals take concepts: the value, its baseline, and the covariate | The chain's terminals | They are the measures. Subject, treatment, parameter and visit are dimensions |
+| The seven laboratory concepts on each | The study definition's eight biomedical concepts | The endpoint is laboratory evaluations. The eighth, systolic blood pressure, belongs to the other analysis |
+
+*In the application used here:* the terminals appear in the derivation pipeline at step 6, and
+clicking a measure terminal offers the study's concepts to tick.
 
 ## What you should see
 
-Every measure terminal showing its concepts, and the Smart Phrase at the top of the endpoint
-resolving into a readable sentence, where the underlined parts are the things you have just
-bound. The sentence is not quoted here from memory; this is it as the application later wrote
-it into the eSAP, as the label of the endpoint's estimand:
+Every measure terminal showing its concepts, and the endpoint's sentence resolving into
+something readable. This is it as the application later wrote it into the eSAP, as the label of
+the endpoint's estimand:
 
 {{json:endpoints/01-simple-lab-cfb/esap.json#study.estimands[0].label}}
 
-The doubled word at the front is the application's: it writes the concept category and then
-the phrase, and the phrase begins with the same word. Read past it. The parameter, the visit
-and the population are the bindings; that they read correctly is the check.
-
-That sentence is a useful check on its own. If it reads oddly, something is bound to the wrong
-slot.
+The doubled first word is the application's: it writes the concept and then the phrase. The
+parameter, the visit and the population are the bindings, and that they read correctly is the
+check. If the sentence reads oddly, something is bound to the wrong slot.
 
 ### Step into the factory
 
 The links are in `endpoints/01-simple-lab-cfb/chain.json`, one `linkedBCIds` list per
-terminal — three carrying the study's seven laboratory concepts, one deliberately empty. The
-two lessons below are item L5 in `endpoints/01-simple-lab-cfb/log.md`, with how each was
-established.
+terminal. The working record of this stage is item L5 in `log.md` beside it.
 
 ## What to look out for
 
-**Nothing will tell you that you skipped this stage.** The pipeline reported complete with no
-concepts linked at all; after linking seven to each measure terminal it was no more complete
-than before, and nothing in the builder distinguishes the two states. Linking is not demanded
-to reach a finished-looking chain, so it has to be a deliberate act, and the check that it
-happened is yours.
+**Linking is a deliberate act.** A chain can be complete in every other respect with no concept
+linked, and a tool may not demand it — the one used here does not. Open each measure terminal
+and read its concepts back.
 
-*As with the next lesson: true of the application described here, at the pinned commit. Whether
-another tool demands the link is worth finding out before relying on it.*
+**Know which link your tool reads.** The study definition already ties each endpoint to its
+concepts. A tool may not use that link and rely only on the one made at the terminal, as the
+one used here does. Make the terminal link, and do not assume the study's carried.
 
-**The builder ignores the endpoint-to-concept link in the study definition.** This was found by
-experiment rather than by reading: inject a concept deliberately *not* linked to the endpoint,
-and it is still offered in the terminal picker.
-
-So the join you authored in stage 1 is not the join the chain uses. Terminal-level linking is a
-second, independent join, and it is the one that carries downstream. Expect to do it twice, and
-do not assume the first one carried.
-
-*Check this on whatever tool you use: it is true of the application described here, at the
-pinned commit, and is not a property of the concept model.*
-
-
-**Dimensions with no concept are correct, not incomplete.** It is tempting to keep attaching
-things until nothing is bare. Resist it: a subject identifier has no biomedical concept because
-it is not a measurement.
+**Dimensions with no concept are correct, not incomplete.** A subject identifier has no
+biomedical concept because it is not a measurement.

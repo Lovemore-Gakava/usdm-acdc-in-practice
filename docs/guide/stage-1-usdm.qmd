@@ -9,12 +9,12 @@ than only read.
 ## What this is
 
 The minimum a study definition needs, for the endpoints in scope, is objectives, endpoints,
-estimands, arms, population, and the biomedical concepts the endpoints are measured by. That is
-a *fragment*, and it is what this study's definition was for its first week. It has since been
-generated from the whole restructured protocol, and carries epochs, encounters and a schedule of
-activities as well — which is what the schedule tab below is showing. The fragment is the
-starting point, and enough for everything from stage 2 onward; the whole is what a protocol
-authored to M11 gives you without asking.
+estimands, arms, population, and the biomedical concepts the endpoints are measured by — copied
+from the CDISC Library, as [the documents chapter](documents.qmd) describes. That is a
+*fragment*, and it is enough for everything from stage 2 onward. Generated from a whole
+structured protocol, the definition carries epochs, encounters and a schedule of activities as
+well — which is what the schedule tab below is showing, and what a protocol authored to M11
+gives you without asking.
 
 Loaded into the builder, the study looks like this:
 

@@ -12,8 +12,8 @@ ADaM: the analysis-ready datasets a study is analysed from — https://www.cdisc
 WebR: R compiled to WebAssembly, so the analysis runs in the browser with nothing installed
 MMRM: mixed model for repeated measures — one model across all visits, rather than a separate model per visit
 SDTM: Study Data Tabulation Model — the collected data standardised, close to what was recorded — https://www.cdisc.org/standards/foundational/sdtm
-biomedical concept: the standard definition of a thing that is measured — its units, its codes, its permissible values
-derivation concept: a step that computes a new value from collected ones — select a baseline, subtract it, window a visit
-analysis concept: the aggregated, non-subject-level result — a comparison, a model, a summary
+biomedical concept: the standard definition of a thing that is measured — its units, its codes, its permissible values — published in the CDISC Library
+derivation concept: a value computed for each subject from collected ones — a change from baseline, a flag, an analysis visit; a template says which method computes it
+analysis concept: a result computed across subjects — a contrast, a model's estimates, a summary; a template says which method produces it
 ANCOVA: analysis of covariance — a linear model of an outcome adjusted for its baseline value
 intercurrent event: something that happens after treatment starts and changes how the outcome should be interpreted — a treatment discontinuation, a rescue medication, a death — ICH E9(R1)

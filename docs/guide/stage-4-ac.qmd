@@ -6,14 +6,24 @@ Saying which statistical method operates on the derived value, and what fills ea
 
 ## What this is
 
-An analysis concept is the aggregated result — a comparison, a model, a summary. It is not
-subject-level: by the time you are here, rows have become an estimate.
+An analysis concept is a result computed across subjects — a comparison, a model's estimates, a
+summary. It is not subject-level: by the time you are here, rows have become an estimate. The
+concept model defines each kind of result by what it consists of. This is the one the worked
+example ends in, as published:
+
+{{json:upstream/analysis-concepts/model/concept/AC_Concept_Model_v016.json#resultPatterns.Contrasts}}
+
+As with a derivation, the result is produced by a **method**, and what you select is a
+**template**. `T.CFB_ANCOVA` uses the method `M.ANCOVA`, binds its roles to concepts, and says
+which analysis concept each of the method's outputs is:
+
+{{json:upstream/analysis-concepts/lib/transformations/ACDC_Transformation_Library_v06.json#analysisTransformations[1].methodOutputSlotMapping}}
 
 A method declares *roles*. ANCOVA needs a response, a covariate, a fixed effect; it needs to
-know what a subject is and which slice of the data it applies to. Binding is filling those in.
-The upper half of the pipeline picture in the previous chapter is exactly this: `M.ANCOVA` at
-the top, and beneath it `response`, `covariate`, `fixed_effect`, `partition`, `constraint`, each
-pointing at something.
+know what a subject is and which slice of the data it applies to. The template arrives with
+those bound at the level of concepts — the response is a `Change`, the covariate a measurement
+at baseline. Your part is the study's: which parameter, which visit, which population, which
+arms.
 
 The chain stores the binding itself, one entry per role. This is the response, exactly as
 saved — the role the method declares, the concept that fills it, and what kind of value the
@@ -27,16 +37,24 @@ later can check the model against.
 
 ## What you do
 
-**The work:** choose the method, and fill each role it declares with something the chain
-produces or the data supplies. Then say which population and which treatments the analysis is
-about — these matter more than they look, for the reason stage 5 gives.
+**The work:** choose the template, and fill each role it declares with something the chain
+produces or the data supplies. Then say which slice of the study the analysis is about — these
+values matter more than they look, for the reason stage 5 gives.
 
-1. Choose the analysis for the endpoint.
+1. Choose the analysis template for the endpoint.
 2. Bind each declared role.
-3. Set the dimension values.
+3. Set the slice: parameter, visit, population, treatments.
 
-*In the application used here:* step 4, with the result appearing as the top node of the
-derivation pipeline.
+What was chosen for the worked example, and why:
+
+| Choice | From | Why |
+|---|---|---|
+| The template: *Change From Baseline ANCOVA* | The transformation library's analysis templates | The worked example's model. In a real study the analysis plan names it |
+| The response: the `Change` of stage 3 | What the chain produces | The template binds its response to a `Change`, which is why stage 3 had to produce one |
+| The slice: alanine aminotransferase, Cycle 2 Day 1, the safety population, the two arms | The study definition — its concepts, schedule, populations and arms | The worked example. These four are also what the estimand at stage 5 is built from |
+
+*In the application used here:* step 4 for the template, step 3 for the slice, with the result
+appearing as the top node of the derivation pipeline.
 
 ## What you should see
 
@@ -46,38 +64,21 @@ unresolved inputs beneath it.
 ### Step into the factory
 
 The stored analysis is `selectedAnalyses` in `endpoints/01-simple-lab-cfb/chain.json`. The
-first lesson below is finding F13 in `docs/findings/`, with the counts and how they were taken;
-the second is F02, a finding whose premise was corrected and whose consequence held, which is
-why it is worth reading; the third is item V1 in `endpoints/04-vitals-cfb-mmrm/log.md`.
+template counts below are finding F13 in `docs/findings/`, with how they were taken.
 
 ## What to look out for
 
-**You author from templates, not from methods, and there are far fewer templates.** The method
-library is much larger than the set of things the builder can actually author. At the pinned
-commit the transformation library carries eleven analysis templates, and the method library
-thirty-nine analysis methods; the eleven cover eleven of them, one each.
-
-So "the method exists" does not mean "the analysis can be authored". Check for a template
-before planning an endpoint around a method, or you will arrive at this stage with nothing to
-pick. This is the single most common way an endpoint that looks feasible on paper turns out not
-to be. And a template is not the last rung either: the second endpoint here had its template,
-authored cleanly, and reached stage 6 to find there was no implementation to run it with.
-
-*This is about the state of the published libraries rather than the model: the gap closes as
-templates are added, so count them yourself rather than trusting these numbers.*
+**A method is not a template, and a template is not an implementation.** The method library is
+larger than the set of analyses you can author: at the pinned commit there are eleven analysis
+templates for thirty-nine analysis methods. Check for a template before planning an endpoint
+around a method, and for an implementation before planning to run it. The gap closes as the
+library grows, so count for yourself.
 
 **A method's roles are its contract, and they are narrower than statistical intuition.** Two
-inputs that a statistician would describe differently may share a role here, and be told apart
-only by their order in the model's formula: in the survival method, time and event are both
-bound to *response*. Read the method before assuming what it will accept.
+inputs a statistician would describe differently may share a role and be told apart only by
+their order in the model's formula: in the survival method, time and event are both bound to
+*response*. Read the method before assuming what it will accept.
 
-**A template can arrive with a role that names a category rather than a concept.** The MMRM
-template declares its repeated factor and its constraint by the *kind* of dimension they take —
-a visit dimension, a parameter dimension — not by which one. In this application, selecting it
-copied both into the analysis unresolved, and the next render failed, so step 4 could not be
-used from that state at all. The fix was to resolve each to the dimension already picked at
-stage 3, and it was done by hand — the only point on either endpoint where the chain needed a
-hand outside the interface.
-
-*True of the application described here, at the pinned commit; the rule that resolves such a
-binding exists in it and was simply not applied on that path.*
+**A binding may name a kind of dimension rather than a dimension.** A template can bind a role
+to "a visit dimension" or "a parameter dimension" and leave which one to you. Resolve each to
+the form chosen at stage 3, and check that your tool has done so before moving on.

@@ -10,24 +10,65 @@ Put together, the ambition of ICH M11, USDM and CDISC's Analysis and Derivation 
 path from that sentence to that number where **every step is declared rather than implied** —
 and where the declaration, not a program, is the thing a reviewer reads.
 
-This book is a record of trying it: two endpoints of a public simulated oncology trial, taken
-the whole way, with what worked and what did not.
+This book teaches that path by walking it: one analysis of a public simulated oncology trial,
+taken from the protocol's sentence to an executed result, with every choice shown — what is
+chosen, from which published list, and which sentence in the study's documents decides it.
 
-Whether the ambition is worth the trouble comes down to what a loosely declared step costs. One
-example, which the last chapter takes apart: the chain described here computes a treatment
-difference, placebo minus torivumab, of **{{fact:lab.engine.diff|4}}**; the same model, fitted
-by a programmer from the same plan on the study's own derived variables, computes
-**{{fact:lab.reference.diff|4}}**.
+## What is declared
 
-Neither is wrong. They differ over which record is *baseline*. The plan is precise: the last
-value on or before the first dose, chosen by date. The chain declared it as the record at the
-Baseline visit, chosen by visit — and a subject can have two records there, a screening draw and
-a pre-dose draw on the first day of treatment. The programmer's datasets carry the plan's rule
-in a flag; the engine took the first record it found. On {{fact:lab.baseline.differ}} of
-{{fact:lab.baseline.subjects}} subjects the two rules land on different rows.
+The declaration has three parts, and the stages are organised around them:
 
-The plan had said which. The declaration lost it on the way — one step, in the simplest endpoint
-a trial has.
+- a **biomedical concept** says *what is measured* — here, alanine aminotransferase, a liver
+  enzyme;
+- a **derivation concept** says *how each subject's analysed value is computed* — here, the
+  change from that subject's baseline;
+- an **analysis concept** says *what result is computed across subjects* — here, the difference
+  between the two arms from an ANCOVA.
+
+Together they form a **chain**: a measurement, what is derived from it, and the analysis of
+what was derived.
+
+A chain is written as data, not prose, so software can read it and carry it out. Normally a
+programmer reads the analysis plan and writes code for that one study. Here a general-purpose
+program — the *engine* — takes the chain and the study's dataset and produces the result, and
+nobody writes analysis code for the study.
+
+## One estimate, reached two ways
+
+Whether the ambition is worth the trouble comes down to what a loosely declared step costs.
+The book's worked example shows it. One question — the change from baseline in alanine
+aminotransferase at Cycle 2 Day 1, compared between arms — is answered by two routes over the
+same analysis dataset:
+
+| | Declared: the chain, run by an engine | Programmed: the study's own derived variables |
+|---|---|---|
+| What is measured | Alanine aminotransferase, named by the biomedical concept | The same |
+| Which record is baseline | The record at the Baseline visit, as the derivation declares it | The last value on or before the first dose, as the plan defines it — applied by a programmer and marked in the dataset by a flag |
+| The change | Computed by the engine: the value minus that baseline | Read from the dataset, where the programmer computed it |
+| The model | ANCOVA, as the analysis concept declares it | The same ANCOVA |
+| Treatment difference, placebo minus torivumab | **{{fact:lab.engine.diff|4}}** | **{{fact:lab.reference.diff|4}}** |
+
+The measurement is the same and the model is the same. The two routes part at the derivation,
+over which record is a subject's *baseline*.
+
+The plan chooses by date. The chain chooses by visit, and that is not the same rule, because a
+subject can have two records at the Baseline visit: a screening draw and a pre-dose draw on the
+first day of treatment. The plan's rule says which of the two. The declaration says only "the
+Baseline visit", so the engine has nothing to choose with and takes the first record it finds.
+On {{fact:lab.baseline.differ}} of {{fact:lab.baseline.subjects}} subjects the two rules land on
+different rows.
+
+Nobody chose the visit rule over the plan's. It is how the library's change-from-baseline
+template takes its baseline at the commit pinned here: by the visit a record is labelled with,
+not by its date. The template leaves the question open, the data makes it matter, and the
+engine answers it without saying so.
+
+Both numbers are computed correctly. Only the programmed one follows the plan — and nothing
+about the chain showed that: it was complete, and it ran. The plan had said which record. The
+declaration lost it on the way — one step, in the simplest analysis a trial has.
+
+[Stage 3](stage-3-dc.qmd) is where that declaration is made, and
+[stage 7](stage-7-compare.qmd) takes the difference apart.
 
 ## Who this is for
 
@@ -45,23 +86,26 @@ comparing the result against the datasets a programmer built from the same plan.
 
 Every **stage** chapter answers the same four questions:
 
-- **What this is** — the concept, in plain terms
-- **What you do** — the actions, in order
+- **What this is** — the concept, in plain terms, and where it is published
+- **What you do** — the actions, in order, with what was chosen for the worked example and why
 - **What you should see** — the expected outcome
-- **What to look out for** — where this went wrong for us, and why
+- **What to look out for** — the checks worth making before moving on
 
-That last section is the reason this exists. The standards documents describe the destination;
-almost nothing describes the potholes.
-
-**This is a book about the concepts, not about the tool.** One reference application is used
-throughout, because concepts you cannot see working are hard to believe and impossible to check
-— but it is the instrument, not the subject. So each chapter states the work first and then how
+**This is a book about the concepts, not about the tool.** One application is used throughout —
+the eSAP Builder that CDISC publishes alongside the concepts, described in
+[the documents chapter](documents.qmd#the-application-used-here) — because concepts you cannot
+see working are hard to believe and impossible to check. It is the instrument, not the subject. So each chapter states the work first and then how
 this particular application happens to do it, under *in the application used here*.
 
-The same distinction applies to the potholes. Some are properties of the model and will be true
+The same distinction applies to the checks. Some are properties of the model and will be true
 of any tool; others are true of this one, at the commit pinned here, and may already have been
-fixed. The second kind carry a note saying so. It is worth knowing which is which before you
-carry a lesson from this book to a tool that is not this one.
+fixed. The second kind say so. It is worth knowing which is which before you carry a lesson
+from this book to a tool that is not this one.
+
+**The working record is elsewhere.** How each stage actually went — the false starts, the
+workarounds, the decisions taken about this particular study — is kept in the repository behind
+the book, and each chapter's *Step into the factory* says where. The chapters themselves stay
+with what transfers.
 
 ## Two ways in
 
@@ -89,5 +133,5 @@ results files at build time, so a figure in this book and the run that produced 
 disagree. When the underlying study was regenerated and every number moved, the book moved
 with it.
 
-**It does not end in agreement.** The divergence this chapter opened with is where the book
-finishes, taken apart rather than smoothed over.
+**It does not end in agreement.** The divergence this chapter opened with is where the stages
+finish, taken apart rather than smoothed over.

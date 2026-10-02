@@ -28,7 +28,9 @@ none of it is suitable for regulatory use or for any clinical conclusion.
 
 This book was drafted with an AI model under the author's direction. The author read it
 chapter by chapter on 2026-09-28 and 2026-09-29, with corrections applied and committed as each
-chapter was read; the repository's `PROVENANCE.md` records the pass.
+chapter was read; the repository's `PROVENANCE.md` records the pass. It was revised on
+2026-10-02 at the author's direction — where each concept comes from, why each choice is made,
+and less of the working record — and the same file records how far that revision was reviewed.
 
 That is a review of the writing. It is not independent verification of every claim in it: the
 lessons in these chapters are drawn from the working record of one traverse, and the repository

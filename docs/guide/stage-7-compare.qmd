@@ -74,16 +74,11 @@ and a pre-dose draw on day one has two records at that visit, and the two rules 
 ones — the study's flag marks the later, the engine takes the first it finds. It affects most
 subjects in both endpoints.
 
-Explaining all of it means sorting every cause. The comparison record does so into three
-classes: an **authoring error**, which the builder could have been made to get right — the
-covariate defaulting to the analysis value, the cube on the collected visit rather than the
-analysis visit — and was, in the later runs; a **model limitation**, which no authoring fixes —
-the chain can state the visit but not which record in it, and nothing produces the
-analysis-record flag; and a **specification ambiguity**, of which this endpoint had none, since
-the plan was precise. On the data as first pinned, the record substituted the flag's row for
-the first row, changed nothing else, and most of the gap closed; what remained was the
-analysis-record flag and the visit column, both in the second class. The study's data has been
-regenerated since and every number moved — the mechanism did not, which is the point.
+Explaining all of it means sorting every cause into one of three classes: an **authoring
+error**, which the chain could have been authored to get right — a wrong covariate, a dimension
+in the wrong form; a **model limitation**, which no authoring fixes — here the chain can state
+the visit but not which record in it; and a **specification ambiguity**, where the plan itself
+admits two readings. This analysis had none of the third, since the plan was precise.
 
 Reproduce before you conclude. A gap you cannot reproduce outside the engine is not yet
 understood, and the temptation to call it a rounding difference is strong and usually wrong.

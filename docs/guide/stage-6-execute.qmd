@@ -55,57 +55,39 @@ and for the vital-signs endpoint under MMRM, at the first post-baseline visit:
 | Estimate | {{fact:vitals.mmrm.c2d1.estimate}} |
 | SE | {{fact:vitals.mmrm.c2d1.se}} |
 
-**The second number exists because this project wrote the implementation.** At the pinned
-commit the library ships the MMRM template and the method definition, and no implementation in
-R or SAS: Execute answers *No R implementation available for M.MMRM*. One was written here, in
-the registry's own shape, and the walkthrough injects it into the running page, which is the
-only reason a reader's copy can produce the figure above. Writing it took three iterations,
-each a fact about the seam between the engine's data layer and a real mixed model: two rows at
-baseline per subject, which a linear model had silently taken the first of and a mixed model
-refuses; a derived column name the model's formula parser cannot use; and type-3 tests, which
-needed a different route than the linear model's. Expect the same seam under any method the
-library defines and does not implement.
+**A method needs an implementation to run.** At the pinned commit the library defines the
+repeated-measures method and ships its template, and no implementation of it. The second figure
+comes from one written for this book, which the walkthrough loads; the colophon says so.
 
 ### Step into the factory
 
 Every figure above is read live from the run it came from. The runs and the chains are in
 `endpoints/01-simple-lab-cfb/` and `endpoints/04-vitals-cfb-mmrm/`; the implementation is
-`r_impl_mmrm.json` beside the vitals chain. The lessons below are item L7 in the lab endpoint's
-`log.md`, with its decision table, and items V4 and V5 in the vitals endpoint's.
+`r_impl_mmrm.json` beside the vitals chain. The working record of this stage is item L7 in the
+lab endpoint's `log.md`, with its table of execution choices, and items V4 and V5 in the vitals
+endpoint's.
 
 ## What to look out for
 
-**Execution takes decisions of its own, and none of them is statistical.** The lab endpoint
-took eleven here, after a chain that stages 3 to 5 had passed as complete: which dataset, which
-treatment variable, which population flag, which form of the parameter and visit dimensions and
-which value of each, which covariate column. Every one is about a column or a label. Four exist
-only because the study definition and the chain name things differently from the data. The
-vitals endpoint took sixteen across its stages, ten of them already made once. Keep the record
-of them with the result, because the next stage is about the choices, not the number.
+**Execution takes choices of its own, and none of them is statistical.** Which dataset, which
+treatment variable, which population flag, which value of each dimension as the data spells it,
+which covariate column. Every one is about a column or a label, and several exist only because
+the study definition and the data name the same thing differently. Keep the record of them with
+the result, because the next stage is about the choices, not the number.
 
-**A clean run with the default covariate can be the wrong model.** The engine's default for
-the covariate was the analysis value — which, for a change-from-baseline chain, is the
-response's own minuend. The third run here executed without complaint on exactly that model.
-The covariate has to be set to the baseline value by hand, and nothing flags the run that did
-not.
+**Read the model back before reading the result.** A change-from-baseline model wants the
+baseline value as its covariate. A tool's default may be something else — in the application
+used here it is the analysis value — and the run completes without complaint either way.
 
-*True of the application described here, at the pinned commit.*
-
-**One choice is never offered.** Which record is the baseline — the first in the window or the
-one a flag marks — is not a decision the engine puts to you; it takes the first. The divergence
-the next chapter takes apart could not have been prevented here by a careful reader, because
-there was nothing to be careful about. That is why it is a lesson about declaration rather than
-about care.
+**One choice may never be offered.** Which record is the baseline — the first in the window or
+the one a flag marks — is not put to you by the engine used here; it takes the first. That is
+why the divergence of the next chapter is a matter of declaration rather than of care.
 
 **Read the contrast label, never assume the direction.** The stored contrast here is placebo
 minus treatment, which is the opposite of how a report would usually phrase it. Quote the
-label alongside the estimate and the sign cannot be got wrong — which is exactly why this
-guide prints both from the data rather than typing either.
+label alongside the estimate and the sign cannot be got wrong.
 
-**The engine filters on dimension names as literal columns.** Dimensions must be in their
-derived forms, because the collected forms have no column in the analysis dataset. A chain
-can reach stage 5 without this and fail only here.
-
-*Check this on whatever tool you use: it is true of the application described here, at the
-pinned commit, and is not a property of the concept model.*
+**Dimensions must be in the form the data holds.** An engine that filters on dimension names
+needs the derived forms, because the collected forms have no column in an analysis dataset. A
+chain can reach stage 5 without this and fail only here.
 

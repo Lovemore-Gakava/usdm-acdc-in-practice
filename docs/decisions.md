@@ -348,6 +348,30 @@ body, and selective reading. G6 becomes the feedback loop rather than the defect
 the conversion surfaces what prose hides, raising it improves the source. The two closed issues
 stay as its evidence, since a closed issue is a permanent fact and cannot go stale.
 
+**The guide teaches; the factory keeps the record (2026-10-02, LG).** After driving the lab
+endpoint through the application by hand, LG: *"what I am struggling with at the moment is lack
+of clarity of BC/AC/DC in the guide. There is a lot of selections without clarity of why and
+where these concepts are coming from"*, and then: *"the guide is littered with decisions from
+toriva. A guide should show implementation and also a teaching guide — not too much on this went
+wrong and we did this, not an app with text of all the workarounds that were done in the study."*
+
+Two changes to the chapters, both from that:
+
+- **Every choice is shown with its list and its reason.** The documents chapter now says where
+  each kind of concept is published and separates concept, method and template; stages 2 to 4
+  each carry a table of what was chosen for the worked example, from what, and why. The stage 3
+  chapter had defined a derivation concept as "a step that computes", which is the template, not
+  the concept; corrected. The worked example's parameter, visit and model are stated as this
+  project's demonstration choice (gap register S1), which the guide had not said anywhere.
+- **"What to look out for" is checks, not a history.** The run-by-run narrative, the workaround
+  detail and the factory's decision codes came out of the chapter bodies; *Step into the factory*
+  still points at the logs that hold them. G1 still scores the fourth heading, so it stays — as
+  what to check before moving on.
+
+This narrows *What stays in* above rather than reversing it: the stage 7 baseline divergence
+stays, and still opens the book. What went is the per-stage account of how this traverse got
+there. The walkthrough (`docs/walkthrough.md`) is not changed by this.
+
 ---
 
 ## The guide is not published yet (2026-09-26, LG)
