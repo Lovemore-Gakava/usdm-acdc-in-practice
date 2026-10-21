@@ -401,3 +401,22 @@ and I flagged the private-repository implication before acting — but I flagged
 in the same breath, having already been told that LG's review was the gate. An instruction to
 publish and a standing gate should have been reconciled with LG, not by me. Enabling Pages is
 not reversible in the way a commit is: the content was public, however briefly.
+
+---
+
+## The repository is public and the guide is published (2026-10-21, LG)
+
+LG's decision, given at the start of the session: *"now we are going to make this repo public
+and publish the site."* The sequence was prepared and shown first, and the two irreversible
+steps — the repository's visibility and enabling Pages — were taken only on LG's confirmation,
+which is the reconciliation the 2026-09-26 entry says was owed.
+
+Before the switch: no key file or credential is tracked or was ever committed (`git ls-files`
+and `git log --diff-filter=A` over the whole history); the study it reproduces,
+TORIVA-LUNG 301, is already public under CC BY 4.0; the guide's build job had been green on
+every push since the pause. What the public tree now shows that a reader of the site will not
+see is the working record — the findings, the archive, the reversed decisions — which is the
+*factory* half of the 2026-09-26 Phase 3 decision and is there on purpose.
+
+G7 goes green on the README's link to the site, which is checked, and the row stays green only
+while the deploy job stays enabled: the pause of 2026-09-26 shows what the red looks like.
