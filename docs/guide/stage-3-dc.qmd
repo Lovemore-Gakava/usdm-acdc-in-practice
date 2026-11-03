@@ -1,0 +1,116 @@
+---
+title: "Stage 3 — the derivation"
+---
+
+Turning what was collected into the value the endpoint is actually about.
+
+## What this is
+
+A derivation concept is a value computed for each subject from what was collected: a change
+from baseline, a flag, an analysis visit. The concept is the *result*, and the concept model
+defines it without saying how it is computed. This is the one the worked example needs, as
+published:
+
+{{json:upstream/analysis-concepts/model/concept/Option_D_Clinical_with_Dimensions.json#categories.Comparison.concepts.Change}}
+
+How the value is computed is a **method**. For a change, the method is subtraction, and all it
+knows about is its two roles, the minuend and the subtrahend:
+
+{{json:upstream/analysis-concepts/lib/methods/derivations/M.Subtraction.json#formula}}
+
+What you select is a **template** that joins the two. `T.ChangeFromBaseline` uses
+`M.Subtraction` to produce a `Change`, and binds each of the method's roles to a concept. This
+is its binding for the subtrahend:
+
+{{json:upstream/analysis-concepts/lib/transformations/ACDC_Transformation_Library_v06.json#derivationTransformations[1].bindings[1]}}
+
+That binding is where the baseline is declared. The subtrahend is a measurement taken from the
+template's *baseline slice*: the records for the same parameter whose visit is the baseline
+visit. The note calls it the baseline-flagged record, but what the slice constrains is the
+visit. This is the declaration the introduction's example turns on.
+
+Once authored, the choice takes very little to store. This is all of it in the chain file: the
+slot it fills, the concept it produces, and the template's identifier.
+
+{{json:endpoints/01-simple-lab-cfb/chain.json#endpointSpecs.Endpoint_SAFETY_LAB.derivationChain[0]}}
+
+Everything else is the library's definition of that template, so the chain also records which
+library gave the identifier its meaning:
+
+{{json:endpoints/01-simple-lab-cfb/chain.json#$references.transformationLibrary}}
+
+The pipeline view shows the whole endpoint at once:
+
+![Stage 3 and stage 4 in one picture. The analysis sits at the top; below it, each role it needs
+— response, covariate, fixed effect, partition, constraint — is filled by something the chain
+produces or the data supplies.](media/derivation-pipeline@739344c.jpg)
+
+Reading it from the top down is the clearest way to understand the model. `M.ANCOVA` needs a
+response. The response is `CHG (Change)`, which is produced by a `Change From Baseline` step
+using `M.Subtraction`. That step in turn needs a minuend and a subtrahend: the measurement and
+the baseline measurement.
+
+## What you do
+
+**The work:** express the computation as steps. Each step is a template, and every role its
+method declares must be bound to something: a measurement from the data, a dimension, or the
+output of an earlier step. Then check the order the steps will run in, which is the quickest
+way to tell a chain from a set of disconnected nodes.
+
+1. Say which concept the endpoint is about.
+2. Choose the template that produces it.
+3. Bind every role of every step.
+4. Read the execution order back.
+
+What was chosen for the worked example, and why:
+
+| Choice | From | Why |
+|---|---|---|
+| The concept: `Change` | The derivation concept model's *Comparison* group — change, percent change, ratio, log ratio, shift | The endpoint's text says "analysed as change from baseline" |
+| The template: `T.ChangeFromBaseline` | The transformation library's derivation templates | It is the only template whose output is a `Change` |
+| Minuend and subtrahend: the collected value, used directly | Source data, or the output of another derivation | Both are measurements, so nothing has to compute them first. The template takes the subtrahend from its baseline slice |
+| Parameter and visit in their derived forms | The concept categories, which offer a collected form and a derived form of each | The chain runs on analysis datasets, which hold the derived forms |
+
+*In the application used here:* the concept is chosen at step 3, and step 6 shows the chain as
+a graph. The template is already on it when you arrive: only one candidate produces a `Change`,
+so the application selects it without asking. What is left for you at step 6 is the third row
+of the table: click each measure node and say where its value comes from, which here is the
+source data. The biomedical concepts of stage 2 are linked on the same nodes, in the same
+panel. An **Execution Order** panel lists the steps in sequence.
+
+## What you should see
+
+**Pipeline Complete — all dependencies resolved for this endpoint**, and an execution order with
+one entry per step. Anything else means a role is unbound, or is bound to something that cannot
+satisfy it.
+
+Read the word *complete* narrowly. It means every role is bound to something that can satisfy
+it. It does not mean the derivation is determined — see the first check below.
+
+### Step into the factory
+
+The chain is `endpoints/01-simple-lab-cfb/chain.json`, and the working record of authoring it
+is items L2 to L4 of `log.md` beside it.
+
+## What to look out for
+
+**A complete chain and a correct chain look the same.** Completeness is a property of the
+bindings; correctness is a property of what they select from the data. This chain is complete,
+yet it takes its baseline from the Baseline visit, where the plan defines baseline by date.
+Nothing at this stage shows the difference; stage 7 shows what it costs. So read each selection
+rule as a statistician would, and do not stop at whether it is bound.
+
+**Using the data directly is a choice too.** When a role wants a collected value, the right
+answer is no derivation at all. Expect that option to be listed with the derivation templates,
+not apart from them; in the application used here it is the last one.
+
+**Steps connect by concept, exactly.** A step that produces a `Flag` cannot fill a role that
+wants a `Measure`, however related they look. When a node refuses an input that seems right,
+first check the output concept of what you are feeding it.
+
+**The graph is the specification.** It is not a summary of something written elsewhere. If the
+picture is wrong, the analysis is wrong.
+
+**Know which artefacts outlive the tool.** `chain.json` is this application's save format, and
+another tool would store the same chain differently. The eSAP of stage 5 is the opposite: its
+schema is part of the model.

@@ -41,8 +41,7 @@ When upstream moves, re-pin deliberately: update the hash in the parent, re-run
 moved without looking: `check_consistency.py` prints an `upstream:` line comparing the pin with
 upstream `main` on every run (silent offline), and the `upstream watch` workflow asks weekly
 and opens an issue labelled `upstream`, with the commits listed, when they differ. Neither
-re-pins; a re-pin also means retaking the book's screenshots, which are stamped with the pin — in
-the book's own repository, `usdm-acdc-guide`, whose `pins.yml` names the same commit.
+re-pins; a re-pin also means retaking the guide's screenshots, which are stamped with the pin.
 
 ## TORIVA
 

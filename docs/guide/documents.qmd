@@ -1,0 +1,214 @@
+---
+title: "The documents"
+---
+
+Before any of the stages make sense, it helps to have the cast in one place. A trial produces a
+sequence of documents and datasets, each written by different people, for different readers, at
+different times. Most of the difficulty in what follows comes from the joins between them.
+
+If you already work on one part of that sequence, the useful thing here is probably the part
+you don't touch.
+
+## What a trial produces
+
+| | What it is | Who writes it | What it fixes |
+|---|---|---|---|
+| **Protocol** | The plan of the trial in prose: why, who, what happens to them, what is measured, what will be concluded | Clinical, medical, with statistical input | What the trial *is* |
+| **SAP** | Statistical analysis plan. How the data will be analysed — populations, models, handling of missing data, the exact tables | Statistics | What "analysed" means |
+| **CRF** | Case report form. The screens or pages a site fills in for each subject | Data management | What gets collected |
+| **SDTM** | Study Data Tabulation Model. The collected data, standardised — one domain per kind of observation, close to what was recorded | Programming | What was observed |
+| **ADaM** | Analysis Data Model. Datasets built *for* the analysis, with derived values like change from baseline already computed. The ones this book uses have one row per subject per parameter per visit | Programming | What is analysed |
+| **TFL** | Tables, figures and listings — the output a reader of the study actually sees | Programming | What is reported |
+
+SDTM and ADaM are separate for a reason. SDTM records what happened; ADaM is built for
+analysis. Change from baseline does not exist in SDTM: someone has to decide which record *is*
+the baseline, and subtract it. That decision is made in a programming specification, written in
+prose, and it is exactly the kind of decision the standards in this book try to make explicit.
+
+## Where the standards in this book sit
+
+Three standards are applied on top of those documents, and each addresses a different join.
+
+**ICH M11** is a template for the protocol itself. It has fourteen sections and, in its
+electronic form, a list of data elements, each with a code. A protocol written to it stops being
+free prose and becomes a structure that software can read. M11 addresses the protocol alone.
+
+**USDM** — the Unified Study Definition Model — is the protocol *as data*. It holds objectives,
+endpoints, estimands, arms, populations and the schedule of activities as JSON against a
+defined model. If M11 says what a protocol must contain, USDM is a shape that content can live
+in and be queried from.
+
+**AC/DC** — Analysis and Derivation Concepts — covers the other end: how a measurement becomes
+an analysis result. It deals in three kinds of concept:
+
+- an **observation concept**, the measured value as it enters the analysis
+- a **derivation concept**, a value computed for each subject — a change from baseline, a flag,
+  an analysis visit
+- an **analysis concept**, a result computed across subjects — a comparison, a model's
+  estimates, a summary
+
+A **biomedical concept** sits underneath, as the standard definition of the thing being
+measured: serum alanine aminotransferase, with its units, codes and permissible values.
+
+Between them they cover the two ends and the join: M11 structures the sentence, USDM makes it
+addressable, AC/DC declares what happens to the measurement. That is the path described in the
+introduction — every step declared rather than implied — laid against the documents a trial
+actually produces.
+
+## The join this book is about
+
+The study definition drives two things, not one. It says what will be *measured*, which becomes
+a case report form and, through it, the collected data. And it says what will be *concluded*,
+which becomes the analysis. The two meet again at the end.
+
+```
+            protocol ──M11──▶ structured protocol ──USDM──▶ study as data
+                                                                  │
+              ┌───────────────────────────────────────────────────┴──────────────┐
+              │ schedule of activities:                objectives, endpoints,    │
+              │ what is measured, and when             estimands: what is asked  │
+              ▼                                                                  │
+             CRF ──collection──▶ SDTM ──derivation──▶ ADaM                        │
+                                                       │                         │
+                                                       └──── AC/DC ◀─────────────┘
+                                                                │
+                                                                ▼
+                                                            a result
+```
+
+The **CRF** sits on the left-hand branch. The schedule of activities says a subject has
+chemistry taken at a given visit, and the case report form is where that becomes a field
+somebody fills in. In the study definition, the link is made by an activity naming the concepts
+it collects:
+
+{{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].studyDesigns[0].activities[5].biomedicalConceptIds}}
+
+That is the *Chemistry (LFTs, creatinine)* activity, naming five biomedical concepts. In this
+study only the activities that supply the two analyses carry that link; the rest of the
+schedule does not. The link from an analysis to its concepts is made separately, and
+deliberately, at [stage 2](stage-2-bc.qmd).
+
+This is where the biomedical concept earns its keep, and why it is worth understanding early:
+**the same definition is supposed to govern both branches.** The concept that says what serum
+alanine aminotransferase is — its units, its code, its permissible values — should determine the
+field on the form, the variable in the collected data, and the thing the derivation binds to at
+the far end. One definition is used at both ends, rather than a succession of people agreeing
+to mean the same thing.
+
+**This book walks the right-hand branch only.** It starts from analysis datasets that already
+exist, and takes them to a result. The collection side — CRF design, and the path from a
+completed form to standardised data — is a substantial subject in its own right and is not
+exercised here. It is drawn because leaving it out makes the study definition look like an input
+to analysis alone, which is the smaller half of what it is for.
+
+## Where the concepts come from
+
+Nothing in stages 2 to 4 is invented at the keyboard. Every choice is made from a published
+list, and it helps to know the lists before meeting them.
+
+**Biomedical concepts come from the CDISC Library**, where each is published once, with its
+code and its properties. A study does not define them. Its definition carries a copy of the ones
+its schedule of activities collects, and each copy keeps the address it was taken from:
+
+{{json:study/usdm/toriva-lung-301.usdm.json#study.versions[0].biomedicalConcepts[0].reference}}
+
+**Derivation and analysis concepts come from CDISC's analysis-concepts repository**, which
+publishes three different kinds of thing. The stages use all three, and the choices are much
+easier to follow once the three are told apart:
+
+| | What it is | Example | Where it is published |
+|---|---|---|---|
+| **Concept** | A kind of value. A derivation concept is a value computed for each subject; an analysis concept is a result computed across subjects | `Change`; `Contrasts` | The concept models, `model/concept/` |
+| **Method** | A computation and the roles it needs filled. It knows nothing about any study | `M.Subtraction` needs a minuend and a subtrahend; `M.ANCOVA` a response, a covariate and a fixed effect | The method library, `lib/methods/` |
+| **Template** | A method with its roles already bound to concepts. The library's own word is *transformation* | `T.ChangeFromBaseline`: `M.Subtraction`, producing a `Change` from two measurements | The transformation library, `lib/transformations/` |
+
+**What you select is almost always a template.** The concept says what you want, the template
+is how the library offers it, and the method is what the template runs. Stages 3 and 4 show one
+of each, as published.
+
+So whenever a stage says *choose*, there is a list to choose from, and a sentence in one of the
+study's documents that decides the choice:
+
+| You choose | From | Decided by |
+|---|---|---|
+| Biomedical concepts — stage 2 | The concepts the study definition carries, copied from the CDISC Library | The protocol's schedule: what is collected |
+| A derivation template — stage 3 | The transformation library's derivation templates | The analysis plan's derivation rule: how the analysed value is computed |
+| An analysis template — stage 4 | The transformation library's analysis templates | The analysis plan's model |
+| The slice — parameter, visit, population, treatments — stage 4 | The study definition | The estimand, or the plan's analysis |
+
+**The stages follow the order of the concepts, which is not the order a tool asks in.** What is
+measured, how it is derived, how it is analysed: that order explains the model best. Authoring
+runs the other way, because each choice decides what the next one has to supply. The analysis
+says what must be derived, and the derivation says which measurements it needs. The table under
+[The application used here](#the-application-used-here) shows which of its steps does which
+stage's work.
+
+## The worked example
+
+One analysis is carried through every stage: **change from baseline in alanine aminotransferase
+at Cycle 2 Day 1, in the safety population, compared between the two arms by ANCOVA with the
+baseline value as covariate.**
+
+Each part of that sentence has a source, and the sources differ:
+
+- **The endpoint is the protocol's.** Laboratory evaluations are a safety endpoint, and the
+  study definition's text for it says they are "analysed as change from baseline".
+- **The baseline rule is the analysis plan's**: the last value on or before the first dose.
+- **The parameter, the visit and the model are this book's choice.** They were chosen to
+  exercise the chain, not taken from the study's plan, and the restructured protocol records
+  them as a demonstration analysis. A real study would take all three from its plan.
+
+The stages take that analysis along the right-hand branch until it produces a number, and then
+compare the number with the same model fitted on the datasets a programmer built from the same
+plan. A second analysis, systolic blood pressure under a repeated-measures model, is this
+book's choice in the same way. It joins at stages 6 and 7, where its result and its divergence
+are shown beside the first.
+
+## The application used here
+
+The chapters keep saying *in the application used here*. This is what that application is.
+
+**It is CDISC's own, and it lives beside the concepts.** The analysis-concepts repository that
+publishes the concept models and the libraries also carries a browser application, in its
+`ac-dc-app/` directory. CDISC calls it the **eSAP Builder** and describes it as demonstrating
+the framework end to end. This book did not write it. It is a demonstration rather than a
+product, which is why the chapters treat what it does as true of one tool in one version.
+
+**Everything it offers comes from the published files.** At start-up it reads the study
+definition, the concept models, the transformation library, the method library and the method
+implementations, and builds its lists from them. So when a step offers nine templates, those
+are nine entries in the library, not a choice the application made.
+
+**It has eight steps, and they do not line up one-to-one with the stages:**
+
+| Step | What it does | Stage in this book |
+|---|---|---|
+| 1. Select Study | Lists the study definitions it has been given | 1 |
+| 2. Study Overview | Shows the study: arms, objectives and endpoints, schedule | 1 |
+| 3. Endpoint | The concept the endpoint is about, and the slice | 3 and 4 |
+| 4. Analysis | The analysis template | 4 |
+| 5. Summary | A review of what has been set | — |
+| 6. Derivations | The chain as a graph: where each input comes from, and the biomedical concepts | 2 and 3 |
+| 7. eSAP Builder | The generated plan | 5 |
+| 8. Execute | Runs the chain against datasets | 6 |
+
+**Two words are used for its two halves.** The *builder* is steps 1 to 7, where a chain is
+authored and saved. The *engine* is what step 8 runs: R code, executed in the browser under
+WebR, which reads the saved specification and the datasets and returns the result.
+
+**How it is run here.** [The setup appendix](setup.qmd) serves it from the copy of CDISC's repository this
+book is fixed to, with this book's material placed into it: the study definition, the study's
+datasets in the format the engine reads, the saved chains, and the one method implementation
+the colophon names. Stopping the server takes them out again.
+
+## A note on versions
+
+All three standards are moving, and so is the tooling. This book describes:
+
+- **ICH M11** in its merged electronic form, as mapped in the factory's `study/m11/`
+- **USDM v4.0**
+- CDISC's **analysis-concepts** repository at the commit this repository pins, which every
+  screenshot here is stamped with
+
+That is deliberate. A guide that claims to be current is wrong within a release; one that says
+which version it describes stays useful, because you can tell what has moved since.

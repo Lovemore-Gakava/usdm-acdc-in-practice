@@ -11,3 +11,7 @@ cache/
 *_files/
 # CDISC Library API key read by tools/walkthrough.py — never committed
 .cdisc-api-key
+
+# Quarto build output for the guide — generated, never committed
+docs/guide/_build/
+docs/guide/_book/
