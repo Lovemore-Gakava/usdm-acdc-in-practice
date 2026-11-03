@@ -79,30 +79,14 @@ scoreboard prints on every commit.
 
 ### Phase 3 — the guide
 
-**Decided 2026-09-26 by LG.** A different destination again, so it gets its own finish line:
-
-> **Teach the traverse to someone who has never seen it** — protocol to executed result, as a
-> site anyone in pharma can follow without CDISC background, generated from the factory so it
-> cannot drift from what the repository actually does.
-
-One repository: the showroom out front, the factory behind it, so a reader who wants to see how
-the material was produced can step through. Scoring is `phase3_stages` in
-`tools/check_consistency.py`; the reasoning is in [`docs/decisions.md`](docs/decisions.md).
-
-<!-- north:status:phase3 -->
-
-| # | Stage | Status |
-|---|---|---|
-| G0 | Anti-drift checker exists — every figure traced to a results file | ✓ |
-| G1 | A chapter per stage, each with its four sections filled | ✓ |
-| G2 | Setup chapter names entry points that exist | ✓ |
-| G3 | Terms glossed or linked, never assumed | ✓ |
-| G4 | Every endpoint with a result has a chapter | ✓ |
-| G5 | check_guide.py at 0 fail — no figure typed by hand | ✓ |
-| G6 | The feedback-loop chapter — structuring a protocol is itself a quality process | ✓ |
-| G7 | Published as a site, linked from the README | ✓ |
-
-<!-- /north:status:phase3 -->
+**Decided 2026-09-26 by LG; all eight stages green 2026-10-21; moved 2026-11-03.** The book,
+*Protocol to result*, was written and published from this repository. On 2026-11-03 LG judged
+one repository too heavy for a reader to meet, and the book moved to its own,
+[`usdm-acdc-guide`](https://github.com/Lovemore-Gakava/usdm-acdc-guide), published at
+<https://lovemore-gakava.github.io/usdm-acdc-guide/>. Its figures are copies of this
+repository's runs at a pinned commit, compared byte for byte on every build, and its checker is
+the one that scored G0 to G7 here. The stages and the reasoning are in
+[`docs/decisions.md`](docs/decisions.md).
 
 ## The test
 

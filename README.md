@@ -9,19 +9,16 @@ computed from the filesystem on every commit, so they cannot claim a stage that 
 
 ## Where to start
 
-The guide — the traverse as a book, for a reader with no CDISC background — is published at
-**<https://lovemore-gakava.github.io/usdm-acdc-in-practice/>**. Its source is `docs/guide/`;
-`.github/workflows/guide.yml` checks it, renders it and deploys it on every push to `main`, so
-the site cannot say something the repository does not. To render it locally instead:
-
-```
-.venv/bin/python tools/check_guide.py --render docs/guide/_build   # .venv\Scripts\python.exe on Windows
-cd docs/guide/_build && quarto render && open _book/index.html
-```
+**The book is [Protocol to result](https://lovemore-gakava.github.io/usdm-acdc-guide/)** — the
+traverse for a reader with no CDISC background, in its own repository,
+[`usdm-acdc-guide`](https://github.com/Lovemore-Gakava/usdm-acdc-guide), since 2026-11-03. Its
+figures are copies of this repository's recorded runs at a pinned commit, compared byte for byte
+on every build. This repository is the factory behind it: the tool, the data, the runs and the
+working record.
 
 | You want to | Read |
 |---|---|
-| Follow the whole traverse as a book | [the published guide](https://lovemore-gakava.github.io/usdm-acdc-in-practice/) |
+| Follow the whole traverse as a book | [Protocol to result](https://lovemore-gakava.github.io/usdm-acdc-guide/) |
 | Understand the traverse, with no CDISC background | [`docs/vignette.md`](docs/vignette.md) |
 | Drive it yourself, click by click | [`docs/walkthrough.md`](docs/walkthrough.md), and the [recording](docs/media/walkthrough-lab-endpoint.gif) |
 | Know what "done" means | [`NORTH.md`](NORTH.md) |

@@ -1,9 +1,10 @@
 # Watch cdisc-org/analysis-concepts for movement past the pin.
 #
 # The library is pinned as a submodule and re-pinned only deliberately
-# (docs/troubleshooting.md): the guide's screenshots and figures are stamped
-# with the pin, and tools/check_guide.py fails if the stamps and the pin ever
-# disagree. What nothing did until now was say when upstream had moved at all.
+# (docs/troubleshooting.md): the runs are stamped with the pin, and the book's
+# repository (usdm-acdc-guide) names the same commit in its pins.yml, where its
+# checker fails if the screenshots and the pin ever disagree. What nothing did
+# until now was say when upstream had moved at all.
 # This asks once a week, and when upstream's main is no longer the pinned
 # commit it opens one issue, labelled `upstream`, listing the commits in
 # between — or updates that issue if it is already open. It never re-pins.
@@ -59,7 +60,7 @@ jobs:
             echo "body<<EOF"
             echo "Upstream \`main\` is at \`${{ steps.cmp.outputs.main }}\`; this repository pins \`${{ steps.cmp.outputs.pin }}\`. Commits since the pin: $n."
             echo
-            echo "Re-pinning is a decision, not an update (\`docs/troubleshooting.md\`): every screenshot in the guide and every figure in the runs is stamped with the pin, and \`tools/check_guide.py\` fails until they agree again."
+            echo "Re-pinning is a decision, not an update (\`docs/troubleshooting.md\`): every figure in the runs is stamped with the pin, and the book's repository (\`usdm-acdc-guide\`) names the same commit in its \`pins.yml\`, where its checker fails until they agree again."
             echo
             echo '```'
             git -C up.git log --date=short --format='%h %ad %s' "${{ steps.cmp.outputs.pin }}..${{ steps.cmp.outputs.main }}" 2>/dev/null || echo "(the pinned commit is not on upstream main; compare by hand)"

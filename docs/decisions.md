@@ -420,3 +420,54 @@ see is the working record — the findings, the archive, the reversed decisions 
 
 G7 goes green on the README's link to the site, which is checked, and the row stays green only
 while the deploy job stays enabled: the pause of 2026-09-26 shows what the red looks like.
+
+---
+
+## The book moves to its own repository (2026-11-03, LG)
+
+LG's observation, opening the session: *"This repo was meant to be educational and can be viewed
+as too heavy."* The numbers agreed. The guide's fourteen chapters were about 12,300 words; the
+working record around them — findings, archive, provenance, decisions, method, specification,
+big-picture and the two governing files — about 46,700. Seven words in ten were the factory
+describing itself, and the README offered a learner seven doors, three of them to the same
+traverse at different lengths.
+
+The 2026-09-26 decision kept showroom and factory in one repository so a reader could step
+behind the material. That reason survives; what did not survive contact with a reader is the
+record being the first thing met. LG chose a leaner separate repository over the cheaper fix of
+a shorter README. The shape was drafted and shown first; the repository was created private,
+checked, and made public with Pages enabled only on LG's second go-ahead.
+
+**What moved.** The chapters, the two screenshots, the term, fact and literal lists,
+`tools/check_guide.py` and the Pages workflow, to
+[`Lovemore-Gakava/usdm-acdc-guide`](https://github.com/Lovemore-Gakava/usdm-acdc-guide),
+published at <https://lovemore-gakava.github.io/usdm-acdc-guide/>. With them, copies of the ten
+files the chapters quote: both `results.json`, the lab chain and plan, the USDM study
+definition, and four upstream JSON files with upstream's licence. The book's repository is about
+760 KB and has no submodule.
+
+**What the move costs, and what replaces it.** The single-tree property — a figure cannot differ
+from a run because both sit in one repository — is gone. In its place, `pins.yml` in the book's
+repository names this repository's commit (`87666f0`) and upstream's (`739344c`); the checker
+compares every copy byte for byte against those commits, and every *Step into the factory* link
+is a `{{factory:path}}` reference resolved at the pin and checked to exist there. Without a
+clone to compare against, the checker reports SKIP, never PASS; the published build fetches both
+repositories without blobs and passes all nine checks. This is the shape this repository already
+uses for upstream and for TORIVA.
+
+One thing went wrong on the way and is recorded in the book's first commit: the copies were
+first taken from this Windows working tree, and all of them differed from their commits by
+CRLF. Copies are now written from `git show <pin>:<path>`, and a `.gitattributes` holds every
+checkout at LF.
+
+**What changed here.** `docs/guide/` is a pointer; `tools/check_guide.py` is gone; the Pages
+workflow deploys a redirect from the old address to the new one, chapter by chapter, so a link
+made while the book was published from here still lands. Phase 3's eight G-stages are retired
+from the scoreboard: all were green on 2026-10-21, and the checker that scored them went with
+the book. `NORTH.md` keeps the finish line and says where the book went.
+
+**The finish line for the move**, stated before it was built: the book builds and deploys from
+its own repository at zero fails, every figure pinned to a named commit of this one, and a
+newcomer reaches the first chapter from the README in one click. All three held before this
+entry was written. The pin does not move when this repository's commits do, because none of the
+copied files change.
