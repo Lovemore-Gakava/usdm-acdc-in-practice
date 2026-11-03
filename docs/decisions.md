@@ -445,6 +445,17 @@ the book is back in `docs/guide/`, scored by Phase 3 and published from here as 
 only trace of the detour is this entry, the recorded feedback, and the fact that the book's
 repository was public for about two hours with no inbound links.
 
+**How the two repositories relate, settled later the same day.** The quickstart's steps were
+run from a clean clone on this machine, which caught two things its README now carries: on
+Windows the submodule clone fails with *Filename too long* in a deep folder until
+`core.longpaths` is set, and the study is checked out at `0f78331`, not the `a806630` the runs
+are stamped with. The tag `quickstart-2026-11` was then moved to the commit that reverted the
+split, so the commit a quickstart reader checks out has the book in it. The README here gained
+a row sending anyone who wants to run the app to the quickstart; the quickstart's README gained
+a section sending anyone who wants to understand it back here, to the book, the walkthrough,
+the runs and the record. The short way in and the long one point at each other, and neither
+duplicates the other.
+
 The lesson is the one already in `CLAUDE.md`, in a new shape: *draft, show, wait* was followed
 to the letter and still produced the wrong thing, because what was shown was a detailed answer
 to a question I had supplied myself. A one-line request that names a shape but not its content
