@@ -456,6 +456,21 @@ a section sending anyone who wants to understand it back here, to the book, the 
 the runs and the record. The short way in and the long one point at each other, and neither
 duplicates the other.
 
+**The app, hosted (2026-11-03, LG: *"more of bring your own docs and upload"*).** Asked whether
+the quickstart could be hosted, LG meant the application itself, for a reader's own study, with
+nothing installed. It is at <https://lovemore-gakava.github.io/usdm-acdc-quickstart/>, built by
+the quickstart's `tools/build_site.py` on every publish from the pinned sources: CDISC's
+application, libraries and models at `739344c`, fetched sparse without the sample datasets the
+browser never loads, and this repository's `M.MMRM` implementation at the tag. Nothing of
+CDISC's is committed anywhere; the site is 6.7 MB and the build refuses to run if the
+quickstart's README and its `pins.yml` disagree on a version. One overlay script, in the manner
+of `tools/walkthrough.py`, adds a *Load a study definition* button at step 1 (a file, or
+`?usdm=<url>`) and carries over the *no filter* entry and the MMRM registration. No study data
+is hosted: the reader brings a USDM file and `.xpt` datasets, and nothing they load leaves the
+browser. Verified locally under the Pages path prefix before publishing — boots clean, a study
+given by URL loads and selects, MMRM registers — and every served path checked after; step 8
+on the hosted copy has not been run. The README here gained a third row for it.
+
 The lesson is the one already in `CLAUDE.md`, in a new shape: *draft, show, wait* was followed
 to the letter and still produced the wrong thing, because what was shown was a detailed answer
 to a question I had supplied myself. A one-line request that names a shape but not its content
