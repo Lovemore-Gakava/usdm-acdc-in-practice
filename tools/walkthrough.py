@@ -302,6 +302,8 @@ OVERLAY_JS = r"""
 //    dropdowns offer only the values it found, so a contrast label like 'Torivumab vs Placebo' can never be cleared.
 // 2. Register endpoints/04-vitals-cfb-mmrm/r_impl_mmrm.json as the M.MMRM implementation once the app has loaded.
 // 3. Install the mmrm package once the WebR engine is initialised (the engine does not act on 'packages').
+// 4. 'Bring your own study' at step 1: a USDM JSON from disk, or from a URL given as ?usdm=<url>, added as a
+//    card beside the staged ones. Written for the quickstart's hosted copy first and carried back here (2026-11-04).
 (function () {
   const NOFILTER = '__nofilter__';
   function status(msg, ms) {
@@ -327,8 +329,8 @@ OVERLAY_JS = r"""
       if (o && o.value === '' && sel.value !== '') sel.value = '';
     }
   }
-  new MutationObserver(addNoFilter).observe(document.documentElement, { childList: true, subtree: true });
-  addNoFilter();
+  new MutationObserver(() => { addNoFilter(); addLoader(); }).observe(document.documentElement, { childList: true, subtree: true });
+  addNoFilter(); addLoader();
 
   async function registerMmrm() {
     const st = window.appState; if (!st) return false;
@@ -356,8 +358,68 @@ OVERLAY_JS = r"""
       mmrmInstalled = ok; status(ok ? 'mmrm package installed — the MMRM pass can execute' : 'mmrm install did not confirm: ' + JSON.stringify(out).slice(0, 120), ok ? 8000 : 0);
     } catch (e) { status('mmrm install failed: ' + e, 0); } finally { installing = false; }
   }
+  // ---- 4. Bring your own study -------------------------------------------------------------------------------
+  async function addStudy(json, name) {
+    const [{ parseUSDM }, app] = await Promise.all([
+      import('/ac-dc-app/js/utils/usdm-parser.js'),
+      import('/ac-dc-app/js/app.js'),
+    ]);
+    const st = app.appState;
+    const parsed = parseUSDM(json);                    // throws on a file the application cannot read
+    parsed.isSoaEnriched = (parsed.biomedicalConcepts || []).some(bc => bc.sdtmSpec != null);
+    st.rawUsdmFiles.push(json);
+    st.studyManifest = (st.studyManifest || []).concat([{ file: name }]);
+    st.studies.push(parsed);
+    app.renderCurrentStep();
+    status('loaded ' + name + ' — it is the new card. Click it to continue.', 8000);
+  }
+  function loadFromFile(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try { addStudy(JSON.parse(reader.result), file.name); }
+      catch (e) { status('could not load ' + file.name + ': ' + (e && e.message ? e.message : e), 0); }
+    };
+    reader.onerror = () => status('could not read ' + file.name, 0);
+    reader.readAsText(file);
+  }
+  async function loadFromUrl(url) {
+    try {
+      status('fetching ' + url + ' …');
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      await addStudy(await resp.json(), url.split('/').pop() || url);
+    } catch (e) { status('could not load ' + url + ': ' + (e && e.message ? e.message : e), 0); }
+  }
+  function addLoader() {
+    const grid = document.querySelector('.study-grid');
+    if (!grid || document.getElementById('wt-load-bar')) return;
+    const bar = document.createElement('div');
+    bar.id = 'wt-load-bar';
+    bar.style.cssText = 'margin:0 0 20px;padding:14px 16px;border:1px dashed #9ca3af;border-radius:8px;background:#f9fafb;font:14px system-ui;color:#1f2937;display:flex;gap:12px;align-items:center;flex-wrap:wrap';
+    bar.innerHTML =
+      '<strong>Bring your own study.</strong> ' +
+      '<span>A USDM v4 study definition as JSON, in the shape this application reads.</span> ' +
+      '<button type="button" id="wt-load-btn" style="padding:6px 12px;border:1px solid #1d4ed8;border-radius:6px;background:#1d4ed8;color:#fff;font:inherit;cursor:pointer">Load a study definition…</button>' +
+      '<input type="file" id="wt-load-input" accept=".json,application/json" style="display:none">' +
+      '<span style="flex-basis:100%;font-size:12px;color:#6b7280">Nothing leaves your browser. Datasets (.xpt) are uploaded at step 8 the same way. ' +
+      'The shape the parser expects is documented in this repository, <code>study/usdm/README.md</code>; or put the file\'s URL in the address as <code>?usdm=…</code>.</span>';
+    grid.parentNode.insertBefore(bar, grid);
+    const input = bar.querySelector('#wt-load-input');
+    bar.querySelector('#wt-load-btn').addEventListener('click', () => input.click());
+    input.addEventListener('change', () => { if (input.files && input.files[0]) loadFromFile(input.files[0]); input.value = ''; });
+  }
+  let urlLoaded = false;
+  function maybeLoadFromQuery() {
+    if (urlLoaded) return;
+    const st = window.appState;
+    if (!st || !st.loaded) return;
+    urlLoaded = true;
+    const u = new URLSearchParams(location.search).get('usdm');
+    if (u) loadFromUrl(u);
+  }
+
   let registered = false;
-  setInterval(async () => { if (!registered) registered = await registerMmrm(); if (!mmrmInstalled) installMmrm(); }, 2000);
+  setInterval(async () => { if (!registered) registered = await registerMmrm(); if (!mmrmInstalled) installMmrm(); maybeLoadFromQuery(); }, 2000);
 })();
 """
 
@@ -539,7 +601,8 @@ def stage(args: argparse.Namespace) -> None:
 In the app (http://localhost:8080/ac-dc-app/index.html) the study card is TORIVA-LUNG 301.
 Step 8 data: upload from ac-dc-app/data/toriva/ (adsl.xpt, adlb.xpt; advs_induction.xpt for the vitals pass).
 Served by `serve`, the page carries an overlay: a '(no filter)' entry in every slice dropdown, the M.MMRM
-implementation registered on load, the mmrm package installed once the WebR engine is up (status box, bottom right).
+implementation registered on load, the mmrm package installed once the WebR engine is up (status box, bottom right),
+and a 'Bring your own study' bar above the cards at step 1 (a USDM JSON from disk, or ?usdm=<url> in the address).
 To load a saved chain without the Load button (it opens a native picker), in the browser console:
 
   const ser = await import('/ac-dc-app/js/utils/instance-serializer.js');

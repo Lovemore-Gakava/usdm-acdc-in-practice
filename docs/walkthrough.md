@@ -97,6 +97,8 @@ file, so the submodule is clean at `739344c`.
 ## 1. Select Study
 
 Three cards. Click **TORIVA-LUNG 301**. The card says *2 Arms · 6 Objectives · 7 Endpoints*.
+Above the cards is a *Bring your own study* bar the server's overlay adds, for a study of your
+own; it is not used in this walkthrough.
 
 ![Step 1. The three study cards; TORIVA-LUNG 301 is the middle one.](media/walkthrough/01-select-study@739344c.jpg)
 

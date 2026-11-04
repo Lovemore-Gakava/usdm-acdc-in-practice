@@ -78,8 +78,9 @@ It also serves `docs/walkthrough.md` at `/walkthrough` (own renderer, no Markdow
 needed; `walkthrough.py html` writes the same page to a file), proxies the CDISC Library at
 `/cdisc-library/` with the key from `.cdisc-api-key` or `CDISC_API_KEY`, and injects an
 **overlay script** into the page at serve time — a *(no filter)* entry in every slice dropdown,
-`M.MMRM` registered, `mmrm` installed once WebR is up — so the walkthrough needs no console
-steps. The submodule's files are not changed; the guide says at each step what the overlay
+`M.MMRM` registered, `mmrm` installed once WebR is up, and a *Bring your own study* bar above
+the cards at step 1 that adds a USDM JSON from disk or from `?usdm=<url>` as a card — so the
+walkthrough needs no console steps. The submodule's files are not changed; the guide says at each step what the overlay
 supplied.
 
 Without a Library key, concept Reference links answer 401.

@@ -487,3 +487,13 @@ carries them. `quickstart-2026-11` stays where it is, as the commit the walkthro
 against; `quickstart-2026-11.1` is that commit plus the two fixes and their record, nothing else, and
 the quickstart's pins move to it. A new tag rather than moving the old one: moving a published
 tag was done once, within the same day as the revert it corrected, and is not to become the habit.
+
+**The loader comes home, tag `quickstart-2026-11.2` (2026-11-04).** LG: *"the launched app doesn't have the
+option to load a new study docs?"* It did not. The *Bring your own study* bar was written for the
+hosted copy, which carries no study, and never carried back into the walkthrough server's overlay,
+the source the hosted overlay's other three items were copied from. It is in both now, the same code
+with the base path changed, so a reader who runs the app locally can bring a study as well as run
+the worked one. Two copies of one script in two repositories is a duplication accepted for now;
+the alternative, the site build taking the overlay from this repository at the tag, is noted and
+not done. A third tag in a day, for the same reason as the second: a quickstart reader checks out a
+tag, so a change they should see needs one.
