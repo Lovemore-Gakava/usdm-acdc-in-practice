@@ -44,7 +44,10 @@ python tools/bootstrap.py          # python3 on macOS/Linux; py -3 on Windows
 `bootstrap.py` initialises the submodule, enables the pre-commit hook, builds `.venv` with a
 Python 3.10+ interpreter, clones TORIVA-LUNG 301 at the pinned commit (sparse — 10 MB of 81),
 and then runs `tools/check_alignment.py` to prove the result. It is idempotent, and `--check`
-reports what is missing without changing anything.
+reports what is missing without changing anything. On Windows, set `git config --global
+core.longpaths true` before cloning: CDISC's file names overrun the default path limit in a deep
+folder, and the clone stops with *Filename too long*. If that already happened, the bootstrap
+restores the missing files and sets the option for that clone.
 
 Then, using the virtual environment's interpreter for anything that reads parquet:
 
