@@ -102,16 +102,50 @@ def find_interpreter() -> str | None:
 def do_submodule(check_only: bool) -> None:
     step("1/5", "upstream submodule")
     sub = ROOT / "upstream" / "analysis-concepts"
-    if (sub / "lib").is_dir():
-        say(f"  ok — checked out at {git('rev-parse', '--short', 'HEAD', cwd=sub)}")
+    if not (sub / "lib").is_dir():
+        if check_only:
+            say("  MISSING — run without --check to initialise")
+            FAIL.append("submodule")
+            return
+        say("  initialising ...")
+        # core.longpaths for the clone itself: CDISC's file names overrun Windows's default path
+        # limit once the clone sits a few folders deep. `-c` reaches the child git processes.
+        run("git", "-c", "core.longpaths=true", "submodule", "update", "--init", "--recursive", cwd=ROOT)
+    head = git("rev-parse", "--short", "HEAD", cwd=sub)
+
+    def dirt() -> list[str]:
+        return [ln for ln in git("status", "--short", cwd=sub).splitlines() if ln.strip()]
+
+    lines = dirt()
+    if not lines:
+        say(f"  ok — checked out at {head}, clean")
         return
-    if check_only:
-        say("  MISSING — run without --check to initialise")
-        FAIL.append("submodule")
-        return
-    say("  initialising ...")
-    run("git", "submodule", "update", "--init", "--recursive", cwd=ROOT)
-    say(f"  done — at {git('rev-parse', '--short', 'HEAD', cwd=sub)}")
+    # A clone made on Windows before core.longpaths was set stops part-way with "Filename too
+    # long" and leaves the files it could not write as deletions. Nothing reports it afterwards,
+    # `submodule update` does not repair it, and walkthrough.py serve then refuses to start over
+    # the deletions (a quickstart reader's second machine, 2026-11-04). Until then this step only
+    # tested that the folder existed, and said ok. Restore them; nothing else in the submodule
+    # is ever this script's to touch.
+    if not check_only and all(ln.strip().startswith("D") for ln in lines):
+        say(f"  {len(lines)} file(s) missing from the checkout — restoring")
+        p = run("git", "checkout", "--", ".", cwd=sub, check=False)
+        if p.returncode != 0 and "Filename too long" in p.stderr:
+            say("  Windows refused the long file names; setting core.longpaths for this clone and retrying")
+            say("  (before cloning on another machine: git config --global core.longpaths true)")
+            run("git", "config", "core.longpaths", "true", cwd=sub)
+            p = run("git", "checkout", "--", ".", cwd=sub, check=False)
+        if p.returncode != 0:
+            say("  restore failed:\n    " + p.stderr.strip().replace("\n", "\n    "))
+        lines = dirt()
+        if not lines:
+            say(f"  ok — checked out at {head}, clean")
+            return
+    say(f"  NOT CLEAN — the submodule at {head} carries changes that are not this script's:")
+    for ln in lines[:10]:
+        say("    " + ln)
+    say("  it must be clean at its pin (CLAUDE.md), or walkthrough.py serve refuses to start. By hand:")
+    say("    git -C upstream/analysis-concepts checkout -- .")
+    FAIL.append("submodule")
 
 
 def do_hooks(check_only: bool) -> None:

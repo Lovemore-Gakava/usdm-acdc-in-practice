@@ -43,6 +43,14 @@ upstream `main` on every run (silent offline), and the `upstream watch` workflow
 and opens an issue labelled `upstream`, with the commits listed, when they differ. Neither
 re-pins; a re-pin also means retaking the guide's screenshots, which are stamped with the pin.
 
+On Windows, a clone made before `core.longpaths` is set stops part-way with *Filename too long*
+on three files under `ac-dc-app/data/study_ac_spec/` and leaves them as deletions. Nothing
+reports it afterwards, `submodule update` does not repair it, and `walkthrough.py serve` refuses
+to start over the deletions (*NOT CLEAN — foreign changes*). A quickstart reader met this on a
+second machine (2026-11-04). *Now code:* `bootstrap.py` checks the submodule is clean, restores
+deleted files, and sets `core.longpaths` for the clone when the restore hits the same error. By
+hand: set the option, then `git -C upstream/analysis-concepts checkout -- .`.
+
 ## TORIVA
 
 **Referenced, never vendored.** Recipe and pin in `study/source-refs.md`; `bootstrap.py` is the
@@ -75,6 +83,11 @@ steps. The submodule's files are not changed; the guide says at each step what t
 supplied.
 
 Without a Library key, concept Reference links answer 401.
+
+The guide's screenshots live in `docs/media/walkthrough/`. Until 2026-11-04 the `/media/` route
+served only files directly in `docs/media`, so every step screenshot answered 404 and the page
+showed captions over broken images, while the recording at the top level loaded. *Now code:*
+anything under `docs/media` is served; a path resolving outside it is still refused.
 
 ## Step 8 (WebR)
 

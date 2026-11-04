@@ -23,7 +23,7 @@ cd docs/guide/_build && quarto render && open _book/index.html
 |---|---|
 | Follow the whole traverse as a book | [the published guide](https://lovemore-gakava.github.io/usdm-acdc-in-practice/) |
 | Understand the traverse, with no CDISC background | [`docs/vignette.md`](docs/vignette.md) |
-| Run the app yourself, from nothing to a result, at pinned versions | [`usdm-acdc-quickstart`](https://github.com/Lovemore-Gakava/usdm-acdc-quickstart), which checks this repository out at the tag `quickstart-2026-11` |
+| Run the app yourself, from nothing to a result, at pinned versions | [`usdm-acdc-quickstart`](https://github.com/Lovemore-Gakava/usdm-acdc-quickstart), which checks this repository out at the tag `quickstart-2026-11.1` |
 | Use the app on your own study, nothing installed | [the hosted app](https://lovemore-gakava.github.io/usdm-acdc-quickstart/) — CDISC's application at the pinned commit; bring a USDM file and `.xpt` datasets |
 | Drive it yourself, click by click | [`docs/walkthrough.md`](docs/walkthrough.md), and the [recording](docs/media/walkthrough-lab-endpoint.gif) |
 | Know what "done" means | [`NORTH.md`](NORTH.md) |

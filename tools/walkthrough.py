@@ -609,12 +609,14 @@ def serve(args: argparse.Namespace) -> None:
             if self.path.startswith("/media/"):
                 # docs/walkthrough.md links its recording as media/<file>, relative to docs/. The server's root is
                 # the submodule, which has no media/, so the link answered 404 (LG's run, 2026-10-01). Served from
-                # docs/media and nowhere else: a path that resolves outside that directory is refused.
+                # docs/media and nowhere else: a path that resolves outside that directory is refused. Anywhere
+                # under it is fine — the screenshots are in docs/media/walkthrough/, and until 2026-11-04 the
+                # test was on the parent alone, so every one of them answered 404 (a quickstart reader's run).
                 import mimetypes
                 import urllib.parse
                 media = (ROOT / "docs" / "media").resolve()
                 f = (media / urllib.parse.unquote(self.path.split("?")[0][len("/media/"):])).resolve()
-                if f.parent != media or not f.is_file():
+                if media not in f.parents or not f.is_file():
                     return self.send_error(404, "File not found")
                 body = f.read_bytes()
                 self.send_response(200); self.send_header("Content-Type", mimetypes.guess_type(f.name)[0] or "application/octet-stream"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return

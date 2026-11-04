@@ -476,3 +476,14 @@ to the letter and still produced the wrong thing, because what was shown was a d
 to a question I had supplied myself. A one-line request that names a shape but not its content
 gets one sentence back — *I read this as X, for Y* — before any drafting.
 
+**A second tag, `quickstart-2026-11.1` (2026-11-04).** LG ran the quickstart on another Windows machine
+and it refused to start, with a message about state. Reproduced from a clean clone here: the
+submodule clone failed on CDISC's three long file names, the bootstrap reported *ready* because
+it only tested that the submodule folder existed, and `walkthrough.py serve` refused over the
+three deletions. The served guide also showed every step screenshot broken: the `/media/` route
+refused subfolders of `docs/media`, and the screenshots are in one. Both are fixed in the tools
+(`PROVENANCE.md` 1.9). A quickstart reader checks out a tag, so the fixes need a tag that
+carries them. `quickstart-2026-11` stays where it is, as the commit the walkthrough was tested
+against; `quickstart-2026-11.1` is that commit plus the two fixes and their record, nothing else, and
+the quickstart's pins move to it. A new tag rather than moving the old one: moving a published
+tag was done once, within the same day as the revert it corrected, and is not to become the habit.
